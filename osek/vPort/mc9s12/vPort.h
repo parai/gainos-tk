@@ -11,6 +11,7 @@
  */
 #define DORMANT_STACK_SIZE	( sizeof(VW) * 3 )	/* To 'PC' position */
 
+#define SP_OFFSET 4 /* sizeof(QUEUE) */
 /* ============================ TYPEs ============================================= */
 /*
  * System stack configuration at task startup

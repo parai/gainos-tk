@@ -19,6 +19,7 @@ IMPORT TASK(vTask2);
 
 /* =====================  ALARM ========================== */
 #define cfgOSEK_COUNTER_NUM 1
+#define ID_vCounter1  0
 #define cfgOSEK_ALARM_NUM 2
 #define ID_vAlarm1 0
 #define ID_vAlarm2 1

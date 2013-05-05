@@ -300,7 +300,7 @@ StatusType GetTaskID ( TaskRefType TaskID )
 {
 	if(NULL != knl_ctxtsk)
 	{
-	    *TaskID = knl_ctxtsk->tskid;
+	    *TaskID = knl_ctxtsk-knl_tcb_table;
 	}
 	else
 	{

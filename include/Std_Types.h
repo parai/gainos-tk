@@ -139,6 +139,7 @@ typedef UINT  ID;
 typedef UINT		        BOOL;
 typedef void*               VP;
 typedef uint32  ATR;
+typedef UB		PRI;		/* Priority */
 
 typedef void (*FP)(void);
 

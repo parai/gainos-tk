@@ -42,6 +42,7 @@
 /* |---------+-------------------| */
 #include "osek_os.h"
 #include "knl_task.h"
+#include "knl_alarm.h"
 #include "vPort.h"
 /* |------------------+------------------------------------------------------| */
 /* | Syntax:          | void StartOS ( AppModeType <Mode> )                  | */
@@ -66,6 +67,7 @@ void StartOS ( AppModeType xAppMode )
 {
     DISABLE_INTERRUPT;
     knl_system_clock_init();
+    knl_counter_init();
 	knl_tasks_autostart();
 
 #if(cfgOS_START_UP_HOOK == 1)

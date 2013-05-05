@@ -56,7 +56,7 @@
 }    
 
 #define CHECK_NONSELF_EXT(_tskid) {				            	\
-	if (!in_indp() && (_tskid) == knl_ctxtsk->tskid) {		\
+	if (!in_indp() && (_tskid) == (knl_ctxtsk-knl_tcb_table)) {		\
 		ercd = E_OS_ID;                                     \
         goto Error_Exit;                                    \
 	}						                              	\

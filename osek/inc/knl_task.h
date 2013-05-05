@@ -97,24 +97,25 @@ typedef enum {
 	TS_DORMANT	= 8	    /* DORMANT state */
 } TSTAT;
 
+/*
+ * Task gerneration information
+ */
+typedef struct t_gtsk {
+	ATR	tskatr;		/* Task attribute */
+	FP	task;		/* Task startup address */
+	PRI	itskpri;	/* Priority at task startup */
+	UINT	stksz;		/* User stack size (byte) */
+	VP	isstack;	/* User stack top pointer */
+} T_GTSK;
+
 typedef struct task_control_block{
     QUEUE	    tskque;		/* Task queue */
-	const TaskType	tskid;		/* Task ID */
-	
-	const ATR	tskatr;		/* Task attribute */
-	const FP	task;		/* Task startup address */
-	const INT	sstksz;		/* stack size */ 
-	
-	const UB	ipriority;	/* Priority at task startup */
-	UB	priority;	/* Current priority */
-
-	BOOL	klockwait:1;	/* TRUE at wait kernel lock */
-	BOOL	klocked:1;	/* TRUE at hold kernel lock */
-	
-	UB /*TSTAT*/	state;	/* Task state (Int. expression) */
-	const VP	isstack;		/* stack pointer initial value */	
-	QUEUE resque;	/* queue to hold resources */
-	CTXB     	tskctxb;	/* Task context block */		 
+    CTXB     	tskctxb;	/* Task context block */
+	PRI	        priority;	/* Current priority */
+	BOOL	    klockwait:1;	/* TRUE at wait kernel lock */
+	BOOL     	klocked:1;	    /* TRUE at hold kernel lock */	
+	UB /*TSTAT*/	state;	/* Task state (Int. expression) */			
+	QUEUE resque;	/* queue to hold resources */		 
 }TCB;
 
 /*
@@ -146,6 +147,7 @@ IMPORT TCB	*knl_ctxtsk;
 IMPORT TCB	*knl_schedtsk;
 IMPORT RDYQUE	knl_ready_queue;
 IMPORT TCB	knl_tcb_table[cfgOSEK_TASK_NUM];
+IMPORT T_GTSK const	knl_gtsk_table[cfgOSEK_TASK_NUM];
 IMPORT	INT  	knl_taskindp;
 IMPORT	UINT	knl_taskmode;
 /* ============================ FUNCTIONs    ====================================== */

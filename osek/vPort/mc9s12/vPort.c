@@ -1,6 +1,6 @@
 #include "vPort.h"
 #include "derivative.h"      /* derivative-specific definitions */
-LOCAL   UB  l_sp_offset = (UB)&(((TCB*)0)->tskctxb);
+
 LOCAL 	UB	knl_tmp_stack[cfgTMP_STACK_SZ];
 /*
  *    Function Name : disint
@@ -66,10 +66,10 @@ EXPORT void knl_setup_context( TCB *tcb )
 {
     SStackFrame     *ssp;
     UW pc;
-
-    ssp = tcb->isstack;
+    ID tskid = tcb - knl_tcb_table;
+    ssp = knl_gtsk_table[tskid].isstack;
     ssp--;
-    pc = (UW)tcb->task;
+    pc = (UW)knl_gtsk_table[tskid].task;
 
     /* CPU context initialization */
     ssp->ppage =(VB)pc;
@@ -97,8 +97,7 @@ static void l_dispatch0(void)
 	knl_dispatch_disabled=0;    /* Dispatch enable */
 	/* Context restore */
 	asm   ldx  knl_ctxtsk;
-	asm   ldab l_sp_offset;
-	asm   lds  b,x;       /* Restore 'ssp' from TCB */
+	asm   lds  SP_OFFSET,x;       /* Restore 'ssp' from TCB */
 	asm   pula
     asm   staa	$30	      /* restore PPAGE */
     asm   puld;
@@ -123,8 +122,7 @@ _ret_int_dispatch:
     asm   ldaa	$30		        
 	asm   psha                  /* save ppage */
 	asm   ldx  knl_ctxtsk;
-	asm   ldab l_sp_offset;
-	asm   sts  b,x;            /* save 'ssp' to TCB */
+	asm   sts  SP_OFFSET,x;            /* save 'ssp' to TCB */
 	knl_ctxtsk=(void*)0;
 	asm jmp l_dispatch0;  	    	
 }

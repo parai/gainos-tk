@@ -49,7 +49,7 @@ EXPORT TCB	*knl_schedtsk;
 EXPORT RDYQUE	knl_ready_queue;
 EXPORT	INT	knl_taskindp = 0;
 EXPORT	UINT	knl_taskmode;
-
+EXPORT TCB	knl_tcb_table[cfgOSEK_TASK_NUM];
 /*
  * TCB Initialization
  */
@@ -77,9 +77,10 @@ EXPORT void knl_reschedule( void )
  */
 EXPORT void knl_make_dormant( TCB *tcb )
 {
+    ID tskid = tcb - knl_tcb_table;
 	/* Initialize variables which should be reset at DORMANT state */
 	tcb->state	= TS_DORMANT;
-	tcb->priority = tcb->ipriority;
+	tcb->priority = knl_gtsk_table[tskid].itskpri;
 
 	tcb->klockwait	= FALSE;
 	tcb->klocked	= FALSE;
@@ -128,7 +129,7 @@ EXPORT void knl_tasks_autostart(void)
     for(i=0,tcb=knl_tcb_table; i < cfgOSEK_TASK_NUM; i++,tcb++)
     {
         knl_make_dormant(tcb);
-        if(tcb->tskatr & AUTOSTART)
+        if((knl_gtsk_table[i].tskatr) & AUTOSTART)
         { 
             knl_make_ready(tcb);
         }

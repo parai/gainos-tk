@@ -52,26 +52,23 @@
 #define DeclareTask(TaskName)  TaskType TaskName
 #define TASK(TaskName) void TaskMain##TaskName(void)
 #define GenTaskStack(TaskName,stksz)  static uint32 TaskStack##TaskName[stksz/4]
-
-#define GenTaskCreInfo(TaskName,Priority,stksz,Attribute)             \
+/* Task Generate information */
+#define GenTaskInfo(TaskName,Priority,stksz,Attribute)             \
     {                                                           \
-    /* tskque */   {NULL,NULL},                               \
-        /* tskid */    ID_##TaskName,                           \
         /* tskatr */   Attribute,                               \
         /* task */     TaskMain##TaskName,                      \
+        /* itskpri */Priority,                                \
         /* sstksz */   stksz,             \
-        /* ipriority */Priority,                                \
-        /* priority */ Priority,                                \
-        /* klockwait */FALSE,                                   \
-        /* klocked */  FALSE,                                   \
-        /* state */    TS_NONEXIST,                             \
         /* isstack */  &TaskStack##TaskName[stksz/4-1],               \
-            /* resque */   {NULL,NULL}}                                                     
-   
-                               
+    }                                                     
+                                  
 #define ALARM(AlarmName)     \
-    void AlarmCbk##AlarmName(void)
-
+    void AlarmMain##AlarmName(void)
+#define GenAlarmInfo(AlarmName,Owner)   \
+{                                       \
+    /* owner */ ID_##Owner,                              \
+    /* almhdr */ AlarmMain##AlarmName                \
+}
 #define GenResourceCreInfo(cerlpri)             \
     {                                           \
     }

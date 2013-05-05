@@ -168,7 +168,7 @@
 /* ============================ TYPEs   ========================================== */
 /* ============ OSEK STD TYPEs ===================== */
 /* This data type identifies a task. */
-typedef uint8 TaskType;
+typedef ID TaskType;
 /* This data type points to a variable of TaskType. */
 typedef TaskType* TaskRefType;
 /* This data type identifies the state of a task. */
@@ -194,9 +194,9 @@ typedef struct
 /* This data type points to the data type AlarmBaseType. */
 typedef AlarmBaseType * AlarmBaseRefType;
 /* This data type represents an alarm object. */
-typedef uint8 AlarmType;
+typedef ID AlarmType;
 /* This data type represents an Counter object. */
-typedef uint8 CounterType;
+typedef ID CounterType;
 /* Data type of the event mask. */
 typedef uint32 EventMaskType;
 /* Reference to an event mask. */
