@@ -40,7 +40,7 @@ EXPORT void knl_alm_insert(ALMCB *almcb,CCB* ccb)
     if(almcb->time < ccb->curvalue)
     {   /* It's an overflowed alarm,So Skip all the no overflowed one*/
         for ( ; q != &ccb->almque; q = q->next ) {
-    		if ( ccb->curvalue < ((ALMCB*)q)->time ) {
+    		if ( ccb->curvalue > ((ALMCB*)q)->time ) {
     			break;
     		}
 	    }
