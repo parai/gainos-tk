@@ -156,18 +156,34 @@ StatusType GetElapsedCounterValue(CounterType CounterID,
 StatusType IncrementCounter(CounterType CounterID)
 {
     StatusType ercd = E_OK;
+    TickType max;
     CCB* ccb;
     CHECK_COMMON_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
 	BEGIN_CRITICAL_SECTION;
     ccb = &knl_ccb_table[CounterID];
     ccb->curvalue++;
-    if(ccb->curvalue > knl_almbase_table[CounterID].MaxAllowedValue)
+    max = knl_almbase_table[CounterID].MaxAllowedValue;
+    if(ccb->curvalue > max)
     {
         ccb->curvalue = 0; 
     }
     /* Execute alarm that passed occurring time. */
 	while ( !isQueEmpty(&ccb->almque) ) {
 	    ALMCB *almcb =  (ALMCB *)ccb->almque.next;
+	    if(almcb->time > ccb->curvalue)
+	    {
+	        break;
+	    }
+	    QueRemove(&almcb->almque);
+	    {  /* do alarm callback */
+	        ID i = almcb - knl_almcb_table;
+	        knl_galm_table[i].almhdr();     
+	    }
+	    if(almcb->cycle > 0)
+	    {
+	        almcb->time = knl_alm_next_time(almcb,max);
+	        knl_alm_insert(almcb,ccb);
+	    }
 	}
 	END_CRITICAL_SECTION;
     Error_Exit:

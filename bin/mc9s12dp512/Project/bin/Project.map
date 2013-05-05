@@ -35,7 +35,7 @@ _startupData is allocated at 0xC00B and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x900     1732
-  _Copy    *toCopyDownBeg 0xC09A
+  _Copy    *toCopyDownBeg 0xC0A4
 } _startupData;
 
 *********************************************************************************************
@@ -44,10 +44,10 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             11     R     0xC000     0xC00A   ROM_C000
 .startData                        10     R     0xC00B     0xC014   ROM_C000
-.rodata                           30     R     0xC015     0xC032   ROM_C000
-NON_BANKED                       103     R     0xC033     0xC099   ROM_C000
-.copy                              2     R     0xC09A     0xC09B   ROM_C000
-.text                           1228     R   0x208000   0x2084CB   PAGE_20
+.rodata                           40     R     0xC015     0xC03C   ROM_C000
+NON_BANKED                       103     R     0xC03D     0xC0A3   ROM_C000
+.copy                              2     R     0xC0A4     0xC0A5   ROM_C000
+.text                           1397     R   0x208000   0x208574   PAGE_20
 .stack                           256   R/W      0x800      0x8FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -581,7 +581,7 @@ NON_BANKED                       103     R     0xC033     0xC099   ROM_C000
 .vectSeg527_vect                   2     R     0xFFFE     0xFFFF   .vectSeg527
 
 Summary of section sizes per section type:
-READ_ONLY (R):         56E (dec:     1390)
+READ_ONLY (R):         621 (dec:     1569)
 READ_WRITE (R/W):      7C4 (dec:     1988)
 NO_INIT (N/I):         24E (dec:      590)
 
@@ -1141,44 +1141,47 @@ MODULE:                 -- STRING.C.o (ansibi.lib) --
 - VARIABLES:
 MODULE:                 -- rtshc12.c.o (ansibi.lib) --
 - PROCEDURES:
-     _BSHRU                                    C033       8       8       3   NON_BANKED  
+     _BSHRU                                    C03D       8       8       3   NON_BANKED  
 - VARIABLES:
 MODULE:                 -- osek_counter.c.o --
 - PROCEDURES:
-     IncrementCounter                        208047      5C      92       2   .text       
+     IncrementCounter                        208047      B3     179       3   .text       
 - VARIABLES:
 MODULE:                 -- osek_osctrl.c.o --
 - PROCEDURES:
-     StartOS                                 2080A3      16      22       2   .text       
+     StartOS                                 2080FA      16      22       2   .text       
 - VARIABLES:
 MODULE:                 -- osek_task.c.o --
 - PROCEDURES:
-     TerminateTask                           2080B9      39      57       2   .text       
-     ChainTask                               2080F2      69     105       2   .text       
+     TerminateTask                           208110      39      57       2   .text       
+     ChainTask                               208149      69     105       2   .text       
 - VARIABLES:
 MODULE:                 -- knl_misc.c.o --
 - PROCEDURES:
-     knl_ready_queue_initialize              20815B      43      67       2   .text       
-     knl_ready_queue_top                     20819E      16      22       2   .text       
-     knl_ready_queue_insert                  2081B4      50      80       2   .text       
-     knl_ready_queue_delete                  208204      87     135       2   .text       
+     knl_ready_queue_initialize              2081B2      43      67       2   .text       
+     knl_ready_queue_top                     2081F5      16      22       2   .text       
+     knl_ready_queue_insert                  20820B      50      80       2   .text       
+     knl_ready_queue_delete                  20825B      87     135       2   .text       
 - VARIABLES:
 MODULE:                 -- osek_cfg.c.o --
 - PROCEDURES:
-     TaskMainvTask1                          20828B       5       5       2   .text       
-     TaskMainvTask2                          208290       7       7       2   .text       
+     TaskMainvTask1                          2082E2       5       5       2   .text       
+     TaskMainvTask2                          2082E7       7       7       2   .text       
+     AlarmMainvAlarm1                        2082EE       1       1       2   .text       
+     AlarmMainvAlarm2                        2082EF       1       1       2   .text       
 - VARIABLES:
      knl_gtsk_table                            C015      18      24       5   .rodata     
      knl_almbase_table                         C02D       6       6       1   .rodata     
+     knl_galm_table                            C033       A      10       1   .rodata     
      TaskStackvTask1                            900     200     512       1   .bss        
      TaskStackvTask2                            B00     200     512       1   .bss        
 MODULE:                 -- knl_task.c.o --
 - PROCEDURES:
-     knl_task_initialize                     208297      18      24       2   .text       
-     knl_make_dormant                        2082AF      2E      46       6   .text       
-     knl_make_ready                          2082DD      1D      29       4   .text       
-     knl_make_non_ready                      2082FA      1E      30       4   .text       
-     knl_tasks_autostart                     208318      3C      60       2   .text       
+     knl_task_initialize                     2082F0      18      24       2   .text       
+     knl_make_dormant                        208308      2E      46       6   .text       
+     knl_make_ready                          208336      1D      29       4   .text       
+     knl_make_non_ready                      208353      1E      30       4   .text       
+     knl_tasks_autostart                     208371      3C      60       2   .text       
 - VARIABLES:
      knl_taskindp                               D00       2       2       3   .bss        
      knl_dispatch_disabled                      F02       2       2       5   .common     
@@ -1189,32 +1192,34 @@ MODULE:                 -- knl_task.c.o --
      knl_tcb_table                              F94      1A      26       4   .common     
 MODULE:                 -- knl_bitop.c.o --
 - PROCEDURES:
-     knl_tstdlib_bitclr                      208354      24      36       2   .text       
-     knl_tstdlib_bitset                      208378      23      35       2   .text       
-     knl_tstdlib_bitsearch1                  20839B      76     118       2   .text       
+     knl_tstdlib_bitclr                      2083AD      24      36       2   .text       
+     knl_tstdlib_bitset                      2083D1      23      35       2   .text       
+     knl_tstdlib_bitsearch1                  2083F4      76     118       2   .text       
 - VARIABLES:
 MODULE:                 -- vPort.c.o --
 - PROCEDURES:
-     disint                                  208411       9       9       2   .text       
-     enaint                                  20841A       7       7       2   .text       
-     knl_system_clock_init                   208421      1B      27       2   .text       
-     knl_start_hw_timer                      20843C       8       8       2   .text       
-     knl_setup_context                       208444      41      65       2   .text       
-     knl_low_pow                             208485       1       1       2   .text       
-     l_dispatch0                               C03B      25      37       2   NON_BANKED  
-     knl_force_dispatch                        C060      13      19       3   NON_BANKED  
-     knl_dispatch_entry                        C073      1B      27       1   NON_BANKED  
-     knl_systick_handler                       C08E       C      12       1   NON_BANKED  
+     disint                                  20846A       9       9       2   .text       
+     enaint                                  208473       7       7       2   .text       
+     knl_system_clock_init                   20847A      1B      27       2   .text       
+     knl_start_hw_timer                      208495       8       8       2   .text       
+     knl_setup_context                       20849D      41      65       2   .text       
+     knl_low_pow                             2084DE       1       1       2   .text       
+     l_dispatch0                               C045      25      37       2   NON_BANKED  
+     knl_force_dispatch                        C06A      13      19       3   NON_BANKED  
+     knl_dispatch_entry                        C07D      1B      27       1   NON_BANKED  
+     knl_systick_handler                       C098       C      12       1   NON_BANKED  
 - VARIABLES:
      knl_tmp_stack                              D02     200     512       1   .bss        
      _Vector_4                                 FFF6       2       2       0   .abs_section_fff6
      _Vector_7                                 FFF0       2       2       0   .abs_section_fff0
 MODULE:                 -- knl_alarm.c.o --
 - PROCEDURES:
-     knl_counter_init                        208486      46      70       2   .text       
+     knl_counter_init                        2084DF      46      70       2   .text       
+     knl_alm_next_time                       208525      13      19       2   .text       
+     knl_alm_insert                          208538      3D      61       2   .text       
 - VARIABLES:
      knl_ccb_table                              FAE       6       6       2   .common     
-     knl_almcb_table                            FB4      10      16       1   .common     
+     knl_almcb_table                            FB4      10      16       2   .common     
 
 *********************************************************************************************
 MODULE STATISTIC
@@ -1225,15 +1230,15 @@ MODULE STATISTIC
   Start12.c.o                                  0     52      0
   STRING.C.o (ansibi.lib)                      0     24      0
   rtshc12.c.o (ansibi.lib)                     0      8      0
-  osek_counter.c.o                             0     92      0
+  osek_counter.c.o                             0    179      0
   osek_osctrl.c.o                              0     22      0
   osek_task.c.o                                0    162      0
   knl_misc.c.o                                 0    304      0
-  osek_cfg.c.o                              1024     12     30
+  osek_cfg.c.o                              1024     14     40
   knl_task.c.o                               174    189      0
   knl_bitop.c.o                                0    189      0
   vPort.c.o                                  512    212      4
-  knl_alarm.c.o                               22     70      0
+  knl_alarm.c.o                               22    150      0
   other                                      256     12      2
 
 *********************************************************************************************
@@ -1242,17 +1247,18 @@ SECTION USE IN OBJECT-ALLOCATION SECTION
 SECTION: ".text"
   main Init memset IncrementCounter StartOS TerminateTask ChainTask 
   knl_ready_queue_initialize knl_ready_queue_top knl_ready_queue_insert 
-  knl_ready_queue_delete TaskMainvTask1 TaskMainvTask2 knl_task_initialize 
-  knl_make_dormant knl_make_ready knl_make_non_ready knl_tasks_autostart 
-  knl_tstdlib_bitclr knl_tstdlib_bitset knl_tstdlib_bitsearch1 disint enaint 
-  knl_system_clock_init knl_start_hw_timer knl_setup_context knl_low_pow 
-  knl_counter_init 
+  knl_ready_queue_delete TaskMainvTask1 TaskMainvTask2 AlarmMainvAlarm1 
+  AlarmMainvAlarm2 knl_task_initialize knl_make_dormant knl_make_ready 
+  knl_make_non_ready knl_tasks_autostart knl_tstdlib_bitclr knl_tstdlib_bitset 
+  knl_tstdlib_bitsearch1 disint enaint knl_system_clock_init knl_start_hw_timer 
+  knl_setup_context knl_low_pow knl_counter_init knl_alm_next_time 
+  knl_alm_insert 
 SECTION: ".bss"
   TaskStackvTask1 TaskStackvTask2 knl_taskindp knl_tmp_stack 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata"
-  knl_gtsk_table knl_almbase_table 
+  knl_gtsk_table knl_almbase_table knl_galm_table 
 SECTION: "NON_BANKED"
   _BSHRU l_dispatch0 knl_force_dispatch knl_dispatch_entry knl_systick_handler 
 SECTION: ".abs_section_8"
@@ -2853,45 +2859,50 @@ OBJECT LIST SORTED BY ADDRESS
      knl_taskmode                               F92       2       2       2   .common     
      knl_tcb_table                              F94      1A      26       4   .common     
      knl_ccb_table                              FAE       6       6       2   .common     
-     knl_almcb_table                            FB4      10      16       1   .common     
+     knl_almcb_table                            FB4      10      16       2   .common     
      _Startup                                  C000       B      11       0   .init       
      knl_gtsk_table                            C015      18      24       5   .rodata     
      knl_almbase_table                         C02D       6       6       1   .rodata     
-     _BSHRU                                    C033       8       8       3   NON_BANKED  
-     l_dispatch0                               C03B      25      37       2   NON_BANKED  
-     knl_force_dispatch                        C060      13      19       3   NON_BANKED  
-     knl_dispatch_entry                        C073      1B      27       1   NON_BANKED  
-     knl_systick_handler                       C08E       C      12       1   NON_BANKED  
+     knl_galm_table                            C033       A      10       1   .rodata     
+     _BSHRU                                    C03D       8       8       3   NON_BANKED  
+     l_dispatch0                               C045      25      37       2   NON_BANKED  
+     knl_force_dispatch                        C06A      13      19       3   NON_BANKED  
+     knl_dispatch_entry                        C07D      1B      27       1   NON_BANKED  
+     knl_systick_handler                       C098       C      12       1   NON_BANKED  
      _Vector_7                                 FFF0       2       2       0   .abs_section_fff0
      _Vector_4                                 FFF6       2       2       0   .abs_section_fff6
      main                                    208000       6       6       2   .text       
      Init                                    208006      29      41       2   .text       
      memset                                  20802F      18      24       2   .text       
-     IncrementCounter                        208047      5C      92       2   .text       
-     StartOS                                 2080A3      16      22       2   .text       
-     TerminateTask                           2080B9      39      57       2   .text       
-     ChainTask                               2080F2      69     105       2   .text       
-     knl_ready_queue_initialize              20815B      43      67       2   .text       
-     knl_ready_queue_top                     20819E      16      22       2   .text       
-     knl_ready_queue_insert                  2081B4      50      80       2   .text       
-     knl_ready_queue_delete                  208204      87     135       2   .text       
-     TaskMainvTask1                          20828B       5       5       2   .text       
-     TaskMainvTask2                          208290       7       7       2   .text       
-     knl_task_initialize                     208297      18      24       2   .text       
-     knl_make_dormant                        2082AF      2E      46       6   .text       
-     knl_make_ready                          2082DD      1D      29       4   .text       
-     knl_make_non_ready                      2082FA      1E      30       4   .text       
-     knl_tasks_autostart                     208318      3C      60       2   .text       
-     knl_tstdlib_bitclr                      208354      24      36       2   .text       
-     knl_tstdlib_bitset                      208378      23      35       2   .text       
-     knl_tstdlib_bitsearch1                  20839B      76     118       2   .text       
-     disint                                  208411       9       9       2   .text       
-     enaint                                  20841A       7       7       2   .text       
-     knl_system_clock_init                   208421      1B      27       2   .text       
-     knl_start_hw_timer                      20843C       8       8       2   .text       
-     knl_setup_context                       208444      41      65       2   .text       
-     knl_low_pow                             208485       1       1       2   .text       
-     knl_counter_init                        208486      46      70       2   .text       
+     IncrementCounter                        208047      B3     179       3   .text       
+     StartOS                                 2080FA      16      22       2   .text       
+     TerminateTask                           208110      39      57       2   .text       
+     ChainTask                               208149      69     105       2   .text       
+     knl_ready_queue_initialize              2081B2      43      67       2   .text       
+     knl_ready_queue_top                     2081F5      16      22       2   .text       
+     knl_ready_queue_insert                  20820B      50      80       2   .text       
+     knl_ready_queue_delete                  20825B      87     135       2   .text       
+     TaskMainvTask1                          2082E2       5       5       2   .text       
+     TaskMainvTask2                          2082E7       7       7       2   .text       
+     AlarmMainvAlarm1                        2082EE       1       1       2   .text       
+     AlarmMainvAlarm2                        2082EF       1       1       2   .text       
+     knl_task_initialize                     2082F0      18      24       2   .text       
+     knl_make_dormant                        208308      2E      46       6   .text       
+     knl_make_ready                          208336      1D      29       4   .text       
+     knl_make_non_ready                      208353      1E      30       4   .text       
+     knl_tasks_autostart                     208371      3C      60       2   .text       
+     knl_tstdlib_bitclr                      2083AD      24      36       2   .text       
+     knl_tstdlib_bitset                      2083D1      23      35       2   .text       
+     knl_tstdlib_bitsearch1                  2083F4      76     118       2   .text       
+     disint                                  20846A       9       9       2   .text       
+     enaint                                  208473       7       7       2   .text       
+     knl_system_clock_init                   20847A      1B      27       2   .text       
+     knl_start_hw_timer                      208495       8       8       2   .text       
+     knl_setup_context                       20849D      41      65       2   .text       
+     knl_low_pow                             2084DE       1       1       2   .text       
+     knl_counter_init                        2084DF      46      70       2   .text       
+     knl_alm_next_time                       208525      13      19       2   .text       
+     knl_alm_insert                          208538      3D      61       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -2917,8 +2928,6 @@ osek_task.c.o:
 knl_misc.c.o:
   QueRemoveNext knl_ready_queue_insert_top knl_ready_queue_rotate 
   knl_ready_queue_move_last 
-osek_cfg.c.o:
-  AlarmMainvAlarm1 AlarmMainvAlarm2 
 knl_task.c.o:
   knl_reschedule 
 vPort.c.o:
@@ -2928,13 +2937,11 @@ STRING.C.o (ansibi.lib):
   STRING..1 next.2 
 rtshc12.c.o (ansibi.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
-osek_cfg.c.o:
-  knl_galm_table 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC09A ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC0A4 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -2944,6 +2951,7 @@ OBJECT-DEPENDENCIES SECTION
 _Startup                  USES __SEG_END_SSTACK Init main 
 knl_gtsk_table            USES TaskMainvTask1 TaskStackvTask1 TaskMainvTask2 
                                 TaskStackvTask2 
+knl_galm_table            USES AlarmMainvAlarm1 AlarmMainvAlarm2 
 l_dispatch0               USES knl_schedtsk knl_low_pow knl_ctxtsk 
                                 knl_dispatch_disabled knl_taskmode 
 knl_force_dispatch        USES knl_tmp_stack knl_dispatch_disabled knl_ctxtsk 
@@ -2955,9 +2963,10 @@ _Vector_7                 USES knl_systick_handler
 _Vector_4                 USES knl_dispatch_entry 
 main                      USES StartOS 
 Init                      USES _startupData 
-IncrementCounter          USES disint knl_ccb_table knl_almbase_table 
-                                knl_ctxtsk knl_schedtsk knl_taskindp 
-                                knl_dispatch_disabled enaint 
+IncrementCounter          USES IncrementCounter disint knl_ccb_table 
+                                knl_almbase_table knl_almcb_table knl_galm_table 
+                                knl_alm_next_time knl_alm_insert knl_ctxtsk knl_schedtsk 
+                                knl_taskindp knl_dispatch_disabled enaint 
 StartOS                   USES knl_system_clock_init knl_counter_init 
                                 knl_tasks_autostart knl_start_hw_timer knl_force_dispatch 
 TerminateTask             USES knl_taskindp knl_ctxtsk knl_make_non_ready 
@@ -3088,6 +3097,16 @@ DEPENDENCY TREE
        | 
        +- disint              
        |    
+       +- knl_galm_table      
+       |  | 
+       |  +- AlarmMainvAlarm1    
+       |  |    
+       |  +- AlarmMainvAlarm2    
+       |       
+       +- knl_alm_next_time   
+       |    
+       +- knl_alm_insert      
+       |    
        +- enaint              
             
 *********************************************************************************************
@@ -3096,6 +3115,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 9
-Total size of all blocks to be downloaded: 1390
+Number of blocks to be downloaded: 8
+Total size of all blocks to be downloaded: 1569
 

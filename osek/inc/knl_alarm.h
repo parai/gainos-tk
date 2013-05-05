@@ -34,4 +34,6 @@ IMPORT const AlarmBaseType knl_almbase_table[];
 
 /* ============================ FUNCTIONs =============================== */
 IMPORT void knl_counter_init(void);
+IMPORT TickType knl_alm_next_time( ALMCB *almcb,TickType max);
+IMPORT void knl_alm_insert(ALMCB *almcb,CCB* ccb);
 #endif /* KNL_ALARM_H_H */

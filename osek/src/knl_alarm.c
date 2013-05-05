@@ -21,3 +21,34 @@ EXPORT void knl_counter_init(void)
         QueInit(&almcb->almque); 
     }
 }
+
+EXPORT TickType knl_alm_next_time( ALMCB *almcb,TickType max)
+{
+	if( almcb->cycle < (max - almcb->time) )
+    {
+        return (almcb->cycle + almcb->time);
+    }
+    else
+    {
+        return (almcb->cycle -(max -almcb->time));
+    }
+}
+
+EXPORT void knl_alm_insert(ALMCB *almcb,CCB* ccb)
+{
+    QUEUE* q = ccb->almque.next;
+    if(almcb->time < ccb->curvalue)
+    {   /* It's an overflowed alarm,So Skip all the no overflowed one*/
+        for ( ; q != &ccb->almque; q = q->next ) {
+    		if ( ccb->curvalue < ((ALMCB*)q)->time ) {
+    			break;
+    		}
+	    }
+    }
+    for ( ; q != &ccb->almque; q = q->next ) {
+		if ( almcb->time > ((ALMCB*)q)->time ) {
+			break;
+		}
+    }
+    QueInsert(q,&almcb->almque);
+}
