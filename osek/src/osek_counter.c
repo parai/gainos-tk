@@ -43,6 +43,7 @@
 
 #include "osek_os.h"
 #include "knl_queue.h"
+#include "knl_alarm.h"
 #include "vPort.h"
 
 /* |-------------------+-----------------------------------------------------------------| */
@@ -75,7 +76,7 @@ StatusType GetCounterValue(CounterType CounterID,TickRefType Value)
 {
     StatusType ercd = E_OK;
     CHECK_COMMON_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
-    
+    *Value = knl_ccb_table[CounterID].curvalue;
     Error_Exit:
     return ercd;
 }
@@ -116,7 +117,7 @@ StatusType GetElapsedCounterValue(CounterType CounterID,
 {
     StatusType ercd = E_OK;
     CHECK_COMMON_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
-    
+    *ElapsedValue = knl_ccb_table[CounterID].curvalue -*Value;
     Error_Exit:
     return E_OK;
 }
@@ -155,11 +156,19 @@ StatusType GetElapsedCounterValue(CounterType CounterID,
 StatusType IncrementCounter(CounterType CounterID)
 {
     StatusType ercd = E_OK;
-    
+    CCB* ccb;
     CHECK_COMMON_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
-    
 	BEGIN_CRITICAL_SECTION;
-
+    ccb = &knl_ccb_table[CounterID];
+    ccb->curvalue++;
+    if(ccb->curvalue > knl_almbase_table[CounterID].MaxAllowedValue)
+    {
+        ccb->curvalue = 0; 
+    }
+    /* Execute alarm that passed occurring time. */
+	while ( !isQueEmpty(&ccb->almque) ) {
+	    ALMCB *almcb =  (ALMCB *)ccb->almque.next;
+	}
 	END_CRITICAL_SECTION;
     Error_Exit:
     return E_OK;

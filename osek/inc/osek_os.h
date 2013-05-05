@@ -69,6 +69,13 @@
     /* owner */ ID_##Owner,                              \
     /* almhdr */ AlarmMain##AlarmName                \
 }
+
+#define GenAlarmBaseInfo(MaxAllowedValue,TicksPerBase,MinCycle)    \
+{                               \
+    MaxAllowedValue,            \
+    TicksPerBase,               \
+    MinCycle                    \
+}
 #define GenResourceCreInfo(cerlpri)             \
     {                                           \
     }

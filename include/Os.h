@@ -184,12 +184,12 @@ typedef TickType* TickRefType;
 typedef struct
 {
     /* Maximum possible allowed count value in ticks */
-    TickType xMaxAllowedValue;
+    TickType MaxAllowedValue;
     /*  Number of ticks required to reach a counter-specific (significant) unit. */
-    TickType xTicksPerBase;
+    TickType TicksPerBase;
     /* Smallest allowed value for the cycle-parameter of */
     /* SetRelAlarm/SetAbsAlarm) (only for systems with extended status). */
-    TickType xMinCycle;
+    TickType MinCycle;
 }AlarmBaseType;
 /* This data type points to the data type AlarmBaseType. */
 typedef AlarmBaseType * AlarmBaseRefType;

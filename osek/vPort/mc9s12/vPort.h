@@ -35,8 +35,9 @@ typedef struct {
  * and forcibly dispatch to the task that should be performed next.
  *	Use at system startup and 'tk_ext_tsk, tk_exd_tsk.'
  */
+#pragma CODE_SEG __NEAR_SEG NON_BANKED
 IMPORT void knl_force_dispatch(void); 
-
+#pragma CODE_SEG DEFAULT
 /*
  * Start task dispatcher
  */

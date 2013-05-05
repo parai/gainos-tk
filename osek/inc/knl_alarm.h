@@ -4,6 +4,7 @@
 /* ============================ INCLUDEs =============================== */
 #include "osek_os.h"
 #include "knl_queue.h"
+
 /* ============================ TYPEs    =============================== */
 typedef struct counter_control_block
 {
@@ -28,7 +29,8 @@ typedef struct AlmCtrlBlk
 /* ============================ DATAs    =============================== */
 IMPORT CCB knl_ccb_table[];
 IMPORT ALMCB knl_almcb_table[];
-IMPORT T_GALM const knl_galm_table[];
+IMPORT const T_GALM  knl_galm_table[];
+IMPORT const AlarmBaseType knl_almbase_table[];
 
 /* ============================ FUNCTIONs =============================== */
 IMPORT void knl_counter_init(void);

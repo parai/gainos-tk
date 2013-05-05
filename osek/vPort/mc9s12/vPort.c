@@ -106,7 +106,7 @@ static void l_dispatch0(void)
 }
 void knl_force_dispatch(void)
 {
-    asm  lds #knl_tmp_stack:cfgTMP_STACK_SZ   /* Set temporal stack */
+    asm  lds #knl_tmp_stack:(cfgTMP_STACK_SZ-1)   /* Set temporal stack */
     knl_dispatch_disabled=1;    /* Dispatch disable */ 
     knl_ctxtsk=(void *)0;
     asm sei; 
@@ -126,11 +126,10 @@ _ret_int_dispatch:
 	knl_ctxtsk=(void*)0;
 	asm jmp l_dispatch0;  	    	
 }
-//IMPORT void knl_timer_handler( void );
 interrupt 7 void knl_systick_handler(void)
 {  
     CRGFLG &=0xEF;			// clear the interrupt flag  
-	asm cli;     /* enable interrupt */
-//    asm call knl_timer_handler; 		
+	asm cli;     /* enable interrupt */ 
+	(void)IncrementCounter(0);		
 }
 #pragma CODE_SEG DEFAULT

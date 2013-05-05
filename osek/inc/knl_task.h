@@ -147,7 +147,7 @@ IMPORT TCB	*knl_ctxtsk;
 IMPORT TCB	*knl_schedtsk;
 IMPORT RDYQUE	knl_ready_queue;
 IMPORT TCB	knl_tcb_table[cfgOSEK_TASK_NUM];
-IMPORT T_GTSK const	knl_gtsk_table[cfgOSEK_TASK_NUM];
+IMPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM];
 IMPORT	INT  	knl_taskindp;
 IMPORT	UINT	knl_taskmode;
 /* ============================ FUNCTIONs    ====================================== */
