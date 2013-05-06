@@ -44,8 +44,7 @@
 #define _PLATFORM_TYPES_H_
 
 #define CPU_TYPE            CPU_TYPE_16
-#define CPU_BIT_ORDER       MSB_FIRST 
-#define CPU_BYTE_ORDER      HIGH_BYTE_FIRST
+#define CPU_ENDIAN          CPU_BIG_ENDIAN 
 
 /* This is a Cpu ISR Mask type <CCR>*/
 typedef unsigned char               imask_t; 

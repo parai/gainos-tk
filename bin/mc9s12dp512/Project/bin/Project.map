@@ -47,7 +47,7 @@ Section Name                    Size  Type     From       To       Segment
 .rodata                           40     R     0xC015     0xC03C   ROM_C000
 NON_BANKED                       103     R     0xC03D     0xC0A3   ROM_C000
 .copy                              2     R     0xC0A4     0xC0A5   ROM_C000
-.text                           1397     R   0x208000   0x208574   PAGE_20
+.text                           1423     R   0x208000   0x20858E   PAGE_20
 .stack                           256   R/W      0x800      0x8FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -581,7 +581,7 @@ NON_BANKED                       103     R     0xC03D     0xC0A3   ROM_C000
 .vectSeg527_vect                   2     R     0xFFFE     0xFFFF   .vectSeg527
 
 Summary of section sizes per section type:
-READ_ONLY (R):         621 (dec:     1569)
+READ_ONLY (R):         63B (dec:     1595)
 READ_WRITE (R/W):      7C4 (dec:     1988)
 NO_INIT (N/I):         24E (dec:      590)
 
@@ -1216,7 +1216,7 @@ MODULE:                 -- knl_alarm.c.o --
 - PROCEDURES:
      knl_counter_init                        2084DF      46      70       2   .text       
      knl_alm_next_time                       208525      13      19       2   .text       
-     knl_alm_insert                          208538      3D      61       2   .text       
+     knl_alm_insert                          208538      57      87       2   .text       
 - VARIABLES:
      knl_ccb_table                              FAE       6       6       2   .common     
      knl_almcb_table                            FB4      10      16       2   .common     
@@ -1238,7 +1238,7 @@ MODULE STATISTIC
   knl_task.c.o                               174    189      0
   knl_bitop.c.o                                0    189      0
   vPort.c.o                                  512    212      4
-  knl_alarm.c.o                               22    150      0
+  knl_alarm.c.o                               22    176      0
   other                                      256     12      2
 
 *********************************************************************************************
@@ -2902,7 +2902,7 @@ OBJECT LIST SORTED BY ADDRESS
      knl_low_pow                             2084DE       1       1       2   .text       
      knl_counter_init                        2084DF      46      70       2   .text       
      knl_alm_next_time                       208525      13      19       2   .text       
-     knl_alm_insert                          208538      3D      61       2   .text       
+     knl_alm_insert                          208538      57      87       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -3116,5 +3116,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 8
-Total size of all blocks to be downloaded: 1569
+Total size of all blocks to be downloaded: 1595
 

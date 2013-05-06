@@ -43,8 +43,8 @@ IMPORT void knl_force_dispatch(void);
  */
 #define knl_dispatch() {asm swi;}
 
-IMPORT UB disint( void );
-IMPORT void enaint( UB intsts );
+IMPORT imask_t disint( void );
+IMPORT void enaint( imask_t intsts );
 IMPORT void knl_system_clock_init(void);
 IMPORT void knl_start_hw_timer( void );
 /*

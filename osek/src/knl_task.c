@@ -47,9 +47,9 @@ EXPORT INT	knl_dispatch_disabled;
 EXPORT TCB	*knl_ctxtsk;
 EXPORT TCB	*knl_schedtsk;
 EXPORT RDYQUE	knl_ready_queue;
-EXPORT	INT	knl_taskindp = 0;
+EXPORT	INT	    knl_taskindp = 0;
 EXPORT	UINT	knl_taskmode;
-EXPORT TCB	knl_tcb_table[cfgOSEK_TASK_NUM];
+EXPORT TCB	    knl_tcb_table[cfgOSEK_TASK_NUM];
 /*
  * TCB Initialization
  */

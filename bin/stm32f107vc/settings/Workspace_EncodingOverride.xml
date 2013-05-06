@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<userOverrides>
+  <override>
+    <path>F:\parai@foxmail.com\github\gainos-tk\osek\vPort\armv7_m\vPort.c</path>
+    <encoding>System</encoding>
+  </override>
+  <override>
+    <path>F:\parai@foxmail.com\github\gainos-tk\osek\vPort\mc9s12\vPort.c</path>
+    <encoding>System</encoding>
+  </override>
+</userOverrides>
+
+

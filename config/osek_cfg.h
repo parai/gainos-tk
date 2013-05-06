@@ -2,7 +2,6 @@
 #define _OSEK_CFG_H_
 /* =====================  MISC  ========================== */
 #define cfgOS_STATUS_LEVEL OS_STATUS_EXTEND
-#define cfgTMP_STACK_SZ  512
 #define CPU_FREQUENCY        32000000 /* HZ */
 #define OSC_FREQUENCY         8000000 /* HZ */
 

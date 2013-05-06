@@ -1,7 +1,7 @@
 #include "knl_bitop.h"
 
 /* bit operation macro */
-#if(CPU_BYTE_ORDER == HIGH_BYTE_FIRST) /*BIGENDIAN*/
+#if(CPU_ENDIAN == CPU_BIG_ENDIAN) /*BIGENDIAN*/
 #define _BIT_SET_N(n) ( (UB)0x80 >> ((n) & 7) )
 #define _BIT_SHIFT(n) ( (UB)n >> 1 )
 #else

@@ -47,11 +47,8 @@
 #define CPU_TYPE_32			32
 #define CPU_TYPE_64			64
 
-#define MSB_FIRST 0
-#define MSB_LAST  1
-
-#define HIGH_BYTE_FIRST 0
-#define HIGH_BYTE_LAST  1
+#define CPU_BIG_ENDIAN     0
+#define CPU_LITTLE_ENDIAN  1
 
 /* ============================ INCLUDEs ========================================== */
 #include "Platform_Types.h"

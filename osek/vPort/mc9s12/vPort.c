@@ -6,7 +6,7 @@ LOCAL 	UB	knl_tmp_stack[cfgTMP_STACK_SZ];
  *    Function Name : disint
  *    Description   : Disable external interrupt,CPSR interrupt flag is in  disabled status.
  */
-EXPORT UB disint()
+EXPORT imask_t disint()
 {
     asm psha;
     asm tpa;
@@ -20,7 +20,7 @@ EXPORT UB disint()
  *    Description   : Enable external interrupt (restore to original state),
  *                    Updates CPSR interrupt disabled flag with the intsts interrupt flag.
  */
-EXPORT void enaint(UB mask)
+EXPORT void enaint(imask_t mask)
 {
     (void)mask;
     asm psha;  
@@ -29,7 +29,7 @@ EXPORT void enaint(UB mask)
     asm pula;
 }
 
-EXPORT UB knl_getPRIMASK ( void )
+EXPORT imask_t knl_getPRIMASK ( void )
 {
     asm psha; /* sava A */
 	asm tpa;

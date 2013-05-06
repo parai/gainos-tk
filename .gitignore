@@ -23,3 +23,8 @@ cscope.files
 *.exe
 *.out
 *.app
+
+#others
+*.htm
+*.doc
+*.html
