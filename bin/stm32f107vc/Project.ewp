@@ -48,11 +48,11 @@
         <option>
           <name>Output variant</name>
           <version>2</version>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>Output description</name>
-          <state>Automatic choice of formatter.</state>
+          <state>Full formatting.</state>
         </option>
         <option>
           <name>GOutputBinary</name>
@@ -70,16 +70,16 @@
         <option>
           <name>GRuntimeLibSelect</name>
           <version>0</version>
-          <state>1</state>
+          <state>2</state>
         </option>
         <option>
           <name>GRuntimeLibSelectSlave</name>
           <version>0</version>
-          <state>1</state>
+          <state>2</state>
         </option>
         <option>
           <name>RTDescription</name>
-          <state>Use the normal configuration of the C/C++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
+          <state>Use the full configuration of the C/C++ runtime library. Full locale interface, C locale, file descriptor support, multibytes in printf and scanf, and hex floats in strtod.</state>
         </option>
         <option>
           <name>OGProductVersion</name>
@@ -133,7 +133,7 @@
         </option>
         <option>
           <name>RTConfigPath2</name>
-          <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Normal.h</state>
+          <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Full.h</state>
         </option>
         <option>
           <name>GFPUCoreSlave</name>
@@ -169,6 +169,7 @@
         <option>
           <name>CCDefines</name>
           <state>STM32F10X_CL</state>
+          <state>USE_STDPERIPH_DRIVER</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1870,6 +1871,12 @@
             <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\inc\misc.h</name>
           </file>
           <file>
+            <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_conf.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_gpio.h</name>
+          </file>
+          <file>
             <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rcc.h</name>
           </file>
           <file>
@@ -1880,6 +1887,9 @@
           <name>src</name>
           <file>
             <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\src\misc.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_gpio.c</name>
           </file>
           <file>
             <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c</name>

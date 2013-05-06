@@ -2,7 +2,7 @@
 #include "osek_cfg.h"
 #include "knl_task.h"
 #include "knl_alarm.h"
-
+#include <stdio.h>
 GenTaskStack(vTask1,512);
 GenTaskStack(vTask2,512);
 EXPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM]=
@@ -23,11 +23,13 @@ EXPORT const T_GALM knl_galm_table[cfgOSEK_ALARM_NUM]=
 
 TASK(vTask1)
 {
+    printf("vTask1 is running.\r\n");
     (void)TerminateTask();
 }
 
 TASK(vTask2)
 {
+    printf("vTask2 is running.\r\n");
     (void)ChainTask(ID_vTask1);
 }
 
