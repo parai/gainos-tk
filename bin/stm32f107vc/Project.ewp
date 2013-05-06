@@ -300,6 +300,7 @@
           <state>$PROJ_DIR$\..\..\config</state>
           <state>$PROJ_DIR$\..\..\include</state>
           <state>$PROJ_DIR$\..\..\arch\stm32f1</state>
+          <state>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\inc</state>
           <state>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x</state>
           <state>$PROJ_DIR$\..\..\osek\inc</state>
           <state>$PROJ_DIR$\..\..\osek\vPort\armv7_m</state>
@@ -1860,6 +1861,33 @@
         <file>
           <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\system_stm32f10x.h</name>
         </file>
+      </group>
+      <group>
+        <name>StdPeriph</name>
+        <group>
+          <name>inc</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\inc\misc.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rcc.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_usart.h</name>
+          </file>
+        </group>
+        <group>
+          <name>src</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\src\misc.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\stm32f1\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_usart.c</name>
+          </file>
+        </group>
       </group>
     </group>
     <file>
