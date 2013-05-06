@@ -66,7 +66,6 @@
 void StartOS ( AppModeType xAppMode )
 {
     DISABLE_INTERRUPT;
-    knl_system_clock_init();
     knl_counter_init();
 	knl_tasks_autostart();
 

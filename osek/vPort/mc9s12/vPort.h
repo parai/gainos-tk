@@ -45,7 +45,6 @@ IMPORT void knl_force_dispatch(void);
 
 IMPORT imask_t disint( void );
 IMPORT void enaint( imask_t intsts );
-IMPORT void knl_system_clock_init(void);
 IMPORT void knl_start_hw_timer( void );
 /*
  * Create stack frame for task startup

@@ -37,9 +37,6 @@ knl_force_dispatch:
 
     ldr     r4, =knl_ctxtsk                /* R4 = &ctxtsk */
     ldr     r0, =0
-#if USE_DBGSPT
-    ldr     r8, [r4]
-#endif
     str     r0, [r4]                             /* ctxtsk = NULL */
     cpsie   i                                    /* Interrupt enable */
     b       l_dispatch0
@@ -129,11 +126,45 @@ knl_dsp_in_exception:
     cpsie   i                                    /* just before schedule to next task */
     bx      lr                                   /* lr is EXC_RETURN */
 
+    ALIGNROM 2
+    PUBLIC knl_enter_isr
+knl_enter_isr:    
+    ldr     r1, =knl_taskindp              /* Enter task independent part */
+    ldr     r2, [r1]
+    add     r3, r2, #1
+    str     r3, [r1]
+    push    {r1, r2}
+    bx      lr
+    
+    ALIGNROM 2
+    PUBLIC knl_exit_isr
+knl_exit_isr:
+    pop     {r1,r2}
+    str     r2, [r1]                             /* Leave task independent part */
+    pop     {lr}
+    cpsid   i
 
+    ldr     r0, =knl_taskindp              /* Is it a nesting interrupt? */
+    ldr     r0, [r0]
+    cmp     r0, #0
+    
+    bne     l_nodispatch
 
+    ldr     r0, =knl_dispatch_disabled    /* Is it during dispatch disable? */
+    ldr     r0, [r0]
+    cmp     r0, #0
+    bne     l_nodispatch
 
+    ldr     r0, =knl_ctxtsk                /* Is dispatch required? */
+    ldr     r1, =knl_schedtsk
+    ldr     r0, [r0]
+    ldr     r1, [r1]
+    cmp     r0, r1
+    bne     knl_dispatch_ret_int                 /* To dispatch processing */
 
-
-
+l_nodispatch:
+    cpsie   i
+    bx      lr
+    
     END
 

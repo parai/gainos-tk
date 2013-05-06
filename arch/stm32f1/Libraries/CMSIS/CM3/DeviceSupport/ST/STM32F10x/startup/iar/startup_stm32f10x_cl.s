@@ -46,7 +46,7 @@
         SECTION .intvec:CODE:NOROOT(2)
 
         EXTERN  __iar_program_start
-        EXTERN  SystemInit        
+        EXTERN  SystemInit,knl_enter_isr,knl_exit_isr,knl_timer_handler      
         PUBLIC  __vector_table
 
         DATA
@@ -194,8 +194,12 @@ PendSV_Handler
 
         PUBWEAK SysTick_Handler
         SECTION .text:CODE:REORDER(1)
+        EXTERN  knl_timer_handler
 SysTick_Handler
-        B SysTick_Handler
+        push    {lr}
+        bl      knl_enter_isr
+        bl      knl_timer_handler             /* call timer_handler() */
+        b       knl_exit_isr
 
         PUBWEAK WWDG_IRQHandler
         SECTION .text:CODE:REORDER(1)

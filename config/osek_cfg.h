@@ -2,8 +2,12 @@
 #define _OSEK_CFG_H_
 /* =====================  MISC  ========================== */
 #define cfgOS_STATUS_LEVEL OS_STATUS_EXTEND
+#if 0 //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
 #define OSC_FREQUENCY         8000000 /* HZ */
+#else //stm32
+#define CPU_FREQUENCY        72000000 /* HZ */
+#endif
 
 /* =====================  TASK  ========================== */
 #define cfgOSEK_MAX_PRIO  32
