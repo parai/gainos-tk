@@ -1842,6 +1842,12 @@
     </settings>
   </configuration>
   <group>
+    <name>app</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\app\app.c</name>
+    </file>
+  </group>
+  <group>
     <name>arch</name>
     <group>
       <name>Libraries</name>

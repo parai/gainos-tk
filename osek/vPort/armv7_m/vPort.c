@@ -1,5 +1,6 @@
 #include "vPort.h"
-#include "stm32f10x.h"
+#include "osek_os.h"
+#include <stdio.h>
 
 EXPORT 	UB	knl_tmp_stack[cfgTMP_STACK_SZ];
 
@@ -58,6 +59,8 @@ EXPORT void knl_setup_context( TCB *tcb )
 
 EXPORT void knl_timer_handler(void)
 {
-    
+    /* Counter 0 is system counter.
+       This is an example for: how to use the counter. */
+    (void)IncrementCounter(0);
 }
 

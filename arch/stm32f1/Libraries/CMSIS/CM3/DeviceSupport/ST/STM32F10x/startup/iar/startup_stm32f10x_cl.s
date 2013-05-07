@@ -46,7 +46,7 @@
         SECTION .intvec:CODE:NOROOT(2)
 
         EXTERN  __iar_program_start
-        EXTERN  SystemInit,knl_enter_isr,knl_exit_isr,knl_timer_handler      
+        EXTERN  SystemInit,knl_dispatch_entry,knl_enter_isr,knl_exit_isr,knl_timer_handler      
         PUBLIC  __vector_table
 
         DATA
@@ -65,7 +65,7 @@ __vector_table
         DCD     SVC_Handler               ; SVCall Handler
         DCD     DebugMon_Handler          ; Debug Monitor Handler
         DCD     0                         ; Reserved
-        DCD     PendSV_Handler            ; PendSV Handler
+        DCD     knl_dispatch_entry        ; PendSV Handler
         DCD     SysTick_Handler           ; SysTick Handler
 
          ; External Interrupts
@@ -186,11 +186,6 @@ SVC_Handler
         SECTION .text:CODE:REORDER(1)
 DebugMon_Handler
         B DebugMon_Handler
-
-        PUBWEAK PendSV_Handler
-        SECTION .text:CODE:REORDER(1)
-PendSV_Handler
-        B PendSV_Handler
 
         PUBWEAK SysTick_Handler
         SECTION .text:CODE:REORDER(1)

@@ -23,7 +23,7 @@ disint:
     msr     primask, r1
     bx      lr
 
-   SECTION .text:CODE
+    SECTION .text:CODE
     THUMB
     ALIGNROM 2
     PUBLIC  knl_force_dispatch
@@ -69,12 +69,11 @@ l_dispatch1:                                     /* Judge if goto 'schedtsk'or'l
     ldr     r8, [r5]                             /* R8 = schedtsk */
     cmp     r8, #0                               /* Is there 'schedtsk'? */
     bne     l_dispatch2
-
-    /* Because there is no task that should be executed, move to the power-saving mode */
-    nop
-    nop
-    nop
+    /* wait untill a task is ready again. */
     cpsie   i                                    /* Interrupt enable */
+    nop
+    nop
+    nop
     b       l_dispatch1
 
 l_dispatch2:                                     /* Switch to 'schedtsk' */
@@ -131,15 +130,16 @@ knl_dsp_in_exception:
 knl_enter_isr:    
     ldr     r1, =knl_taskindp              /* Enter task independent part */
     ldr     r2, [r1]
-    add     r3, r2, #1
+    add     r3, r2, #1  /* knl_taskindp++ */
     str     r3, [r1]
-    push    {r1, r2}
+    push    {r1, r2}           /* Here I say wonderful Idea, do you know the reason? */
+    cpsie   i     /* Enable Interrupr */
     bx      lr
     
     ALIGNROM 2
     PUBLIC knl_exit_isr
 knl_exit_isr:
-    pop     {r1,r2}
+    pop     {r1,r2}          /* here same as knl_taskindp--, do you know why? */
     str     r2, [r1]                             /* Leave task independent part */
     pop     {lr}
     cpsid   i

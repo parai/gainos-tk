@@ -4,6 +4,8 @@
 #include "osek_os.h"
 #include "vPortMacro.h"
 #include "knl_task.h"
+//so in fact this vPort is just for stm32f1, as you know the reason
+#include "stm32f10x.h"
 /* ============================ MACROs ============================================= */
 /*
  * Size of system stack area destroyed by 'make_dormant()'
@@ -46,7 +48,7 @@ IMPORT void knl_force_dispatch(void);
 /*
  * Start task dispatcher
  */
-#define knl_dispatch() {}
+#define knl_dispatch() { SCB->ICSR = SCB_ICSR_PENDSTSET_Msk; }
 
 IMPORT imask_t disint( void );
 IMPORT void enaint( imask_t intsts );

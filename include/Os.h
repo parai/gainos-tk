@@ -165,6 +165,9 @@
 /* No support for synchronisation. (default) */
 #define NONE     (OsScheduleTblSyncStrategyType)2u
 
+#define TASK(TaskName) void TaskMain##TaskName(void)
+#define ALARM(AlarmName)     \
+    void AlarmMain##AlarmName(void)
 /* ============================ TYPEs   ========================================== */
 /* ============ OSEK STD TYPEs ===================== */
 /* This data type identifies a task. */
@@ -257,7 +260,11 @@ typedef uint8 RestartType;
    OS_TICKS2<Unit>_<Counter>(). */
 typedef uint8 PhysicalTimeType;
 typedef uint8 OsScheduleTableAutostartType;
-typedef uint8 OsScheduleTblSyncStrategyType;  
+typedef uint8 OsScheduleTblSyncStrategyType; 
+
+/* ============================ INCLUDEs ========================================== */
+#include "osek_cfg.h"
+#include "osek_check.h"
 
 /* ============================ FUNCTIONs   ========================================== */
 StatusType GetCounterValue(CounterType CounterID,TickRefType pxValue);

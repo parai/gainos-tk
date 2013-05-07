@@ -15,23 +15,33 @@ EXPORT void knl_counter_init(void)
         ccb->curvalue = 0;
     }
     
-    for(i=0;i<cfgOSEK_COUNTER_NUM;i++)
+    for(i=0;i<cfgOSEK_ALARM_NUM;i++)
     {
         almcb = &knl_almcb_table[i];
         QueInit(&almcb->almque); 
     }
 }
 
-EXPORT TickType knl_alm_next_time( ALMCB *almcb,TickType max)
+EXPORT TickType knl_add_ticks(TickType almval,TickType incr,TickType maxval2)
 {
-	if( almcb->cycle < (max - almcb->time) )
+    if(incr <= (maxval2 - almval))
     {
-        return (almcb->cycle + almcb->time);
+        return (almval+incr);
     }
     else
     {
-        return (almcb->cycle -(max -almcb->time));
+        return (incr - (maxval2 - almval));
     }
+}
+
+EXPORT TickType knl_diff_tick(TickType curval, TickType almval, TickType maxval2)
+{
+	if (curval >= almval) {
+		return(curval - almval);
+	}
+	else {
+		return(maxval2 - almval + curval);
+	}
 }
 
 EXPORT void knl_alm_insert(ALMCB *almcb,CCB* ccb)
@@ -40,15 +50,15 @@ EXPORT void knl_alm_insert(ALMCB *almcb,CCB* ccb)
     if(almcb->time < ccb->curvalue)
     {   /* It's an overflowed alarm,So Skip all the no overflowed one*/
         for ( ; q != &ccb->almque; q = q->next ) {
-    		if ( ccb->curvalue > ((ALMCB*)q)->time ) {
+    		if ( ccb->curvalue < ((ALMCB*)q)->time ) {
     			break;
     		}
 	    }
     }
     for ( ; q != &ccb->almque; q = q->next ) {
-		if ( almcb->time > ((ALMCB*)q)->time ) {
+		if ( almcb->time < ((ALMCB*)q)->time ) {
 			break;
 		}
     }
-    QueInsert(q,&almcb->almque);
+    QueInsert(&almcb->almque,q);
 }

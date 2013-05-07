@@ -11,11 +11,13 @@
 
 /* =====================  TASK  ========================== */
 #define cfgOSEK_MAX_PRIO  32
-#define cfgOSEK_TASK_NUM  2
+#define cfgOSEK_TASK_NUM  3
 #define ID_vTask1  0
 #define ID_vTask2  1
+#define ID_vTaskIdle 2
 IMPORT TASK(vTask1);
 IMPORT TASK(vTask2);
+IMPORT TASK(vTaskIdle);
 
 /* =====================  EVENT ========================== */
 #define cfgOSEK_EVENTFLAG_NUM 0

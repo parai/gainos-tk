@@ -45,12 +45,8 @@
 /* ============================ INCLUDEs ========================================== */
 #include "Std_Types.h"
 #include "Os.h"
-
-/* ============================ TYPEs    ========================================== */
-
 /* ============================ MACROs   ========================================== */
 #define DeclareTask(TaskName)  TaskType TaskName
-#define TASK(TaskName) void TaskMain##TaskName(void)
 #define GenTaskStack(TaskName,stksz)  static uint32 TaskStack##TaskName[stksz/4]
 /* Task Generate information */
 #define GenTaskInfo(TaskName,Priority,stksz,Attribute)             \
@@ -62,8 +58,6 @@
         /* isstack */  &TaskStack##TaskName[stksz/4-1],               \
     }                                                     
                                   
-#define ALARM(AlarmName)     \
-    void AlarmMain##AlarmName(void)
 #define GenAlarmInfo(AlarmName,Owner)   \
 {                                       \
     /* owner */ ID_##Owner,                              \
@@ -79,11 +73,5 @@
 #define GenResourceCreInfo(cerlpri)             \
     {                                           \
     }
-/* ============================ INCLUDEs ========================================== */
-#include "osek_cfg.h"
-#include "osek_check.h"
- 
-
-
 #endif /* _OSEK_OS_H_ */
 

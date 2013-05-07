@@ -41,6 +41,8 @@
 /* | Email:  | parai@foxmail.com | */
 /* |---------+-------------------| */
 #include "osek_os.h"
+#include "knl_alarm.h"
+#include "vPort.h"
 /* |------------------+------------------------------------------------------------------| */
 /* | Syntax:          | StatusType GetAlarmBase (AlarmType <AlarmID>,                    | */
 /* |                  | AlarmBaseRefType <Info> )                                        | */
@@ -144,8 +146,26 @@ StatusType GetAlarm ( AlarmType AlarmID ,TickRefType Tick )
 StatusType SetRelAlarm ( AlarmType AlarmID , TickType Increment ,TickType Cycle )
 {
 	StatusType ercd = E_OK;
+    ALMCB *almcb;
+    CCB *ccb;
+    CounterType cntid;
+    TickType max;
+    CHECK_COMMON_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
+    almcb = &knl_almcb_table[AlarmID];
+    CHECK_COMMON_STD((isQueEmpty(&almcb->almque)),E_OS_STATE);
+    cntid = knl_galm_table[AlarmID].owner;
+    max = knl_almbase_table[cntid].MaxAllowedValue;
+    CHECK_COMMON_EXT((max > Increment),E_OS_VALUE);
+    CHECK_COMMON_EXT((max > Cycle),E_OS_VALUE);
+    CHECK_COMMON_EXT(((knl_almbase_table[cntid].MinCycle < Cycle) || (0 == Cycle)),E_OS_VALUE);
+    ccb = &knl_ccb_table[cntid];
+    BEGIN_CRITICAL_SECTION;
+    almcb->time = knl_add_ticks(ccb->curvalue,Increment,max*2);
+    almcb->cycle = Cycle;
+    knl_alm_insert(almcb,ccb);
+    END_CRITICAL_SECTION;
 Error_Exit:
-	return ercd;
+    return ercd;
 }
 
 /* |------------------+-----------------------------------------------------------------| */
@@ -197,7 +217,27 @@ Error_Exit:
 /* |------------------+-----------------------------------------------------------------| */
 StatusType SetAbsAlarm ( AlarmType AlarmID , TickType Start ,TickType Cycle )
 {
-	return E_OK;
+	StatusType ercd = E_OK;
+    ALMCB *almcb;
+    CCB *ccb;
+    CounterType cntid;
+    TickType max;
+    CHECK_COMMON_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
+    almcb = &knl_almcb_table[AlarmID];
+    CHECK_COMMON_STD((isQueEmpty(&almcb->almque)),E_OS_STATE);
+    cntid = knl_galm_table[AlarmID].owner;
+    max = knl_almbase_table[cntid].MaxAllowedValue;
+    CHECK_COMMON_EXT((max > Start),E_OS_VALUE);
+    CHECK_COMMON_EXT((max > Cycle),E_OS_VALUE);
+    CHECK_COMMON_EXT(((knl_almbase_table[cntid].MinCycle < Cycle) || (0 == Cycle)),E_OS_VALUE);
+    ccb = &knl_ccb_table[cntid];
+    BEGIN_CRITICAL_SECTION;
+    almcb->time = Start;
+    almcb->cycle = Cycle;
+    knl_alm_insert(almcb,ccb);
+    END_CRITICAL_SECTION;
+Error_Exit:
+    return ercd;
 }
 
 /* |------------------+-------------------------------------------------------------| */

@@ -156,22 +156,23 @@ StatusType GetElapsedCounterValue(CounterType CounterID,
 StatusType IncrementCounter(CounterType CounterID)
 {
     StatusType ercd = E_OK;
-    TickType max;
+    TickType max,curvalue;
     CCB* ccb;
     CHECK_COMMON_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
 	BEGIN_CRITICAL_SECTION;
     ccb = &knl_ccb_table[CounterID];
-    ccb->curvalue++;
     max = knl_almbase_table[CounterID].MaxAllowedValue;
-    if(ccb->curvalue > max)
-    {
-        ccb->curvalue = 0; 
-    }
+    /* here I see the difference between arccore and nxtOSEK.
+       in nxtOSEK, max allowed value allowed for counter and alarm are both the MaxAllowedValue*2,
+       as it has implemented the TicksPerBase. So the method used by nxtOSEK is prefered.
+    */
+    ccb->curvalue = knl_add_ticks(ccb->curvalue,knl_almbase_table[CounterID].TicksPerBase,max*2);
     /* Execute alarm that passed occurring time. */
 	while ( !isQueEmpty(&ccb->almque) ) {
 	    ALMCB *almcb =  (ALMCB *)ccb->almque.next;
-	    if(almcb->time > ccb->curvalue)
-	    {
+	    if(knl_diff_tick(ccb->curvalue,almcb->time,max*2) > max)
+	    {  /* It seems so complicated, but refer OSEK OS specification.
+              you will find out the reason. */
 	        break;
 	    }
 	    QueRemove(&almcb->almque);
@@ -181,7 +182,7 @@ StatusType IncrementCounter(CounterType CounterID)
 	    }
 	    if(almcb->cycle > 0)
 	    {
-	        almcb->time = knl_alm_next_time(almcb,max);
+	        almcb->time = knl_add_ticks(ccb->curvalue,almcb->cycle,max*2);
 	        knl_alm_insert(almcb,ccb);
 	    }
 	}

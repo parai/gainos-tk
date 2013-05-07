@@ -45,6 +45,13 @@
 
 
 /* ============================ MACROs   ========================================== */
+#define CHECK_COMMON_STD(_con,_ercd)    {   \
+    if(!(_con))                             \
+    {                                       \
+        ercd = _ercd;                       \
+        goto Error_Exit;                    \
+    }                                       \
+}
 #if(cfgOS_STATUS_LEVEL == OS_STATUS_EXTEND)
 #define CHECK_TASKID_EXT(_tskid)         \
 {                                   \
