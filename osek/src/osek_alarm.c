@@ -65,7 +65,16 @@
 /* |------------------+------------------------------------------------------------------| */
 StatusType GetAlarmBase ( AlarmType AlarmID, AlarmBaseRefType Info )
 {
-	return E_OK;
+	StatusType ercd = E_OK;
+    CounterType cntid;
+    CHECK_COMMON_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
+    cntid = knl_galm_table[AlarmID].owner;
+    Info->MaxAllowedValue = knl_almbase_table[cntid].MaxAllowedValue;
+    Info->MinCycle = knl_almbase_table[cntid].MinCycle;
+    Info->TicksPerBase = knl_almbase_table[cntid].TicksPerBase;
+    
+Error_Exit:
+    	return ercd;
 }
 
 /* |------------------+------------------------------------------------------------------| */
@@ -93,6 +102,21 @@ StatusType GetAlarmBase ( AlarmType AlarmID, AlarmBaseRefType Info )
 StatusType GetAlarm ( AlarmType AlarmID ,TickRefType Tick )
 {
 	StatusType ercd = E_OK;
+    ALMCB* almcb;
+    CCB *ccb;
+    CounterType cntid;
+    TickType max;
+    CHECK_COMMON_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
+    almcb = &knl_almcb_table[AlarmID];
+    CHECK_COMMON_STD((!isQueEmpty(&almcb->almque)),E_OS_NOFUNC);
+    cntid = knl_galm_table[AlarmID].owner;
+    ccb = &knl_ccb_table[cntid];
+    max = knl_almbase_table[cntid].MaxAllowedValue;
+    
+    BEGIN_DISABLE_INTERRUPT;
+    *Tick = knl_diff_tick(ccb->curvalue,almcb->time,max*2);
+    END_DISABLE_INTERRUPT;
+    
     Error_Exit:
     	return ercd;
 }
@@ -159,11 +183,13 @@ StatusType SetRelAlarm ( AlarmType AlarmID , TickType Increment ,TickType Cycle 
     CHECK_COMMON_EXT((max > Cycle),E_OS_VALUE);
     CHECK_COMMON_EXT(((knl_almbase_table[cntid].MinCycle < Cycle) || (0 == Cycle)),E_OS_VALUE);
     ccb = &knl_ccb_table[cntid];
-    BEGIN_CRITICAL_SECTION;
+    
+    BEGIN_DISABLE_INTERRUPT;
     almcb->time = knl_add_ticks(ccb->curvalue,Increment,max*2);
     almcb->cycle = Cycle;
     knl_alm_insert(almcb,ccb);
-    END_CRITICAL_SECTION;
+    END_DISABLE_INTERRUPT;
+    
 Error_Exit:
     return ercd;
 }
@@ -231,11 +257,12 @@ StatusType SetAbsAlarm ( AlarmType AlarmID , TickType Start ,TickType Cycle )
     CHECK_COMMON_EXT((max > Cycle),E_OS_VALUE);
     CHECK_COMMON_EXT(((knl_almbase_table[cntid].MinCycle < Cycle) || (0 == Cycle)),E_OS_VALUE);
     ccb = &knl_ccb_table[cntid];
-    BEGIN_CRITICAL_SECTION;
+    
+    BEGIN_DISABLE_INTERRUPT;
     almcb->time = Start;
     almcb->cycle = Cycle;
     knl_alm_insert(almcb,ccb);
-    END_CRITICAL_SECTION;
+    END_DISABLE_INTERRUPT;
 Error_Exit:
     return ercd;
 }
@@ -260,7 +287,15 @@ Error_Exit:
 /* |------------------+-------------------------------------------------------------| */
 StatusType CancelAlarm ( AlarmType AlarmID )
 {
-	StatusType ercd = E_OK;
-	Error_Exit:
-		return ercd;
+    StatusType ercd = E_OK;
+    ALMCB* almcb;
+    CHECK_COMMON_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
+    almcb = &knl_almcb_table[AlarmID];
+    CHECK_COMMON_STD((!isQueEmpty(&almcb->almque)),E_OS_NOFUNC);
+
+    BEGIN_DISABLE_INTERRUPT;
+    QueRemove(&almcb->almque);
+    END_DISABLE_INTERRUPT;
+    Error_Exit:
+    	return ercd;
 }

@@ -41,7 +41,7 @@
 /*
  * Start/End critical section
  */
-#define BEGIN_CRITICAL_SECTION	{ imask_t _primask_ = disint();
+#define BEGIN_CRITICAL_SECTION	{ imask_t _primask_ = disint()
 #define END_CRITICAL_SECTION	if ( !isDI(_primask_)			\
 				  && knl_ctxtsk != knl_schedtsk		        	\
 				  && !knl_isTaskIndependent()	            	\
@@ -53,15 +53,15 @@
 /*
  * Start/End interrupt disable section
  */
-#define BEGIN_DISABLE_INTERRUPT	{ imask_t _primask_ = disint();
+#define BEGIN_DISABLE_INTERRUPT	{ imask_t _primask_ = disint()
 #define END_DISABLE_INTERRUPT	enaint(_primask_); }
 
 
 /*
  * Interrupt enable/disable
  */
-#define ENABLE_INTERRUPT	{ }
-#define DISABLE_INTERRUPT	{ }
+#define ENABLE_INTERRUPT	{ __asm("cpsie   i");}
+#define DISABLE_INTERRUPT	{ __asm("cpsid   i");}
 
 /*
  * Enable interrupt nesting

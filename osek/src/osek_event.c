@@ -41,6 +41,20 @@
 /* | Email:  | parai@foxmail.com | */
 /* |---------+-------------------| */
 #include "osek_os.h"
+#include "knl_task.h"
+#include "knl_event.h"
+#include "vPort.h"
+
+EXPORT FLGCB knl_flgcb_table[cfgOSEK_EVENTFLAG_NUM];
+EXPORT void knl_flg_init(void)
+{
+    ID i;
+    for(i=0;i<cfgOSEK_EVENTFLAG_NUM;i++)
+    {
+        knl_flgcb_table[i].flgptn=NO_EVENT;
+        knl_flgcb_table[i].waipth=NO_EVENT;
+    }
+}
 /* |------------------+----------------------------------------------------------| */
 /* | Syntax:          | StatusType SetEvent ( TaskType <TaskID>                  | */
 /* |                  | EventMaskType <Mask> )                                   | */
@@ -70,9 +84,28 @@
 /* |------------------+----------------------------------------------------------| */
 /* | Conformance:     | ECC1, ECC2                                               | */
 /* |------------------+----------------------------------------------------------| */
-StatusType SetEvent ( TaskType xTaskID , EventMaskType xMask )
+StatusType SetEvent ( TaskType TaskID , EventMaskType Mask )
 {
 	StatusType ercd = E_OK;
+    ID flgid;
+    FLGCB *flgcb;
+    TCB *tcb;
+    CHECK_COMMON_EXT((TaskID < cfgOSEK_TASK_NUM),E_OS_ID);
+    flgid = knl_gtsk_table[TaskID].flgid;
+    CHECK_COMMON_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
+    tcb = &knl_tcb_table[TaskID];
+    CHECK_COMMON_EXT(((tcb->state & (TS_READY | TS_WAIT)) == 0),E_OS_STATE);
+    
+    flgcb = &knl_flgcb_table[flgid];
+    BEGIN_CRITICAL_SECTION;
+    flgcb->flgptn |= Mask;
+    if(flgcb->flgptn & flgcb->waipth != NO_EVENT)
+    {
+        flgcb->waipth = NO_EVENT;
+        knl_make_ready(tcb);
+    }
+    END_CRITICAL_SECTION;
+       
   Error_Exit:
 	return ercd;
 }
@@ -163,9 +196,27 @@ StatusType GetEvent ( TaskType xTaskID , EventMaskRefType pxEvent )
 /* |------------------+------------------------------------------------------------| */
 /* | Conformance:     | ECC1, ECC2                                                 | */
 /* |------------------+------------------------------------------------------------| */
-StatusType WaitEvent( EventMaskType xMask )
+StatusType WaitEvent( EventMaskType Mask )
 {
 	StatusType ercd = E_OK;
+    ID flgid;
+    FLGCB *flgcb;
+    CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
+    CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
+    flgid = knl_ctxtsk - knl_tcb_table;
+    flgid = knl_gtsk_table[flgid].flgid;
+    CHECK_COMMON_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
+    
+    flgcb = &knl_flgcb_table[flgid];
+    BEGIN_CRITICAL_SECTION;
+    if(flgcb->flgptn & Mask!= NO_EVENT)
+    {
+        flgcb->waipth = Mask;
+        knl_make_non_ready(knl_ctxtsk);
+        knl_ctxtsk->state = TS_WAIT;
+    }
+    END_CRITICAL_SECTION;
+       
   Error_Exit:
 	return ercd;
 }

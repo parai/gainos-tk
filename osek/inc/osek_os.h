@@ -49,13 +49,14 @@
 #define DeclareTask(TaskName)  TaskType TaskName
 #define GenTaskStack(TaskName,stksz)  static uint32 TaskStack##TaskName[stksz/4]
 /* Task Generate information */
-#define GenTaskInfo(TaskName,Priority,stksz,Attribute)             \
+#define GenTaskInfo(TaskName,Priority,stksz,Attribute,flgid)             \
     {                                                           \
         /* tskatr */   Attribute,                               \
         /* task */     TaskMain##TaskName,                      \
         /* itskpri */Priority,                                \
         /* sstksz */   stksz,             \
         /* isstack */  &TaskStack##TaskName[stksz/4-1],               \
+        /* flgid   */  flgid                    \
     }                                                     
                                   
 #define GenAlarmInfo(AlarmName,Owner)   \

@@ -182,7 +182,7 @@ StatusType IncrementCounter(CounterType CounterID)
 	    }
 	    if(almcb->cycle > 0)
 	    {
-	        almcb->time = knl_add_ticks(ccb->curvalue,almcb->cycle,max*2);
+	        almcb->time = knl_add_ticks(almcb->time,almcb->cycle,max*2);
 	        knl_alm_insert(almcb,ccb);
 	    }
 	}

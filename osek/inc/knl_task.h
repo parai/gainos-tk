@@ -106,6 +106,7 @@ typedef struct t_gtsk {
 	PRI	itskpri;	/* Priority at task startup */
 	UINT	stksz;		/* User stack size (byte) */
 	VP	isstack;	/* User stack top pointer */
+    ID  flgid;      /* Event Id occupied by task */
 } T_GTSK;
 
 typedef struct task_control_block{

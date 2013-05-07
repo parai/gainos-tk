@@ -1942,6 +1942,9 @@
         <name>$PROJ_DIR$\..\..\osek\inc\knl_bitop.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\..\osek\inc\knl_event.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\..\osek\inc\knl_queue.h</name>
       </file>
       <file>
