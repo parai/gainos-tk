@@ -17,9 +17,7 @@ TASK(vTask1)
 TASK(vTask2)
 {
     printf("vTask2 is running.\r\n");
-    (void)ActivateTask(ID_vTask1);
     (void)TerminateTask();
-    //(void)ChainTask(ID_vTask1);
 }
 
 TASK(vTaskIdle)

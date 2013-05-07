@@ -10,7 +10,7 @@ EXPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM]=
 {
      GenTaskInfo(vTask1,0,512,BCC1|AUTOSTART),
      GenTaskInfo(vTask2,1,512,BCC1|AUTOSTART),
-     GenTaskInfo(vTaskIdle,2,512,BCC1|AUTOSTART)
+     GenTaskInfo(vTaskIdle,2,512,BCC1)
 };
 
 EXPORT const AlarmBaseType knl_almbase_table[cfgOSEK_COUNTER_NUM]=
