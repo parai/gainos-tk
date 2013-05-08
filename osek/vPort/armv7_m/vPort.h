@@ -4,8 +4,11 @@
 #include "osek_os.h"
 #include "vPortMacro.h"
 #include "knl_task.h"
-//so in fact this vPort is just for stm32f1, as you know the reason
+#if  defined(CHIP_STM32F1)
 #include "stm32f10x.h"
+#elif defined(CHIP_AT91SAM3S)
+#include "SAM3S.h"
+#endif
 /* ============================ MACROs ============================================= */
 /*
  * Size of system stack area destroyed by 'make_dormant()'

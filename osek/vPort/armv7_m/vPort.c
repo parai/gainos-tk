@@ -32,7 +32,7 @@ EXPORT void knl_start_hw_timer( void )
        - Reload Value is the parameter to be passed for SysTick_Config() function
        - Reload Value should not exceed 0xFFFFFF
    */
-  if (SysTick_Config(SystemCoreClock / 1000))
+  if (SysTick_Config(CPU_FREQUENCY / 1000))
   { 
     /* Capture error */ 
     while (1);

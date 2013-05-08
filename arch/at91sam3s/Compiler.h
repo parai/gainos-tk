@@ -40,21 +40,14 @@
 /* |---------+-------------------| */
 /* | Email:  | parai@foxmail.com | */
 /* |---------+-------------------| */
-#ifndef _PLATFORM_TYPES_H_
-#define _PLATFORM_TYPES_H_
 
-#define CPU_TYPE            CPU_TYPE_32
-#define CPU_ENDIAN          CPU_BIG_ENDIAN 
+#ifndef COMPILER_H_H_H
+#define COMPILER_H_H_H
 
-/* This is a Cpu ISR Mask type <xPSR>*/
-typedef unsigned long               imask_t; 
-/*
- * Task context block
- */
-typedef struct {
-	void* ssp;		/* System stack pointer */
-} CTXB;
+#define Inline static
 
+#define EXPORT
+#define IMPORT  extern 
+#define LOCAL   static
 
-#endif /* _PLATFORM_TYPES_H_ */
-
+#endif /* COMPILER_H_H_H */

@@ -2,12 +2,20 @@
 #define _OSEK_CFG_H_
 /* =====================  MISC  ========================== */
 #define cfgOS_STATUS_LEVEL OS_STATUS_EXTEND
-#if 1 //9s12
+//define CHIP_MC9S12
+//define the chip for ARM Cortex M3
+//#define CHIP_STM32F1
+#define CHIP_AT91SAM3S
+
+#if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
 #define OSC_FREQUENCY         8000000 /* HZ */
-#else //stm32
+#elif defined(CHIP_STM32F1)//stm32
 #define CPU_FREQUENCY        72000000 /* HZ */
+#elif defined(CHIP_AT91SAM3S)
+#define CPU_FREQUENCY        64000000 /* HZ */
 #endif
+
 
 /* =====================  TASK  ========================== */
 #define cfgOSEK_MAX_PRIO  32
