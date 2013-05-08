@@ -1896,6 +1896,9 @@
           <file>
             <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libchip_sam3s\source\usart.c</name>
           </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libchip_sam3s\source\wdt.c</name>
+          </file>
         </group>
         <file>
           <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libchip_sam3s\chip.h</name>
