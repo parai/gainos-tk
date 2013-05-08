@@ -46,7 +46,7 @@
 #include "vPort.h"
 
 EXPORT FLGCB knl_flgcb_table[cfgOSEK_EVENTFLAG_NUM];
-EXPORT void knl_flg_init(void)
+EXPORT void knl_entflg_init(void)
 {
     ID i;
     for(i=0;i<cfgOSEK_EVENTFLAG_NUM;i++)

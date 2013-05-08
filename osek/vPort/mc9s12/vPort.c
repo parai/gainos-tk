@@ -36,7 +36,6 @@ EXPORT imask_t knl_getPRIMASK ( void )
     asm tab;
     asm pula;
 }
-
 EXPORT void knl_start_hw_timer( void )
 {
     CRGINT_RTIE=1;       //使能实时中断

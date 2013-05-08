@@ -295,6 +295,7 @@ StatusType CancelAlarm ( AlarmType AlarmID )
 
     BEGIN_DISABLE_INTERRUPT;
     QueRemove(&almcb->almque);
+    QueInit(&almcb->almque);
     END_DISABLE_INTERRUPT;
     Error_Exit:
     	return ercd;

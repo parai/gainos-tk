@@ -71,7 +71,7 @@
 
 #define AUTOSTART  0x00000010
 
-/* Values for TaskStateType or AlarmState */
+/* Values for TaskStateType */
 #define RUNNING   (0x00u)
 #define READY     (0x01u)
 #define WAITING   (0x02u)

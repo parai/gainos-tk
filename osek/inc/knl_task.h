@@ -50,8 +50,8 @@
 
 /* ============================ MACROs    ========================================== */
 #define BITMAPSZ	( sizeof(UINT) * 8 )
-#define NUM_BITMAP	( (cfgOSEK_MAX_PRIO + BITMAPSZ - 1) / BITMAPSZ )
-#define NUM_PRI     cfgOSEK_MAX_PRIO
+#define NUM_BITMAP	( ((cfgOSEK_MAX_PRIO+1) + BITMAPSZ - 1) / BITMAPSZ )
+#define NUM_PRI     (cfgOSEK_MAX_PRIO+1)
 
 /*
  * Task dispatch disable state
@@ -164,5 +164,6 @@ IMPORT void knl_reschedule( void );
 IMPORT void knl_make_dormant( TCB *tcb );
 IMPORT void knl_make_ready( TCB *tcb );
 IMPORT void knl_make_non_ready( TCB *tcb );
+IMPORT void knl_change_task_priority( TCB *tcb, PRI priority );
 
 #endif /* KNL_TASK_H_H */

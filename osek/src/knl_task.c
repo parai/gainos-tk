@@ -135,3 +135,22 @@ EXPORT void knl_tasks_autostart(void)
         }
     }
 }
+
+/*
+ * Change task priority.
+ */
+EXPORT void knl_change_task_priority( TCB *tcb, PRI priority )
+{
+//	if ( tcb->state == TS_READY ) {
+		/*
+		 * When deleting a task from the ready queue, 
+		 * a value in the 'priority' field in TCB is needed. 
+		 * Therefore you need to delete the task from the
+		 * ready queue before changing 'tcb->priority.'
+		 */
+		knl_ready_queue_delete(&knl_ready_queue, tcb);
+		tcb->priority = (UB)priority;
+		knl_ready_queue_insert(&knl_ready_queue, tcb);
+		knl_reschedule();
+//	}
+}

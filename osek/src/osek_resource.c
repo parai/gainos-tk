@@ -41,7 +41,20 @@
 /* | Email:  | parai@foxmail.com | */
 /* |---------+-------------------| */
 #include "osek_os.h"
+#include "knl_resource.h"
+#include "knl_task.h"
+#include "vPort.h"
 
+EXPORT RESCB knl_rescb_table[cfgOSEK_RESOURCE_NUM];
+
+EXPORT void knl_resource_init(void)
+{
+    ID i;
+    for(i=0;i<cfgOSEK_RESOURCE_NUM;i++)
+    {
+        QueInit(&(knl_rescb_table[i].resque));
+    }
+}
 /* |------------------+-----------------------------------------------------------| */
 /* | Syntax:          | StatusType GetResource ( ResourceType <ResID> )           | */
 /* |------------------+-----------------------------------------------------------| */
@@ -84,9 +97,37 @@
 /* |------------------+-----------------------------------------------------------| */
 /* | Conformance:     | BCC1, BCC2, ECC1, ECC2                                    | */
 /* |------------------+-----------------------------------------------------------| */
-StatusType GetResource (ResourceType xResID)
+StatusType GetResource (ResourceType ResID)
 {
 	StatusType ercd = E_OK;
+	RESCB *rescb;
+	PRI newpri,oldpri;
+	CHECK_COMMON_EXT((ResID < cfgOSEK_RESOURCE_NUM),E_OS_ID);
+	rescb = &knl_rescb_table[ResID];
+    CHECK_COMMON_EXT((isQueEmpty(&rescb->resque)),E_OS_ACCESS);	
+    if(in_indp())  /* Interrupt level */
+    {
+        /* not supported */
+    }
+    else
+    {
+        oldpri = knl_ctxtsk->priority;
+        newpri = knl_gres_table[ResID];
+        CHECK_COMMON_EXT((newpri < oldpri),E_OS_ACCESS);
+        BEGIN_DISABLE_INTERRUPT;
+        if(newpri < 0)
+        {
+            /* Task share resource with ISR */
+            /* should change IPL */
+            /* not supported */
+        }
+        else
+        {
+            knl_change_task_priority(knl_ctxtsk,newpri); 
+            rescb->tskpri = oldpri;  
+        }
+        END_DISABLE_INTERRUPT;	
+    }
 Error_Exit:
 	return ercd;
 }
@@ -118,9 +159,41 @@ Error_Exit:
 /* |------------------+------------------------------------------------------------| */
 /* | Conformance:     | BCC1, BCC2, ECC1, ECC2                                     | */
 /* |------------------+------------------------------------------------------------| */
-StatusType ReleaseResource ( ResourceType xResID )
+StatusType ReleaseResource ( ResourceType ResID )
 {
 	StatusType ercd = E_OK;
+	RESCB *rescb;
+	PRI newpri,oldpri;
+	CHECK_COMMON_EXT((ResID < cfgOSEK_RESOURCE_NUM),E_OS_ID);
+	rescb = &knl_rescb_table[ResID];
+    	
+    if(in_indp())  /* Interrupt level */
+    {
+        /* not supported */
+    }
+    else
+    {
+        CHECK_COMMON_EXT((knl_ctxtsk->resque.next != &rescb->resque),E_OS_NOFUNC);
+        oldpri = knl_gres_table[ResID];
+        newpri = rescb->tskpri;
+         
+        CHECK_COMMON_EXT((newpri > oldpri),E_OS_ACCESS);
+        
+        BEGIN_CRITICAL_SECTION;
+        if(oldpri < 0)
+        {
+            /* Task share resource with ISR */
+            /* should change IPL */
+            /* not supported */           
+        }
+        else
+        {
+            knl_change_task_priority(knl_ctxtsk,newpri); 
+            QueRemove(&rescb->resque);
+            QueInit(&rescb->resque);      
+        }
+        END_CRITICAL_SECTION;	
+    }
 Error_Exit:
 	return ercd;
 }

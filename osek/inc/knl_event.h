@@ -13,4 +13,4 @@ typedef struct event_control_block {
 
 IMPORT FLGCB knl_flgcb_table[];
 
-IMPORT void knl_flg_init(void);
+IMPORT void knl_entflg_init(void);

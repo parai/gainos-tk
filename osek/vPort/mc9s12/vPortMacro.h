@@ -58,7 +58,7 @@
 /*
  *	Check system state
  */
-#define knl_isTaskIndependent() (( knl_taskindp > 0 )? TRUE: FALSE)
+#define knl_isTaskIndependent() (( knl_taskindp > 0 ))
 /*
  * When a system call is called from the task independent part, TRUE
  */

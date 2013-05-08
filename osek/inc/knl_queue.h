@@ -60,7 +60,7 @@ do                                                  \
 /*
  * TRUE if the queue is empty 
  */
-#define isQueEmpty(__que)   ((boolean)(( (__que)->next == (__que) )? TRUE: FALSE))
+#define isQueEmpty(__que)   ((boolean)(( (__que)->next == (__que) )))
 
 /*
  * Insert in queue 

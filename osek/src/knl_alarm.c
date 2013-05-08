@@ -3,7 +3,7 @@
 EXPORT CCB knl_ccb_table[cfgOSEK_COUNTER_NUM];
 EXPORT ALMCB knl_almcb_table[cfgOSEK_ALARM_NUM];
 
-EXPORT void knl_counter_init(void)
+EXPORT void knl_cntalm_init(void)
 {
     INT i;
     CCB* ccb;

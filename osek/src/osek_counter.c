@@ -185,6 +185,10 @@ StatusType IncrementCounter(CounterType CounterID)
 	        almcb->time = knl_add_ticks(almcb->time,almcb->cycle,max*2);
 	        knl_alm_insert(almcb,ccb);
 	    }
+	    else
+	    {
+	        QueInit(&ccb->almque);
+	    }
 	}
 	END_CRITICAL_SECTION;
     Error_Exit:

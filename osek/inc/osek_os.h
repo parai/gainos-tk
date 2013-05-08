@@ -71,8 +71,5 @@
     TicksPerBase,               \
     MinCycle                    \
 }
-#define GenResourceCreInfo(cerlpri)             \
-    {                                           \
-    }
 #endif /* _OSEK_OS_H_ */
 

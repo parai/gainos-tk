@@ -2,7 +2,7 @@
 #define _OSEK_CFG_H_
 /* =====================  MISC  ========================== */
 #define cfgOS_STATUS_LEVEL OS_STATUS_EXTEND
-#if 0 //9s12
+#if 1 //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
 #define OSC_FREQUENCY         8000000 /* HZ */
 #else //stm32
@@ -34,6 +34,7 @@ IMPORT ALARM(vAlarm2);
 
 /*  ====================  RESOURCE ======================= */
 #define cfgOSEK_RESOURCE_NUM 1
+#define ID_vResource1 0
 
 /*  ====================  HOOKs    ======================= */
 #define cfgOS_SHUT_DOWN_HOOK 0
