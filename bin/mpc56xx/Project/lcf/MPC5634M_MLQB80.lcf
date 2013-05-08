@@ -1,0 +1,78 @@
+/* lcf file for MPC5634M processor                                          */
+/*                                                                          */
+/*                                                                          */
+
+/*              1.5 MB Flash, 94KB SRAM                                      */
+
+MEMORY
+{
+    resetvector:           org = 0x00000000,   len = 0x00000008
+    init:		           org = 0x00000020,   len = 0x00000FE0	
+    exception_handlers:    org = 0x00001000,   len = 0x00001000
+    internal_flash:        org = 0x00002000,   len = 0x0017E000
+
+    internal_ram:          org = 0x40000000,   len = 0x00014000
+    heap  :                org = 0x40014000,   len = 0x00002000 
+    stack :                org = 0x40016000,   len = 0x00001800 
+
+}
+
+/* This will ensure the rchw and reset vector are not stripped by the linker */
+FORCEACTIVE { "bam_rchw" "bam_resetvector" }
+
+SECTIONS
+{
+    .__bam_bootarea LOAD (0x00000000): {} > resetvector
+
+    GROUP : {
+      .init LOAD (0x00000020) : {}
+      .init_vle (VLECODE) LOAD (_e_init) : {
+        *(.init)
+        *(.init_vle)
+      }
+    } > init
+
+    .__exception_handlers  (VLECODE) LOAD (0x00001000) : {} > exception_handlers
+
+    GROUP  : {
+      .text : {} 
+      .text_vle (VLECODE) ALIGN(0x08): {
+         *(.text)
+         *(.text_vle)
+       }
+       .rodata (CONST) : {
+         *(.rdata)
+         *(.rodata)
+       }
+       .ctors : {}
+       .dtors : {}
+       extab : {}
+       extabindex : {}
+    } > internal_flash
+
+    GROUP : {
+       .__uninitialized_intc_handlertable ALIGN(2048) : {}
+       .data   : {}
+       .sdata  : {}
+       .sbss   : {}
+       .sdata2 : {}
+       .sbss2  : {}
+       .bss    : {}
+    } > internal_ram
+}
+
+/* Freescale CodeWarrior compiler address designations */
+
+_stack_addr = ADDR(stack)+SIZEOF(stack);
+_stack_end  = ADDR(stack);
+_heap_addr  = ADDR(heap);
+_heap_end   = ADDR(heap)+SIZEOF(heap);
+
+
+/* Exceptions Handlers Location (used in Exceptions.c IVPR initialization)*/
+
+EXCEPTION_HANDLERS    = ADDR(exception_handlers);
+
+/* L2 SRAM Location (used for L2 SRAM initialization) */
+
+L2SRAM_LOCATION = 0x40000000;

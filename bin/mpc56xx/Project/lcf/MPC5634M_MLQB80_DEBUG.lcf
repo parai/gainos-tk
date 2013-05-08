@@ -1,0 +1,66 @@
+/* lcf file for MPC5634M (debug RAM version)                                */
+/*                                                                          */
+
+
+/*              1.5 MB Flash, 94KB SRAM                                     */
+
+
+MEMORY
+{
+    pseudo_rom:         org = 0x40000000,   len = 0x0000F000
+    init:               org = 0x4000F000,   len = 0x00001000
+    exception_handlers: org = 0x40010000,   len = 0x00001000
+    internal_ram:       org = 0x40011000,   len = 0x00004800
+    heap  :             org = 0x40015800,   len = 0x00001000 /* Heap start  */
+    stack :             org = 0x40016800,   len = 0x00001000 /* stack Start */
+}
+
+SECTIONS
+{
+    GROUP : {
+      .init  : {}
+      .init_vle (VLECODE) : {
+        *(.init)
+        *(.init_vle)
+      }
+    } > init
+
+    .__exception_handlers (VLECODE): {} > exception_handlers
+
+    GROUP : {
+        .text (TEXT) ALIGN(0x10) : {}
+        .text_vle (VLECODE) ALIGN(0x10): {
+             *(.text)
+             *(.text_vle)
+         }
+        .rodata (CONST) : {
+            *(.rdata)
+            *(.rodata)
+        }
+        .ctors : {}
+        .dtors : {}
+        extab : {}
+        extabindex : {}
+    } > pseudo_rom
+
+    GROUP : {    
+       .__uninitialized_intc_handlertable ALIGN(0x10) : {}
+       .data   : {}
+       .sdata  : {}
+       .sbss   : {}
+       .sdata2 : {}
+       .sbss2  : {}
+       .bss    : {}
+    } > internal_ram
+}
+
+/* Freescale CodeWarrior compiler address designations */
+
+_stack_addr = ADDR(stack)+SIZEOF(stack);
+_stack_end  = ADDR(stack);
+_heap_addr  = ADDR(heap);
+_heap_end   = ADDR(heap)+SIZEOF(heap);
+
+/* Exceptions Handlers Location (used in Exceptions.c for IVPR initialization) */
+
+EXCEPTION_HANDLERS = ADDR(exception_handlers);
