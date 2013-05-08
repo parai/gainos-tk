@@ -59,7 +59,7 @@ __vector_table:
     DCD     default_handler                      /* 12: Debug Monitor Handler       */
     DCD     0                                    /* 13: Reserved                    */
     DCD     knl_dispatch_entry                   /* 14: PendSV Handler              */
-    DCD     Systick_Handler                      /* 15: Systick handler             */
+    DCD     SysTick_Handler                      /* 15: Systick handler             */
 
     /*    External Interrupts Vector Define                                         */
     DCD     default_handler                      /* 16: */
@@ -321,8 +321,8 @@ reset_handler:
 default_handler:
     b       default_handler
 
-    PUBLIC Systick_Handler
-Systick_Handler:
+    PUBLIC SysTick_Handler
+SysTick_Handler:
     push    {lr}
     bl      knl_enter_isr
     bl      knl_timer_handler             /* call timer_handler() */

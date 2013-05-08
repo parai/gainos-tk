@@ -70,16 +70,16 @@
         <option>
           <name>GRuntimeLibSelect</name>
           <version>0</version>
-          <state>2</state>
+          <state>1</state>
         </option>
         <option>
           <name>GRuntimeLibSelectSlave</name>
           <version>0</version>
-          <state>2</state>
+          <state>1</state>
         </option>
         <option>
           <name>RTDescription</name>
-          <state>Use the full configuration of the C/C++ runtime library. Full locale interface, C locale, file descriptor support, multibytes in printf and scanf, and hex floats in strtod.</state>
+          <state>Use the normal configuration of the C/C++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
         </option>
         <option>
           <name>OGProductVersion</name>
@@ -133,7 +133,7 @@
         </option>
         <option>
           <name>RTConfigPath2</name>
-          <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Full.h</state>
+          <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Normal.h</state>
         </option>
         <option>
           <name>GFPUCoreSlave</name>
@@ -301,8 +301,10 @@
           <state>$PROJ_DIR$\..\..\config</state>
           <state>$PROJ_DIR$\..\..\include</state>
           <state>$PROJ_DIR$\..\..\arch\at91sam3s</state>
-          <state>$PROJ_DIR$\..\..\arch\at91sam3s\libchip_sam3s</state>
-          <state>$PROJ_DIR$\..\..\arch\at91sam3s\libchip_sam3s\include</state>
+          <state>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libchip_sam3s</state>
+          <state>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libchip_sam3s\include</state>
+          <state>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libboard_sam3s-ek</state>
+          <state>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libboard_sam3s-ek\include</state>
           <state>$PROJ_DIR$\..\..\osek\inc</state>
           <state>$PROJ_DIR$\..\..\osek\vPort\armv7_m</state>
         </option>
@@ -1850,31 +1852,55 @@
   <group>
     <name>arch</name>
     <group>
-      <name>libchip_sam3s</name>
+      <name>libraries</name>
       <group>
-        <name>include</name>
+        <name>libboard_sam3s-ek</name>
+        <group>
+          <name>include</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libboard_sam3s-ek\include\clock.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libboard_sam3s-ek\include\uart_console.h</name>
+          </file>
+        </group>
+        <group>
+          <name>source</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libboard_sam3s-ek\source\clock.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libboard_sam3s-ek\source\uart_console.c</name>
+          </file>
+        </group>
         <file>
-          <name>$PROJ_DIR$\..\..\arch\at91sam3s\libchip_sam3s\include\pmc.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\arch\at91sam3s\libchip_sam3s\include\SAM3S.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\arch\at91sam3s\libchip_sam3s\include\usart.h</name>
+          <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libboard_sam3s-ek\board.h</name>
         </file>
       </group>
       <group>
-        <name>source</name>
+        <name>libchip_sam3s</name>
+        <group>
+          <name>include</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libchip_sam3s\include\SAM3S.h</name>
+          </file>
+        </group>
+        <group>
+          <name>source</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libchip_sam3s\source\pio.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libchip_sam3s\source\pmc.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libchip_sam3s\source\usart.c</name>
+          </file>
+        </group>
         <file>
-          <name>$PROJ_DIR$\..\..\arch\at91sam3s\libchip_sam3s\source\pmc.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\arch\at91sam3s\libchip_sam3s\source\usart.c</name>
+          <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libchip_sam3s\chip.h</name>
         </file>
       </group>
-      <file>
-        <name>$PROJ_DIR$\..\..\arch\at91sam3s\libchip_sam3s\chip.h</name>
-      </file>
     </group>
     <file>
       <name>$PROJ_DIR$\..\..\arch\at91sam3s\Compiler.h</name>
