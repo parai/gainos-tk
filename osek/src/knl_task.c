@@ -150,9 +150,7 @@ EXPORT void knl_change_task_priority( TCB *tcb, PRI priority )
 		 */
 		knl_ready_queue_delete(&knl_ready_queue, tcb);
 		tcb->priority = (UB)priority;
-		if(knl_ready_queue_insert(&knl_ready_queue, tcb))
-		{
-		    knl_reschedule();
-		}
+		knl_ready_queue_insert(&knl_ready_queue, tcb);
+		knl_reschedule();
 //	}
 }
