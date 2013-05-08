@@ -9,8 +9,8 @@ GenTaskStack(vTask2,512);
 GenTaskStack(vTaskIdle,512);
 EXPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM]=
 {
-     GenTaskInfo(vTask1,0,512,BCC1|AUTOSTART,INVALID_EVENT),
-     GenTaskInfo(vTask2,1,512,ECC1|AUTOSTART,ID_vTask2Event),
+     GenTaskInfo(vTask1,0,512,BCC1|AUTOSTART,ID_vTask1Event),
+     GenTaskInfo(vTask2,1,512,ECC1|AUTOSTART,INVALID_EVENT),
      GenTaskInfo(vTaskIdle,2,512,BCC1,INVALID_EVENT)
 };
 

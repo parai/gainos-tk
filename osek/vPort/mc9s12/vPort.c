@@ -59,21 +59,21 @@ EXPORT void knl_setup_context( TCB *tcb )
     ssp->pc = (VH)(pc>>8);          /* Task startup address */
     tcb->tskctxb.ssp = ssp;         /* System stack */
 }
-LOCAL void knl_low_pow(void)
-{
-}
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 static void l_dispatch0(void)
 {
-    l_dispatch1:
+l_dispatch1:
     asm sei;   //disable interrupt
     if(knl_schedtsk==(void *)0)
     {
-        knl_low_pow();
         asm cli;  //enable interrupt
+        asm nop;
+        asm nop;
+        asm nop;
+        asm nop;
         goto l_dispatch1;
     }
-    l_dispatch2:
+l_dispatch2:
     knl_ctxtsk=knl_schedtsk;
 	knl_dispatch_disabled=0;    /* Dispatch enable */
 	/* Context restore */

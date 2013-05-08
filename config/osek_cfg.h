@@ -21,7 +21,7 @@ IMPORT TASK(vTaskIdle);
 
 /* =====================  EVENT ========================== */
 #define cfgOSEK_EVENTFLAG_NUM 1
-#define ID_vTask2Event   0
+#define ID_vTask1Event   0
 
 /* =====================  ALARM ========================== */
 #define cfgOSEK_COUNTER_NUM 1

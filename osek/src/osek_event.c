@@ -94,12 +94,12 @@ StatusType SetEvent ( TaskType TaskID , EventMaskType Mask )
     flgid = knl_gtsk_table[TaskID].flgid;
     CHECK_COMMON_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
     tcb = &knl_tcb_table[TaskID];
-    CHECK_COMMON_EXT(((tcb->state & (TS_READY | TS_WAIT)) == 0),E_OS_STATE);
+    CHECK_COMMON_EXT(((tcb->state & (TS_READY | TS_WAIT)) != 0),E_OS_STATE);
     
     flgcb = &knl_flgcb_table[flgid];
     BEGIN_CRITICAL_SECTION;
     flgcb->flgptn |= Mask;
-    if(flgcb->flgptn & flgcb->waipth != NO_EVENT)
+    if((flgcb->flgptn & flgcb->waipth) != NO_EVENT)
     {
         flgcb->waipth = NO_EVENT;
         knl_make_ready(tcb);
@@ -129,9 +129,21 @@ StatusType SetEvent ( TaskType TaskID , EventMaskType Mask )
 /* |------------------+---------------------------------------------------------| */
 /* | Conformance:     | ECC1, ECC2                                              | */
 /* |------------------+---------------------------------------------------------| */
-StatusType ClearEvent ( EventMaskType xMask )
+StatusType ClearEvent ( EventMaskType Mask )
 {
 	StatusType ercd = E_OK;
+    ID flgid;
+    FLGCB *flgcb;
+    CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
+    flgid = knl_ctxtsk - knl_tcb_table;
+    flgid = knl_gtsk_table[flgid].flgid;
+    CHECK_COMMON_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
+    
+    flgcb = &knl_flgcb_table[flgid];
+    BEGIN_DISABLE_INTERRUPT;
+    flgcb->flgptn &= ~Mask;
+    END_DISABLE_INTERRUPT;
+       
   Error_Exit:
 	return ercd;
 }
@@ -163,9 +175,23 @@ StatusType ClearEvent ( EventMaskType xMask )
 /* |------------------+--------------------------------------------------------------| */
 /* | Conformance:     | ECC1, ECC2                                                   | */
 /* |------------------+--------------------------------------------------------------| */
-StatusType GetEvent ( TaskType xTaskID , EventMaskRefType pxEvent )
+StatusType GetEvent ( TaskType TaskID , EventMaskRefType Event )
 {
 	StatusType ercd = E_OK;
+    ID flgid;
+    FLGCB *flgcb;
+    TCB* tcb;
+    CHECK_COMMON_EXT((TaskID < cfgOSEK_TASK_NUM),E_OS_ID);
+    flgid = knl_gtsk_table[TaskID].flgid;
+    CHECK_COMMON_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
+    tcb = &knl_tcb_table[TaskID];
+    CHECK_COMMON_EXT(((tcb->state & (TS_READY | TS_WAIT)) != 0),E_OS_STATE);
+    
+    flgcb = &knl_flgcb_table[flgid];
+    BEGIN_DISABLE_INTERRUPT;
+    *Event = flgcb->flgptn;
+    END_DISABLE_INTERRUPT;
+       
   Error_Exit:
 	return ercd;
 }
@@ -209,7 +235,7 @@ StatusType WaitEvent( EventMaskType Mask )
     
     flgcb = &knl_flgcb_table[flgid];
     BEGIN_CRITICAL_SECTION;
-    if(flgcb->flgptn & Mask!= NO_EVENT)
+    if((flgcb->flgptn & Mask) == NO_EVENT)
     {
         flgcb->waipth = Mask;
         knl_make_non_ready(knl_ctxtsk);

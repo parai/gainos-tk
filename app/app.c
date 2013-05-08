@@ -11,12 +11,15 @@ TASK(vTask1)
         (void)SetAbsAlarm(ID_vAlarm2,103,1000);
     }
     printf("vTask1 is running.\r\n");
+    (void)WaitEvent(0x00000001u);
+    (void)ClearEvent(0x00000001u);
     (void)TerminateTask();
 }
 
 TASK(vTask2)
 {
     printf("vTask2 is running.\r\n");
+    (void)SetEvent(ID_vTask1,0x00000001u);
     (void)TerminateTask();
 }
 
