@@ -58,6 +58,21 @@ EXPORT void knl_setup_context( TCB *tcb )
     ssp->pc = (VH)(pc>>8);          /* Task startup address */
     tcb->tskctxb.ssp = ssp;         /* System stack */
 }
+
+EXPORT void knl_enter_isr(void)
+{
+    ENTER_TASK_INDEPENDENT;
+}
+
+EXPORT void knl_exit_isr(void)
+{
+    LEAVE_TASK_INDEPENDENT;
+    if( knl_ctxtsk != knl_schedtsk		       
+        && !knl_isTaskIndependent()	           
+        && !knl_dispatch_disabled ) {		           
+        knl_dispatch();		                    
+    }
+}
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 static void l_dispatch0(void)
 {

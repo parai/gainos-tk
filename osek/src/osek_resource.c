@@ -124,7 +124,8 @@ StatusType GetResource (ResourceType ResID)
         else
         {
             knl_change_task_priority(knl_ctxtsk,newpri); 
-            rescb->tskpri = oldpri;  
+            rescb->tskpri = oldpri;
+            QueInsert(&knl_ctxtsk->resque,&rescb->resque);  
         }
         END_DISABLE_INTERRUPT;	
     }
@@ -173,7 +174,7 @@ StatusType ReleaseResource ( ResourceType ResID )
     }
     else
     {
-        CHECK_COMMON_EXT((knl_ctxtsk->resque.next != &rescb->resque),E_OS_NOFUNC);
+        CHECK_COMMON_EXT((knl_ctxtsk->resque.next == &rescb->resque),E_OS_NOFUNC);
         oldpri = knl_gres_table[ResID];
         newpri = rescb->tskpri;
          

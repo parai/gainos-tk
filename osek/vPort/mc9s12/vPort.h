@@ -51,5 +51,8 @@ IMPORT void knl_start_hw_timer( void );
  *	Call from 'make_dormant()'
  */
 IMPORT void knl_setup_context( TCB *tcb );
+IMPORT void knl_enter_isr(void);
+
+IMPORT void knl_exit_isr(void);
 
 #endif/* VPORT_H_H */
