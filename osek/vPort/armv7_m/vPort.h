@@ -51,7 +51,7 @@ IMPORT void knl_force_dispatch(void);
 /*
  * Start task dispatcher
  */
-#define knl_dispatch() { SCB->ICSR = SCB_ICSR_PENDSTSET_Msk; }
+#define knl_dispatch() { SCB->ICSR = SCB_ICSR_PENDSVSET_Msk; }
 
 IMPORT imask_t disint( void );
 IMPORT void enaint( imask_t intsts );

@@ -25,7 +25,6 @@ disint:
 
     SECTION .text:CODE
     THUMB
-    ALIGNROM 2
     PUBLIC  knl_force_dispatch
 knl_force_dispatch:
     /* Interrupt is disabled,during SVC mode */
@@ -41,7 +40,6 @@ knl_force_dispatch:
     cpsie   i                                    /* Interrupt enable */
     b       l_dispatch0
 
-    ALIGNROM 2
     PUBLIC knl_dispatch_entry, knl_dispatch_ret_int
 knl_dispatch_entry:
 knl_dispatch_ret_int:
@@ -125,9 +123,8 @@ knl_dsp_in_exception:
     cpsie   i                                    /* just before schedule to next task */
     bx      lr                                   /* lr is EXC_RETURN */
 
-    ALIGNROM 2
-    PUBLIC knl_enter_isr
-knl_enter_isr:    
+    PUBLIC EnterISR
+EnterISR:    
     ldr     r1, =knl_taskindp              /* Enter task independent part */
     ldr     r2, [r1]
     add     r3, r2, #1  /* knl_taskindp++ */
@@ -136,9 +133,8 @@ knl_enter_isr:
     cpsie   i     /* Enable Interrupr */
     bx      lr
     
-    ALIGNROM 2
-    PUBLIC knl_exit_isr
-knl_exit_isr:
+    PUBLIC ExitISR
+ExitISR:
     pop     {r1,r2}          /* here same as knl_taskindp--, do you know why? */
     str     r2, [r1]                             /* Leave task independent part */
     pop     {lr}

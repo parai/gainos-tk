@@ -1956,6 +1956,9 @@
         <name>$PROJ_DIR$\..\..\osek\inc\knl_timer.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\..\osek\inc\knl_wait.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\..\osek\inc\osek_check.h</name>
       </file>
       <file>

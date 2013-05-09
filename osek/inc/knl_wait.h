@@ -4,6 +4,9 @@
 
 IMPORT WSPEC    knl_wspec_slp;
 
+#define knl_timer_delete(__event)   \
+    QueRemove(&((TMEB *)__event)->queue)
+      
 IMPORT void knl_make_non_wait( TCB *tcb );
 IMPORT void knl_make_wait( TickType tmout);
 IMPORT void knl_wait_release_ok( TCB *tcb );

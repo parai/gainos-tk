@@ -1,6 +1,7 @@
 #include "board.h"
 #include <stdio.h>
 #include "Os.h"
+#include "vPort.h"
 
 #define BOOT_MESSAGE    \
 "GaInOS-TK is really a copy of uTenux.\r\n"  \

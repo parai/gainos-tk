@@ -130,3 +130,29 @@ void ShutdownOS( StatusType xError )
     }
 
 }
+
+#if 0
+void EnterISR(void)
+{
+    knl_taskindp++;/* Enter Task Independedt Part */
+    ENABLE_INTERRUPT;
+}
+
+void ExitISR(void)
+{
+    DISABLE_INTERRUPT;
+    if(knl_taskindp > 0)
+    {
+        knl_taskindp--;
+    }
+    if((0 == knl_taskindp)&&
+       (!knl_dispatch_disabled))
+    {
+        if(knl_ctxtsk != knl_schedtsk)
+        {
+            knl_dispatch();
+        }
+    }
+    ENABLE_INTERRUPT;
+}
+#endif

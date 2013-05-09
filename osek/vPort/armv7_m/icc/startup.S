@@ -29,6 +29,7 @@
  *	 Description    : Start up module
  *----------------------------------------------------------------------------------------
  */
+#define ISR(ISRname) ISRMain##ISRname 
     MODULE  ?cstartup
 
     ;; Forward declaration of sections.
@@ -36,10 +37,8 @@
 
     SECTION .intvec:CODE:NOROOT(2)
     EXTERN __iar_program_start
-    EXTERN  knl_dispatch_entry,knl_enter_isr,knl_exit_isr,knl_timer_handler  
+    EXTERN  knl_dispatch_entry,knl_timer_handler  
     
-    
-    ALIGNROM 0
     PUBLIC __vector_table
     DATA
 __vector_table:
@@ -59,7 +58,7 @@ __vector_table:
     DCD     default_handler                      /* 12: Debug Monitor Handler       */
     DCD     0                                    /* 13: Reserved                    */
     DCD     knl_dispatch_entry                   /* 14: PendSV Handler              */
-    DCD     SysTick_Handler                      /* 15: Systick handler             */
+    DCD     ISR(SystemTick)                      /* 15: Systick handler             */
 
     /*    External Interrupts Vector Define                                         */
     DCD     default_handler                      /* 16: */
@@ -308,7 +307,6 @@ __vector_table:
  */
     SECTION .text:CODE
     THUMB
-    ALIGNROM 0
     PUBLIC reset_handler
 reset_handler:
         LDR     R0, =__iar_program_start
@@ -320,13 +318,14 @@ reset_handler:
 	PUBLIC default_handler
 default_handler:
     b       default_handler
-
-    PUBLIC SysTick_Handler
-SysTick_Handler:
-    push    {lr}
-    bl      knl_enter_isr
-    bl      knl_timer_handler             /* call timer_handler() */
-    b       knl_exit_isr
+    
+    EXTERN EnterISR, ExitISR, knl_timer_handler,IncrementCounter
+    PUBLIC ISR(SystemTick)
+ISR(SystemTick):
+    push {lr}
+    bl EnterISR;
+    bl knl_timer_handler;
+    b ExitISR
 
     END
 

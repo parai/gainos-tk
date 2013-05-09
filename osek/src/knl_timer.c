@@ -67,9 +67,8 @@ EXPORT void knl_timer_handler( void )
 {
 	TMEB	*event;
 
-	BEGIN_CRITICAL_SECTION;
+	BEGIN_DISABLE_INTERRUPT;
 	knl_current_time++;
-
 	/* Execute event that passed occurring time. */
 	while ( !isQueEmpty(&knl_timer_queue) ) {
 		event = (TMEB*)knl_timer_queue.next;
@@ -83,6 +82,6 @@ EXPORT void knl_timer_handler( void )
 			(*event->callback)(event->arg);
 		}
 	}
-
-	END_CRITICAL_SECTION;
+    (void)IncrementCounter(0);
+	END_DISABLE_INTERRUPT;
 }

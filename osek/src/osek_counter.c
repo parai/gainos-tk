@@ -159,7 +159,7 @@ StatusType IncrementCounter(CounterType CounterID)
     TickType max,curvalue;
     CCB* ccb;
     CHECK_COMMON_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
-	BEGIN_CRITICAL_SECTION;
+	BEGIN_DISABLE_INTERRUPT;
     ccb = &knl_ccb_table[CounterID];
     max = knl_almbase_table[CounterID].MaxAllowedValue;
     /* here I see the difference between arccore and nxtOSEK.
@@ -190,7 +190,7 @@ StatusType IncrementCounter(CounterType CounterID)
 	        QueInit(&ccb->almque);
 	    }
 	}
-	END_CRITICAL_SECTION;
+	END_DISABLE_INTERRUPT;
     Error_Exit:
     return E_OK;
 }

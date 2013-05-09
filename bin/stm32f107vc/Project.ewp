@@ -1956,6 +1956,12 @@
           <name>$PROJ_DIR$\..\..\osek\inc\knl_task.h</name>
         </file>
         <file>
+          <name>$PROJ_DIR$\..\..\osek\inc\knl_timer.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\osek\inc\knl_wait.h</name>
+        </file>
+        <file>
           <name>$PROJ_DIR$\..\..\osek\inc\longlong.h</name>
         </file>
         <file>
@@ -1978,6 +1984,12 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\osek\src\knl_task.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\osek\src\knl_timer.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\osek\src\knl_wait.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\osek\src\osek_alarm.c</name>

@@ -1,6 +1,7 @@
 #include "stm32f10x.h"
 #include <stdio.h>
 #include "Os.h"
+#include "vPort.h"
 
 #ifdef __GNUC__
   /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
@@ -72,6 +73,10 @@ int main()
 {
     Usart_Init();
     printf("\r\nStart OS.%s\r\n",BOOT_MESSAGE);
+    for(;;)
+    {
+        knl_dispatch();
+    }
     StartOS(OSDEFAULTAPPMODE);
     return 0;
 }

@@ -170,7 +170,8 @@
 
 #define TASK(TaskName) void TaskMain##TaskName(void)
 #define ALARM(AlarmName)     \
-    void AlarmMain##AlarmName(void)
+    void AlarmMain##AlarmName(void)      
+#define ISR(ISRname) void ISRMain##ISRname(void)        
 /* ============================ TYPEs   ========================================== */
 /* ============ OSEK STD TYPEs ===================== */
 /* This data type identifies a task. */
@@ -295,6 +296,8 @@ StatusType ClearEvent( EventMaskType xMask );
 StatusType GetEvent  ( TaskType xTaskID , EventMaskRefType pxEvent );
 StatusType WaitEvent ( EventMaskType xMask );
 
+void EnterISR(void);
+void ExitISR(void);
 void DisableAllInterrupts( void );
 void EnableAllInterrupts ( void );
 void SuspendAllInterrupts( void );

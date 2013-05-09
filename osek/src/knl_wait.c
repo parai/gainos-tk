@@ -30,6 +30,13 @@ EXPORT void knl_make_wait( TickType tmout)
 	knl_timer_insert(&knl_ctxtsk->wtmeb, tmout,(CBACK)knl_wait_release_tmout, knl_ctxtsk);
 }
 
+EXPORT void knl_wait_release( TCB *tcb )
+{
+	knl_timer_delete(&tcb->wtmeb);
+	QueRemove(&tcb->tskque);
+	knl_make_non_wait(tcb);
+}
+
 EXPORT void knl_wait_release_ok( TCB *tcb )
 {
 	knl_wait_release(tcb);
