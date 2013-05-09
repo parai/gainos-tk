@@ -1,5 +1,6 @@
 #include "vPort.h"
 #include "derivative.h"      /* derivative-specific definitions */
+#include "knl_timer.h"
 
 LOCAL 	UB	knl_tmp_stack[cfgTMP_STACK_SZ];
 /*
@@ -122,9 +123,11 @@ _ret_int_dispatch:
 	asm jmp l_dispatch0;  	    	
 }
 interrupt 7 void knl_systick_handler(void)
-{  
+{ 
+    knl_enter_isr(); 
     CRGFLG &=0xEF;			// clear the interrupt flag  
 	asm cli;     /* enable interrupt */ 
-	(void)IncrementCounter(0);		
+	knl_timer_handler();
+	knl_exit_isr();		
 }
 #pragma CODE_SEG DEFAULT

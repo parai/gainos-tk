@@ -46,6 +46,21 @@
 #include "Std_Types.h"
 #include "Os.h"
 /* ============================ MACROs   ========================================== */
+/* Wait factor tskwait */
+#define TTW_SLP		    0x00000001UL             /* Wait caused by wakeup wait */
+#define TTW_DLY		    0x00000002UL             /* Wait caused by task delay */
+#define TTW_SEM		    0x00000004UL             /* Semaphore wait */
+#define TTW_FLG		    0x00000008UL             /* Event flag wait */
+#define TTW_MBX		    0x00000040UL             /* Mail box wait */
+#define TTW_MTX		    0x00000080UL             /* Mutex wait */
+#define TTW_SMBF	    0x00000100UL             /* Message buffer send wait */
+#define TTW_RMBF	    0x00000200UL             /* Message buffer receive wait */
+#define TTW_CAL		    0x00000400UL             /* Rendezvous call wait */
+#define TTW_ACP		    0x00000800UL             /* Rendezvous accept wait */
+#define TTW_RDV		    0x00001000UL             /* Rendezvous end wait */
+#define TTW_MPF		    0x00002000UL             /* Fixed size memory pool wait */
+#define TTW_MPL		    0x00004000UL             /* Variable size memory pool wait */
+
 #define DeclareTask(TaskName)  TaskType TaskName
 #define GenTaskStack(TaskName,stksz)  static uint32 TaskStack##TaskName[stksz/4]
 /* Task Generate information */

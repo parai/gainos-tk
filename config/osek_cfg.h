@@ -3,10 +3,10 @@
 /* =====================  MISC  ========================== */
 #define cfgOS_STATUS_LEVEL OS_STATUS_EXTEND
 
-//define CHIP_MC9S12
+#define CHIP_MC9S12
 //#define CHIP_STM32F1
 //#define CHIP_AT91SAM3S
-#define CHIP_MPC54XX
+//#define CHIP_MPC54XX
 
 #if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */

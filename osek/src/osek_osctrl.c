@@ -45,6 +45,7 @@
 #include "knl_alarm.h"
 #include "knl_event.h"
 #include "knl_resource.h"
+#include "knl_timer.h"
 #include "vPort.h"
 /* |------------------+------------------------------------------------------| */
 /* | Syntax:          | void StartOS ( AppModeType <Mode> )                  | */
@@ -72,6 +73,7 @@ void StartOS ( AppModeType xAppMode )
     knl_entflg_init();
     knl_resource_init();
 	knl_tasks_autostart();
+	QueInit(&knl_timer_queue);
 
 #if(cfgOS_START_UP_HOOK == 1)
 	StartupHook();			/* Call Start up hook */

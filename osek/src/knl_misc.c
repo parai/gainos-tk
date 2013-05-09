@@ -183,7 +183,7 @@ EXPORT void knl_ready_queue_rotate( RDYQUE *rq, INT priority )
 /*
  * Put 'tcb' to the end of ready queue. 
  */
-IMPORT TCB* knl_ready_queue_move_last( RDYQUE *rq, TCB *tcb )
+EXPORT TCB* knl_ready_queue_move_last( RDYQUE *rq, TCB *tcb )
 {
 	QUEUE	*tskque = &rq->tskque[tcb->priority];
 

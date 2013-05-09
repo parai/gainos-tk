@@ -111,6 +111,9 @@
 /* Self define for implementation */
 #define E_OS_SYS_NOT_OK (20u)
 
+#define E_OS_TMOUT      (21u)   /* Polling fail/time out */
+#define E_OS_QOVR		(22u)	/* Queuing overflow */
+
 /* autosar:These macros return a value not equal to zero if the memory is 
    readable/writable/executable or stack space. */
 #define OSMEMORY_IS_READABLE   ((AccessType)1u)
@@ -281,6 +284,8 @@ StatusType CancelAlarm ( AlarmType xAlarmID );
 StatusType ActivateTask ( TaskType xTaskID );
 StatusType TerminateTask( void );
 StatusType ChainTask    ( TaskType xTaskID );
+StatusType SleepTask    ( TickType Timeout );
+StatusType WakeUpTask   ( TaskType TaskID );
 StatusType Schedule     ( void );
 StatusType GetTaskID    ( TaskRefType pxTaskType );
 StatusType GetTaskState ( TaskType xTaskID,TaskStateRefType pxState );

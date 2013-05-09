@@ -138,7 +138,10 @@ typedef void*               VP;
 typedef uint32  ATR;
 typedef INT		PRI;		/* Priority */
 
+typedef unsigned long long LSYSTIM; /*32 bits for 16 bit cpu and 64 bits for 32 bit cpu */
+
 typedef void (*FP)(void);
+typedef void (*CBACK)(VP arg);
 
 typedef signed char	    VB;	    /* Nonuniform type 8 bit data */
 typedef signed short	VH;	    /* Nonuniform type 16 bit data */

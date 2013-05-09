@@ -13,6 +13,10 @@ TASK(vTask1)
     (void)printf("vTask1 is running.\r\n");
     (void)WaitEvent(0x00000001u);
     (void)ClearEvent(0x00000001u);
+    for(;;)
+    {
+        SleepTask(100);
+    }
     (void)TerminateTask();
 }
 

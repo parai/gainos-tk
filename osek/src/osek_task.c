@@ -42,6 +42,7 @@
 /* |---------+-------------------| */
 #include "osek_os.h"
 #include "knl_task.h"
+#include "knl_timer.h"
 #include "vPort.h"
 /* |------------------+------------------------------------------------------------| */
 /* | Syntax:          | StatusType ActivateTask ( TaskType <TaskID> )              | */
@@ -364,3 +365,57 @@ StatusType GetTaskState ( TaskType TaskID,TaskStateRefType State )
 Error_Exit:	
 	return ercd;
 }
+
+StatusType SleepTask ( TickType Timeout )
+{
+    StatusType ercd = E_OK;
+    CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
+	CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
+	
+	BEGIN_CRITICAL_SECTION;
+
+    if ( knl_ctxtsk->wupcnt > 0 ) {
+        knl_ctxtsk->wupcnt--;
+    } else {
+        ercd = E_OS_TMOUT;
+        if ( Timeout != 0 ) {
+            knl_ctxtsk->wspec = &knl_wspec_slp;
+            knl_ctxtsk->wid = 0;
+            knl_ctxtsk->wercd = &ercd;
+            knl_make_wait(Timeout);
+            QueInit(&knl_ctxtsk->tskque);
+        }
+    }
+
+    END_CRITICAL_SECTION;
+Error_Exit:	
+	return ercd;
+}
+StatusType WakeUpTask ( TaskType TaskID )
+{
+    StatusType ercd = E_OK;
+    TCB	*tcb;
+	TSTAT	state;
+    CHECK_TASKID_EXT(TaskID);
+    CHECK_NONSELF_EXT(TaskID);
+    
+    tcb = &knl_tcb_table[TaskID];
+	BEGIN_CRITICAL_SECTION;
+	state = (TSTAT)tcb->state;
+	if ( !knl_task_alive(state) ) {
+		ercd = E_OS_ID;
+
+	} else if ( (state & TS_WAIT) != 0 && tcb->wspec == &knl_wspec_slp ) {
+		knl_wait_release_ok(tcb);
+
+	} else if ( tcb->wupcnt == UINT_MAX ) {
+		ercd = E_OS_QOVR;
+	} else {
+		++tcb->wupcnt;
+	}
+	END_CRITICAL_SECTION;
+    
+Error_Exit:	
+	return ercd;
+}
+

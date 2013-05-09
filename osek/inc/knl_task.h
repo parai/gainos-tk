@@ -98,6 +98,22 @@ typedef enum {
 } TSTAT;
 
 /*
+ * Definition of wait specification structure
+ */
+typedef struct wait_spec_block {
+	UW	                tskwait;                 /* Wait factor */
+}WSPEC;
+
+/*
+ * Definition of timer event block
+ */
+typedef struct timer_event_block {
+	QUEUE	            queue;		             /* Timer event queue */
+	LSYSTIM	            time;		             /* Event time */
+	CBACK	            callback;	             /* Callback function */
+	VP	                arg;		             /* Argument to be sent to callback func*/
+} TMEB;
+/*
  * Task gerneration information
  */
 typedef struct t_gtsk {
@@ -115,7 +131,12 @@ typedef struct task_control_block{
 	PRI	        priority;	/* Current priority */
 	BOOL	    klockwait:1;	/* TRUE at wait kernel lock */
 	BOOL     	klocked:1;	    /* TRUE at hold kernel lock */	
-	UB /*TSTAT*/	state;	/* Task state (Int. expression) */			
+	UB /*TSTAT*/	state;  	/* Task state (Int. expression) */
+	WSPEC *	        wspec;	  /* Wait specification */
+	StatusType *    wercd;    /* Wait error code set area */
+	ID	            wid;	  /* Wait object ID */
+	UINT	        wupcnt;   /* Number of wakeup requests queuing */	
+	TMEB	        wtmeb;	  /* Wait timer event block */		
 	QUEUE resque;	/* queue to hold resources */		 
 }TCB;
 
@@ -151,6 +172,7 @@ IMPORT TCB	knl_tcb_table[cfgOSEK_TASK_NUM];
 IMPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM];
 IMPORT	INT  	knl_taskindp;
 IMPORT	UINT	knl_taskmode;
+
 /* ============================ FUNCTIONs    ====================================== */
 IMPORT void knl_tasks_autostart(void);
 IMPORT void knl_ready_queue_initialize( RDYQUE *rq );
@@ -164,6 +186,9 @@ IMPORT void knl_reschedule( void );
 IMPORT void knl_make_dormant( TCB *tcb );
 IMPORT void knl_make_ready( TCB *tcb );
 IMPORT void knl_make_non_ready( TCB *tcb );
+IMPORT void knl_make_non_wait( TCB *tcb );
+IMPORT void knl_make_wait( TickType tmout);
+IMPORT void knl_wait_release_ok( TCB *tcb );
 IMPORT void knl_change_task_priority( TCB *tcb, PRI priority );
 
 #endif /* KNL_TASK_H_H */
