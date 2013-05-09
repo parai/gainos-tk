@@ -46,16 +46,7 @@
 /* ============================ INCLUDEs ========================================== */
 #include "Std_Types.h"
 #include "osek_os.h"
-#include "knl_queue.h"
 
-/* ============================ TYPEs    ========================================== */
-/*
- * Resource control block
- */
-typedef struct resource_control_block {
-	QUEUE	resque;	        /* Resource queue in task list*/
-	PRI tskpri;     /* old priority of the task occupied this resource */
-}RESCB;
 IMPORT const PRI knl_gres_table[];
 IMPORT RESCB knl_rescb_table[];
 

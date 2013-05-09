@@ -42,6 +42,7 @@
 /* |---------+-------------------| */
 #include "osek_os.h"
 #include "knl_alarm.h"
+#include "knl_queue.h"
 #include "vPort.h"
 /* |------------------+------------------------------------------------------------------| */
 /* | Syntax:          | StatusType GetAlarmBase (AlarmType <AlarmID>,                    | */

@@ -43,6 +43,8 @@
 #include "osek_os.h"
 #include "knl_task.h"
 #include "knl_timer.h"
+#include "knl_queue.h"
+#include "knl_wait.h"
 #include "vPort.h"
 /* |------------------+------------------------------------------------------------| */
 /* | Syntax:          | StatusType ActivateTask ( TaskType <TaskID> )              | */

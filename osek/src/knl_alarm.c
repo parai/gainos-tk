@@ -1,4 +1,5 @@
 #include "knl_alarm.h"
+#include "knl_queue.h"
 
 EXPORT CCB knl_ccb_table[cfgOSEK_COUNTER_NUM];
 EXPORT ALMCB knl_almcb_table[cfgOSEK_ALARM_NUM];

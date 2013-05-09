@@ -1,8 +1,8 @@
 #include  "knl_timer.h" 
+#include "knl_queue.h"
 #include "vPort.h"             
 
 EXPORT LSYSTIM  knl_current_time = 0 ;
-EXPORT WSPEC    knl_wspec_slp = { TTW_SLP};
 EXPORT QUEUE	knl_timer_queue;
 
 /*
@@ -20,10 +20,10 @@ LOCAL void knl_enqueue_tmeb( TMEB *event )
 	QueInsert(&event->queue, q);
 }
 
-EXPORT void knl_wait_release_tmout( TCB *tcb )
+EXPORT void knl_timer_init(void)
 {
-	QueRemove(&tcb->tskque);
-	knl_make_non_wait(tcb);
+    QueInit(&knl_timer_queue);
+    knl_start_hw_timer();
 }
 /*
  * Set timeout event

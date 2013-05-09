@@ -89,15 +89,6 @@ do                                                                  \
 	}                                                               \
 }while(0)
 
-/* ============================ TYPEs    ========================================== */
-/*
- * Double-link queue (ring)
- */
-typedef struct queue {
-	struct queue	*next;
-	struct queue	*prev;
-} QUEUE;
-
 /* ============================ FUNCTIONs    ========================================== */
 /*
  * Remove top entry 

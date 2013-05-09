@@ -72,15 +72,14 @@ void StartOS ( AppModeType xAppMode )
     knl_cntalm_init();
     knl_entflg_init();
     knl_resource_init();
-	knl_tasks_autostart();
-	QueInit(&knl_timer_queue);
+	knl_task_init();
 
 #if(cfgOS_START_UP_HOOK == 1)
 	StartupHook();			/* Call Start up hook */
 #endif
     /* OS424: The first call to StartOS() (for starting the Operating System) shall not
        return. */
-    knl_start_hw_timer();
+    knl_timer_init();
     knl_force_dispatch();
 }
 

@@ -43,6 +43,7 @@
 #include "osek_os.h"
 #include "knl_resource.h"
 #include "knl_task.h"
+#include "knl_queue.h"
 #include "vPort.h"
 
 EXPORT RESCB knl_rescb_table[cfgOSEK_RESOURCE_NUM];

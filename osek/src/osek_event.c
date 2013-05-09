@@ -43,6 +43,7 @@
 #include "osek_os.h"
 #include "knl_task.h"
 #include "knl_event.h"
+#include "knl_queue.h"
 #include "vPort.h"
 
 EXPORT FLGCB knl_flgcb_table[cfgOSEK_EVENTFLAG_NUM];

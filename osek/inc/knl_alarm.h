@@ -3,28 +3,7 @@
 
 /* ============================ INCLUDEs =============================== */
 #include "osek_os.h"
-#include "knl_queue.h"
 
-/* ============================ TYPEs    =============================== */
-typedef struct counter_control_block
-{
-    QUEUE  almque;
-    TickType  curvalue; /* current value of the Counter */
-}CCB;
-
-typedef struct alarm_generate_info
-{
-    CounterType owner; /* Alarm Owner -> Counter */
-    FP          almhdr;  /* Alarm handler */
-}T_GALM;
-
-/* Alarm Control Block */
-typedef struct AlmCtrlBlk
-{
-    QUEUE           almque;
-    TickType        time; /* The Time It will expire */
-    TickType        cycle;
-}ALMCB;
 
 /* ============================ DATAs    =============================== */
 IMPORT CCB knl_ccb_table[];

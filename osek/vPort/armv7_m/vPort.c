@@ -57,10 +57,3 @@ EXPORT void knl_setup_context( TCB *tcb )
     tcb->tskctxb.ssp = ssp;                      /* System stack */ 
 }
 
-EXPORT void knl_timer_handler(void)
-{
-    /* Counter 0 is system counter.
-       This is an example for: how to use the counter. */
-    (void)IncrementCounter(0);
-}
-
