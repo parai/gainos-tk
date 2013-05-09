@@ -46,7 +46,7 @@ typedef struct {
  * and forcibly dispatch to the task that should be performed next.
  *	Use at system startup and 'tk_ext_tsk, tk_exd_tsk.'
  */
-IMPORT void knl_force_dispatch(void); 
+#define knl_force_dispatch()  {asm("svc 0");}
 
 /*
  * Start task dispatcher

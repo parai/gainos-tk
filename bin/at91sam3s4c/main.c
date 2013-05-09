@@ -11,6 +11,7 @@ int main()
 {
     WDT_Disable(WDT); 
     CLOCK_SetConfig(2);
+    NVIC_SetPriority(SysTick_IRQn,0xCC);
     /* I don't know why, the baudrate is 38400 = 115200/3 */
     UART_Configure(115200, 64000000/3);// so I add this to solve the problem
     //don't ask me why... I am not good at driver

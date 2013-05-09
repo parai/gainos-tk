@@ -131,7 +131,7 @@ void ShutdownOS( StatusType xError )
 
 }
 
-#if 0
+#if 1
 void EnterISR(void)
 {
     knl_taskindp++;/* Enter Task Independedt Part */
@@ -150,6 +150,7 @@ void ExitISR(void)
     {
         if(knl_ctxtsk != knl_schedtsk)
         {
+            ENABLE_INTERRUPT;
             knl_dispatch();
         }
     }

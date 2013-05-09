@@ -56,7 +56,7 @@ EXPORT void knl_setup_context( TCB *tcb )
     ssp->pc = (VP)pc;                            /* Task startup address */
     tcb->tskctxb.ssp = ssp;                      /* System stack */ 
 }
-#if 0
+#if 1
 EXPORT ISR(SystemTick)
 {
     EnterISR();

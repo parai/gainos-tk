@@ -25,8 +25,8 @@ disint:
 
     SECTION .text:CODE
     THUMB
-    PUBLIC  knl_force_dispatch
-knl_force_dispatch:
+    PUBLIC  knl_force_dispatch_impl
+knl_force_dispatch_impl:
     /* Interrupt is disabled,during SVC mode */
     ldr     sp, =(knl_tmp_stack + cfgTMP_STACK_SZ)  /* Set temporal stack */
 
@@ -82,6 +82,7 @@ l_dispatch2:                                     /* Switch to 'schedtsk' */
     ldr     r12, =knl_dispatch_disabled
     ldr     r0, =0
     str     r0, [r12]                            /* Dispatch enable */
+#if 0    
     mrs     r12,psr
     ldr     r0,=0x1FF
     and     r12,r12,r0
@@ -116,13 +117,15 @@ knl_dsp_no_8words_stack:                         /* no, normal */
     ldr     pc, [sp, #-8]
 
 knl_dsp_in_exception:
+#endif
     pop     {r4-r11}
     ldr     r12, =knl_taskmode
     pop     {r0}
     str     r0, [r12]
     cpsie   i                                    /* just before schedule to next task */
     bx      lr                                   /* lr is EXC_RETURN */
-
+    
+#if 0
     PUBLIC EnterISR
 EnterISR:    
     ldr     r1, =knl_taskindp              /* Enter task independent part */
@@ -161,6 +164,6 @@ ExitISR:
 l_nodispatch:
     cpsie   i
     bx      lr
-    
+#endif    
     END
 
