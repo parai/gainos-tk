@@ -16,7 +16,7 @@ TASK(vTask1)
 #if 1
     for(;;)
     {
-        SleepTask(5000);
+        SleepTask(500);
         printf("vTask1 sleep 5000 Ticks.\r\n");
     }
 #endif    
@@ -33,7 +33,7 @@ TASK(vTask2)
     for(;;)
     {
         WakeUpTask(ID_vTask1);
-        SleepTask(1000);
+        SleepTask(100);
         printf("vTask2 is running.\r\n");
     }
     (void)TerminateTask();

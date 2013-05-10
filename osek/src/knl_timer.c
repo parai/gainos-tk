@@ -82,6 +82,5 @@ EXPORT void knl_timer_handler( void )
 			(*event->callback)(event->arg);
 		}
 	}
-    (void)IncrementCounter(0);
 	END_DISABLE_INTERRUPT;
 }

@@ -170,8 +170,7 @@
 
 #define TASK(TaskName) void TaskMain##TaskName(void)
 #define ALARM(AlarmName)     \
-    void AlarmMain##AlarmName(void)      
-#define ISR(ISRname) void ISRMain##ISRname(void)        
+    void AlarmMain##AlarmName(void)             
 /* ============================ TYPEs   ========================================== */
 /* ============ OSEK STD TYPEs ===================== */
 /* This data type identifies a task. */
