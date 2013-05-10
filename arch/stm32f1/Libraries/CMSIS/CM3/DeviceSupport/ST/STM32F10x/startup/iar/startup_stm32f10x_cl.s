@@ -47,7 +47,8 @@
 
         EXTERN ISR(SystemTick)
         EXTERN  __iar_program_start
-        EXTERN  SystemInit,knl_dispatch_entry,knl_enter_isr,knl_exit_isr,knl_timer_handler      
+        EXTERN  SystemInit,knl_dispatch_entry,EnterISR,ExitISR,knl_timer_handler      
+        EXTERN  knl_force_dispatch_impl
         PUBLIC  __vector_table
 
         DATA
@@ -63,7 +64,7 @@ __vector_table
         DCD     0                         ; Reserved
         DCD     0                         ; Reserved
         DCD     0                         ; Reserved
-        DCD     SVC_Handler               ; SVCall Handler
+        DCD     knl_force_dispatch_impl   ; SVCall Handler
         DCD     DebugMon_Handler          ; Debug Monitor Handler
         DCD     0                         ; Reserved
         DCD     knl_dispatch_entry        ; PendSV Handler
@@ -193,9 +194,9 @@ DebugMon_Handler
         EXTERN  knl_timer_handler
 SysTick_Handler
         push    {lr}
-        bl      knl_enter_isr
+        bl      EnterISR
         bl      knl_timer_handler             /* call timer_handler() */
-        b       knl_exit_isr
+        b       ExitISR
 
         PUBWEAK WWDG_IRQHandler
         SECTION .text:CODE:REORDER(1)
