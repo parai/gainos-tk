@@ -73,10 +73,6 @@ int main()
 {
     Usart_Init();
     printf("\r\nStart OS.%s\r\n",BOOT_MESSAGE);
-    for(;;)
-    {
-        knl_dispatch();
-    }
     StartOS(OSDEFAULTAPPMODE);
     return 0;
 }

@@ -550,6 +550,7 @@
         <option>
           <name>AUserIncludes</name>
           <state>$PROJ_DIR$\..\..\osek\vPort\armv7_m</state>
+          <state>$PROJ_DIR$\..\..\arch\stm32f1</state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>

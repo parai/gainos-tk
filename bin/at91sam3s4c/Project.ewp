@@ -552,6 +552,7 @@
         <option>
           <name>AUserIncludes</name>
           <state>$PROJ_DIR$\..\..\osek\vPort\armv7_m</state>
+          <state>$PROJ_DIR$\..\..\arch\at91sam3s</state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>
@@ -1866,6 +1867,9 @@
         </group>
         <group>
           <name>source</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libboard_sam3s-ek\source\board_lowlevel.c</name>
+          </file>
           <file>
             <name>$PROJ_DIR$\..\..\arch\at91sam3s\libraries\libboard_sam3s-ek\source\clock.c</name>
           </file>

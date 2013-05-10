@@ -1,5 +1,25 @@
-
+/* Copyright(C) 2013, GaInOS-TK by Fan Wang. All rights reserved.
+ *
+ * This program is open source software; developer can redistribute it and/or
+ * modify it under the terms of the U-License as published by the T-Engine China
+ * Open Source Society; either version 1 of the License, or (at developer option)
+ * any later Version.
+ *
+ * This program is distributed in the hope that it will be useful,but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the U-License for more details.
+ * Developer should have received a copy of the U-Licensealong with this program;
+ * if not, download from www.tecoss.org(the web page of the T-Engine China Open
+ * Source Society).
+ *
+ * GaInOS-TK is a static configured RTOS, which conformed to OSEK OS 2.2.3 Specification
+ * and it is based on uTenux(http://www.uloong.cc).
+ *
+ * Email: parai@foxmail.com
+ * Sourrce Open At: https://github.com/parai/gainos-tk/
+ */
 #include "vPortMacro.h"
+#include "Compiler.h"
 
     EXTERN knl_ctxtsk, knl_schedtsk, knl_taskindp
     EXTERN knl_taskmode, knl_tmp_stack,knl_dispatch_disabled
@@ -82,50 +102,15 @@ l_dispatch2:                                     /* Switch to 'schedtsk' */
     ldr     r12, =knl_dispatch_disabled
     ldr     r0, =0
     str     r0, [r12]                            /* Dispatch enable */
-#if 0    
-    mrs     r12,psr
-    ldr     r0,=0x1FF
-    and     r12,r12,r0
-    cmp     r12,#0
-    beq     knl_dsp_no_exception
-    bgt     knl_dsp_in_exception
-
-knl_dsp_no_exception:
-    pop     {r4-r11}
-    ldr     r12, =knl_taskmode
-    pop     {r0}
-    str     r0, [r12]
-    ldr     r0, [sp, #24]                        /* load stack's pc to r0 */
-    orr     r0, r0, #1
-    str     r0, [sp, #24]
-    ldr     r0, [sp, #28]                        /* load stack's psr to r0 */
-    mov     r1, #(0x01<<9)                       /* test psr bit[9]==1? */
-    tst     r0, r1
-    beq     knl_dsp_no_8words_stack
-    pop     {r0-r3}                              /* yes, exception stack is 9 bytes*/
-    pop     {r12}
-    pop     {lr}
-    add     sp, sp, #12
-    cpsie   i                                    /* just before schedule to next task */
-    ldr     pc, [sp, #-12]
-knl_dsp_no_8words_stack:                         /* no, normal */
-    pop     {r0-r3}
-    pop     {r12}
-    pop     {lr}
-    add     sp, sp, #8
-    cpsie   i                                    /* just before schedule to next task */
-    ldr     pc, [sp, #-8]
-
-knl_dsp_in_exception:
-#endif
+    /* start to restore task's context */
     pop     {r4-r11}
     ldr     r12, =knl_taskmode
     pop     {r0}
     str     r0, [r12]
     cpsie   i                                    /* just before schedule to next task */
     bx      lr                                   /* lr is EXC_RETURN */
-    
-#if 0
+
+#if (cfgCORTEX_M3_ISR == ISR_IN_ASSEMBLY)
     PUBLIC EnterISR
 EnterISR:    
     ldr     r1, =knl_taskindp              /* Enter task independent part */
@@ -135,7 +120,7 @@ EnterISR:
     push    {r1, r2}           /* Here I say wonderful Idea, do you know the reason? */
     cpsie   i     /* Enable Interrupr */
     bx      lr
-    
+
     PUBLIC ExitISR
 ExitISR:
     pop     {r1,r2}          /* here same as knl_taskindp--, do you know why? */
@@ -164,6 +149,24 @@ ExitISR:
 l_nodispatch:
     cpsie   i
     bx      lr
-#endif    
+
+    PUBLIC ISR(SystemTick)
+    EXTERN IncrementCounter
+    EXTERN knl_timer_handler
+/* This is an ISR example for SystemTick.
+ * The Entry Code for ISR must be Assemble.
+ * The Way to change it to C code is hasn't been found.
+ */    
+                            //EXPORT ISR(SystemTick)
+ISR(SystemTick):
+                            //{
+    push {lr}
+    bl EnterISR             //EnterISR();
+    bl knl_timer_handler    //knl_timer_handler();
+    mov r0,#0
+    bl IncrementCounter     //(void)IncrementCounter(0);
+    b  ExitISR              //ExitISR();
+                            //} 
+#endif  /* ISR_IN_ASSEMBLY */                            
     END
 

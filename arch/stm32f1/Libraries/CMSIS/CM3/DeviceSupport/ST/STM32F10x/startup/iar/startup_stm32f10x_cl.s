@@ -37,7 +37,7 @@
 ;
 ; Cortex-M version
 ;
-#define ISR(ISRname) ISRMain##ISRname
+#include "Compiler.h"
         MODULE  ?cstartup
 
         ;; Forward declaration of sections.
@@ -45,7 +45,7 @@
 
         SECTION .intvec:CODE:NOROOT(2)
 
-        EXTERN ISR(SystemTick)
+        EXTERN ISREntry(SystemTick)
         EXTERN  __iar_program_start
         EXTERN  SystemInit,knl_dispatch_entry,EnterISR,ExitISR,knl_timer_handler      
         EXTERN  knl_force_dispatch_impl
@@ -68,7 +68,7 @@ __vector_table
         DCD     DebugMon_Handler          ; Debug Monitor Handler
         DCD     0                         ; Reserved
         DCD     knl_dispatch_entry        ; PendSV Handler
-        DCD     ISR(SystemTick)           ; SysTick Handler
+        DCD     ISREntry(SystemTick)      ; SysTick Handler
 
          ; External Interrupts
         DCD     WWDG_IRQHandler            ; Window Watchdog

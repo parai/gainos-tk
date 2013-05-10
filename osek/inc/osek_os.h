@@ -1,25 +1,23 @@
-/* Copyright 2012, Fan Wang(Parai)
+/* Copyright(C) 2013, GaInOS-TK by Fan Wang. All rights reserved.
  *
- * This file is part of GaInOS.
+ * This program is open source software; developer can redistribute it and/or
+ * modify it under the terms of the U-License as published by the T-Engine China
+ * Open Source Society; either version 1 of the License, or (at developer option)
+ * any later Version.
  *
- * GaInOS is free software: you can redistribute it and/or modify
- * it under the terms of the the micro T-License as published by
- * <http://www.t-engine.org>
- *             
- * Linking GaInOS statically or dynamically with other modules is making a
- * combined work based on GaInOS. Thus, the terms and conditions of the 
- * micro T-License cover the whole combination.
+ * This program is distributed in the hope that it will be useful,but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the U-License for more details.
+ * Developer should have received a copy of the U-Licensealong with this program;
+ * if not, download from www.tecoss.org(the web page of the T-Engine China Open
+ * Source Society).
  *
- * GaInOS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * GaInOS-TK is a static configured RTOS, which conformed to OSEK OS 2.2.3 Specification
+ * and it is based on uTenux(http://www.uloong.cc).
  *
+ * Email: parai@foxmail.com
+ * Sourrce Open At: https://github.com/parai/gainos-tk/
  */
-/* |---------+-------------------| */
-/* | Author: | Wang Fan(parai)   | */
-/* |---------+-------------------| */
-/* | Email:  | parai@foxmail.com | */
-/* |---------+-------------------| */
 #ifndef _OSEK_OS_H_
 #define _OSEK_OS_H_
 /* ============================ INCLUDEs ========================================== */

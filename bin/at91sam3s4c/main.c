@@ -3,19 +3,15 @@
 #include "Os.h"
 #include "vPort.h"
 
-#define BOOT_MESSAGE    \
-"GaInOS-TK is really a copy of uTenux.\r\n"  \
-"Author: parai\r\n"   \
-"Email:parai@foxmail.com"
 int main()
 {
     WDT_Disable(WDT); 
+    /* Set 3 FWS for Embedded Flash Access */
+    EFC->EEFC_FMR = EEFC_FMR_FWS(3);
     CLOCK_SetConfig(2);
-    NVIC_SetPriority(SysTick_IRQn,0xCC);
     /* I don't know why, the baudrate is 38400 = 115200/3 */
     UART_Configure(115200, 64000000/3);// so I add this to solve the problem
-    //don't ask me why... I am not good at driver
-    printf("\r\nStart OS.%s\r\n",BOOT_MESSAGE);
+    printf("Start GaInOS-TK.\r\n");
     StartOS(OSDEFAULTAPPMODE);
     return 0;
 }
