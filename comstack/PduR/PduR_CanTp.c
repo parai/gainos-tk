@@ -16,7 +16,7 @@
 
 #include "PduR.h"
 #include "Det.h"
-#include "ardebug.h"
+#include "Debug.h"
 
 #if (PDUR_ZERO_COST_OPERATION == STD_OFF) && (PDUR_CANTP_SUPPORT == STD_ON)
 

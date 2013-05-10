@@ -73,6 +73,12 @@ typedef struct {
  */
 #define knl_dispatch() { SCB->ICSR = SCB_ICSR_PENDSVSET_Msk; }
 
+
+/*
+ * Start task dispatcher during ISR
+ */
+#define knl_isr_dispatch() knl_dispatch_ret_int()
+
 IMPORT imask_t disint( void );
 IMPORT void enaint( imask_t intsts );
 IMPORT void knl_start_hw_timer( void );
@@ -81,5 +87,6 @@ IMPORT void knl_start_hw_timer( void );
  *	Call from 'make_dormant()'
  */
 IMPORT void knl_setup_context( TCB *tcb );
+IMPORT void knl_dispatch_ret_int(void);
 
 #endif/* VPORT_H_H */

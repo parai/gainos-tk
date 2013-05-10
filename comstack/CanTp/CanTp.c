@@ -64,14 +64,11 @@
 #include "SchM_CanTp.h"
 #include "PduR_CanTp.h"
 //#include "MemMap.h"
-#if(MICRO_TENUX_VERSION == 140)
-#include <libstr.h>
-#else
 #include <string.h>
-#endif
+
 
 #define USE_DEBUG
-#include "ardebug.h"
+#include "Debug.h"
 
 #define CANTP_IMMEDIATE_TX_CONFIRMATION		STD_OFF
 

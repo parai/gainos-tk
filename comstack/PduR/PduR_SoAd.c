@@ -18,7 +18,7 @@
 
 
 #include "Det.h"
-#include "ardebug.h"
+#include "Debug.h"
 
 #if (PDUR_ZERO_COST_OPERATION == STD_OFF) && (PDUR_SOAD_SUPPORT == STD_ON)
 
@@ -29,7 +29,7 @@ BufReq_ReturnType PduR_SoAdTpProvideRxBuffer(PduIdType dcmRxPduId, PduLengthType
 void PduR_SoAdTpRxIndication(PduIdType dcmRxPduId, NotifResultType result)
 {
 	PduInfoType PduInfo = {
-		.SduDataPtr = &result
+		/* .SduDataPtr = */ &result
 	};
 	PduR_ARC_RxIndication(dcmRxPduId, &PduInfo, 0x04);
 }

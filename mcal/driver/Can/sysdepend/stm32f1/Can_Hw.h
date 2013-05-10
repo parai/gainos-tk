@@ -1,45 +1,28 @@
-/* Copyright 2012, Fan Wang(Parai)
+/* -------------------------------- Arctic Core ------------------------------
+ * Arctic Core - the open source AUTOSAR platform http://arccore.com
  *
- * This file is part of GaInOS.
+ * Copyright (C) 2009  ArcCore AB <contact@arccore.com>
  *
- * GaInOS is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This source code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published by the
+ * Free Software Foundation; See <http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt>.                                           
  *
- * Linking GaInOS statically or dynamically with other modules is making a
- * combined work based on GaInOS. Thus, the terms and conditions of the GNU
- * General Public License cover the whole combination.
- *
- * In addition, as a special exception, the copyright holders of GaInOS give
- * you permission to combine GaInOS program with free software programs or
- * libraries that are released under the GNU LGPL and with independent modules
- * that communicate with GaInOS solely through the GaInOS defined interface.
- * You may copy and distribute such a system following the terms of the GNU GPL
- * for GaInOS and the licenses of the other code concerned, provided that you
- * include the source code of that other code when and as the GNU GPL requires
- * distribution of source code.
- *
- * Note that people who make modified versions of GaInOS are not obligated to
- * grant this special exception for their modified versions; it is their choice
- * whether to do so. The GNU General Public License gives permission to release
- * a modified version without this exception; this exception also makes it
- * possible to release a modified version which carries forward this exception.
- *
- * GaInOS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with GaInOS. If not, see <http://www.gnu.org/licenses/>.
- *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * for more details.
+ * -------------------------------- Arctic Core ------------------------------*/
+
+/* Modified && Ported by parai to integrated with GaInOS,which is an open source 
+ * AUTOSAR OS based on uTenux(tkernel). 
+ * And re-construct a GUI tool named gainos-studio,which is based on python and Qt4.8,
+ * for the whole Com Architecture of ArCore.
+ * URL:      https://github.com/parai
+ * Email:    parai@foxmail.com
+ * Name:     parai(Wang Fan)
+ * from Date:2013-04-08 to $Date: 2013-04-13 13:51:22 $
+ * $Revision: 1.1 $
  */
-/* |---------+-------------------| */
-/* | Author: | Wang Fan(parai)   | */
-/* |---------+-------------------| */
-/* | Email:  | parai@foxmail.com | */
-/* |---------+-------------------| */
 #ifndef CAN_HW_H_
 #define CAN_HW_H_
 #include "Can_Types.h"
@@ -166,69 +149,4 @@ typedef struct
 	 Multiplicity 1..*  */
 	const Can_ConfigSetType	 *CanConfigSet;
 }Can_ConfigType;
-
-/* ####################### MSCAN Control Registers ###################### */
-#define CAN_REG_BASE	0x0140
-#define CAN_REG_OFFSET  64
-#define CAN_CTL0        0  /*   control register 0 */
-#define CAN_CTL1        1  /*   control register 1 */
-#define CAN_BTR0        2  /*   bus timing register 0 */
-#define CAN_BTR1        3  /*   bus timing register 1 */
-#define CAN_RFLG        4  /*   receiver flag register */
-#define CAN_RIER        5  /*   receiver interrupt reg */
-#define CAN_TFLG        6  /*   transmitter flag reg */
-#define CAN_TIER        7  /*   transmitter control reg */
-#define CAN_TARQ        8  /*   transmitter abort request */
-#define CAN_TAAK        9  /*   transmitter abort acknowledge */
-#define CAN_TBSEL       10 /*   transmit buffer selection */
-#define CAN_IDAC        11 /*   identifier acceptance */
-#define CAN_RESERVED1	12
-#define CAN_RESERVED2	13
-#define CAN_RXERR       14 /*   receive error counter */
-#define CAN_TXERR       15 /*   transmit error counter */
-#define CAN_IDAR0       16 /*   id acceptance reg 0 */
-#define CAN_IDAR1       17 /*   id acceptance reg 1 */
-#define CAN_IDAR2       18 /*   id acceptance reg 2 */
-#define CAN_IDAR3       19 /*   id acceptance reg 3 */
-#define CAN_IDMR0       20 /*   id mask register 0 */
-#define CAN_IDMR1       21 /*   id mask register 1 */
-#define CAN_IDMR2       22 /*   id mask register 2 */
-#define CAN_IDMR3       23 /*   id mask register 3 */
-#define CAN_IDAR4       24 /*   id acceptance reg 4 */
-#define CAN_IDAR5       25 /*   id acceptance reg 5 */
-#define CAN_IDAR6       26 /*   id acceptance reg 6 */
-#define CAN_IDAR7       27 /*   id acceptance reg 7 */
-#define CAN_IDMR4       28 /*   id mask register 4 */
-#define CAN_IDMR5       28 /*   id mask register 5 */
-#define CAN_IDMR6       30 /*   id mask register 6 */
-#define CAN_IDMR7       31 /*   id mask register 7 */
-#define CAN_RXFG        32 /*   receive buffer structure offset(16 bytes) */
-
-#define CAN_TXFG        48 /*   transmit buffer structure offset(16 bytes) */
-
-/* CAN Transmit/Receive buffer structure */
-#define CAN_IDR0		0	/* Identifier Register 0 */
-#define CAN_IDR1		1	/* Identifier Register 1 */
-#define CAN_IDR2		2	/* Identifier Register 2 */
-#define CAN_IDR3		3	/* Identifier Register 3 */
-#define CAN_DSR0		4	/* Data Segment Register 0 */
-#define CAN_DSR1		5	/* Data Segment Register 1 */
-#define CAN_DSR2		6	/* Data Segment Register 2 */
-#define CAN_DSR3		7	/* Data Segment Register 3 */
-#define CAN_DSR4		8	/* Data Segment Register 4 */
-#define CAN_DSR5		9	/* Data Segment Register 5 */
-#define CAN_DSR6		10	/* Data Segment Register 6 */
-#define CAN_DSR7		11	/* Data Segment Register 7 */
-#define CAN_DLCR		12	/* Data Length Register */
-#define CAN_TBPR		13	/* Transmit Buffer Priority Register */
-#define CAN_TSRH        14	/* Time Stamp Register (High Byte) */
-#define CAN_TSRL        15	/* Time Stamp Register (Low Byte) */
-/* io access <tk/syslib.h:>
- * out_w(port,data)
- * out_h(port,data )
- * out_b(port,data )
- * in_w(port)
- * in_h(port)
- * in_b(port)
- * */
 #endif /* CAN_HW_H_ */

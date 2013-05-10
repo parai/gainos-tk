@@ -47,7 +47,7 @@
 
         EXTERN ISREntry(SystemTick)
         EXTERN  __iar_program_start
-        EXTERN  SystemInit,knl_dispatch_entry,EnterISR,ExitISR,knl_timer_handler      
+        EXTERN  SystemInit,knl_dispatch_entry,EnterISR,ExitISR      
         EXTERN  knl_force_dispatch_impl
         PUBLIC  __vector_table
 
@@ -179,24 +179,10 @@ BusFault_Handler
 UsageFault_Handler
         B UsageFault_Handler
 
-        PUBWEAK SVC_Handler
-        SECTION .text:CODE:REORDER(1)
-SVC_Handler
-        B SVC_Handler
-
         PUBWEAK DebugMon_Handler
         SECTION .text:CODE:REORDER(1)
 DebugMon_Handler
         B DebugMon_Handler
-
-        PUBWEAK SysTick_Handler
-        SECTION .text:CODE:REORDER(1)
-        EXTERN  knl_timer_handler
-SysTick_Handler
-        push    {lr}
-        bl      EnterISR
-        bl      knl_timer_handler             /* call timer_handler() */
-        b       ExitISR
 
         PUBWEAK WWDG_IRQHandler
         SECTION .text:CODE:REORDER(1)
@@ -296,13 +282,21 @@ ADC1_2_IRQHandler
 
         PUBWEAK CAN1_TX_IRQHandler
         SECTION .text:CODE:REORDER(1)
+        EXTERN  Can_1_TxIsr
 CAN1_TX_IRQHandler
-        B CAN1_TX_IRQHandler
+        push {lr}
+        bl EnterISR
+        bl Can_1_TxIsr
+        b  ExitISR
 
         PUBWEAK CAN1_RX0_IRQHandler
         SECTION .text:CODE:REORDER(1)
+        EXTERN  Can_1_RxIsr
 CAN1_RX0_IRQHandler
-        B CAN1_RX0_IRQHandler
+        push {lr}
+        bl EnterISR
+        bl Can_1_RxIsr
+        b  ExitISR
 
         PUBWEAK CAN1_RX1_IRQHandler
         SECTION .text:CODE:REORDER(1)
@@ -311,8 +305,12 @@ CAN1_RX1_IRQHandler
 
         PUBWEAK CAN1_SCE_IRQHandler
         SECTION .text:CODE:REORDER(1)
+        EXTERN  Can_1_ErrIsr
 CAN1_SCE_IRQHandler
-        B CAN1_SCE_IRQHandler
+        push {lr}
+        bl EnterISR
+        bl Can_1_ErrIsr
+        b  ExitISR
 
         PUBWEAK EXTI9_5_IRQHandler
         SECTION .text:CODE:REORDER(1)
@@ -481,13 +479,21 @@ ETH_WKUP_IRQHandler
 
         PUBWEAK CAN2_TX_IRQHandler
         SECTION .text:CODE:REORDER(1)
+        EXTERN Can_2_TxIsr
 CAN2_TX_IRQHandler
-        B CAN2_TX_IRQHandler
+        push {lr}
+        bl EnterISR
+        bl Can_2_TxIsr
+        b  ExitISR
 
         PUBWEAK CAN2_RX0_IRQHandler
         SECTION .text:CODE:REORDER(1)
+        EXTERN Can_2_RxIsr
 CAN2_RX0_IRQHandler
-        B CAN2_RX0_IRQHandler
+        push {lr}
+        bl EnterISR
+        bl Can_2_RxIsr
+        b  ExitISR
 
         PUBWEAK CAN2_RX1_IRQHandler
         SECTION .text:CODE:REORDER(1)
@@ -496,8 +502,12 @@ CAN2_RX1_IRQHandler
 
         PUBWEAK CAN2_SCE_IRQHandler
         SECTION .text:CODE:REORDER(1)
+        EXTERN Can_2_ErrIsr
 CAN2_SCE_IRQHandler
-        B CAN2_SCE_IRQHandler
+        push {lr}
+        bl EnterISR
+        bl Can_2_ErrIsr
+        b  ExitISR
 
         PUBWEAK OTG_FS_IRQHandler
         SECTION .text:CODE:REORDER(1)

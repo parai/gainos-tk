@@ -16,13 +16,13 @@
 
 #include "PduR.h"
 #include "Det.h"
-#include "ardebug.h"
+#include "Debug.h"
 
 #if (PDUR_ZERO_COST_OPERATION == STD_OFF) && (PDUR_J1939TP_SUPPORT == STD_ON)
 
 void PduR_J1939TpRxIndication(PduIdType id, NotifResultType Result) {
 #if PDUR_COM_SUPPORT == STD_OFF
-	return BUFREQ_NOT_OK;
+	return;
 #else
 	const PduRRoutingPath_type *route = PduRConfig->RoutingPaths[id];
 	Com_TpRxIndication(route->PduRDestPdus[0]->DestPduId, Result);

@@ -37,6 +37,9 @@
 #define STD_TRUE  (1)
 #define STD_FALSE (0)
 
+#define STD_ON   1
+#define STD_OFF  0
+
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
@@ -81,6 +84,14 @@
 #elif(CPU_TYPE == CPU_TYPE_32)
 #define UINT_MAX 0xFFFFFFFFu
 #endif
+
+#define AR_ASSERT(_true)    \
+{                           \
+    if(!(_true))            \
+    {                       \
+        for(;;);            \
+    }                       \
+}
 
 /* ============================ TYPEs ============================================= */
 typedef unsigned int        boolean;

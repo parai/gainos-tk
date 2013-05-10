@@ -26,18 +26,15 @@
  */
 //lint -esym(960,8.7)	PC-Lint misunderstanding of Misra 8.7 for Com_SystenEndianness and endianess_test
 
-#if(MICRO_TENUX_VERSION == 140)
-#include <libstr.h>
-#else
 #include <string.h>
-#endif
+
 #include <assert.h>
 
 #include "Com_Arc_Types.h"
 #include "Com.h"
 #include "Com_Internal.h"
 #include "Com_misc.h"
-#include "ardebug.h"
+#include "Debug.h"
 #include "Cpu.h"
 
 static void Com_ReadDataSegment(uint8 *dest, const uint8 *source, uint8 destByteLength,

@@ -17,18 +17,15 @@
  * AUTOSAR OS based on uTenux(tkernel). 
  * And re-construct a GUI tool named gainos-studio,which is based on python and Qt4.8,
  * for the whole Com Architecture of ArCore.
- * License of GaInOS: GNU GPL License version 3.
  * URL:      https://github.com/parai
  * Email:    parai@foxmail.com
  * Name:     parai(Wang Fan)
  * from Date:2013-04-08 to $Date: 2013-04-15 13:25:24 $
  * $Revision: 1.4 $
  */
-#if(MICRO_TENUX_VERSION == 140)
-#include <libstr.h>
-#else
+
 #include <string.h>
-#endif
+
 
 
 #include "Det.h"
@@ -36,7 +33,7 @@
 #include "Dem.h"
 #endif
 #include "PduR.h"
-#include "ardebug.h"
+#include "Debug.h"
 
 /*
  * The state of the PDU router.

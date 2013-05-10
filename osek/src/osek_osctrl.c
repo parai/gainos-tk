@@ -130,7 +130,7 @@ void ExitISR(void)
     {
         if(knl_ctxtsk != knl_schedtsk)
         {
-            knl_dispatch();
+            knl_isr_dispatch();
         }
     }
     ENABLE_INTERRUPT;

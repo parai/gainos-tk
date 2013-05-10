@@ -28,7 +28,7 @@
 #else
 #include <string.h>
 #endif
-#include "ardebug.h"
+#include "Debug.h"
 #include "Det.h"
 #if defined(USE_DEM)
 #include "Dem.h"

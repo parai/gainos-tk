@@ -18,7 +18,6 @@
  * AUTOSAR OS based on uTenux(tkernel). 
  * And re-construct a GUI tool named gainos-studio,which is based on python and Qt4.8,
  * for the whole Com Architecture of ArCore.
- * License of GaInOS: GNU GPL License version 3.
  * URL:      https://github.com/parai
  * Email:    parai@foxmail.com
  * Name:     parai(Wang Fan)
@@ -31,14 +30,9 @@
 
 #include "Can.h"
 #include "CanIf_Cbk.h"
-#if(MICRO_TENUX_VERSION == 140)
-#include <libstr.h>
-#else
 #include <string.h>
-#endif
 
-
-#include "ardebug.h"
+#include "Debug.h"
 #include "PduR.h"
 
 #if defined(USE_CANTP)
@@ -955,7 +949,7 @@ void CanIf_RxIndication(uint8 Hrh, Can_IdType CanId, uint8 CanDlc,
 #if ( CANIF_TRANSMIT_CANCELLATION == STD_ON )
 void CanIf_CancelTxConfirmation(const Can_PduType *PduInfoPtr)
 {
-    VALIDATE(FALSE, CANIF_CANCELTXCONFIRMATION_ID, CANIF_E_NOK_NOSUPPORT);
+    VALIDATE_NO_RV(FALSE, CANIF_CANCELTXCONFIRMATION_ID, CANIF_E_NOK_NOSUPPORT);
     VALIDATE_NO_RV(CanIf_Global.initRun, CANIF_CANCELTXCONFIRMATION_ID, CANIF_E_UNINIT);
     VALIDATE_NO_RV(PduInfoPtr != NULL, CANIF_RXINDICATION_ID, CANIF_E_PARAM_POINTER);
 

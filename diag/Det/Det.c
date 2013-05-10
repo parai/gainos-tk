@@ -1,51 +1,34 @@
-/* Copyright 2012, Fan Wang(Parai)
+/* -------------------------------- Arctic Core ------------------------------
+ * Arctic Core - the open source AUTOSAR platform http://arccore.com
  *
- * This file is part of GaInOS.
+ * Copyright (C) 2009  ArcCore AB <contact@arccore.com>
  *
- * GaInOS is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This source code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published by the
+ * Free Software Foundation; See <http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt>.                                           
  *
- * Linking GaInOS statically or dynamically with other modules is making a
- * combined work based on GaInOS. Thus, the terms and conditions of the GNU
- * General Public License cover the whole combination.
- *
- * In addition, as a special exception, the copyright holders of GaInOS give
- * you permission to combine GaInOS program with free software programs or
- * libraries that are released under the GNU LGPL and with independent modules
- * that communicate with GaInOS solely through the GaInOS defined interface.
- * You may copy and distribute such a system following the terms of the GNU GPL
- * for GaInOS and the licenses of the other code concerned, provided that you
- * include the source code of that other code when and as the GNU GPL requires
- * distribution of source code.
- *
- * Note that people who make modified versions of GaInOS are not obligated to
- * grant this special exception for their modified versions; it is their choice
- * whether to do so. The GNU General Public License gives permission to release
- * a modified version without this exception; this exception also makes it
- * possible to release a modified version which carries forward this exception.
- *
- * GaInOS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with GaInOS. If not, see <http://www.gnu.org/licenses/>.
- *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * for more details.
+ * -------------------------------- Arctic Core ------------------------------*/
+
+/* Modified && Ported by parai to integrated with GaInOS,which is an open source 
+ * AUTOSAR OS based on uTenux(tkernel). 
+ * And re-construct a GUI tool named gainos-studio,which is based on python and Qt4.8,
+ * for the whole Com Architecture of ArCore.
+ * URL:      https://github.com/parai
+ * Email:    parai@foxmail.com
+ * Name:     parai(Wang Fan)
+ * from Date:2013-04-08 to $Date: 2013-04-13 13:51:22 $
+ * $Revision: 1.1 $
  */
-/* |---------+-------------------| */
-/* | Author: | Wang Fan(parai)   | */
-/* |---------+-------------------| */
-/* | Email:  | parai@foxmail.com | */
-/* |---------+-------------------| */
 
 #include "Det.h"
-#include "tm_printf.h"
+#include <stdio.h>
 void Det_ReportError(uint16 ModuleId, uint8 InstanceId, uint8 ApiId, uint8 ErrorId)
 {
-	tm_printf("Det Error: ModuleId=%d, InstanceId=%d, ApiId=%d, ErrorId=%d\n", \
+	printf("Det Error: ModuleId=%d, InstanceId=%d, ApiId=%d, ErrorId=%d\n", \
 			ModuleId, InstanceId, ApiId, ErrorId);
 }
 

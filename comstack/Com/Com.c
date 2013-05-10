@@ -34,18 +34,16 @@
 //#include <assert.h>
 //#include <stdlib.h>
 //#include <stdio.h>
-#if(MICRO_TENUX_VERSION == 140)
-#include <libstr.h>
-#else
+
 #include <string.h>
-#endif
+
 #include "Com.h"
 #include "Com_Arc_Types.h"
 #include "Com_Internal.h"
 #include "Com_misc.h"
 #define USE_DEBUG
 #define DEBUG_LVL DEBUG_LOW
-#include "ardebug.h"
+#include "Debug.h"
 #include "Cpu.h"
 
 

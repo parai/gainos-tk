@@ -63,6 +63,11 @@ IMPORT void knl_force_dispatch(void);
  */
 #define knl_dispatch() {asm swi;}
 
+/*
+ * Start task dispatcher during ISR
+ */
+#define knl_isr_dispatch() {asm swi;}
+
 IMPORT imask_t disint( void );
 IMPORT void enaint( imask_t intsts );
 IMPORT void knl_start_hw_timer( void );
