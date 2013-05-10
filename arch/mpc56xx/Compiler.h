@@ -50,4 +50,7 @@
 #define IMPORT  extern 
 #define LOCAL   static
 
+#define ISR(ISRname) void ISRMain##ISRname(void)
+#define ISREntry(ISRname)  ISRMain##ISRname
+
 #endif /* COMPILER_H_H_H */

@@ -1,7 +1,10 @@
 #ifndef VPORT_MACRO_H_H
 #define VPORT_MACRO_H_H
 
-#define cfgTMP_STACK_SZ 512
+#define cfgTMP_STACK_SZ 1024
+
+#define PMK_D		(1UL << 15UL)      	/* EE Interrupt disable */
+#define PMK_E		(0x00UL)     	    /* Interrupt enable */
 /*
  * CPU interrupt control
  *	'intsts' is the value of PRIMASK in CPU
@@ -13,14 +16,14 @@
  */
 #define DI(intsts)	    ( (intsts) = disint() )
 #define EI(intsts)	    ( (void)enaint(intsts) )
-#define isDI(intsts)	( ((intsts) & 0x10) != 0 )
+#define isDI(intsts)	( ((intsts) & PMK_D) != 0 )
 
 /*
  * Start/End critical section
  */
 #define BEGIN_CRITICAL_SECTION	{ imask_t _primask_ = disint()
 #define END_CRITICAL_SECTION	if ( !isDI(_primask_)			\
-				  && knl_ctxtsk != knl_schedtsk		        	\
+				  && (knl_ctxtsk != knl_schedtsk)		        	\
 				  && !knl_isTaskIndependent()	            	\
 				  && !knl_dispatch_disabled ) {		            \
 					knl_dispatch();		                    	\
@@ -58,7 +61,7 @@
 /*
  *	Check system state
  */
-#define knl_isTaskIndependent() (( knl_taskindp > 0 ))
+#define knl_isTaskIndependent() (( knl_taskindp > 0 )?TRUE:FALSE)
 /*
  * When a system call is called from the task independent part, TRUE
  */

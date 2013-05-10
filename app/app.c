@@ -7,13 +7,13 @@ TASK(vTask1)
     if(0 == i)
     {
         i++;
-        //(void)SetRelAlarm(ID_vAlarm1,500,1000);
-        //(void)SetAbsAlarm(ID_vAlarm2,103,1000);
+        (void)SetRelAlarm(ID_vAlarm1,500,1000);
+        (void)SetAbsAlarm(ID_vAlarm2,103,1000);
     }
     (void)printf("vTask1 is running.\r\n");
     //(void)WaitEvent(0x00000001u);
     //(void)ClearEvent(0x00000001u);
-#if 1
+#if 0
     for(;;)
     {
         SleepTask(500);
@@ -30,12 +30,14 @@ TASK(vTask2)
     //(void)GetResource(ID_vResource1);
     //void)SetEvent(ID_vTask1,0x00000001u);
     //(void)ReleaseResource(ID_vResource1);
+    #if 0
     for(;;)
     {
         WakeUpTask(ID_vTask1);
         SleepTask(100);
         printf("vTask2 is running.\r\n");
     }
+    #endif
     (void)TerminateTask();
 }
 

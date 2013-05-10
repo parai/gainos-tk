@@ -31,15 +31,6 @@ nofralloc
 	mfmsr   r3
 	blr		
 }
-EXPORT void knl_timer_handler(void)
-{
-	knl_enter_isr();
-#if (configTickSrc==configRTI)
-	knl_clear_hw_timer_interrupt();
-#endif
-	(void)IncrementCounter(0);
-	knl_exit_isr();	
-}
 #if (configTickSrc==configRTI)
 void knl_clear_hw_timer_interrupt(void)
 {
@@ -51,7 +42,7 @@ void TickTimer_SetFreqHz(int Freq)
 	PIT.RTI.LDVAL.R=OSC_FREQUENCY*1000000/Freq-1;
 	PIT.RTI.TCTRL.B.TIE=1;	/*enable interrupt*/
 	PIT.RTI.TCTRL.B.TEN=1;/*turn on RTI*/
-	INTC_InstallINTCInterruptHandler(knl_timer_handler,305,1);       
+	INTC_InstallINTCInterruptHandler(ISREntry(SystemTick),305,1);       
 	INTC.CPR.B.PRI = 0;/* Lower INTC's current priority */
 }
 #elif (configTickSrc==configDEC)
@@ -133,20 +124,12 @@ EXPORT void knl_setup_context( TCB *tcb )
     ssp->r[2] =  (UW)&_SDA2_BASE_;
     tcb->tskctxb.ssp = ssp;         /* System stack */
 }
-
-EXPORT void knl_enter_isr(void)
+EXPORT ISR(SystemTick)
 {
-    ENTER_TASK_INDEPENDENT;
-}
-
-EXPORT void knl_exit_isr(void)
-{
-    LEAVE_TASK_INDEPENDENT;
-    if( knl_ctxtsk != knl_schedtsk		       
-        && !knl_isTaskIndependent()	           
-        && !knl_dispatch_disabled ) {		           
-        knl_dispatch();		                    
-    }
+	EnterISR();
+	knl_timer_handler();
+	(void)IncrementCounter(0);
+	ExitISR();
 }
 #pragma section RX ".__exception_handlers"
 #pragma push /* Save the current state */
@@ -155,14 +138,6 @@ __declspec (section ".__exception_handlers") extern long EXCEPTION_HANDLERS;
 #pragma function_align 16 /* We use 16 bytes alignment for Exception handlers */
 __declspec(interrupt)
 __declspec (section ".__exception_handlers")
-#if USE_DBGSPT & USE_HOOK_TRACE
-LOCAL void hook_stop_jmp(void)
-{
-}
-LOCAL void hook_exec_jmp(void)
-{
-}
-#endif
 LOCAL void l_dispatch0(void);
 /*
  *    Function Name : knl_dispatch_to_schedtsk,knl_dispatch_entry,_ret_int_dispatch
@@ -235,11 +210,6 @@ _ret_int_dispatch:
 LOCAL __asm void l_dispatch0(void)
 {
 nofralloc
-#if USE_DBGSPT & USE_HOOK_TRACE
-	bl hook_stop_jmp		    /* Hook processing */
-ret_hook_stop:
-#endif
-
   	lis  r5,knl_schedtsk@h;    
   	ori  r5,r5,knl_schedtsk@l;  /* R5 = &schedtsk */
 	
@@ -262,11 +232,6 @@ l_dispatch2:                   /* Switch to 'schedtsk' */
 	
 	li     r6,SP_OFFSET
 	lwzx   r1, r8,r6;     /* Restore 'ssp' from TCB */	
-
-#if USE_DBGSPT & USE_HOOK_TRACE
-	bl hook_exec_jmp		    /* Hook processing */
-ret_hook_exec:
-#endif
 
 	li     r11,0
 	lis    r12,knl_dispatch_disabled@h
@@ -304,8 +269,8 @@ prolog:
 	lis    r3, 0x0800;        // load r3 with TSR[DIS] bit (0x08000000)
     mtspr  TSR,r3;            // clear TSR[DIS] bit
     
-    lis     r3,knl_timer_handler@h;       /* Load INTC_IACKR, which clears request to processor   */
-    ori     r3,r3,knl_timer_handler@l;      /* Read ISR address from ISR Vector Table using pointer */
+    lis     r3,ISREntry(SystemTick)@h;       /* Load INTC_IACKR, which clears request to processor   */
+    ori     r3,r3,ISREntry(SystemTick)@l;      /* Read ISR address from ISR Vector Table using pointer */
     /* Enable processor recognition of interrupts */
     wrteei  1                   /* Set MSR[EE]=1  */
 
