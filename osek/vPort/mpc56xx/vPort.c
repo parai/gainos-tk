@@ -80,6 +80,13 @@ void TickTimer_SetFreqHz(int Freq)
 
 EXPORT void knl_start_hw_timer( void )
 {
+	asm
+	{
+		/* IVOR8 System call interrupt (SPR 408) */
+		lis     r0, knl_dispatch_entry@h
+		ori     r0, r0, knl_dispatch_entry@l
+		mtivor8 r0
+	}
 	TickTimer_SetFreqHz(1000);
 }
 

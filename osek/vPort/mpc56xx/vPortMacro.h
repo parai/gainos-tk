@@ -16,14 +16,14 @@
  */
 #define DI(intsts)	    ( (intsts) = disint() )
 #define EI(intsts)	    ( (void)enaint(intsts) )
-#define isDI(intsts)	( ((intsts) & PMK_D) != 0 )
+#define isDI(intsts)	( ((intsts) & PMK_D) == 0 )
 
 /*
  * Start/End critical section
  */
 #define BEGIN_CRITICAL_SECTION	{ imask_t _primask_ = disint()
 #define END_CRITICAL_SECTION	if ( !isDI(_primask_)			\
-				  && (knl_ctxtsk != knl_schedtsk)		        	\
+				  && (knl_ctxtsk != knl_schedtsk)		        \
 				  && !knl_isTaskIndependent()	            	\
 				  && !knl_dispatch_disabled ) {		            \
 					knl_dispatch();		                    	\

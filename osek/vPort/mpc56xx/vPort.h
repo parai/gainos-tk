@@ -56,6 +56,7 @@ IMPORT void knl_start_hw_timer( void );
  */
 IMPORT void knl_setup_context( TCB *tcb );
 IMPORT ISR(SystemTick);
+IMPORT void knl_dispatch_entry(void);
 
 
 

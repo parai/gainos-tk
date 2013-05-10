@@ -1,5 +1,7 @@
 #include "MPC5634M_MLQB80.h"
 #include <stdio.h>
+#include <stdarg.h>
+#include "vPort.h"
 #include "Os.h"
 
 #if(CPU_FREQUENCY==8000000)
@@ -53,17 +55,34 @@ char ReadUARTN(void)
 {
 	while (ESCI_A.SR.B.RDRF == 0) {}    /* Wait for receive data reg full = 1 */
 	ESCI_A.SR.R = 0x20000000;           /* Clear RDRF flag */
-	return ESCI_A.DR.B.D;            /* Read byte of Data*/
+	return ESCI_A.DR.B.D;               /* Read byte of Data*/
 }
-char WriteUARTN(char ch)
+void WriteUARTN(char ch)
 {
 	while (ESCI_A.SR.B.TDRE == 0) {}      
 	ESCI_A.SR.R = 0x80000000;             
-	ESCI_A.DR.B.D = ch;    	
-	
+	ESCI_A.DR.B.D = ch;    		
 }
+
+int printf(const char* fmt,...)
+{
+	va_list args;
+	unsigned long length;
+	int i =0 ;
+	static char buf[128];
+	int imask;
+
+	DI(imask);
+	va_start(args, fmt);
+	length = vsprintf((char*)buf,(char *)fmt,args);
+	while('\0'!=buf[i]&&i<length)  WriteUARTN(buf[i++]); 
+	va_end(args);
+	EI(imask);
+}  
+
 int main(void) {
   SystemClockInit();
+  InitializeUART();
   printf("Start OS.\r\n");
   StartOS(0);
   for(;;);
