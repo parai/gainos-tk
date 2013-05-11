@@ -153,12 +153,12 @@ class gainos_tk_cfg():
     def open(self, arxml):
         """try open arxml,if failed just return."""
         import xml.etree.ElementTree as ET
-        #try:  
-        root = ET.parse(arxml).getroot();
-        self.parse(root);
-        #except Exception, e:
-        #    print e
-        #    return False;
+        try:  
+			root = ET.parse(arxml).getroot();
+			self.parse(root);
+        except Exception, e:
+            print e
+            return False;
         return True;
 
     def show(self, module, fileInd):
