@@ -7,7 +7,7 @@
  */
 """
 class gainos_tk_default_cfgobj():
-    def __init__(self):
+    def __init__(self, chip):
         return;
 
     def show(self, title, fileInd):
@@ -19,7 +19,7 @@ class gainos_tk_default_cfgobj():
     def parse(self, root):
         return;
     
-    def gen(self):
+    def gen(self, path):
         return;
     
     def toString(self):
@@ -90,7 +90,7 @@ class gainos_tk_obj():
     def __init__(self, chip, module):
         self.chip = chip;
         self.module = module;
-        self.obj = gainos_tk_dc[chip][module]();
+        self.obj = gainos_tk_dc[chip][module](chip);
     
     def show(self, fileInd):
         title = '%s For %s, < GaInOS-TK by parai >'%(self.module, self.chip);
@@ -102,8 +102,8 @@ class gainos_tk_obj():
     def parse(self, root):
         self.obj.parse(root);
 
-    def gen(self):
-        return;
+    def gen(self, path):
+        self.obj.gen(path);
     
     def toString(self):
         return '%s For %s:\n%s.\n'%(self.module, self.chip, self.obj.toString())
@@ -165,5 +165,6 @@ class gainos_tk_cfg():
         md = self.findModule(module);
         md.show(fileInd);
 
-    def gen(self):
-        return;    
+    def gen(self, path):
+        for md in self.module_list:
+            md.gen(path);

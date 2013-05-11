@@ -12,7 +12,7 @@ from PyQt4.QtGui import QTreeWidgetItem, QMessageBox
 from Common import *
 
 from Ui_cd_gainos_tk_os import Ui_cd_gainos_tk_os
-from gainos_tk_os_cfg import Task, Resource, Alarm, Event
+from gainos_tk_os_cfg import Task, Resource, Alarm, Event, Counter
 class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
     """
     Class documentation goes here.
@@ -54,6 +54,7 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
     def reloadGui(self):
         self.reloadTaskGui();
         self.reloadTreeGui(1, self.cfg.resourceList);
+        self.reloadTreeGui(2, self.cfg.counterList);
         self.reloadTreeGui(3, self.cfg.alarmList);
 
     def initButton(self):
@@ -75,6 +76,15 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
         self.spbxResCeilPrio.setRange(1, 140);
         self.spbxTskPrio.setRange(1, 140);
         self.spbxTskStkSize.setRange(32, 1024*10);
+        self.spbxMaxPrio.setRange(0, 255);
+    
+    def initGeneral(self):
+        self.spbxMaxIpl.setDisabled(True);
+        self.cmbxSchedPolicy.setDisabled(True);
+        self.cmbxOSConfCls.setDisabled(True);
+        self.cmbxOSConfCls.setCurrentIndex(self.cmbxOSConfCls.findText(self.cfg.general.os_class));
+        self.cmbxStatus.setCurrentIndex(self.cmbxStatus.findText(self.cfg.general.status));
+        self.spbxMaxPrio.setValue(self.cfg.general.max_pri);
         
     def initGui(self):
         self.initButton();
@@ -82,6 +92,7 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
         self.disableAllTab();
         self.reloadGui();
         self.initSpbxRange();
+        self.initGeneral();
 
     def disableAllTab(self):
         """禁止所有的Tab页"""
@@ -126,6 +137,10 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
             self.btnDel.setText('Delete Resource');
             self.btnAdd.setDisabled(True);
             self.btnDel.setDisabled(False);
+        elif(self.curtree.parent().text(0)=='Counter'):
+            self.btnDel.setText('Delete Counter');
+            self.btnAdd.setDisabled(True);
+            self.btnDel.setDisabled(False);
         elif(self.curtree.parent().text(0)=='Alarm'):
             self.btnDel.setText('Delete Alarm');
             self.btnAdd.setDisabled(True);
@@ -149,56 +164,52 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
         self.spbxResCeilPrio.setValue(self.curobj.ceilprio);
         self.enableTab(1);
 
+    def refreshCounterTab(self, name):
+        self.curobj=gcfindObj(self.cfg.counterList, name);
+        self.leCntName.setText(name);
+        self.spbxCntMaxAllowedValue.setValue(self.curobj.max);
+        self.spbxCntTickBase.setValue(self.curobj.tpb);
+        self.spbxCntMinCycle.setValue(self.curobj.min);
+        self.enableTab(3);
+        
     def refreshAlarmTabCmbx(self):
         """根据Alarm的类型刷新Alarm tab中的combox组建"""
         self.cmbxAlarmTask.clear();
         self.cmbxAlarmEvent.clear();
+        self.cmbxAlarmOwner.clear();
+        for obj in self.cfg.counterList:
+            self.cmbxAlarmOwner.addItem(obj.name);
+        self.cmbxAlarmOwner.setCurrentIndex(self.cmbxAlarmOwner.findText(self.curobj.counter))
+        self.cmbxAlarmType.setCurrentIndex(self.cmbxAlarmType.findText(self.curobj.type));
         if(self.curobj.type == 'callback'):
-            index = 0;
             self.cmbxAlarmTask.setDisabled(True);
             self.cmbxAlarmEvent.setDisabled(True);
         elif(self.curobj.type == 'task'):
-            index = 1;
             self.cmbxAlarmTask.setDisabled(False);
             self.cmbxAlarmEvent.setDisabled(True);
             self.lblAlarmTask.setText('Alarm Activate Task:');
             #task
-            ri=i=-1;
             for obj in self.cfg.taskList:
                 self.cmbxAlarmTask.addItem(obj.name);
-                i+=1;
-                if(self.curobj.task == obj.name):
-                    #find it
-                    ri=i;
-            self.cmbxAlarmTask.setCurrentIndex(ri);
+            self.cmbxAlarmTask.setCurrentIndex(self.cmbxAlarmTask.findText(self.curobj.task));
         elif(self.curobj.type == 'event'):
-            index = 2;
             self.cmbxAlarmTask.setDisabled(False);
             self.cmbxAlarmEvent.setDisabled(False);
             self.lblAlarmTask.setText('Alarm Event Task:');
             #task
             tsk=None;
-            ri=i=-1;
             for obj in self.cfg.taskList:
                 self.cmbxAlarmTask.addItem(obj.name);
-                i+=1;
                 if(self.curobj.task == obj.name):
                     #find it
                     tsk=obj;
-                    ri=i;
-            self.cmbxAlarmTask.setCurrentIndex(ri);
+            self.cmbxAlarmTask.setCurrentIndex(self.cmbxAlarmTask.findText(self.curobj.task));
             #task event
-            ri=i=-1;
             if(tsk != None):
                 for obj in tsk.eventList:
                     self.cmbxAlarmEvent.addItem(obj.name);
-                    i+=1;
-                    if(self.curobj.event == obj.name):
-                        #find it
-                        ri=i;
-            self.cmbxAlarmEvent.setCurrentIndex(ri);
-        self.cmbxAlarmType.setCurrentIndex(index);
-            
+            self.cmbxAlarmEvent.setCurrentIndex(self.cmbxAlarmEvent.findText(self.curobj.event));
+ 
     def refreshAlarmTab(self, name):
         self.curobj=gcfindObj(self.cfg.alarmList, name);
         self.leAlarmName.setText(name);
@@ -223,6 +234,8 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
             self.refreshTaskTab(objname);
         elif(trname == 'Resource'):
             self.refreshResourceTab(objname);
+        elif(trname == 'Counter'):
+            self.refreshCounterTab(objname);
         elif(trname == 'Alarm'):
             self.refreshAlarmTab(objname);
         elif(trname == 'Autosar'):
@@ -257,6 +270,16 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
         self.cfg.resourceList.append(obj);
         self.curtree.setExpanded(True);
 
+    def addCounter(self):
+        """添加一个报警器节点，使用默认名称"""
+        id = len(self.cfg.counterList);
+        name=QString('vCounter%d'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj=Counter(name);
+        self.cfg.counterList.append(obj);
+        self.curtree.setExpanded(True);
+
     def addAlarm(self):
         """添加一个报警器节点，使用默认名称"""
         id = len(self.cfg.alarmList);
@@ -277,7 +300,6 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
         self.curobj.eventList.append(obj);
         self.curtree.setExpanded(True);
 
-
     @pyqtSignature("")
     def on_btnAdd_clicked(self):
         text=self.btnAdd.text();
@@ -285,6 +307,8 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
             self.addTask();
         elif(text=='Add Resource'):
             self.addResource();
+        elif(text=='Add Counter'):
+            self.addCounter();
         elif(text=='Add Alarm'):
             self.addAlarm();
         elif(text=='Add Event'):
@@ -301,6 +325,8 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
             self.cfg.taskList.remove(self.curobj);
         elif(text=='Delete Resource'):
             self.cfg.resourceList.remove(self.curobj);
+        elif(text=='Delete Counter'):
+            self.cfg.counterList.remove(self.curobj);
         elif(text=='Delete Alarm'):
             self.cfg.alarmList.remove(self.curobj);
         elif(text=='Delete Event'):
@@ -315,8 +341,14 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
             parent.setSelected(True);
             self.on_trModule_itemClicked(parent, 0);
         self.fileInd(False);
-
-   
+    #========================== Alarm ==================================
+    @pyqtSignature("QString")
+    def on_leAlarmName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
     @pyqtSignature("QString")
     def on_cmbxAlarmType_activated(self, p0):
         if(self.curobj!=None):
@@ -340,13 +372,34 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
                 self.curobj.event=p0;
                 self.fileInd(False);
     
+    @pyqtSignature("QString")
+    def on_cmbxAlarmOwner_activated(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.counter!=p0):
+                self.curobj.counter=p0;
+                self.fileInd(False);
+    #===================== Resource ====================================
+    @pyqtSignature("QString")
+    def on_leResName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
     @pyqtSignature("int")
     def on_spbxResCeilPrio_valueChanged(self, p0):
         if(self.curobj!=None):
             if(self.curobj.ceilprio!=p0):
                 self.curobj.ceilprio=p0;
                 self.fileInd(False);
-    
+    #=========================== Task ============================
+    @pyqtSignature("QString")
+    def on_leTskName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);    
     @pyqtSignature("int")
     def on_spbxTskStkSize_valueChanged(self, p0):
         if(self.curobj!=None):
@@ -367,7 +420,7 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
             if(self.curobj.autostart!=checked):
                 self.curobj.autostart=checked;
                 self.fileInd(False);
- 
+    #============================= Event =================================
     @pyqtSignature("QString")
     def on_leEventName_textChanged(self, p0):
         if(self.curobj!=None):
@@ -382,34 +435,36 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
             if(self.curobj.mask!=p0):
                 self.curobj.mask=p0;
                 self.fileInd(False);
-    
-    @pyqtSignature("QString")
-    def on_leAlarmName_textChanged(self, p0):
-        if(self.curobj!=None):
-            if(self.curobj.name!=p0):
-                self.curobj.name=p0;
-                self.curtree.setText(0, p0);
-                self.fileInd(False);
-    
+    #===================== Counter ==================================
     @pyqtSignature("QString")
     def on_leCntName_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.name=p0;
             self.curtree.setText(0, p0);
             self.fileInd(False);
-    
-    @pyqtSignature("QString")
-    def on_leResName_textChanged(self, p0):
+    @pyqtSignature("int")
+    def on_spbxCntMaxAllowedValue_valueChanged(self, p0):
         if(self.curobj!=None):
-            if(self.curobj.name!=p0):
-                self.curobj.name=p0;
-                self.curtree.setText(0, p0);
-                self.fileInd(False);
-    
-    @pyqtSignature("QString")
-    def on_leTskName_textChanged(self, p0):
+            self.curobj.max=p0;
+            self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxCntTickBase_valueChanged(self, p0):
         if(self.curobj!=None):
-            if(self.curobj.name!=p0):
-                self.curobj.name=p0;
-                self.curtree.setText(0, p0);
-                self.fileInd(False);
+            self.curobj.tpb=p0;
+            self.fileInd(False); 
+    @pyqtSignature("int")
+    def on_spbxCntMinCycle_valueChanged(self, p0):
+        if(self.curobj!=None):
+            self.curobj.min=p0;
+            self.fileInd(False);
+    #======================== General ================================
+    @pyqtSignature("int")
+    def on_spbxMaxPrio_valueChanged(self, p0):
+        self.cfg.general.max_pri = p0;
+        self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxStatus_activated(self, p0):
+        self.cfg.general.status = p0;
+        self.fileInd(False);
+    
+    

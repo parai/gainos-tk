@@ -26,7 +26,7 @@
 
 from PyQt4.QtGui import QMainWindow, QFileDialog
 from PyQt4.QtCore import pyqtSignature
-from PyQt4.QtGui import QTreeWidgetItem
+from PyQt4.QtGui import QTreeWidgetItem, QMessageBox
 from PyQt4.QtCore import QStringList,QString
 
 from gainos_tk_cfg import gainos_tk_cfg
@@ -47,6 +47,11 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         self.cfg = None;
         self.curtree = None;
         self.arxml = '';
+        if(argc == 3 and argv[1] == '--arxml'):
+            self.arxml = argv[2];
+            self.cfg = gainos_tk_cfg('non chip');
+            if(self.cfg.open(self.arxml)):
+                self.reloadGui();
 
     def initGui(self):
         #Disable All Ctrl
@@ -194,3 +199,10 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
     @pyqtSignature("")        
     def on_btnEdit_clicked(self):
         self.cfg.show(self.curtree.text(0), self.fileIndicate);
+    @pyqtSignature("")        
+    def on_btnGen_clicked(self):
+        import os
+        self.cfg.gen(os.path.dirname(self.arxml));
+        QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                'Gen C Code Successfully at <%s>!'%(
+                os.path.dirname(self.arxml))).exec_();
