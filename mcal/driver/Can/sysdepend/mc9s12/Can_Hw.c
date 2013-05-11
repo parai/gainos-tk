@@ -1,50 +1,37 @@
-/* Copyright 2012, Fan Wang(Parai)
+/* -------------------------------- Arctic Core ------------------------------
+ * Arctic Core - the open source AUTOSAR platform http://arccore.com
  *
- * This file is part of GaInOS.
+ * Copyright (C) 2009  ArcCore AB <contact@arccore.com>
  *
- * GaInOS is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This source code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published by the
+ * Free Software Foundation; See <http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt>.
  *
- * Linking GaInOS statically or dynamically with other modules is making a
- * combined work based on GaInOS. Thus, the terms and conditions of the GNU
- * General Public License cover the whole combination.
- *
- * In addition, as a special exception, the copyright holders of GaInOS give
- * you permission to combine GaInOS program with free software programs or
- * libraries that are released under the GNU LGPL and with independent modules
- * that communicate with GaInOS solely through the GaInOS defined interface.
- * You may copy and distribute such a system following the terms of the GNU GPL
- * for GaInOS and the licenses of the other code concerned, provided that you
- * include the source code of that other code when and as the GNU GPL requires
- * distribution of source code.
- *
- * Note that people who make modified versions of GaInOS are not obligated to
- * grant this special exception for their modified versions; it is their choice
- * whether to do so. The GNU General Public License gives permission to release
- * a modified version without this exception; this exception also makes it
- * possible to release a modified version which carries forward this exception.
- *
- * GaInOS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with GaInOS. If not, see <http://www.gnu.org/licenses/>.
- *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * for more details.
+ * -------------------------------- Arctic Core ------------------------------*/
+
+/* Modified && Ported by parai to integrated with GaInOS,which is an open source 
+ * AUTOSAR OS based on uTenux(tkernel). 
+ * And re-construct a GUI tool named gainos-studio,which is based on python and Qt4.8,
+ * for the whole Com Architecture of ArCore.
+ * License of GaInOS: GNU GPL License version 3.
+ * URL:      https://github.com/parai
+ * Email:    parai@foxmail.com
+ * Name:     parai(Wang Fan)
+ * from Date:2013-04-08 to $Date: 2013-04-15 13:25:24 $
+ * $Revision: 1.3 $
  */
-/* |---------+-------------------| */
-/* | Author: | Wang Fan(parai)   | */
-/* |---------+-------------------| */
-/* | Email:  | parai@foxmail.com | */
-/* |---------+-------------------| */
+#include "Os.h"
 #include "Can.h"
 #include "CanIf_Cbk.h"
+#include "Cpu.h"
 #if(CAN_DEV_ERROR_DETECT == STD_ON)
 #include "Det.h"
 #endif
+#include <string.h>
 
 /* ######################## Hardware dependent GLOBALs #################### */
 EXPORT Can_GlobalType Can_Global =
@@ -337,7 +324,7 @@ EXPORT Std_ReturnType Can_Hw_InitController(uint8 Controller,const Can_Controlle
 	uint8 tq1;
 	uint8 tq2;
 	uint32 clock;
-	Can_UnitType *canUnit;
+//	Can_UnitType *canUnit;
 	const Can_ControllerConfigType *canHwConfig;
 	const Can_HardwareObjectType *hohObj;
 	canHw = Can_Hw_GetController(Controller);
@@ -423,11 +410,11 @@ EXPORT Can_ReturnType Can_Hw_SetControllerMode(uint8 Controller,Can_StateTransit
 	{
 		case CAN_T_START:
 			canUnit->state = CANIF_CS_STARTED;
-			DI(imask);
+			Irq_Save(imask);
 			if (canUnit->lock_cnt == 0){   // REQ CAN196
                 Can_EnableControllerInterrupts(Controller);
 			}
-			EI(imask);
+			Irq_Restore(imask);
             break;
 		case CAN_T_WAKEUP:
 			VALIDATE(canUnit->state == CANIF_CS_SLEEP, CAN_SETCONTROLLERMODE_SERVICE_ID, CAN_E_TRANSITION);
@@ -466,16 +453,16 @@ EXPORT void Can_Hw_DisableControllerInterrupts(uint8 Controller)
 
 	VALIDATE_NO_RV( (canUnit->state!=CANIF_CS_UNINIT), CAN_DISABLECONTROLLERINTERRUPTS_SERVICE_ID, CAN_E_UNINIT );
 
-	DI(imask);
+	Irq_Save(imask);
 	if(canUnit->lock_cnt > 0 )
 	{
 		// Interrupts already disabled
 		canUnit->lock_cnt++;
-		EI(imask);
+		Irq_Restore(imask);
 		return;
 	}
 	canUnit->lock_cnt++;
-	EI(imask);
+	Irq_Restore(imask);
 
 	/* Don't try to be intelligent, turn everything off */
 	canHw = Can_Hw_GetController(Controller);
@@ -498,18 +485,18 @@ EXPORT void Can_Hw_EnableControllerInterrupts( uint8 Controller )
 
 	VALIDATE_NO_RV( (canUnit->state!=CANIF_CS_UNINIT), CAN_ENABLECONTROLLERINTERRUPTS_SERVICE_ID, CAN_E_UNINIT );
 
-	DI(imask);
+	Irq_Save(imask);
 	if( canUnit->lock_cnt > 1 )
 	{
 		// IRQ should still be disabled so just decrement counter
 		canUnit->lock_cnt--;
-		EI(imask);
+		Irq_Restore(imask);
 		return;
 	} else if (canUnit->lock_cnt == 1)
 	{
 		canUnit->lock_cnt = 0;
 	}
-	EI(imask);
+	Irq_Restore(imask);
 
 	canHw = Can_Hw_GetController(Controller);
 
@@ -561,7 +548,7 @@ EXPORT Can_ReturnType Can_Hw_Write( Can_HwHandleType/* Can_HTHType */ hth, Can_P
   
     canUnit = CAN_GET_PRIVATE_DATA(controller);
     canHw = Can_Hw_GetController(controller);
-    DI(imask);
+    Irq_Save(imask);
 #if(CAN_USE_HW_BUFFER == STD_ON)
     /* should be in critical section */
     if(canUnit->swPduHandle!=INVALID_PDU_ID)
@@ -584,7 +571,7 @@ EXPORT Can_ReturnType Can_Hw_Write( Can_HwHandleType/* Can_HTHType */ hth, Can_P
         if(0xFF == Can_TxPrio[hth]) /* already reach the max value allowed */
         {
             /* wait untill all is free to sync*/
-            EI(imask);
+            Irq_Restore(imask);
         	return CAN_BUSY;
         }
     }
@@ -659,7 +646,7 @@ EXPORT Can_ReturnType Can_Hw_Write( Can_HwHandleType/* Can_HTHType */ hth, Can_P
       rv = CAN_BUSY;
     }
 #endif /* CAN_USE_HW_BUFFER */
-    EI(imask);
+    Irq_Restore(imask);
 
     return rv;
 }

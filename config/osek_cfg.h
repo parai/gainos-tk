@@ -23,10 +23,10 @@
 /* =====================  MISC  ========================== */
 #define cfgOS_STATUS_LEVEL OS_STATUS_EXTEND
 
-//#define CHIP_MC9S12
-#define CHIP_STM32F1
+#define CHIP_MC9S12
+//#define CHIP_STM32F1
 //#define CHIP_AT91SAM3S
-//#define CHIP_MPC54XX
+//#define CHIP_MPC56XX
 
 #if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
@@ -35,7 +35,7 @@
 #define CPU_FREQUENCY        72000000 /* HZ */
 #elif defined(CHIP_AT91SAM3S)
 #define CPU_FREQUENCY        64000000 /* HZ */
-#elif defined(CHIP_MPC54XX)
+#elif defined(CHIP_MPC56XX)
 #define CPU_FREQUENCY  64000000   /* HZ */
 #define OSC_FREQUENCY  8000000    /* Oscillator Clock 8MHZ */
 #endif
