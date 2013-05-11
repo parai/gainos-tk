@@ -36,6 +36,7 @@ def gappendpath():
     sys.path.append(dir+'/ui/forms');
     sys.path.append(dir+'/ui/classes');
     sys.path.append(dir+'/config');
+    sys.path.append(dir+'/common');
 
 def main(argc, argv):
     from gainos_studio import mwgainostk

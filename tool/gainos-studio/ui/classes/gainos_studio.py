@@ -24,7 +24,7 @@
  */
 """
 
-from PyQt4.QtGui import QMainWindow
+from PyQt4.QtGui import QMainWindow, QFileDialog
 from PyQt4.QtCore import pyqtSignature
 from PyQt4.QtGui import QTreeWidgetItem
 from PyQt4.QtCore import QStringList,QString
@@ -46,6 +46,7 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         self.initGui()
         self.cfg = None;
         self.curtree = None;
+        self.arxml = '';
 
     def initGui(self):
         #Disable All Ctrl
@@ -63,6 +64,21 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         self.actionSave_As.setShortcut('Ctrl+Shift+S');
         self.actionNew.setShortcut('Ctrl+N');
     
+    def reloadGui(self):
+        # re-load GUI
+        self.trModule.setDisabled(False);
+        self.btnAdd.setDisabled(False);
+        self.btnDel.setDisabled(True);
+        self.btnEdit.setDisabled(True);
+        self.btnFileSave.setDisabled(False);
+        self.btnGen.setDisabled(False);
+        self.teInfo.setText('<%s>\nFor %s'%(self.arxml, self.cfg.chip));
+        for i in range(0, self.trModule.topLevelItemCount()):
+            self.trModule.takeTopLevelItem(0);
+        for md in self.cfg.module_list:
+            item=QTreeWidgetItem(self.trModule,QStringList(md.module));
+            self.trModule.insertTopLevelItem(0, item);
+
     @pyqtSignature("")
     def on_actionNew_triggered(self):
         from cd_select import cd_select
@@ -70,22 +86,14 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         chip_supported = ['MC9S12','MPC56XX', 'STM32F1', 'AT91SAM3S' ]
         dlg = cd_select('Chip for this config.', chip_supported)
         dlg.exec_();
-        if(dlg.result == True):
-            # re-init GUI
-            self.trModule.setDisabled(False);
-            self.btnAdd.setDisabled(False);
-            self.btnDel.setDisabled(True);
-            self.btnEdit.setDisabled(True);
-            self.btnFileSave.setDisabled(True);
-            self.btnGen.setDisabled(True);
-            self.teInfo.setText("For %s:\n"%(dlg.select));
-            for i in range(0, self.trModule.topLevelItemCount()):
-                self.trModule.takeTopLevelItem(0);
+        if(dlg.result == True and self.newArxml()):
             self.cfg = gainos_tk_cfg(str(dlg.select));
+            self.reloadGui();
+            self.fileIndicate(False);
     
     @pyqtSignature("")
     def on_actionOpen_triggered(self):
-        return
+        self.openArxml();
     
     @pyqtSignature("")
     def on_actionSave_triggered(self):
@@ -99,12 +107,10 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
     def on_trModule_itemClicked(self, item, column):
         self.curtree = item;
         md = self.cfg.findModule(item.text(0));
-        self.teInfo.setText(md.toString());
+        self.teInfo.setText('<%s>\n%s'%(self.arxml, md.toString()));
         #refresh button 
         self.btnDel.setDisabled(False);
         self.btnEdit.setDisabled(False);
-        self.btnFileSave.setDisabled(False);
-        self.btnGen.setDisabled(False);
     
     @pyqtSignature("")
     def on_btnAdd_clicked(self):
@@ -122,6 +128,7 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
             item=QTreeWidgetItem(self.trModule,QStringList(dlg.item));
             self.trModule.insertTopLevelItem(0, item);
             self.cfg.addModule(str(dlg.item));
+            self.fileIndicate(False);
     
     @pyqtSignature("")
     def on_btnDel_clicked(self):
@@ -129,12 +136,61 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         index = self.trModule.indexOfTopLevelItem(self.curtree);
         self.trModule.takeTopLevelItem(index);
         self.cfg.delModule(module);
+        self.fileIndicate(False);
         if(index > 0):
             self.curtree = self.trModule.topLevelItem(index -1);
         else:
             self.curtree = None;
             self.btnDel.setDisabled(True);
             self.btnEdit.setDisabled(True);
-            
+    
+    @pyqtSignature("")        
+    def on_btnFileSave_clicked(self):
+        self.saveArxml();
+        self.fileIndicate(True);
+
+    def saveArxml(self):
+        if(self.arxml.find('.arxml')==-1):
+            self.arxml=QFileDialog.getSaveFileName(self, 'Save GaInOS Configure File.', 
+                '%s/%s'%(self.arxml,'gainoscfg.arxml'), 'GaInOsCfgFile(*.arxml)');
+            self.arxml=str(self.arxml);
+        if(self.arxml.find('.arxml')!=-1):
+            self.cfg.save(self.arxml); 
+
+    def openArxml(self):
+        """加载配置文件"""
+        arxml=QFileDialog.getOpenFileName(self, 'Open GaInOS Configure File.', 
+                '%s/%s'%(self.arxml,'gainoscfg.arxml'), 'GaInOsCfgFile(*.arxml)');
+        if(arxml!=''):
+            self.arxml=str(arxml);
+            self.cfg = gainos_tk_cfg('non chip');
+            if(self.cfg.open(self.arxml)):
+                self.reloadGui();
+
+    def newArxml(self):
+        """新建配置文件"""
+        arxml=QFileDialog.getSaveFileName(self, 'New GaInOS Configure File.', 
+            '%s/%s'%(self.arxml,'gainoscfg.arxml'), 'GaInOsCfgFile(*.arxml)');
+        if(arxml!=''):
+            self.arxml=str(arxml);
+            return True;
+        else:
+            return False;
+
+    def saveArxmlAs(self):
+        """另存配置文件"""
+        arxml=QFileDialog.getSaveFileName(self, 'Save GaInOS Configure File As ...', 
+            '%s/%s'%(self.arxml,'gainoscfg.arxml'), 'GaInOsCfgFile(*.arxml)');
+        if(arxml!=''):
+            self.arxml=str(arxml);
+            self.cfg.save(self.arxml); 
         
-        
+    def fileIndicate(self, saved):
+        if(saved == False):
+            self.btnFileSave.setText('Save**');
+        else:
+            self.btnFileSave.setText('Save');
+
+    @pyqtSignature("")        
+    def on_btnEdit_clicked(self):
+        self.cfg.show(self.curtree.text(0), self.fileIndicate);
