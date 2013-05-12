@@ -64,7 +64,7 @@ EXPORT void knl_timer_insert( TMEB *event, TickType tmout, CBACK callback, VP ar
 	event->callback = callback;
 	event->arg = arg;
 
-	if ( tmout == -1/* TMO_FEVR */ ) {
+	if ( tmout == TMO_FEVR ) {
 		QueInit(&event->queue);
 	} else {
 		/* To guarantee longer wait time specified by 'tmout',

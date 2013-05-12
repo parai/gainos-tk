@@ -49,6 +49,8 @@
 
 #define AUTOSTART  0x00000010
 
+#define TMO_FEVR (TickType)(UINT_MAX)
+
 /* Values for TaskStateType */
 #define RUNNING   (0x00u)
 #define READY     (0x01u)
