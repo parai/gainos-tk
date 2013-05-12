@@ -26,9 +26,10 @@ class gainos_tk_default_cfgobj():
         return 'Not Supported'
 
 from gainos_tk_os_cfg import gainos_tk_os_cfg
+from gainos_tk_mscan_cfg import CanObj_Mscan
 #dictionary for MC9S12
 gainos_tk_mc9s12_dc ={
-    'Adc':gainos_tk_default_cfgobj,   'Can':gainos_tk_default_cfgobj, 
+    'Adc':gainos_tk_default_cfgobj,   'Can':CanObj_Mscan, 
     'CanIf':gainos_tk_default_cfgobj, 'CanNm':gainos_tk_default_cfgobj,
     'CanTp':gainos_tk_default_cfgobj, 'CanSm':gainos_tk_default_cfgobj,
     'Com':gainos_tk_default_cfgobj,   'Dio':gainos_tk_default_cfgobj,
@@ -153,12 +154,12 @@ class gainos_tk_cfg():
     def open(self, arxml):
         """try open arxml,if failed just return."""
         import xml.etree.ElementTree as ET
-        try:  
-			root = ET.parse(arxml).getroot();
-			self.parse(root);
-        except Exception, e:
-            print e
-            return False;
+        #try:  
+        root = ET.parse(arxml).getroot();
+        self.parse(root);
+        #except Exception, e:
+        #    print e
+        #    return False;
         return True;
 
     def show(self, module, fileInd):

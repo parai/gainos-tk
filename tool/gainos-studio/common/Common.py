@@ -72,3 +72,16 @@ def gcfindObj(list, name):
         if(name==obj.name):
             return obj;
     return None;
+    
+def gcbackup(file):
+    import shutil 
+    from time import localtime, time,strftime
+    tm=localtime(time());
+    file2=file+strftime("-%Y-%m-%d-%H-%M-%S",tm);
+    shutil.copy(file, file2+'.bak'); 
+
+def gcgetTime():
+    from time import localtime, time,strftime
+    tm=localtime(time());
+    tm=strftime("%Y-%m-%d:%H-%M-%S",tm);
+    return tm; 
