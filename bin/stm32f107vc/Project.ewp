@@ -2075,6 +2075,9 @@
     <group>
       <name>config</name>
       <file>
+        <name>$PROJ_DIR$\..\..\config\app.template</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\..\config\Can_Cfg.h</name>
       </file>
       <file>

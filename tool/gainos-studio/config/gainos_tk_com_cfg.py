@@ -274,7 +274,7 @@ class ComIPdu():
             sizeInByte += sig.sizeInByte();
         return sizeInByte;
 
-    def save(self, fp):
+    def save(self, root):
         nd = ET.Element('ComGroupSignal')
         nd.attrib['name'] = str(self.name)
         nd.attrib['ComIPduCallout'] = str(self.ComIPduCallout)
@@ -293,7 +293,7 @@ class ComIPdu():
         nd2 = ET.Element('ComSignalList')
         for obj in self.signalList:
             obj.save(nd2);
-        nd.append(nd)
+        nd.append(nd2)
         #save signalGroupList
         nd2 = ET.Element('ComSignalGroupList')
         for obj in self.signalGroupList:

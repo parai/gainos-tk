@@ -14,36 +14,24 @@ extern const Com_ConfigType ComConfiguration;
 
 //  COM IPDU Id Defines.
 #define vCom_IPdu1_TX 0
-#define COM_TX_vEcuC_Pdu1 0	/* for vCom_IPdu1_TX */
+#define COM_TX_vEcuC_Pdu_1 0	/* for vCom_IPdu1_TX */
 #define vCom_IPdu1_RX 1
-#define COM_RX_vEcuC_Pdu1 1	/* for vCom_IPdu1_RX */
-#define vCom_IPdu2_TX 2
-#define COM_TX_vEcuC_Pdu2 2	/* for vCom_IPdu2_TX */
-#define vCom_IPdu2_RX 3
-#define COM_RX_vEcuC_Pdu2 3	/* for vCom_IPdu2_RX */
+#define COM_RX_vEcuC_Pdu_1 1	/* for vCom_IPdu1_RX */
 
 //General Signal (Group) Id defines
 #define vCom_IPdu1_TX_Signal0 0
-#define vCom_IPdu1_RX_Signal0 1
-#define vCom_IPdu2_TX_Signal0 2
-#define vCom_IPdu2_RX_Signal0 3
+#define vCom_IPdu1_Signal0 1
 
 //Group Signal Id defines
 
 // Notifications
 extern void vCom_IPdu1_TX_Signal0_Notification(void);
 extern void vCom_IPdu1_TX_Signal0_TimeoutNotification(void);
-extern void vCom_IPdu1_RX_Signal0_Notification(void);
-extern void vCom_IPdu1_RX_Signal0_TimeoutNotification(void);
-extern void vCom_IPdu2_TX_Signal0_Notification(void);
-extern void vCom_IPdu2_TX_Signal0_TimeoutNotification(void);
-extern void vCom_IPdu2_RX_Signal0_Notification(void);
-extern void vCom_IPdu2_RX_Signal0_TimeoutNotification(void);
+extern void vCom_IPdu1_Signal0_Notification(void);
+extern void vCom_IPdu1_Signal0_TimeoutNotification(void);
 
 // Callouts
-extern boolean vCom_IPdu1_TX_Callout(PduIdType PduId, const uint8 *IPduData);
-extern boolean vCom_IPdu1_RX_Callout(PduIdType PduId, const uint8 *IPduData);
-extern boolean vCom_IPdu2_TX_Callout(PduIdType PduId, const uint8 *IPduData);
-extern boolean vCom_IPdu2_RX_Callout(PduIdType PduId, const uint8 *IPduData);
+extern boolean vCom_IPdu0_Callout(PduIdType PduId, const uint8 *IPduData);
+extern boolean vCom_IPdu1_Callout(PduIdType PduId, const uint8 *IPduData);
 #endif /* COM_PBCFG_H */
 

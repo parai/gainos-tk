@@ -19,101 +19,57 @@
 #include "J1939Tp.h"
 #endif
 //Tp Buffers,not understand by parai
-const PduRDestPdu_type vPduR_SrcPath_0_PduRDestination[] = {
+const PduRDestPdu_type vPduR_SrcPath0_PduRDestination[] = {
 	{
 		/* .DataProvision = */ PDUR_NO_PROVISION,
-		/* .DestPduId = */ COM_RX_vEcuC_Pdu1,
-		/* .TxBufferRef = */ NULL,
-		/* .DestModule = */ ARC_PDUR_COM
-	},
-};
-const PduRDestPdu_type * const vPduR_SrcPath_0_PduRDestinations[] = {
-	&vPduR_SrcPath_0_PduRDestination[0],/* vPduR_DestPath0 */
-	NULL
-};
-
-const PduRDestPdu_type vPduR_SrcPath_1_PduRDestination[] = {
-	{
-		/* .DataProvision = */ PDUR_NO_PROVISION,
-		/* .DestPduId = */ CANIF_TX_vEcuC_Pdu1,
+		/* .DestPduId = */ CANIF_TX_vEcuC_Pdu_1,
 		/* .TxBufferRef = */ NULL,
 		/* .DestModule = */ ARC_PDUR_CANIF
 	},
 };
-const PduRDestPdu_type * const vPduR_SrcPath_1_PduRDestinations[] = {
-	&vPduR_SrcPath_1_PduRDestination[0],/* vPduR_DestPath0 */
+const PduRDestPdu_type * const vPduR_SrcPath0_PduRDestinations[] = {
+	&vPduR_SrcPath0_PduRDestination[0],/* vPduR_DestPath0 */
 	NULL
 };
 
-const PduRDestPdu_type vPduR_SrcPath_2_PduRDestination[] = {
+const PduRDestPdu_type vPduR_SrcPath1_PduRDestination[] = {
 	{
 		/* .DataProvision = */ PDUR_NO_PROVISION,
-		/* .DestPduId = */ COM_RX_vEcuC_Pdu2,
+		/* .DestPduId = */ COM_RX_vEcuC_Pdu_1,
 		/* .TxBufferRef = */ NULL,
 		/* .DestModule = */ ARC_PDUR_COM
 	},
 };
-const PduRDestPdu_type * const vPduR_SrcPath_2_PduRDestinations[] = {
-	&vPduR_SrcPath_2_PduRDestination[0],/* vPduR_DestPath0 */
+const PduRDestPdu_type * const vPduR_SrcPath1_PduRDestinations[] = {
+	&vPduR_SrcPath1_PduRDestination[0],/* vPduR_DestPath0 */
 	NULL
 };
 
-const PduRDestPdu_type vPduR_SrcPath_3_PduRDestination[] = {
-	{
-		/* .DataProvision = */ PDUR_NO_PROVISION,
-		/* .DestPduId = */ CANIF_TX_vEcuC_Pdu2,
-		/* .TxBufferRef = */ NULL,
-		/* .DestModule = */ ARC_PDUR_CANIF
-	},
-};
-const PduRDestPdu_type * const vPduR_SrcPath_3_PduRDestinations[] = {
-	&vPduR_SrcPath_3_PduRDestination[0],/* vPduR_DestPath0 */
-	NULL
-};
-
-const PduRRoutingPath_type vPduR_SrcPath_0_PduRRoutingPath = {
+const PduRRoutingPath_type vPduR_SrcPath0_PduRRoutingPath = {
 	/* .SduLength = */ 8,
 	/* .TpChunkSize = */0xDEAD,
 	/* .PduRDefaultValue = */{0xDB,NULL},
-	/* .SrcPduId = */ CANIF_RX_vEcuC_Pdu1,
-	/* .SrcModule =  */ARC_PDUR_CANIF,
-	/* .PduRDestPdus = */ vPduR_SrcPath_0_PduRDestinations
-};
-const PduRRoutingPath_type vPduR_SrcPath_1_PduRRoutingPath = {
-	/* .SduLength = */ 8,
-	/* .TpChunkSize = */0xDEAD,
-	/* .PduRDefaultValue = */{0xDB,NULL},
-	/* .SrcPduId = */ COM_TX_vEcuC_Pdu1,
+	/* .SrcPduId = */ COM_TX_vEcuC_Pdu_1,
 	/* .SrcModule =  */ARC_PDUR_COM,
-	/* .PduRDestPdus = */ vPduR_SrcPath_1_PduRDestinations
+	/* .PduRDestPdus = */ vPduR_SrcPath0_PduRDestinations
 };
-const PduRRoutingPath_type vPduR_SrcPath_2_PduRRoutingPath = {
+const PduRRoutingPath_type vPduR_SrcPath1_PduRRoutingPath = {
 	/* .SduLength = */ 8,
 	/* .TpChunkSize = */0xDEAD,
 	/* .PduRDefaultValue = */{0xDB,NULL},
-	/* .SrcPduId = */ CANIF_RX_vEcuC_Pdu2,
+	/* .SrcPduId = */ CANIF_RX_vEcuC_Pdu_1,
 	/* .SrcModule =  */ARC_PDUR_CANIF,
-	/* .PduRDestPdus = */ vPduR_SrcPath_2_PduRDestinations
-};
-const PduRRoutingPath_type vPduR_SrcPath_3_PduRRoutingPath = {
-	/* .SduLength = */ 8,
-	/* .TpChunkSize = */0xDEAD,
-	/* .PduRDefaultValue = */{0xDB,NULL},
-	/* .SrcPduId = */ COM_TX_vEcuC_Pdu2,
-	/* .SrcModule =  */ARC_PDUR_COM,
-	/* .PduRDestPdus = */ vPduR_SrcPath_3_PduRDestinations
+	/* .PduRDestPdus = */ vPduR_SrcPath1_PduRDestinations
 };
 const PduRRoutingPath_type * const PduRRoutingPaths[] = { 
-	&vPduR_SrcPath_0_PduRRoutingPath,
-	&vPduR_SrcPath_1_PduRRoutingPath,
-	&vPduR_SrcPath_2_PduRRoutingPath,
-	&vPduR_SrcPath_3_PduRRoutingPath,
+	&vPduR_SrcPath0_PduRRoutingPath,
+	&vPduR_SrcPath1_PduRRoutingPath,
 	NULL
 };
 
 const PduR_PBConfigType PduR_Config = {
 	/* .PduRConfigurationId = */ 0,
-	/* .NRoutingPaths = */ 4,
+	/* .NRoutingPaths = */ 2,
 	/* .RoutingPaths = */ PduRRoutingPaths,
 	/* .TpBuffers = */ NULL,
 	/* .TpRouteBuffers = */ NULL

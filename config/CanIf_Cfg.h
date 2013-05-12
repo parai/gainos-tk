@@ -22,21 +22,17 @@
 #define USE_CANTP
 
 /* Tx PduId For CanIF */
-#define CANIF_TX_vEcuC_Pdu2		0
-#define CANIF_TX_vEcuC_Pdu1		1
+#define CANIF_TX_vEcuC_Pdu_1		0
 /* Rx PduId For CanIF */
-#define CANIF_RX_vEcuC_Pdu2		0
-#define CANIF_RX_vEcuC_Pdu1		1
+#define CANIF_RX_vEcuC_Pdu_1		0
 // Identifiers for the elements in CanIfControllerConfig[]
 // This is the ConfigurationIndex in CanIf_InitController()
 typedef enum {
-	vCanIf_Channel_2_CONFIG_0,
 	vCanIf_Channel_1_CONFIG_0,
 	CANIF_CHANNEL_CONFIGURATION_CNT
 }CanIf_Arc_ConfigurationIndexType;
 
 typedef enum {
-	vCanIf_Channel_2,
 	vCanIf_Channel_1,
 	CANIF_CHANNEL_CNT
 }CanIf_Arc_ChannelIdType;

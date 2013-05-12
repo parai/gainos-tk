@@ -184,7 +184,7 @@ class cd_canif(QDialog, Ui_cd_canif):
         self.cmbxCanHwCtrl.clear();
         for ctrl in self.depinfo[0].cfg.CanCtrlList:
             self.cmbxCanHwCtrl.addItem(ctrl.name);
-        self.leChannelName.setText(ctrl.name);
+        self.leChannelName.setText(obj.name);
         self.cmbxCanHwCtrl.setCurrentIndex(self.cmbxCanHwCtrl.findText(obj.canHwCtrl));
         self.enableTab(0);
     

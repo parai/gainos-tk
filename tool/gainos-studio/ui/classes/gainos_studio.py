@@ -102,11 +102,12 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
     
     @pyqtSignature("")
     def on_actionSave_triggered(self):
-        return
+        self.on_btnFileSave_clicked();
     
     @pyqtSignature("")
     def on_actionSave_As_triggered(self):
-        return
+        self.saveArxmlAs();
+        self.fileIndicate(True);
         
     @pyqtSignature("QTreeWidgetItem*, int")
     def on_trModule_itemClicked(self, item, column):
@@ -192,6 +193,7 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         if(arxml!=''):
             self.arxml=str(arxml);
             self.cfg.save(self.arxml); 
+            self.reloadGui();
         
     def fileIndicate(self, saved):
         if(saved == False):
