@@ -61,7 +61,7 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         self.btnEdit.setDisabled(True);
         self.btnFileSave.setDisabled(True);
         self.btnGen.setDisabled(True);
-        self.teInfo.setDisabled(True);
+        self.teInfo.setReadOnly(True);
         self.teInfo.setText("Please load or new a config project firstly.")
         #init Menu Action
         self.actionOpen.setShortcut('Ctrl+O');

@@ -8,14 +8,14 @@ from PyQt4.QtGui import QDialog
 from PyQt4.QtCore import pyqtSignature
 from PyQt4.QtGui import QTreeWidgetItem, QMessageBox
 from PyQt4.QtCore import QStringList,QString
-from Ui_Com_Dlg import Ui_Com_Dlg
-from ComCfg import *
+from Ui_cd_com import Ui_cd_com
+from gainos_tk_com_cfg import *
 
-class Com_Dlg(QDialog, Ui_Com_Dlg):
+class cd_com(QDialog, Ui_cd_com):
     """
     Class documentation goes here.
     """
-    def __init__(self, cfg, depinfo, parent = None):
+    def __init__(self, title, fileInd, cfg, depinfo, parent = None):
         """
         depinfo[]: 
         -> depinfo[0]: the info about the list configured in EcuC,
@@ -27,6 +27,8 @@ class Com_Dlg(QDialog, Ui_Com_Dlg):
         self.curtree=None;       
         QDialog.__init__(self, parent)
         self.setupUi(self)
+        self.setWindowTitle(title);
+        self.fileInd = fileInd;
         self.initGui();
 
     def initButton(self):
@@ -440,25 +442,29 @@ class Com_Dlg(QDialog, Ui_Com_Dlg):
     @pyqtSignature("bool")
     def on_cbxDevErr_clicked(self, checked):
         self.cfg.General.DevErrorDetection = checked;
+        self.fileInd(False);
 
 ######################## For Pdu Group Tab ################################
     @pyqtSignature("QString")
     def on_lePduGrpName_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.name=p0;
-            self.curtree.setText(0, p0); 
+            self.curtree.setText(0, p0);
+            self.fileInd(False); 
 
 ######################## For General I-Pdu Tab ################################
     @pyqtSignature("QString")
     def on_leIPduName_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.name=p0;
-            self.curtree.setText(0, p0);  
+            self.curtree.setText(0, p0);
+            self.fileInd(False);  
     
     @pyqtSignature("QString")
     def on_cmbxGblPdu_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ArcIPduOutgoingId=p0;
+            self.fileInd(False);
     
     @pyqtSignature("QString")
     def on_cmbxPduDirection_activated(self, p0):
@@ -468,57 +474,68 @@ class Com_Dlg(QDialog, Ui_Com_Dlg):
                 self.disableIPduTxOption(True);
             elif(p0 == 'SEND'):
                 self.disableIPduTxOption(False);
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_cmbxPduGrp_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ComIPduGroupRef=p0;
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_lePduCallout_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComIPduCallout=p0;
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_cmbxPduSignalProcessing_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ComIPduSignalProcessing=p0;
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxMinDelayFactor_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTxIPduMinimumDelayFactor=p0;
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxDefaultValueForUnusedAreas_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTxIPduUnusedAreasDefault=p0;
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_cmbxPduTxMode_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTxModeMode=p0;
             self.disenIPuTxOption(p0);
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxNumberOfRepetitions_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTxModeNumberOfRepetitions=p0;
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxRepetitionPeriodFactor_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTxModeRepetitionPeriodFactor=p0;
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxTimeOffsetFactor_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTxModeTimeOffsetFactor=p0;
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxTimePeriodFactor_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTxModeTimePeriodFactor=p0;
+            self.fileInd(False);
 
 ######################## For General Signal Tab################################ 
     @pyqtSignature("QString")
@@ -526,72 +543,86 @@ class Com_Dlg(QDialog, Ui_Com_Dlg):
         if(self.curobj!=None):
             self.curobj.name=p0;
             self.curtree.setText(0, p0);
+            self.fileInd(False);
     
     @pyqtSignature("QString")
     def on_cmbxSignalType_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ComSignalType=p0;
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_cmbxSignalEndianess_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ComSignalEndianess=p0;
+            self.fileInd(False);
     
     @pyqtSignature("QString")
     def on_cmbxSignalTxProperty_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTransferProperty=p0;
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxSignalPosition_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComBitPosition=p0;
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxSignalSize_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComBitSize=p0;
+            self.fileInd(False);
 
     @pyqtSignature("bool")
     def on_cbxSignalUpdateBitPosition_clicked(self, checked):
         if(self.curobj!=None):
             self.curobj.ComSignalArcUseUpdateBit=checked;
             self.spbxSignalUpdateBitPosition.setDisabled(not checked);
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxSignalUpdateBitPosition_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComUpdateBitPosition=p0;
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxSignalTimeoutFactor_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTimeoutFactor=p0;
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxSignalFirstTimeout_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComFirstTimeoutFactor=p0;
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_leSignalInitValue_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComSignalInitValue=p0;
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_leSignalNotification_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComNotification=p0;
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_leSignalNotificationOnTimeout_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTimeoutNotification=p0;
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_cmbxSignalTimeoutAction_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ComRxDataTimeoutAction=p0;
+            self.fileInd(False);
 
 ######################## For Signal Group Tab ################################
     @pyqtSignature("QString")
@@ -599,46 +630,56 @@ class Com_Dlg(QDialog, Ui_Com_Dlg):
         if(self.curobj!=None):
             self.curobj.name=p0;
             self.curtree.setText(0, p0);
+            self.fileInd(False);
     
     @pyqtSignature("QString")
     def on_cmbxSignalGrpTxProperty_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTransferProperty=p0;
+            self.fileInd(False);
     @pyqtSignature("int")
     def on_spbxSignalGrpPosition_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComBitPosition=p0;
+            self.fileInd(False);
     @pyqtSignature("int")
     def on_spbxSignalGrpSize_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComBitSize=p0;
+            self.fileInd(False);
 
     @pyqtSignature("bool")
     def on_cbxSignalGrpUpdateBitPosition_clicked(self, checked):
         if(self.curobj!=None):
             self.curobj.ComSignalArcUseUpdateBit=checked;
             self.spbxSignalGrpUpdateBitPosition.setDisabled(not checked);
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxSignalGrpUpdateBitPosition_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComUpdateBitPosition=p0;
+            self.fileInd(False);
     @pyqtSignature("int")
     def on_spbxSignalGrpTimeoutFactor_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTimeoutFactor=p0;
+            self.fileInd(False);
     @pyqtSignature("int")
     def on_spbxSignalGrpFirstTimeout_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComFirstTimeoutFactor=p0;
+            self.fileInd(False);
     @pyqtSignature("QString")
     def on_leSignalGrpNotification_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComNotification=p0;
+            self.fileInd(False);
     @pyqtSignature("QString")
     def on_leSignalGrpNotificationOnTimeout_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComTimeoutNotification=p0;
+            self.fileInd(False);
 
 ######################## For Group Signal Tab ################################
     @pyqtSignature("QString")
@@ -646,25 +687,31 @@ class Com_Dlg(QDialog, Ui_Com_Dlg):
         if(self.curobj!=None):
             self.curobj.name=p0;
             self.curtree.setText(0, p0);
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_leGrpSignalInitValue_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComSignalInitValue=p0;
+            self.fileInd(False);
     @pyqtSignature("QString")
     def on_cmbxGrpSignalType_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ComSignalType=p0;
+            self.fileInd(False);
     @pyqtSignature("QString")
     def on_cmbxGrpSignalEndianess_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.ComSignalEndianess=p0;
+            self.fileInd(False);
     @pyqtSignature("int")
     def on_spbxGrpSignalPosition_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComBitPosition=p0;
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxGrpSignalSize_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.ComBitSize=p0;
+            self.fileInd(False);

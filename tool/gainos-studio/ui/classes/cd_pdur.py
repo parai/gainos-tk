@@ -47,14 +47,14 @@
 from PyQt4.QtGui import QDialog
 from PyQt4.QtCore import pyqtSignature
 
-from PduRCfg import *
-from Ui_PduR_Dlg import Ui_PduR_Dlg
+from gainos_tk_pdur_cfg import *
+from Ui_cd_pdur import Ui_cd_pdur
 
-class PduR_Dlg(QDialog, Ui_PduR_Dlg):
+class cd_pdur(QDialog, Ui_cd_pdur):
     """
     Class documentation goes here.
     """
-    def __init__(self, cfg, depinfo, parent = None):
+    def __init__(self, title, fileInd, cfg, depinfo, parent = None):
         """
         depinfo[]: 
         -> depinfo[0]: the info about the list configured in EcuC,
@@ -66,6 +66,8 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
         self.curtree=None;
         QDialog.__init__(self, parent)
         self.setupUi(self)
+        self.setWindowTitle(title)
+        self.fileInd = fileInd;
         self.initGui();
 
     def initGeneralGui(self):
@@ -247,11 +249,13 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
         if(self.curobj!=None):
             self.curobj.name=p0;
             self.curtree.setText(0, p0);
+            self.fileInd(False);
 
     @pyqtSignature("int")
     def on_spbxBufferSize_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.size=p0;
+            self.fileInd(False);
 
 ####################### Src Path######################    
     @pyqtSignature("QString")
@@ -260,11 +264,13 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
             self.curobj.name=p0;
             text='%s(%s, %s)'%(self.curobj.name, self.curobj.SrcModule, self.curobj.SrcPduId);
             self.curtree.setText(0, text);
+            self.fileInd(False);
     
     @pyqtSignature("int")
     def on_spbxSduLength_valueChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.SduLength=p0;
+            self.fileInd(False);
 
     @pyqtSignature("QString")   
     def on_cmbxSrcPdu_activated(self, p0):
@@ -272,6 +278,7 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
             self.curobj.SrcPduId=p0;
             text='%s(%s, %s)'%(self.curobj.name, self.curobj.SrcModule, self.curobj.SrcPduId);
             self.curtree.setText(0, text);
+            self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxSrcModule_clicked(self, checked):
@@ -282,6 +289,7 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
                 ###reset it to Com
                 self.on_cmbxSrcModule_activated('Com');
                 self.cmbxSrcModule.setCurrentIndex(self.cmbxSrcModule.findText('Com'));
+            self.fileInd(False);
 
     @pyqtSignature("QString")
     def on_cmbxSrcModule_activated(self, p0):
@@ -289,6 +297,7 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
             self.curobj.SrcModule=str(p0);
             text='%s(%s, %s)'%(self.curobj.name, self.curobj.SrcModule, self.curobj.SrcPduId);
             self.curtree.setText(0, text);
+            self.fileInd(False);
 
 ########################## Dst Path #########################
     @pyqtSignature("QString")
@@ -297,6 +306,7 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
             self.curobj.name=p0;
             text='%s(%s, %s)'%(self.curobj.name, self.curobj.DestModule, self.curobj.DestPduId);
             self.curtree.setText(0, text);
+            self.fileInd(False);
 
     @pyqtSignature("bool")
     def on_cbxDataProvision_clicked(self, checked):
@@ -307,11 +317,13 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
                 ##reset it
                 self.cmbxDataProvision.setCurrentIndex(-1);
                 self.curobj.DataProvision='NO_PROVISION';
+            self.fileInd(False);
         
     @pyqtSignature("QString")
     def on_cmbxDataProvision_activated(self, p0):
         if(self.curobj!=None):
             self.curobj.DataProvision=p0;
+            self.fileInd(False);
     
     @pyqtSignature("QString")
     def on_cmbxDstPdu_activated(self, p0):
@@ -319,6 +331,7 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
             self.curobj.DestPduId=p0;
             text='%s(%s, %s)'%(self.curobj.name, self.curobj.DestModule, self.curobj.DestPduId);
             self.curtree.setText(0, text);
+            self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxDstModule_clicked(self, checked):
@@ -329,6 +342,7 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
                 ###reset it to CanIf
                 self.on_cmbxDstModule_activated('CanIf');
                 self.cmbxDstModule.setCurrentIndex(self.cmbxDstModule.findText('CanIf'));
+            self.fileInd(False);
     
     @pyqtSignature("QString")
     def on_cmbxDstModule_activated(self, p0):
@@ -336,6 +350,7 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
             self.curobj.DestModule=str(p0);
             text='%s(%s, %s)'%(self.curobj.name, self.curobj.DestModule, self.curobj.DestPduId);
             self.curtree.setText(0, text);
+            self.fileInd(False);
 
     def addSrcPath(self):
         id = len(self.cfg.pduRoutingPathList);
@@ -377,6 +392,7 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
             self.addDestPath();
         elif(text == 'Add Tp Buffer'):
             self.addTpBuffer();
+        self.fileInd(False);
     
     @pyqtSignature("")
     def on_btnDel_clicked(self):
@@ -400,14 +416,17 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
         else:
             parent.setSelected(True);
             self.on_trPduRCfg_itemClicked(parent, 0);
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxDevErr_clicked(self, checked):
         self.cfg.General.DevErrorDetection = checked;
+        self.fileInd(False);
 
     @pyqtSignature("bool")
     def on_cbxVersionInfo_clicked(self, checked):
         self.cfg.General.VersionInfoAPI=checked;
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxZeroCostEnable_clicked(self, checked):
@@ -422,49 +441,61 @@ class PduR_Dlg(QDialog, Ui_PduR_Dlg):
             self.cbxSingleTp.setDisabled(True);
             self.cmbxSingleIf.setDisabled(True);
             self.cmbxSingleTp.setDisabled(True);
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxSingleIf_clicked(self, checked):
         self.cfg.General.SingleIfEnable=checked;
         self.cmbxSingleIf.setDisabled(not checked);
+        self.fileInd(False);
     
     @pyqtSignature("QString")
     def on_cmbxSingleIf_activated(self, p0):
         self.cfg.General.SingleIf = p0;
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxSingleTp_clicked(self, checked):
         self.cfg.General.SingleTpEnable=checked;
         self.cmbxSingleTp.setDisabled(not checked);
+        self.fileInd(False);
     
     @pyqtSignature("QString")
     def on_cmbxSingleTp_activated(self, p0):
         self.cfg.General.SingleTp = p0;
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxCanIf_clicked(self, checked):
         self.cfg.General.CanIfUsed = checked;
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxCanTp_clicked(self, checked):
         self.cfg.General.CanTpUsed = checked;
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxCom_clicked(self, checked):
         self.cfg.General.ComUsed = checked;
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxDcm_clicked(self, checked):
         self.cfg.General.DcmUsed = checked;
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxLinIf_clicked(self, checked):
         self.cfg.General.LinIfUsed = checked;
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxLinTp_clicked(self, checked):
         self.cfg.General.LinTpUsed = checked;
+        self.fileInd(False);
     
     @pyqtSignature("bool")
     def on_cbxJ1939Tp_clicked(self, checked):
         self.cfg.General.J1939TpUsed = checked;
+        self.fileInd(False);

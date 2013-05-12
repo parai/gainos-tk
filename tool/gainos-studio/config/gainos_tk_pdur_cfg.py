@@ -51,6 +51,7 @@ from Common import *
 import os, sys
 import shutil 
 from time import localtime, time,strftime
+import xml.etree.ElementTree as ET
 class PduRGeneral():
     def __init__(self):
         self.DevErrorDetection = True;
@@ -69,22 +70,23 @@ class PduRGeneral():
         self.LinTpUsed = False;
         self.J1939TpUsed = False;
 
-    def save(self, fp):
-        attrib='DevErrorDetection="%s" '%(self.DevErrorDetection);
-        attrib+='VersionInfoAPI="%s" '%(self.VersionInfoAPI);
-        attrib+='ZeroCostOperation="%s" '%(self.ZeroCostOperation);
-        attrib+='SingleIfEnable="%s" '%(self.SingleIfEnable);
-        attrib+='SingleTpEnable="%s" '%(self.SingleTpEnable);
-        attrib+='SingleIf="%s" '%(self.SingleIf);
-        attrib+='SingleTp="%s" '%(self.SingleTp);
-        attrib+='CanIfUsed="%s" '%(self.CanIfUsed);
-        attrib+='CanTpUsed="%s" '%(self.CanTpUsed);
-        attrib+='ComUsed="%s" '%(self.ComUsed);
-        attrib+='DcmUsed="%s" '%(self.DcmUsed);
-        attrib+='LinIfUsed="%s" '%(self.LinIfUsed);
-        attrib+='LinTpUsed="%s" '%(self.LinTpUsed);
-        attrib+='J1939TpUsed="%s" '%(self.J1939TpUsed);
-        fp.write('<PduRGeneral %s></PduRGeneral>\n'%(attrib));
+    def save(self, root):
+        nd = ET.Element('General');
+        nd.attrib['DevErrorDetection'] = str(self.DevErrorDetection);
+        nd.attrib['VersionInfoAPI'] = str(self.VersionInfoAPI);
+        nd.attrib['ZeroCostOperation'] = str(self.ZeroCostOperation);
+        nd.attrib['SingleIfEnable'] = str(self.SingleIfEnable);
+        nd.attrib['SingleTpEnable'] = str(self.SingleTpEnable);
+        nd.attrib['SingleIf'] = str(self.SingleIf);
+        nd.attrib['SingleTp'] = str(self.SingleTp);
+        nd.attrib['CanIfUsed'] = str(self.CanIfUsed);
+        nd.attrib['CanTpUsed'] = str(self.CanTpUsed);
+        nd.attrib['ComUsed'] = str(self.ComUsed);
+        nd.attrib['DcmUsed'] = str(self.DcmUsed);
+        nd.attrib['LinIfUsed'] = str(self.LinIfUsed);
+        nd.attrib['LinTpUsed'] = str(self.LinTpUsed);
+        nd.attrib['J1939TpUsed'] = str(self.J1939TpUsed);
+        root.append(nd);
     
     def parse(self, node):
         if(node == None):
@@ -114,14 +116,16 @@ class PduRDstPath():
         self.TxBufferRef = 'NULL';#还不清楚其用意
         self.DestModuleEnable=False;
 
-    def save(self, fp):
-        attrib = 'name="%s" '%(self.name);
-        attrib +='DataProvision="%s" '%(self.DataProvision);
-        attrib +='DataProvisionEnable="%s" '%(self.DataProvisionEnable);
-        attrib +='DestPduId="%s" '%(self.DestPduId);
-        attrib +='DestModule="%s" '%(self.DestModule);
-        attrib +='DestModuleEnable="%s" '%(self.DestModuleEnable);
-        fp.write('<PduRDstPath %s></PduRDstPath>\n'%(attrib));
+    def save(self, root):
+        nd = ET.Element('PduRDstPath');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['DataProvision'] = str(self.DataProvision);
+        nd.attrib['DataProvisionEnable'] = str(self.DataProvisionEnable);
+        nd.attrib['DestPduId'] = str(self.DestPduId);
+        nd.attrib['DestModule'] = str(self.DestModule);
+        nd.attrib['TxBufferRef'] = str(self.TxBufferRef);
+        nd.attrib['DestModuleEnable'] = str(self.DestModuleEnable);
+        root.append(nd);
 
     def parse(self, node):
         self.name = node.attrib['name'];
@@ -140,29 +144,18 @@ class PduRSrcPath():
         self.SrcModule = 'Com';
         self.destPathList=[];
 
-    def save(self, fp):
-        attrib = 'name="%s" '%(self.name);
-        attrib += 'SduLength="%s" '%(self.SduLength);
-        attrib += 'SrcPduId="%s" '%(self.SrcPduId);
-        attrib += 'SrcModuleEnable="%s" '%(self.SrcModuleEnable);
-        attrib += 'SrcModule="%s" '%(self.SrcModule);   
-        fp.write('<PduRSrcPath %s>\n'%(attrib));
-        self.saveDestPathList(fp);
-        fp.write('</PduRSrcPath>\n');
-
-    def saveDestPathList(self, fp):
-        fp.write('<PduRDestPathList>\n');
-        for dest in self.destPathList:
-            dest.save(fp);
-        fp.write('</PduRDestPathList>\n');
-
-    def doParseDestPathList(self, list):
-        if(list == None):
-            return;
-        for node in list:
-            dest=PduRDstPath('');
-            dest.parse(node);
-            self.destPathList.append(dest);
+    def save(self, root):
+        nd = ET.Element('PduRSrcPath');
+        nd.attrib['name'] = str(self.name)
+        nd.attrib['SduLength'] = str(self.SduLength)
+        nd.attrib['SrcPduId'] = str(self.SrcPduId)
+        nd.attrib['SrcModuleEnable'] = str(self.SrcModuleEnable)
+        nd.attrib['SrcModule'] = str(self.SrcModule)
+        nd2 = ET.Element('PduRDestPathList');
+        for obj in self.destPathList:
+            obj.save(nd2)
+        nd.append(nd2)
+        root.append(nd)
 
     def parse(self, node):
         self.name = node.attrib['name'];
@@ -170,16 +163,21 @@ class PduRSrcPath():
         self.SrcPduId = node.attrib['SrcPduId'];
         self.SrcModuleEnable = bool(node.attrib['SrcModuleEnable']);
         self.SrcModule = node.attrib['SrcModule'];
-        self.doParseDestPathList(node.find('PduRDestPathList'));
+        for nd2 in node.find('PduRDestPathList'):
+            obj = PduRDstPath('');
+            obj.parse(nd2);
+            self.destPathList.append(obj)
 
 class PduRTpBuffer():
     def __init__(self, name):
         self.name=name;
         self.size=32;
 
-    def save(self, fp):
-        fp.write('<PduRTpBuffer name="%s" size="%s"></PduRTpBuffer>\n'%
-                 (self.name, self.size));
+    def save(self, root):
+        nd = ET.Element('PduRTpBuffer');
+        nd.attrib['name'] = str(self.name)
+        nd.attrib['size'] = str(self.size)
+        root.append(nd);
     
     def parse(self, node):
         self.name =node.attrib['name'];
@@ -191,9 +189,8 @@ class PduRConfig():
         self.pduRoutingPathList=[];
         self.tpBufferList=[]
 
-from PduR_Dlg import *
-class PduRObj():
-    def __init__(self):
+class gainos_tk_pdur_cfg():
+    def __init__(self, chip = None):
         self.cfg=PduRConfig();
         print "init PduR Object"
 
@@ -201,22 +198,18 @@ class PduRObj():
         str='  Double Clicked to Start to Configure the Pdu Router!\n';
         return str;
 
-    def findObj(self, list, name):
-        for obj in list:
-            if(name==obj.name):
-                return obj;
-        return None;
-
-    def show(self, cfg):
+    def show(self,title, fileInd, module_list):
+        from cd_pdur import cd_pdur
         depinfo=[];
-        obj=self.findObj(cfg.arobjList, 'EcuC');
-        if(obj==None):
+        md=gcfindModule(module_list, 'EcuC');
+        if(md==None):
             QMessageBox(QMessageBox.Information, 'GaInOS Info', 
                 'Please Configure EcuC Firstly!').exec_();
             return;
-        depinfo.append(obj.arobj);
-        dlg=PduR_Dlg(self.cfg, depinfo);
-        dlg.exec_();
+        depinfo.append(md.obj);
+        self.dlg=cd_pdur(title, fileInd, self.cfg, depinfo);
+        self.dlg.setModal(False)
+        self.dlg.show();
  
     def saveSrcPathList(self, fp):
         fp.write('<PduRSrcPathList>\n');
@@ -224,70 +217,38 @@ class PduRObj():
             src.save(fp);
         fp.write('</PduRSrcPathList>\n');
 
-    def saveTpBufferList(self, fp):
-        fp.write('<PduRTpBufferList>\n');
-        for obj in self.cfg.tpBufferList:
-            obj.save(fp);
-        fp.write('</PduRTpBufferList>\n');
-
-    def save(self, fp):
+    def save(self, root):
         """保存配置信息"""
-        self.cfg.General.save(fp);
-        self.saveSrcPathList(fp);
-        self.saveTpBufferList(fp);
-  
-    def doParseTpBufferList(self, list):
-        if(list == None):
-            return;
-        for node in list:
-            obj = PduRTpBuffer('');
-            obj.parse(node);
-            self.cfg.tpBufferList.append(obj);
+        self.cfg.General.save(root);
+        
+        nd = ET.Element('PduRSrcPathList');
+        for obj in self.cfg.pduRoutingPathList:
+            obj.save(nd);
+        root.append(nd);
+        nd = ET.Element('PduRTpBufferList');
+        for obj in self.cfg.tpBufferList:
+            obj.save(nd);
+        root.append(nd);
 
-    def doParseSrcPathList(self, list):
-        if(list == None):
-            return;
-        for node in list:
+    def parse(self, root):
+        self.cfg.General.parse(root.find('PduRGeneral'));
+        
+        for nd in root.find('PduRSrcPathList'):
             obj = PduRSrcPath('');
-            obj.parse(node);
-            self.cfg.pduRoutingPathList.append(obj);
+            obj.parse(nd)
+            self.cfg.pduRoutingPathList.append(obj)
+        for nd in root.find('PduRTpBufferList'):
+            obj = PduRTpBuffer('');
+            obj.parse(nd)
+            self.cfg.tpBufferList.append(obj)
 
-    def doParse(self, arxml):
-        self.cfg.General.parse(arxml.find('PduRGeneral'));
-        self.doParseTpBufferList(arxml.find('PduRTpBufferList'));
-        self.doParseSrcPathList(arxml.find('PduRSrcPathList'));
-
-    def backup(self, file):
-        tm=localtime(time());
-        file2=file+strftime("-%Y-%m-%d-%H-%M-%S",tm);
-        shutil.copy(file, file2+'.bak');
-
-    def codeGen(self, path):
-#        path1=path+'/autosar/comstack/config/PduR';
-#        try:
-#            os.mkdir(path+'/autosar');
-#        except:
-#            print "nothing serious!file already exists."
-#        try:
-#            os.mkdir(path+'/autosar/comstack');
-#        except:
-#            print "nothing serious!file already exists."
-#        try:
-#            os.mkdir(path+'/autosar/comstack/config');
-#        except:
-#            print "nothing serious!file already exists."
-#        try:
-#            os.mkdir(path+'/autosar/comstack/config/PduR');
-#        except:
-#            print "nothing serious!file already exists."
+    def gen(self, path):
         self.codeGenH(path);
         self.codeGenPbCfgH(path);
         self.codeGenPbCfgC(path);
 
     def codeGenH(self, path):
         file=path+'/PduR_Cfg.h';
-        if os.path.isfile(file)  and File_BakeUp_On_Gen:
-            self.backup(file);
         fp=open(file, 'w');
         fp.write('#if !(((PDUR_SW_MAJOR_VERSION == 2) && (PDUR_SW_MINOR_VERSION == 0)) )\n'
                 '#error PduR: Configuration file expected BSW module version to be 2.0.*\n'
@@ -403,8 +364,6 @@ class PduRObj():
 
     def codeGenPbCfgH(self, path):
         file=path+'/PduR_PbCfg.h';
-        if os.path.isfile(file)  and File_BakeUp_On_Gen:
-            self.backup(file);
         fp=open(file, 'w');
         fp.write("""
 #ifndef PDUR_PB_CFG_H_H
@@ -450,8 +409,6 @@ extern const PduR_PBConfigType PduR_Config;\n""");
 
     def codeGenPbCfgC(self, path):
         file=path+'/PduR_PbCfg.c';
-        if os.path.isfile(file)  and File_BakeUp_On_Gen:
-            self.backup(file);
         fp=open(file, 'w');
         fp.write("""#include "PduR.h"
 

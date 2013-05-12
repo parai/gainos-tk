@@ -54,25 +54,27 @@ from Common import *
 import os, sys
 import shutil 
 from time import localtime, time,strftime
-
+import xml.etree.ElementTree as ET
 class ComGeneral():
     def __init__(self):
         self.DevErrorDetection = False;
 
-    def save(self, fp):
-        fp.write('<ComGeneral>\n');
-        fp.write('<DevErrorDetection value="%s"></DevErrorDetection>\n'%(self.DevErrorDetection));
-        fp.write('</ComGeneral>\n');
+    def save(self, root):
+        nd = ET.Element('ComGeneral');
+        nd.attrib['DevErrorDetection'] = str(self.DevErrorDetection);
+        root.append(nd)
 
     def parse(self, node):
-        self.DevErrorDetection=bool(node.find('DevErrorDetection').attrib['value']);
+        self.DevErrorDetection=bool(node.attrib['DevErrorDetection']);
 
 class ComIPduGroup():
     def __init__(self, name):
         self.name = name;
 
-    def save(self, fp):
-        fp.write('<ComIPduGroup name="%s"></ComIPduGroup>\n'%(self.name));
+    def save(self, root):
+        nd = ET.Element('ComIPduGroup');
+        nd.attrib['name'] = str(self.name);
+        root.append(nd)
 
     def parse(self, node):
         self.name = node.attrib['name'];
@@ -105,23 +107,25 @@ class ComSignal():
             fp.write('};\n');
         else:
             fp.write('const %s %s_InitValue = %s;\n'%(str(self.ComSignalType).lower(), self.name, self.ComSignalInitValue));
-    def save(self, fp):
-        attrib = 'name="%s" '%(self.name);
-        attrib += 'ComBitPosition="%s" '%(self.ComBitPosition);
-        attrib += 'ComBitSize="%s" '%(self.ComBitSize);
-        attrib += 'ComErrorNotification="%s" '%(self.ComErrorNotification);
-        attrib += 'ComFirstTimeoutFactor="%s" '%(self.ComFirstTimeoutFactor);
-        attrib += 'ComNotification="%s" '%(self.ComNotification);
-        attrib += 'ComRxDataTimeoutAction="%s" '%(self.ComRxDataTimeoutAction);
-        attrib += 'ComSignalEndianess="%s" '%(self.ComSignalEndianess);
-        attrib += 'ComSignalInitValue="%s" '%(self.ComSignalInitValue);
-        attrib += 'ComSignalType="%s" '%(self.ComSignalType);
-        attrib += 'ComTimeoutFactor="%s" '%(self.ComTimeoutFactor);
-        attrib += 'ComTimeoutNotification="%s" '%(self.ComTimeoutNotification);
-        attrib += 'ComTransferProperty="%s" '%(self.ComTransferProperty);
-        attrib += 'ComUpdateBitPosition="%s" '%(self.ComUpdateBitPosition);
-        attrib += 'ComSignalArcUseUpdateBit="%s" '%(self.ComSignalArcUseUpdateBit);
-        fp.write('<ComSignal %s></ComSignal>\n'%(attrib));
+    def save(self,root):
+        nd = ET.Element('ComSignal')
+        nd.attrib['name'] = str(self.name)
+        nd.attrib['ComBitPosition'] = str(self.ComBitPosition)
+        nd.attrib['ComBitSize'] = str(self.ComBitSize)
+        nd.attrib['ComErrorNotification'] = str(self.ComErrorNotification)
+        nd.attrib['ComFirstTimeoutFactor'] = str(self.ComFirstTimeoutFactor)
+        nd.attrib['ComNotification'] = str(self.ComNotification)
+        nd.attrib['ComRxDataTimeoutAction'] = str(self.ComRxDataTimeoutAction)
+        nd.attrib['ComSignalEndianess'] = str(self.ComSignalEndianess)
+        nd.attrib['ComSignalType'] = str(self.ComSignalType)
+        nd.attrib['ComSignalInitValue'] = str(self.ComSignalInitValue)
+        nd.attrib['ComTimeoutFactor'] = str(self.ComTimeoutFactor)
+        nd.attrib['ComTimeoutNotification'] = str(self.ComTimeoutNotification)
+        nd.attrib['ComTransferProperty'] = str(self.ComTransferProperty)
+        nd.attrib['ComUpdateBitPosition'] = str(self.ComUpdateBitPosition)
+        nd.attrib['ComSignalArcUseUpdateBit'] = str(self.ComSignalArcUseUpdateBit)
+        nd.attrib['ComUpdateBitPosition'] = str(self.ComUpdateBitPosition)
+        root.append(nd);
 
     def parse(self, node):
         self.name = node.attrib['name'];
@@ -158,14 +162,15 @@ class ComGroupSignal():
             fp.write('};\n');
         else:
             fp.write('const %s %s_InitValue = %s;\n'%(self.ComSignalType.lower(), self.name, self.ComSignalInitValue));
-    def save(self, fp):
-        attrib = 'name="%s" '%(self.name);
-        attrib += 'ComSignalType="%s" '%(self.ComSignalType);
-        attrib += 'ComSignalEndianess="%s" '%(self.ComSignalEndianess);
-        attrib += 'ComBitPosition="%s" '%(self.ComBitPosition);
-        attrib += 'ComBitSize="%s" '%(self.ComBitSize);
-        attrib += 'ComSignalInitValue="%s" '%(self.ComSignalInitValue);
-        fp.write('<ComGroupSignal %s></ComGroupSignal>\n'%(attrib));
+    def save(self, root):
+        nd = ET.Element('ComGroupSignal')
+        nd.attrib['name'] = str(self.name)
+        nd.attrib['ComSignalType'] = str(self.ComSignalType)
+        nd.attrib['ComSignalEndianess'] = str(self.ComSignalEndianess)
+        nd.attrib['ComBitPosition'] = str(self.ComBitPosition)
+        nd.attrib['ComBitSize'] = str(self.ComBitSize)
+        nd.attrib['ComSignalInitValue'] = str(self.ComSignalInitValue)
+        root.append(nd);
     
     def parse(self, node):
         self.name = node.attrib['name'];
@@ -199,24 +204,23 @@ class ComSignalGroup():
         #print 'sizeInByte:', sizeInByte
         return sizeInByte;
 
-    def save(self, fp):
-        attrib = 'name="%s" '%(self.name);
-        attrib += 'ComTransferProperty="%s" '%(self.ComTransferProperty);
-        attrib += 'ComUpdateBitPosition="%s" '%(self.ComUpdateBitPosition);
-        attrib += 'ComSignalArcUseUpdateBit="%s" '%(self.ComSignalArcUseUpdateBit);
-        attrib += 'ComBitPosition="%s" '%(self.ComBitPosition);
-        attrib += 'ComBitSize="%s" '%(self.ComBitSize);
-        attrib += 'ComFirstTimeoutFactor="%s" '%(self.ComFirstTimeoutFactor);
-        attrib += 'ComTimeoutFactor="%s" '%(self.ComTimeoutFactor);
-        attrib += 'ComNotification="%s" '%(self.ComNotification);
-        attrib += 'ComTimeoutNotification="%s" '%(self.ComTimeoutNotification);
-        fp.write('<ComSignalGroup %s>\n'%(attrib));
-        #save groupSignalList
-        fp.write('<ComGroupSignalList>\n');
+    def save(self, root):
+        nd = ET.Element('ComGroupSignal')
+        nd.attrib['name'] = str(self.name)
+        nd.attrib['ComTransferProperty'] = str(self.ComTransferProperty)
+        nd.attrib['ComUpdateBitPosition'] = str(self.ComUpdateBitPosition)
+        nd.attrib['ComSignalArcUseUpdateBit'] = str(self.ComSignalArcUseUpdateBit)
+        nd.attrib['ComBitPosition'] = str(self.ComBitPosition)
+        nd.attrib['ComBitSize'] = str(self.ComBitSize)
+        nd.attrib['ComFirstTimeoutFactor'] = str(self.ComFirstTimeoutFactor)
+        nd.attrib['ComTimeoutFactor'] = str(self.ComTimeoutFactor)
+        nd.attrib['ComNotification'] = str(self.ComNotification)
+        nd.attrib['ComTimeoutNotification'] = str(self.ComTimeoutNotification)
+        nd2 = ET.Element('ComGroupSignalList')
         for obj in self.groupSignalList:
-            obj.save(fp);
-        fp.write('</ComGroupSignalList>\n'); 
-        fp.write('</ComSignalGroup>\n')
+            obj.save(nd2);
+        nd.append(nd2)
+        root.append(nd)
 
     def parse(self, node):
         self.name  = node.attrib['name'];
@@ -271,31 +275,31 @@ class ComIPdu():
         return sizeInByte;
 
     def save(self, fp):
-        attrib = 'name="%s" '%(self.name);
-        attrib += 'ComIPduCallout="%s" '%(self.ComIPduCallout);
-        attrib += 'ArcIPduOutgoingId="%s" '%(self.ArcIPduOutgoingId);
-        attrib += 'ComIPduSignalProcessing="%s" '%(self.ComIPduSignalProcessing);
-        attrib += 'ComIPduDirection="%s" '%(self.ComIPduDirection);
-        attrib += 'ComIPduGroupRef="%s" '%(self.ComIPduGroupRef);
-        attrib += 'ComTxIPduMinimumDelayFactor="%s" '%(self.ComTxIPduMinimumDelayFactor);
-        attrib += 'ComTxIPduUnusedAreasDefault="%s" '%(self.ComTxIPduUnusedAreasDefault);
-        attrib += 'ComTxModeMode="%s" '%(self.ComTxModeMode);
-        attrib += 'ComTxModeNumberOfRepetitions="%s" '%(self.ComTxModeNumberOfRepetitions);
-        attrib += 'ComTxModeRepetitionPeriodFactor="%s" '%(self.ComTxModeRepetitionPeriodFactor);
-        attrib += 'ComTxModeTimeOffsetFactor="%s" '%(self.ComTxModeTimeOffsetFactor);
-        attrib += 'ComTxModeTimePeriodFactor="%s" '%(self.ComTxModeTimePeriodFactor);
-        fp.write('<ComIPdu %s>\n'%(attrib));
+        nd = ET.Element('ComGroupSignal')
+        nd.attrib['name'] = str(self.name)
+        nd.attrib['ComIPduCallout'] = str(self.ComIPduCallout)
+        nd.attrib['ArcIPduOutgoingId'] = str(self.ArcIPduOutgoingId)
+        nd.attrib['ComIPduSignalProcessing'] = str(self.ComIPduSignalProcessing)
+        nd.attrib['ComIPduDirection'] = str(self.ComIPduDirection)
+        nd.attrib['ComIPduGroupRef'] = str(self.ComIPduGroupRef)
+        nd.attrib['ComTxIPduMinimumDelayFactor'] = str(self.ComTxIPduMinimumDelayFactor)
+        nd.attrib['ComTxIPduUnusedAreasDefault'] = str(self.ComTxIPduUnusedAreasDefault)
+        nd.attrib['ComTxModeMode'] = str(self.ComTxModeMode)
+        nd.attrib['ComTxModeNumberOfRepetitions'] = str(self.ComTxModeNumberOfRepetitions)
+        nd.attrib['ComTxModeRepetitionPeriodFactor'] = str(self.ComTxModeRepetitionPeriodFactor)
+        nd.attrib['ComTxModeTimeOffsetFactor'] = str(self.ComTxModeTimeOffsetFactor)
+        nd.attrib['ComTxModeTimePeriodFactor'] = str(self.ComTxModeTimePeriodFactor)
         #save signalList
-        fp.write('<ComSignalList>\n');
+        nd2 = ET.Element('ComSignalList')
         for obj in self.signalList:
-            obj.save(fp);
-        fp.write('</ComSignalList>\n');
+            obj.save(nd2);
+        nd.append(nd)
         #save signalGroupList
-        fp.write('<ComSignalGroupList>\n');
+        nd2 = ET.Element('ComSignalGroupList')
         for obj in self.signalGroupList:
-            obj.save(fp);
-        fp.write('</ComSignalGroupList>\n');
-        fp.write('</ComIPdu>\n');
+            obj.save(nd2);
+        nd.append(nd2);
+        root.append(nd)
 
     def parse(self, node):
         self.name = node.attrib['name'];
@@ -328,9 +332,8 @@ class ComConfig():
         self.IPduGroupList = [];
         self.IPduList = [];
 
-from Com_Dlg import *
-class ComObj():
-    def __init__(self):
+class gainos_tk_com_cfg():
+    def __init__(self, chip=None):
         self.cfg=ComConfig();
         print "init Com Object"
 
@@ -338,40 +341,36 @@ class ComObj():
         str='  Double Clicked to Start to Configure the Com!\n';
         return str;
 
-    def findObj(self, list, name):
-        for obj in list:
-            if(name==obj.name):
-                return obj;
-        return None;
-
-    def show(self, cfg):
+    def show(self, title, fileInd, module_list):
+        from cd_com import cd_com
         depinfo=[];
-        obj=self.findObj(cfg.arobjList, 'EcuC');
-        if(obj==None):
+        md=gcfindModule(module_list, 'EcuC');
+        if(md==None):
             QMessageBox(QMessageBox.Information, 'GaInOS Info', 
                 'Please Configure EcuC Firstly!').exec_();
             return;
-        depinfo.append(obj.arobj);
-        dlg=Com_Dlg(self.cfg, depinfo);
-        dlg.exec_();
+        depinfo.append(md.obj);
+        self.dlg=cd_com(title, fileInd, self.cfg, depinfo);
+        self.dlg.setModal(False)
+        self.dlg.show()
   
-    def saveIPduGroup(self, fp):
-        fp.write('<ComIPduGroupList>\n');
+    def saveIPduGroup(self, root):
+        nd = ET.Element('ComIPduGroupList')
         for obj in self.cfg.IPduGroupList:
-            obj.save(fp);
-        fp.write('</ComIPduGroupList>\n');
+            obj.save(nd);
+        root.append(nd);
 
-    def saveIPdu(self, fp):
-        fp.write('<ComIPduList>\n');
+    def saveIPdu(self, root):
+        nd = ET.Element('ComIPduList')
         for obj in self.cfg.IPduList:
-            obj.save(fp);
-        fp.write('</ComIPduList>\n');
+            obj.save(nd);
+        root.append(nd);
     
-    def save(self, fp):
+    def save(self, root):
         """保存配置信息"""
-        self.cfg.General.save(fp);
-        self.saveIPduGroup(fp);
-        self.saveIPdu(fp);
+        self.cfg.General.save(root);
+        self.saveIPduGroup(root)
+        self.saveIPdu(root);
     
     def doParseIPduGroup(self, list):
         for node in list:
@@ -385,42 +384,18 @@ class ComObj():
             obj.parse(node);
             self.cfg.IPduList.append(obj);
     
-    def doParse(self, arxml):
-        self.cfg.General.parse(arxml.find('ComGeneral'));
-        self.doParseIPduGroup(arxml.find('ComIPduGroupList'));
-        self.doParseIPdu(arxml.find('ComIPduList'));
+    def parse(self, root):
+        self.cfg.General.parse(root.find('ComGeneral'));
+        self.doParseIPduGroup(root.find('ComIPduGroupList'));
+        self.doParseIPdu(root.find('ComIPduList'));
 
-    def backup(self, file):
-        tm=localtime(time());
-        file2=file+strftime("-%Y-%m-%d-%H-%M-%S",tm);
-        shutil.copy(file, file2+'.bak');
-
-    def codeGen(self, path):
-#        path1=path+'/autosar/comstack/config/Com';
-#        try:
-#            os.mkdir(path+'/autosar');
-#        except:
-#            print "nothing serious!file already exists."
-#        try:
-#            os.mkdir(path+'/autosar/comstack');
-#        except:
-#            print "nothing serious!file already exists."
-#        try:
-#            os.mkdir(path+'/autosar/comstack/config');
-#        except:
-#            print "nothing serious!file already exists."
-#        try:
-#            os.mkdir(path+'/autosar/comstack/config/Com');
-#        except:
-#            print "nothing serious!file already exists."
+    def gen(self, path):
         self.codeGenCfgH(path);
         self.codeGenPbCfgH(path);
         self.codeGenPbCfgC(path);
 
     def codeGenCfgH(self, path):
         file=path+'/Com_Cfg.h';
-        if os.path.isfile(file) and File_BakeUp_On_Gen:
-            self.backup(file);
         fp=open(file, 'w');
         fp.write('#if !(((COM_SW_MAJOR_VERSION == 1) && (COM_SW_MINOR_VERSION == 2)))\n'
                 '#error Com: Configuration file expected BSW module version to be 1.2.*\n'
@@ -455,8 +430,6 @@ class ComObj():
 
     def codeGenPbCfgH(self, path):
         file=path+'/Com_PbCfg.h';
-        if os.path.isfile(file) and File_BakeUp_On_Gen:
-            self.backup(file);
         fp=open(file, 'w');
         fp.write('#if !(((COM_SW_MAJOR_VERSION == 1) && (COM_SW_MINOR_VERSION == 2)) )\n'
                 '#error Com: Configuration file expected BSW module version to be 1.2.*\n'
@@ -505,8 +478,6 @@ class ComObj():
 
     def codeGenPbCfgC(self, path):
         file=path+'/Com_PbCfg.c';
-        if os.path.isfile(file) and File_BakeUp_On_Gen:
-            self.backup(file);
         fp=open(file, 'w');
         fp.write('#include "Com.h"\n'
                 '#include "Com_Internal.h"\n'

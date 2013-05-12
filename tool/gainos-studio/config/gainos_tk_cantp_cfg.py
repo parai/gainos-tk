@@ -52,11 +52,19 @@ from Common import *
 import os, sys
 import shutil 
 from time import localtime, time,strftime
-
+import xml.etree.ElementTree as ET
 class CanTpGeneral():
     def __init__(self):
         self.DevErrorDetection = True;
         self.MainFunctionPeriod = 10; #ms
+    def save(self, root):
+        nd  = ET.Element('General');
+        nd.attrib['DevErrorDetection'] = str(self.DevErrorDetection);
+        nd.attrib['MainFunctionPeriod'] = str(self.MainFunctionPeriod);
+        root.append(nd);
+    def parse(self, nd):
+        self.DevErrorDetection = bool(nd.attrib['DevErrorDetection'])
+        self.MainFunctionPeriod = int(nd.attrib['MainFunctionPeriod'])
 
 class CanTpRxNPdu():
     def __init__(self, name):
@@ -75,7 +83,40 @@ class CanTpRxNPdu():
         self.CanTpNar = 100; #ms
         self.CanTpNbr = 100; #ms
         self.CanTpNcr = 100; #ms
-
+    def save(self, root):
+        nd = ET.Element('CanTpRxNPdu');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['PduR_PduId'] = str(self.PduR_PduId);
+        nd.attrib['CanIf_FcPduId'] = str(self.CanIf_FcPduId);
+        nd.attrib['CanTpRxDI'] = str(self.CanTpRxDI);
+        nd.attrib['CanTpRxPaddingActivation'] = str(self.CanTpRxPaddingActivation);
+        nd.attrib['CanTpRxTaType'] = str(self.CanTpRxTaType);
+        nd.attrib['CanTpBs'] = str(self.CanTpBs);
+        nd.attrib['CanTpSTmin'] = str(self.CanTpSTmin);
+        nd.attrib['CanTpWftMax'] = str(self.CanTpWftMax);
+        nd.attrib['CanTpAddressingFormant'] = str(self.CanTpAddressingFormant);
+        nd.attrib['CanTpNSa'] = str(self.CanTpNSa);
+        nd.attrib['CanTpNTa'] = str(self.CanTpNTa);
+        nd.attrib['CanTpNar'] = str(self.CanTpNar);
+        nd.attrib['CanTpNbr'] = str(self.CanTpNbr);
+        nd.attrib['CanTpNcr'] = str(self.CanTpNcr);
+        root.append(nd);
+    def parse(self, node):
+        self.name = node.attrib['name']
+        self.PduR_PduId = node.attrib['PduR_PduId'];
+        self.CanIf_FcPduId = node.attrib['CanIf_FcPduId'];
+        self.CanTpRxDI = int(node.attrib['CanTpRxDI']);
+        self.CanTpRxPaddingActivation = node.attrib['CanTpRxPaddingActivation'];
+        self.CanTpRxTaType = node.attrib['CanTpRxTaType'];
+        self.CanTpBs = int(node.attrib['CanTpBs']);
+        self.CanTpSTmin = int(node.attrib['CanTpSTmin']);
+        self.CanTpWftMax = int(node.attrib['CanTpWftMax']);
+        self.CanTpAddressingFormant = node.attrib['CanTpAddressingFormant'];
+        self.CanTpNSa = int(node.attrib['CanTpNSa']);
+        self.CanTpNTa = int(node.attrib['CanTpNTa']);
+        self.CanTpNar = int(node.attrib['CanTpNar']);
+        self.CanTpNbr = int(node.attrib['CanTpNbr']);
+        self.CanTpNcr = int(node.attrib['CanTpNcr']);
 class CanTpTxNPdu():
     def __init__(self, name):
         self.name = name;
@@ -90,127 +131,23 @@ class CanTpTxNPdu():
         self.CanTpNas = 100; #ms
         self.CanTpNbs = 100; #ms
         self.CanTpNcs = 100; #ms
-
-class CanTpConfig():
-    def __init__(self):
-        self.General = CanTpGeneral();
-        self.RxNSduList = [];
-        self.TxNSduList = [];
-
-from CanTp_Dlg import *
-class CanTpObj():
-    def __init__(self):
-        self.cfg=CanTpConfig();
-        print "init CanTp Object"
-
-    def toString(self):
-        str='  Double Clicked to Start to Configure the CanTp!\n';
-        return str;
-
-    def findObj(self, list, name):
-        for obj in list:
-            if(name==obj.name):
-                return obj;
-        return None;
-
-    def show(self, cfg):
-        depinfo=[];
-        obj=self.findObj(cfg.arobjList, 'EcuC');
-        if(obj==None):
-            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
-                'Please Configure EcuC Firstly!').exec_();
-            return;
-        depinfo.append(obj.arobj);
-        dlg=CanTp_Dlg(self.cfg, depinfo);
-        dlg.exec_();
-   
-    def saveGeneral(self, fp):
-        fp.write('<CanTpGeneral>\n');
-        fp.write('<DevErrorDetection value="%s"></DevErrorDetection>\n'%(self.cfg.General.DevErrorDetection));
-        fp.write('<MainFunctionPeriod value="%s"></MainFunctionPeriod>\n'%(self.cfg.General.MainFunctionPeriod));
-        fp.write('</CanTpGeneral>\n');
-
-    def saveRxNSdu(self, fp, obj):
-        attrib='name="%s" '%(obj.name);
-        attrib+='PduR_PduId="%s" '%(obj.PduR_PduId);
-        attrib+='CanIf_FcPduId="%s" '%(obj.CanIf_FcPduId);
-        attrib+='CanTpRxDI="%s" '%(obj.CanTpRxDI);
-        attrib+='CanTpRxPaddingActivation="%s" '%(obj.CanTpRxPaddingActivation);
-        attrib+='CanTpRxTaType="%s" '%(obj.CanTpRxTaType);
-        attrib+='CanTpBs="%s" '%(obj.CanTpBs);
-        attrib+='CanTpSTmin="%s" '%(obj.CanTpSTmin);
-        attrib+='CanTpWftMax="%s" '%(obj.CanTpWftMax);
-        attrib+='CanTpAddressingFormant="%s" '%(obj.CanTpAddressingFormant);
-        attrib+='CanTpNSa="%s" '%(obj.CanTpNSa);
-        attrib+='CanTpNTa="%s" '%(obj.CanTpNSa);
-        attrib+='CanTpNar="%s" '%(obj.CanTpNar);
-        attrib+='CanTpNbr="%s" '%(obj.CanTpNbr);
-        attrib+='CanTpNcr="%s" '%(obj.CanTpNcr);
-        fp.write("<CanTpRxNSdu %s>\n"%(attrib));
-        fp.write("</CanTpRxNSdu>\n"); 
-
-    def saveTxNSdu(self, fp, obj):
-        attrib='name="%s" '%(obj.name);
-        attrib+='PduR_PduId="%s" '%(obj.PduR_PduId);
-        attrib+='CanIf_FcPduId="%s" '%(obj.CanIf_FcPduId);
-        attrib+='CanTpTxDI="%s" '%(obj.CanTpTxDI);
-        attrib+='CanTpTxPaddingActivation="%s" '%(obj.CanTpTxPaddingActivation);
-        attrib+='CanTpTxTaType="%s" '%(obj.CanTpTxTaType);
-        attrib+='CanTpAddressingFormant="%s" '%(obj.CanTpAddressingFormant);
-        attrib+='CanTpNSa="%s" '%(obj.CanTpNSa);
-        attrib+='CanTpNTa="%s" '%(obj.CanTpNTa);
-        attrib+='CanTpNas="%s" '%(obj.CanTpNas);
-        attrib+='CanTpNbs="%s" '%(obj.CanTpNbs);
-        attrib+='CanTpNcs="%s" '%(obj.CanTpNcs);
-        fp.write("<CanTpTxNSdu %s>\n"%(attrib));
-        fp.write("</CanTpTxNSdu>\n"); 
-
-    def saveRxNSduList(self, fp):
-        fp.write('<CanTpRxNSduList>\n');
-        for obj in self.cfg.RxNSduList:
-            self.saveRxNSdu(fp, obj);
-        fp.write('</CanTpRxNSduList>\n');
-
-    def saveTxNSduList(self, fp):
-        fp.write('<CanTpTxNSduList>\n');
-        for obj in self.cfg.TxNSduList:
-            self.saveTxNSdu(fp, obj);
-        fp.write('</CanTpTxNSduList>\n');
-
-    def save(self, fp):
-        """保存配置信息"""
-        self.saveGeneral(fp);
-        self.saveRxNSduList(fp);
-        self.saveTxNSduList(fp);
-
-    def doParseGeneral(self, list):
-        self.cfg.General.DevErrorDetection=bool(list.find('DevErrorDetection').attrib['value']);
-        self.cfg.General.MainFunctionPeriod=int(list.find('MainFunctionPeriod').attrib['value']);
- 
-    def doParseRxNSdu(self, node):
-        obj=CanTpRxNPdu(node.attrib['name']);
-        obj.PduR_PduId = node.attrib['PduR_PduId'];
-        obj.CanIf_FcPduId = node.attrib['CanIf_FcPduId'];
-        obj.CanTpRxDI = int(node.attrib['CanTpRxDI']);
-        obj.CanTpRxPaddingActivation = node.attrib['CanTpRxPaddingActivation'];
-        obj.CanTpRxTaType = node.attrib['CanTpRxTaType'];
-        obj.CanTpBs = int(node.attrib['CanTpBs']);
-        obj.CanTpSTmin = int(node.attrib['CanTpSTmin']);
-        obj.CanTpWftMax = int(node.attrib['CanTpWftMax']);
-        obj.CanTpAddressingFormant = node.attrib['CanTpAddressingFormant'];
-        obj.CanTpNSa = int(node.attrib['CanTpNSa']);
-        obj.CanTpNTa = int(node.attrib['CanTpNTa']);
-        obj.CanTpNar = int(node.attrib['CanTpNar']);
-        obj.CanTpNbr = int(node.attrib['CanTpNbr']);
-        obj.CanTpNcr = int(node.attrib['CanTpNcr']);
-        return obj;
-
-    def doParseRxNSduList(self, list):
-        for node in list:
-            self.cfg.RxNSduList.append(self.doParseRxNSdu(node));
-
-    def doParseTxNSdu(self, node):
-        obj=CanTpRxNPdu(node.attrib['name']);
+    def save(self, root):
+        nd = ET.Element('CanTpTxNPdu');
+        nd.attrib['name'] = str(self.name)
+        nd.attrib['PduR_PduId'] = str(self.PduR_PduId)
+        nd.attrib['CanIf_FcPduId'] = str(self.CanIf_FcPduId)
+        nd.attrib['CanTpTxDI'] = str(self.CanTpTxDI)
+        nd.attrib['CanTpTxPaddingActivation'] = str(self.CanTpTxPaddingActivation)
+        nd.attrib['CanTpTxTaType'] = str(self.CanTpTxTaType)
+        nd.attrib['CanTpAddressingFormant'] = str(self.CanTpAddressingFormant)
+        nd.attrib['CanTpNSa'] = str(self.CanTpNSa)
+        nd.attrib['CanTpNTa'] = str(self.CanTpNTa)
+        nd.attrib['CanTpNas'] = str(self.CanTpNas)
+        nd.attrib['CanTpNbs'] = str(self.CanTpNbs)
+        nd.attrib['CanTpNcs'] = str(self.CanTpNcs)
+        root.append(nd);
+    def parse(self, node):
+        self.name = node.attrib['name'];
         obj.PduR_PduId = node.attrib['PduR_PduId'];
         obj.CanIf_FcPduId = node.attrib['CanIf_FcPduId'];
         obj.CanTpTxDI = int(node.attrib['CanTpTxDI']);
@@ -222,47 +159,65 @@ class CanTpObj():
         obj.CanTpNas = int(node.attrib['CanTpNas']);
         obj.CanTpNbs = int(node.attrib['CanTpNbs']);
         obj.CanTpNcs = int(node.attrib['CanTpNcs']);
-        return obj;
+        
+class CanTpConfig():
+    def __init__(self):
+        self.General = CanTpGeneral();
+        self.RxNSduList = [];
+        self.TxNSduList = [];
 
-    def doParseTxNSduList(self, list):
-        for node in list:
-            self.cfg.TxNSduList.append(self.doParseTxNSdu(node));
 
-    def doParse(self, arxml):
-        self.doParseGeneral(arxml.find('CanTpGeneral'));
-        self.doParseRxNSduList(arxml.find('CanTpRxNSduList'));
-        self.doParseTxNSduList(arxml.find('CanTpTxNSduList'));
+class gainos_tk_cantp_cfg():
+    def __init__(self, chip=None):
+        self.cfg=CanTpConfig();
+        print "init CanTp Object"
 
-    def backup(self, file):
-        tm=localtime(time());
-        file2=file+strftime("-%Y-%m-%d-%H-%M-%S",tm);
-        shutil.copy(file, file2+'.bak');
+    def toString(self):
+        str='  Double Clicked to Start to Configure the CanTp!\n';
+        return str;
 
-    def codeGen(self, path):
-#        path1=path+'/autosar/comstack/config/CanTp';
-#        try:
-#            os.mkdir(path+'/autosar');
-#        except:
-#            print "nothing serious!file already exists."
-#        try:
-#            os.mkdir(path+'/autosar/comstack');
-#        except:
-#            print "nothing serious!file already exists."
-#        try:
-#            os.mkdir(path+'/autosar/comstack/config');
-#        except:
-#            print "nothing serious!file already exists."
-#        try:
-#            os.mkdir(path+'/autosar/comstack/config/CanTp');
-#        except:
-#            print "nothing serious!file already exists."
+    def show(self, title, fileInd, module_list):
+        from cd_cantp import cd_cantp
+        depinfo=[];
+        md=gcfindModule(module_list, 'EcuC');
+        if(md==None):
+            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                'Please Configure EcuC Firstly!').exec_();
+            return;
+        depinfo.append(md.obj);
+        self.dlg=cd_cantp(title, fileInd, self.cfg, depinfo);
+        self.dlg.setModal(False);
+        self.dlg.show();
+
+    def save(self, root):
+        """保存配置信息"""
+        self.cfg.General.save(root);
+        nd = ET.Element("RxNSduList");
+        for obj in self.cfg.RxNSduList:
+            obj.save(nd);
+        root.append(nd);
+        nd = ET.Element("TxNSduList");
+        for obj in self.cfg.TxNSduList:
+            obj.save(nd);
+        root.append(nd);
+        
+    def parse(self, root):
+        self.cfg.General.parse(root.find('General'));
+        for nd in root.find('RxNSduList'):
+            obj = CanTpRxNPdu('');
+            obj.parse(nd);
+            self.cfg.RxNSduList.append(obj);
+        for nd in root.find('TxNSduList'):
+            obj = CanTpTxNPdu('');
+            obj.parse(nd);
+            self.cfg.TxNSduList.append(obj);
+
+    def gen(self, path):
         self.codeGenH(path);
         self.codeGenC(path);
 
     def codeGenH(self, path):
         file=path+'/CanTp_Cfg.h';
-        if os.path.isfile(file) and File_BakeUp_On_Gen:
-            self.backup(file);
         fp=open(file, 'w');
         fp.write('#ifndef CANTP_CFG_H_\n#define CANTP_CFG_H_\n\n');
         fp.write('#include "CanTp_Types.h"\n\n');

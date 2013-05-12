@@ -29,16 +29,19 @@ from gainos_tk_os_cfg import gainos_tk_os_cfg
 from gainos_tk_mscan_cfg import gainos_tk_mscan_cfg
 from gainos_tk_ecuc_cfg import gainos_tk_ecuc_cfg
 from gainos_tk_canif_cfg import gainos_tk_canif_cfg
+from gainos_tk_cantp_cfg import gainos_tk_cantp_cfg
+from gainos_tk_pdur_cfg import gainos_tk_pdur_cfg
+from gainos_tk_com_cfg import gainos_tk_com_cfg
 #dictionary for MC9S12
 gainos_tk_mc9s12_dc ={
     'Adc':gainos_tk_default_cfgobj,   'Can':gainos_tk_mscan_cfg, 
     'CanIf':gainos_tk_canif_cfg, 'CanNm':gainos_tk_default_cfgobj,
-    'CanTp':gainos_tk_default_cfgobj, 'CanSm':gainos_tk_default_cfgobj,
-    'Com':gainos_tk_default_cfgobj,   'Dio':gainos_tk_default_cfgobj,
+    'CanTp':gainos_tk_cantp_cfg, 'CanSm':gainos_tk_default_cfgobj,
+    'Com':gainos_tk_com_cfg,   'Dio':gainos_tk_default_cfgobj,
     'Eep':gainos_tk_default_cfgobj,   'EcuC':gainos_tk_ecuc_cfg,
     'Fls':gainos_tk_default_cfgobj,   'Gpt':gainos_tk_default_cfgobj,   
     'Icu':gainos_tk_default_cfgobj,   'Pwm':gainos_tk_default_cfgobj,
-    'Port':gainos_tk_default_cfgobj,  'PduR':gainos_tk_default_cfgobj,
+    'Port':gainos_tk_default_cfgobj,  'PduR':gainos_tk_pdur_cfg,
     'Spi':gainos_tk_default_cfgobj,   'Wdg':gainos_tk_default_cfgobj,
     'WdgIf':gainos_tk_default_cfgobj, 'OS':gainos_tk_os_cfg}
     
@@ -46,12 +49,12 @@ gainos_tk_mc9s12_dc ={
 gainos_tk_stm32f1_dc ={
     'Adc':gainos_tk_default_cfgobj,   'Can':gainos_tk_mscan_cfg, 
     'CanIf':gainos_tk_canif_cfg, 'CanNm':gainos_tk_default_cfgobj,
-    'CanTp':gainos_tk_default_cfgobj, 'CanSm':gainos_tk_default_cfgobj,
-    'Com':gainos_tk_default_cfgobj,   'Dio':gainos_tk_default_cfgobj,
+    'CanTp':gainos_tk_cantp_cfg, 'CanSm':gainos_tk_default_cfgobj,
+    'Com':gainos_tk_com_cfg,   'Dio':gainos_tk_default_cfgobj,
     'Eep':gainos_tk_default_cfgobj,   'EcuC':gainos_tk_ecuc_cfg,
     'Fls':gainos_tk_default_cfgobj,   'Gpt':gainos_tk_default_cfgobj,   
     'Icu':gainos_tk_default_cfgobj,   'Pwm':gainos_tk_default_cfgobj,
-    'Port':gainos_tk_default_cfgobj,  'PduR':gainos_tk_default_cfgobj,
+    'Port':gainos_tk_default_cfgobj,  'PduR':gainos_tk_pdur_cfg,
     'Spi':gainos_tk_default_cfgobj,   'Wdg':gainos_tk_default_cfgobj,
     'WdgIf':gainos_tk_default_cfgobj, 'OS':gainos_tk_os_cfg} 
  
