@@ -67,6 +67,7 @@ del /s /q *.pbd.*
 del /s /q *.__i
 del /s /q *.s19
 del /s /q *.pyc
+del /s /q *.phy
 
 echo Cleared successfully
 echo on
