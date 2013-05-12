@@ -8,6 +8,7 @@
 /* =====================  MISC  ========================== */
 #define cfgOS_STATUS_LEVEL OS_STATUS_STANDARD
 #define CHIP_STM32F1
+//#define CHIP_MC9S12
 #if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
 #define OSC_FREQUENCY         8000000 /* HZ */
