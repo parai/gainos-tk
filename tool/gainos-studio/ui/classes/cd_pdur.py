@@ -99,14 +99,6 @@ class cd_pdur(QDialog, Ui_cd_pdur):
         self.disableAllTab();
         self.spbxBufferSize.setRange(0, 65535);
         self.spbxSduLength.setRange(0, 65535);
-        self.cmbxSrcPdu.clear();
-        self.cmbxDstPdu.clear();
-        for pdu in self.depinfo[0].cfg.pduList:
-            self.cmbxSrcPdu.addItem('RX_'+pdu.name);
-            self.cmbxDstPdu.addItem('RX_'+pdu.name);
-        for pdu in self.depinfo[0].cfg.pduList:
-            self.cmbxSrcPdu.addItem('TX_'+pdu.name);
-            self.cmbxDstPdu.addItem('TX_'+pdu.name);
     
     def reloadTreeGui(self):
         #Tp Buffers
@@ -189,6 +181,11 @@ class cd_pdur(QDialog, Ui_cd_pdur):
             self.btnDel.setDisabled(False);
 
     def refreshSrcPathTab(self, name):
+        self.cmbxSrcPdu.clear();
+        for pdu in self.depinfo[0].cfg.pduList:
+            self.cmbxSrcPdu.addItem('RX_'+pdu.name);
+        for pdu in self.depinfo[0].cfg.pduList:
+            self.cmbxSrcPdu.addItem('TX_'+pdu.name);
         self.curobj=obj=self.findObj(self.cfg.pduRoutingPathList, name);
         if(obj==None):
             return;
@@ -201,6 +198,11 @@ class cd_pdur(QDialog, Ui_cd_pdur):
         self.enableTab(0);
         
     def refreshDestPathTab(self, name):
+        self.cmbxDstPdu.clear();
+        for pdu in self.depinfo[0].cfg.pduList:
+            self.cmbxDstPdu.addItem('RX_'+pdu.name);
+        for pdu in self.depinfo[0].cfg.pduList:
+            self.cmbxDstPdu.addItem('TX_'+pdu.name);
         pname = self.curtree.parent().text(0).split('(')[0];
         src = self.findObj(self.cfg.pduRoutingPathList, pname);
         self.curobj=obj=self.findObj(src.destPathList, name);

@@ -107,9 +107,6 @@ class cd_canif(QDialog, Ui_cd_canif):
     
     def initTab(self):
         self.disableAllTab();
-        self.cmbxCanHwCtrl.clear();
-        for obj in self.depinfo[0].cfg.CanCtrlList:
-            self.cmbxCanHwCtrl.addItem(obj.name);
         #pdu名称不能修改
         self.leTxPduName.setDisabled(True);
         self.leRxPduName.setDisabled(True);
@@ -184,7 +181,10 @@ class cd_canif(QDialog, Ui_cd_canif):
         if(obj == None):
             return;
         self.curobj=obj;
-        self.leChannelName.setText(obj.name);
+        self.cmbxCanHwCtrl.clear();
+        for ctrl in self.depinfo[0].cfg.CanCtrlList:
+            self.cmbxCanHwCtrl.addItem(ctrl.name);
+        self.leChannelName.setText(ctrl.name);
         self.cmbxCanHwCtrl.setCurrentIndex(self.cmbxCanHwCtrl.findText(obj.canHwCtrl));
         self.enableTab(0);
     

@@ -81,11 +81,6 @@ class cd_cantp(QDialog, Ui_cd_cantp):
             tree.addChild(item);
 
     def initTab(self):
-        for obj in self.depinfo[0].cfg.pduList:
-            self.cmbxRxPduId.addItem('RX_'+obj.name);
-            self.cmbxRxFcPduId.addItem('RX_'+obj.name);
-            self.cmbxTxFcPduId.addItem('TX_'+obj.name);
-            self.cmbxTxPduId.addItem('TX_'+obj.name);
         #初始化 Rx
         self.cmbxRxTaType.setDisabled(True);# only physical is allowed.
         self.spbxRxPduDlc.setRange(0, 8);
@@ -167,6 +162,11 @@ class cd_cantp(QDialog, Ui_cd_cantp):
             self.btnAdd.setText('Del Tx NSdu');
     
     def refreshRxNSduTab(self, name):
+        self.cmbxRxPduId.clear();
+        self.cmbxRxFcPduId.clear();
+        for obj in self.depinfo[0].cfg.pduList:
+            self.cmbxRxPduId.addItem('RX_'+obj.name);
+            self.cmbxRxFcPduId.addItem('RX_'+obj.name);
         self.curobj= obj = self.findObj(self.cfg.RxNSduList, name);
         if(obj == None):
             return;
@@ -194,6 +194,11 @@ class cd_cantp(QDialog, Ui_cd_cantp):
         self.enableTab(0);
 
     def refreshTxNSduTab(self, name):
+        self.cmbxRxPduId.clear();
+        self.cmbxTxPduId.clear();
+        for obj in self.depinfo[0].cfg.pduList:
+            self.cmbxTxFcPduId.addItem('TX_'+obj.name);
+            self.cmbxTxPduId.addItem('TX_'+obj.name);
         self.curobj= obj = self.findObj(self.cfg.TxNSduList, name);
         if(obj == None):
             return;

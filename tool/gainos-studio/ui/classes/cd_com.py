@@ -99,11 +99,6 @@ class cd_com(QDialog, Ui_cd_com):
         self.spbxGrpSignalLSBPosition.setRange(0, 2031);
         self.spbxGrpSignalLSBPosition.setDisabled(True);
         self.spbxGrpSignalSize.setRange(0, 64);
-        #init IPDU
-        self.cmbxGblPdu.clear();
-        for pdu in self.depinfo[0].cfg.pduList:
-            self.cmbxGblPdu.addItem('TX_'+pdu.name);
-            self.cmbxGblPdu.addItem('RX_'+pdu.name);
 
     def disableAllTab(self):
         """禁止所有的Tab页"""
@@ -325,6 +320,11 @@ class cd_com(QDialog, Ui_cd_com):
         
 
     def refreshIPduTab(self, name):
+        #init IPDU
+        self.cmbxGblPdu.clear();
+        for pdu in self.depinfo[0].cfg.pduList:
+            self.cmbxGblPdu.addItem('TX_'+pdu.name);
+            self.cmbxGblPdu.addItem('RX_'+pdu.name);
         self.curobj= obj = self.findObj(self.cfg.IPduList, name);
         if(obj == None):
             return;

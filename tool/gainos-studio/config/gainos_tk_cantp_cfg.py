@@ -148,17 +148,17 @@ class CanTpTxNPdu():
         root.append(nd);
     def parse(self, node):
         self.name = node.attrib['name'];
-        obj.PduR_PduId = node.attrib['PduR_PduId'];
-        obj.CanIf_FcPduId = node.attrib['CanIf_FcPduId'];
-        obj.CanTpTxDI = int(node.attrib['CanTpTxDI']);
-        obj.CanTpTxPaddingActivation = node.attrib['CanTpTxPaddingActivation'];
-        obj.CanTpTxTaType = node.attrib['CanTpTxTaType'];
-        obj.CanTpAddressingFormant = node.attrib['CanTpAddressingFormant'];
-        obj.CanTpNSa = int(node.attrib['CanTpNSa']);
-        obj.CanTpNTa = int(node.attrib['CanTpNTa']);
-        obj.CanTpNas = int(node.attrib['CanTpNas']);
-        obj.CanTpNbs = int(node.attrib['CanTpNbs']);
-        obj.CanTpNcs = int(node.attrib['CanTpNcs']);
+        self.PduR_PduId = node.attrib['PduR_PduId'];
+        self.CanIf_FcPduId = node.attrib['CanIf_FcPduId'];
+        self.CanTpTxDI = int(node.attrib['CanTpTxDI']);
+        self.CanTpTxPaddingActivation = node.attrib['CanTpTxPaddingActivation'];
+        self.CanTpTxTaType = node.attrib['CanTpTxTaType'];
+        self.CanTpAddressingFormant = node.attrib['CanTpAddressingFormant'];
+        self.CanTpNSa = int(node.attrib['CanTpNSa']);
+        self.CanTpNTa = int(node.attrib['CanTpNTa']);
+        self.CanTpNas = int(node.attrib['CanTpNas']);
+        self.CanTpNbs = int(node.attrib['CanTpNbs']);
+        self.CanTpNcs = int(node.attrib['CanTpNcs']);
         
 class CanTpConfig():
     def __init__(self):
