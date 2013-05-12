@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>cd_pdur</class>
+ <widget class="QDialog" name="cd_pdur">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1086</width>
+    <height>586</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Pdu Router</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>170</y>
+     <width>1061</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777214</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="title">
+    <string>PduR Entities</string>
+   </property>
+   <widget class="QTreeWidget" name="trPduRCfg">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>361</width>
+      <height>371</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>PduR</string>
+     </property>
+    </column>
+    <item>
+     <property name="text">
+      <string>Routing Table</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Tp Buffers</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QTabWidget" name="tabCfg">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>20</y>
+      <width>491</width>
+      <height>381</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>16777214</height>
+     </size>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Routing Path Settings</string>
+     </attribute>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>461</width>
+        <height>108</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Symbolic Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leSrcName"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Sdu Length:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spbxSduLength"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Source Pdu:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxSrcPdu"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QCheckBox" name="cbxSrcModule">
+           <property name="text">
+            <string>Overriden Source Module:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxSrcModule">
+           <item>
+            <property name="text">
+             <string>Com</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Dcm</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>CanIf</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>CanTp</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>LinIf</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>LinTp</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>FrIf</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>FrTp</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Routing Path Settings</string>
+     </attribute>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>461</width>
+        <height>108</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Symbolic Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leDstName"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QCheckBox" name="cbxDataProvision">
+           <property name="text">
+            <string>Data Provision</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxDataProvision">
+           <item>
+            <property name="text">
+             <string>DIRECT</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>TRIGGER_TRANSMIT</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Destination Pdu:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxDstPdu"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <item>
+          <widget class="QCheckBox" name="cbxDstModule">
+           <property name="text">
+            <string>Overriden Destinatione Module:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxDstModule">
+           <item>
+            <property name="text">
+             <string>Com</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Dcm</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>CanIf</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>CanTp</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>LinIf</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>LinTp</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>FrIf</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>FrTp</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Tp Buffer Settings</string>
+     </attribute>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>31</y>
+        <width>461</width>
+        <height>52</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Buffer Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leBufferName"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Buffer Size in Bytes</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spbxBufferSize"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>55</y>
+      <width>131</width>
+      <height>54</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QPushButton" name="btnAdd">
+       <property name="text">
+        <string>Add Routing Path</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnDel">
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>441</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PduR General</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>211</width>
+      <height>62</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_10">
+     <item>
+      <widget class="QCheckBox" name="cbxDevErr">
+       <property name="text">
+        <string>DevErrorDetection</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="cbxVersionInfo">
+       <property name="text">
+        <string>VersionInfoApi</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="cbxZeroCostEnable">
+       <property name="text">
+        <string>Enable Zero Cost Operation Mode</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>167</width>
+      <height>52</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_11">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <item>
+        <widget class="QCheckBox" name="cbxSingleIf">
+         <property name="text">
+          <string>Single If:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cmbxSingleIf">
+         <item>
+          <property name="text">
+           <string>CAN_IF</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>LIN_IF</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_17">
+       <item>
+        <widget class="QCheckBox" name="cbxSingleTp">
+         <property name="text">
+          <string>Single Tp:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cmbxSingleTp">
+         <item>
+          <property name="text">
+           <string>CAN_TP</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>LIN_TP</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>J1939_TP</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>10</y>
+     <width>601</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Activated Interface</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>42</y>
+      <width>221</width>
+      <height>86</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QCheckBox" name="cbxCanIf">
+         <property name="text">
+          <string>CanIf</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbxCanTp">
+         <property name="text">
+          <string>CanTp</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbxCom">
+         <property name="text">
+          <string>Com</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbxDcm">
+         <property name="text">
+          <string>Dcm</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QCheckBox" name="cbxLinIf">
+         <property name="text">
+          <string>LinIf</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbxLinTp">
+         <property name="text">
+          <string>LinTp</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbxJ1939Tp">
+         <property name="text">
+          <string>J1939Tp</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

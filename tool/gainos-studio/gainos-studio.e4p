@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project gainos-studio -->
-<!-- Saved: 2013-05-12, 08:04:07 -->
+<!-- Saved: 2013-05-12, 11:26:44 -->
 <!-- Copyright (C) 2013 parai, parai@foxmail.com -->
 <Project version="4.6">
   <Language>en</Language>
@@ -27,6 +27,21 @@
     <Source>config/gainos_tk_mscan_cfg.py</Source>
     <Source>ui/forms/Ui_cd_mscan.py</Source>
     <Source>ui/classes/cd_mscan.py</Source>
+    <Source>ui/forms/Ui_cd_canif.py</Source>
+    <Source>ui/forms/Ui_cd_cantp.py</Source>
+    <Source>ui/forms/Ui_cd_com.py</Source>
+    <Source>ui/forms/Ui_cd_ecuc.py</Source>
+    <Source>ui/forms/Ui_cd_pdur.py</Source>
+    <Source>ui/classes/cd_canif.py</Source>
+    <Source>ui/classes/cd_cantp.py</Source>
+    <Source>ui/classes/cd_com.py</Source>
+    <Source>ui/classes/cd_ecuc.py</Source>
+    <Source>ui/classes/cd_pdur.py</Source>
+    <Source>config/gainos_tk_canif_cfg.py</Source>
+    <Source>config/gainos_tk_cantp_cfg.py</Source>
+    <Source>config/gainos_tk_com_cfg.py</Source>
+    <Source>config/gainos_tk_ecuc_cfg.py</Source>
+    <Source>config/gainos_tk_pdur_cfg.py</Source>
   </Sources>
   <Forms>
     <Form>ui/forms/gainos_studio.ui</Form>
@@ -34,6 +49,11 @@
     <Form>ui/forms/cd_add.ui</Form>
     <Form>ui/forms/cd_gainos_tk_os.ui</Form>
     <Form>ui/forms/cd_mscan.ui</Form>
+    <Form>ui/forms/cd_canif.ui</Form>
+    <Form>ui/forms/cd_cantp.ui</Form>
+    <Form>ui/forms/cd_com.ui</Form>
+    <Form>ui/forms/cd_ecuc.ui</Form>
+    <Form>ui/forms/cd_pdur.ui</Form>
   </Forms>
   <Translations>
   </Translations>

@@ -72,6 +72,12 @@ def gcfindObj(list, name):
         if(name==obj.name):
             return obj;
     return None;
+
+def gcfindModule(list, name):
+    for md in list:
+        if(md.module == name):
+            return md;
+    return None;
     
 def gcbackup(file):
     import shutil 

@@ -10,7 +10,7 @@ class gainos_tk_default_cfgobj():
     def __init__(self, chip):
         return;
 
-    def show(self, title, fileInd):
+    def show(self, title, fileInd, module_list = None):
         return;
     
     def save(self, root):
@@ -26,14 +26,16 @@ class gainos_tk_default_cfgobj():
         return 'Not Supported'
 
 from gainos_tk_os_cfg import gainos_tk_os_cfg
-from gainos_tk_mscan_cfg import CanObj_Mscan
+from gainos_tk_mscan_cfg import gainos_tk_mscan_cfg
+from gainos_tk_ecuc_cfg import gainos_tk_ecuc_cfg
+from gainos_tk_canif_cfg import gainos_tk_canif_cfg
 #dictionary for MC9S12
 gainos_tk_mc9s12_dc ={
-    'Adc':gainos_tk_default_cfgobj,   'Can':CanObj_Mscan, 
-    'CanIf':gainos_tk_default_cfgobj, 'CanNm':gainos_tk_default_cfgobj,
+    'Adc':gainos_tk_default_cfgobj,   'Can':gainos_tk_mscan_cfg, 
+    'CanIf':gainos_tk_canif_cfg, 'CanNm':gainos_tk_default_cfgobj,
     'CanTp':gainos_tk_default_cfgobj, 'CanSm':gainos_tk_default_cfgobj,
     'Com':gainos_tk_default_cfgobj,   'Dio':gainos_tk_default_cfgobj,
-    'Eep':gainos_tk_default_cfgobj,   'EcuC':gainos_tk_default_cfgobj,
+    'Eep':gainos_tk_default_cfgobj,   'EcuC':gainos_tk_ecuc_cfg,
     'Fls':gainos_tk_default_cfgobj,   'Gpt':gainos_tk_default_cfgobj,   
     'Icu':gainos_tk_default_cfgobj,   'Pwm':gainos_tk_default_cfgobj,
     'Port':gainos_tk_default_cfgobj,  'PduR':gainos_tk_default_cfgobj,
@@ -42,11 +44,11 @@ gainos_tk_mc9s12_dc ={
     
 #dictionary for STM32F1
 gainos_tk_stm32f1_dc ={
-    'Adc':gainos_tk_default_cfgobj,   'Can':gainos_tk_default_cfgobj, 
-    'CanIf':gainos_tk_default_cfgobj, 'CanNm':gainos_tk_default_cfgobj,
+    'Adc':gainos_tk_default_cfgobj,   'Can':gainos_tk_mscan_cfg, 
+    'CanIf':gainos_tk_canif_cfg, 'CanNm':gainos_tk_default_cfgobj,
     'CanTp':gainos_tk_default_cfgobj, 'CanSm':gainos_tk_default_cfgobj,
     'Com':gainos_tk_default_cfgobj,   'Dio':gainos_tk_default_cfgobj,
-    'Eep':gainos_tk_default_cfgobj,   'EcuC':gainos_tk_default_cfgobj,
+    'Eep':gainos_tk_default_cfgobj,   'EcuC':gainos_tk_ecuc_cfg,
     'Fls':gainos_tk_default_cfgobj,   'Gpt':gainos_tk_default_cfgobj,   
     'Icu':gainos_tk_default_cfgobj,   'Pwm':gainos_tk_default_cfgobj,
     'Port':gainos_tk_default_cfgobj,  'PduR':gainos_tk_default_cfgobj,
@@ -93,9 +95,9 @@ class gainos_tk_obj():
         self.module = module;
         self.obj = gainos_tk_dc[chip][module](chip);
     
-    def show(self, fileInd):
+    def show(self, fileInd, module_list = None):
         title = '%s For %s, < GaInOS-TK by parai >'%(self.module, self.chip);
-        self.obj.show(title, fileInd);
+        self.obj.show(title, fileInd, module_list);
     
     def save(self, root):
         self.obj.save(root);
@@ -164,7 +166,7 @@ class gainos_tk_cfg():
 
     def show(self, module, fileInd):
         md = self.findModule(module);
-        md.show(fileInd);
+        md.show(fileInd, self.module_list);
 
     def gen(self, path):
         for md in self.module_list:

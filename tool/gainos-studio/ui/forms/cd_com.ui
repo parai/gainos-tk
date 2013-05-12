@@ -1,0 +1,1417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>cd_com</class>
+ <widget class="QDialog" name="cd_com">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1014</width>
+    <height>588</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Com&lt;Communicatio Stack&gt;</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>991</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Com General</string>
+   </property>
+   <widget class="QCheckBox" name="cbxDevErr">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>20</y>
+      <width>125</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DevErrorDetection</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>991</width>
+     <height>541</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777214</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="title">
+    <string>Com Configure</string>
+   </property>
+   <widget class="QTreeWidget" name="trComCfg">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>341</width>
+      <height>501</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>Com</string>
+     </property>
+    </column>
+    <item>
+     <property name="text">
+      <string>Pdu Group</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Pdus</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QTabWidget" name="tabCfg">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>20</y>
+      <width>471</width>
+      <height>521</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>3</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Pdu Group</string>
+     </attribute>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>40</y>
+        <width>381</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Name:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lePduGrpName"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>General I-PDU</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>170</y>
+        <width>431</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Rx options</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_4">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>391</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Rx Signal Processing:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbxPduSignalProcessing">
+          <item>
+           <property name="text">
+            <string>IMMEDIATE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>DEFERRED</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>230</y>
+        <width>431</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Tx options</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>21</y>
+         <width>391</width>
+         <height>192</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Minimum delay factor:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxMinDelayFactor">
+            <property name="toolTip">
+             <string>uint in MainFunction Period</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Default value for unused areas:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxDefaultValueForUnusedAreas"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Tx Mode:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbxPduTxMode">
+            <item>
+             <property name="text">
+              <string>DIRECT</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>MIXED</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>NONE</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>PERIODIC</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>Number of repetitions:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxNumberOfRepetitions"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_42">
+          <item>
+           <widget class="QLabel" name="label_38">
+            <property name="text">
+             <string>Repetition period factor:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxRepetitionPeriodFactor">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>Time offset factor:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxTimeOffsetFactor">
+            <property name="toolTip">
+             <string>uint in MainFunction Period</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>Time period factor:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxTimePeriodFactor">
+            <property name="toolTip">
+             <string>uint in MainFunction Period</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>22</y>
+        <width>391</width>
+        <height>136</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leIPduName"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Global Pdu:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxGblPdu">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Direction:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxPduDirection">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Shoud be consistent with the Global Pdu,if TX,SEND; if RX,RECEIVE.</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>SEND</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RECEIVE</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_13">
+         <item>
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>Pdu Group:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxPduGrp">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Callout:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lePduCallout">
+           <property name="toolTip">
+            <string>If unused,input NULL</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="label_43">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>470</y>
+        <width>291</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Note:IPDU size cann't be bigger than 8 bytes.</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>General Signal</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>160</y>
+        <width>431</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Data Configuration</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>411</width>
+         <height>136</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_19">
+          <item>
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>Position(bit):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalPosition">
+            <property name="toolTip">
+             <string>Must be the times of eight.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_20">
+          <item>
+           <widget class="QLabel" name="label_19">
+            <property name="text">
+             <string>Position(Signal LSB):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalLSBPosition"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_21">
+          <item>
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>Size(bits):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalSize">
+            <property name="toolTip">
+             <string>Range 0 to 63.
+Range 0 to 4095 for uint8_n signal types</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_22">
+          <item>
+           <widget class="QLabel" name="label_21">
+            <property name="text">
+             <string>Initial value:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leSignalInitValue">
+            <property name="toolTip">
+             <string>if type is UINT8_N or UNIT8_DYN,please in put init value with spac ' ' to spearete each other.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_23">
+          <item>
+           <widget class="QCheckBox" name="cbxSignalUpdateBitPosition">
+            <property name="text">
+             <string>Update bit position:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalUpdateBitPosition"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_6">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>330</y>
+        <width>431</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Timeouts and Notifications</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_9">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>411</width>
+         <height>136</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_24">
+          <item>
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>Timeout Factor:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalTimeoutFactor">
+            <property name="toolTip">
+             <string>uint in MainFunction Period</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_25">
+          <item>
+           <widget class="QLabel" name="label_23">
+            <property name="text">
+             <string>First timeout:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalFirstTimeout">
+            <property name="toolTip">
+             <string>uint in MainFunction Period</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_26">
+          <item>
+           <widget class="QLabel" name="label_24">
+            <property name="text">
+             <string>Timeout action:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbxSignalTimeoutAction">
+            <property name="toolTip">
+             <string>For Tx signal,configure this has no meaning.</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>REPLACE</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>NONE</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_27">
+          <item>
+           <widget class="QLabel" name="label_25">
+            <property name="text">
+             <string>Notification(function):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leSignalNotification">
+            <property name="toolTip">
+             <string>input &quot;NULL&quot; to turn it off, if you want</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_28">
+          <item>
+           <widget class="QLabel" name="label_26">
+            <property name="text">
+             <string>Notification on timeout(function):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leSignalNotificationOnTimeout">
+            <property name="toolTip">
+             <string>input &quot;NULL&quot; to turn it off, if you want</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>21</x>
+        <y>11</y>
+        <width>433</width>
+        <height>146</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_14">
+         <item>
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leSignalName"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_15">
+         <item>
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Type:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxSignalType">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>for UINT8_DYN type, the signal must be the last item and no signal group is allowed for the signal owner IPDU.</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>BOOLEAN</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UINT8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UINT16</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UINT32</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UINT8_N</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UINT8_DYN</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SINT8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SINT16</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SINT32</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_16">
+         <item>
+          <widget class="QLabel" name="label_16">
+           <property name="text">
+            <string>Endianess:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxSignalEndianess">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>if type is UINT8_DYN,then only COM_OPAQUE is allowed.</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>COM_BIG_ENDIAN</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>COM_LITTLE_ENDIAN</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>COM_OPAQUE</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_17">
+         <item>
+          <widget class="QLabel" name="label_17">
+           <property name="text">
+            <string>Transfer Property:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxSignalTxProperty">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>When this signal is asigned to a RX IPdu,configure transfer property has no meaning.</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>PENDING</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>TRIGGERED</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_18">
+         <item>
+          <widget class="QCheckBox" name="cbxAutoSysSignalMap">
+           <property name="text">
+            <string>Override automatic system 
+signal mapping:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxAutoSysSignalMap">
+           <property name="minimumSize">
+            <size>
+             <width>250</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>Signal Group</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_7">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>170</y>
+        <width>431</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Data Configuration</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>11</x>
+         <y>21</y>
+         <width>411</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_30">
+          <item>
+           <widget class="QLabel" name="label_28">
+            <property name="text">
+             <string>Position(bit):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalGrpPosition"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_34">
+          <item>
+           <widget class="QLabel" name="label_31">
+            <property name="text">
+             <string>Size(bits):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalGrpSize"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_36">
+          <item>
+           <widget class="QCheckBox" name="cbxSignalGrpUpdateBitPosition">
+            <property name="text">
+             <string>Update bit position:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalGrpUpdateBitPosition"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_8">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>340</y>
+        <width>431</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Timeouts and Notifications</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>11</x>
+         <y>21</y>
+         <width>411</width>
+         <height>108</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_31">
+          <item>
+           <widget class="QLabel" name="label_29">
+            <property name="text">
+             <string>Timeout Factor:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalGrpTimeoutFactor">
+            <property name="toolTip">
+             <string>uint in MainFunction Period</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_35">
+          <item>
+           <widget class="QLabel" name="label_32">
+            <property name="text">
+             <string>First timeout:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxSignalGrpFirstTimeout">
+            <property name="toolTip">
+             <string>uint in MainFunction Period</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_38">
+          <item>
+           <widget class="QLabel" name="label_34">
+            <property name="text">
+             <string>Notification(function):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leSignalGrpNotification">
+            <property name="toolTip">
+             <string>input &quot;NULL&quot; to turn it off, if you want</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_39">
+          <item>
+           <widget class="QLabel" name="label_35">
+            <property name="text">
+             <string>Notification on timeout(function):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leSignalGrpNotificationOnTimeout">
+            <property name="toolTip">
+             <string>input &quot;NULL&quot; to turn it off, if you want</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>21</x>
+        <y>11</y>
+        <width>433</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_29">
+         <item>
+          <widget class="QLabel" name="label_27">
+           <property name="text">
+            <string>Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leSignalGrpName"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_32">
+         <item>
+          <widget class="QLabel" name="label_30">
+           <property name="text">
+            <string>Transfer Property:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxSignalGrpTxProperty">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>PENDING</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>TRIGGERED</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_33">
+         <item>
+          <widget class="QCheckBox" name="cbxAutoSysSignalGrpMap">
+           <property name="text">
+            <string>Override automatic system 
+signal mapping:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxAutoSysSignalGrpMap">
+           <property name="minimumSize">
+            <size>
+             <width>250</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_5">
+     <attribute name="title">
+      <string>Group Signal</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_9">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>160</y>
+        <width>431</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Data Configuration</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>11</x>
+         <y>21</y>
+         <width>411</width>
+         <height>108</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_44">
+          <item>
+           <widget class="QLabel" name="label_39">
+            <property name="text">
+             <string>Position(bit):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxGrpSignalPosition"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_45">
+          <item>
+           <widget class="QLabel" name="label_40">
+            <property name="text">
+             <string>Position(Signal LSB):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxGrpSignalLSBPosition"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_46">
+          <item>
+           <widget class="QLabel" name="label_41">
+            <property name="text">
+             <string>Size(bits):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spbxGrpSignalSize"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_47">
+          <item>
+           <widget class="QLabel" name="label_42">
+            <property name="text">
+             <string>Initial value:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leGrpSignalInitValue">
+            <property name="toolTip">
+             <string>if type is UINT8_N,please in put init value with spac ' ' to spearete each other.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>12</y>
+        <width>433</width>
+        <height>118</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_37">
+         <item>
+          <widget class="QLabel" name="label_33">
+           <property name="text">
+            <string>Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leGrpSignalName"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_40">
+         <item>
+          <widget class="QLabel" name="label_36">
+           <property name="text">
+            <string>Type:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxGrpSignalType">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>BOOLEAN</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UINT8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UINT16</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UINT32</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UINT8_N</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SINT8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SINT16</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SINT32</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_41">
+         <item>
+          <widget class="QLabel" name="label_37">
+           <property name="text">
+            <string>Endianess:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxGrpSignalEndianess">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>COM_BIG_ENDIAN</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>COM_LITTLE_ENDIAN</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>COM_OPAQUE</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_43">
+         <item>
+          <widget class="QCheckBox" name="cbxAutoSysGrpSignalMap">
+           <property name="text">
+            <string>Override automatic system 
+signal mapping:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbxAutoSysGrpSignalMap">
+           <property name="minimumSize">
+            <size>
+             <width>250</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>60</y>
+      <width>121</width>
+      <height>83</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <item>
+      <widget class="QPushButton" name="btnAdd">
+       <property name="text">
+        <string>Add Signal</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnAdd2">
+       <property name="text">
+        <string>Add Signal Group</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnDel">
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

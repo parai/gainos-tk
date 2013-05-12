@@ -116,7 +116,10 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         #refresh button 
         self.btnDel.setDisabled(False);
         self.btnEdit.setDisabled(False);
-    
+    @pyqtSignature("QTreeWidgetItem*, int")
+    def on_trModule_itemDoubleClicked(self, item, column):  
+        self.on_trModule_itemClicked(item, column);
+        self.on_btnEdit_clicked();
     @pyqtSignature("")
     def on_btnAdd_clicked(self):
         from cd_add import cd_add

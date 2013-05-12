@@ -175,7 +175,7 @@ class CanCfgMscan():
         self.CanFilterMaskList = [];
         self.CanCtrlList=[];
 
-class CanObj_Mscan():
+class gainos_tk_mscan_cfg():
     def __init__(self, chip):
         self.cfg=CanCfgMscan();
         self.dlg = None;
@@ -184,7 +184,7 @@ class CanObj_Mscan():
         str='  MSCAN !\n';
         return str;
 
-    def show(self, title, fileInd):
+    def show(self, title, fileInd, module_list= None):
         from cd_mscan import cd_mscan
         dlg=cd_mscan(title, fileInd, self.cfg);
         dlg.setModal(False);

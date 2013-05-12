@@ -146,7 +146,7 @@ class gainos_tk_os_cfg():
         self.cfg.general.chip = chip;
         return;
 
-    def show(self, title, fileInd):
+    def show(self, title, fileInd, module_list = None):
         from cd_gainos_tk_os import cd_gainos_tk_os;
         self.dlg  = cd_gainos_tk_os(title, fileInd, self.cfg);
         self.dlg.setModal(False);
