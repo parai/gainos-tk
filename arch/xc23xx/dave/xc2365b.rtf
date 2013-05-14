@@ -1,0 +1,472 @@
+{\rtf1\ansi\deff0\deftab720{\fonttbl{\f0\fnil MS Sans Serif;}{\f1\fnil\fcharset2 Symbol;}{\f2\fswiss\fprq2 System;}{\f3\fnil Times New Roman;}{\f4\fswiss\fprq2 Arial;}}
+{\colortbl\red0\green0\blue0;\red0\green0\blue128;\red255\green0\blue0;}
+\deflang1031\pard\plain\f4\fs28\cf0 DAvE's Project Documentation
+\par \plain\f4\fs22\cf0
+\par \plain\f4\fs22\cf0 Project: \tab\tab\b xc2365b.dav
+\par 
+\par \plain\f4\fs22\cf0 Controller: \tab\tab\b XC2365B-40F80
+\par \plain\f4\fs22\cf0 Compiler: \tab\tab\b TASKING VX-toolset
+\par \plain\f4\fs22\cf0 Memory Model: \tab\b NEAR
+\par 
+\par \plain\f4\fs22\cf0 Date: \tab\tab\tab\b 2013/5/14 22:07:01
+\par 
+\par 
+\par \plain\f4\fs22\cf2\b Please read this document carefully and note
+\par \plain\f4\fs22\cf2\b the red-colored hints.
+\par 
+\par \plain\f4\fs22\cf2\b If you miss a file in the generated files list
+\par \plain\f4\fs22\cf2\b maybe you have forgotten to select the
+\par \plain\f4\fs22\cf2\b initialisation function of the related module.
+\par 
+\par \plain\f4\fs22\cf0 Generated Files:
+\plain\f4\fs20\cf0\b
+\par \tab\tab\tab MAIN.H
+\par \tab\tab\tab MAIN.C
+\par \tab\tab\tab SCS.H
+\par \tab\tab\tab SCS.C
+\par \tab\tab\tab XC23XXBREGS.H
+\par \tab\tab\tab RTC.H
+\par \tab\tab\tab RTC.C
+\par 
+\par 
+\par \plain\f4\fs20\cf0
+\par \plain\f4\fs28\cf0\ul Project Settings
+\par
+\par \plain\f4\fs24\cf0 Macros:\f4\fs20\cf0
+\par \plain\f4\fs24\cf0 Functions:\f4\fs20\cf0
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void MAIN_vInit(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This function initializes the microcontroller.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void MAIN_vUnlockProtecReg(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This function makes it possible to write one protected
+
+\par \tab \tab register.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void MAIN_vLockProtecReg(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This function makes it possible to lock one protected
+
+\par \tab \tab register.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void MAIN_vChangeFreq(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This function is used to select the external crystal and
+
+\par \tab \tab configure the system frequency to 100MHz/80MHz/66MHz.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void main(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the main function.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs24\cf0 Initialization:
+\par \plain\f4\fs20\cf0\b
+\par
+\tab Configuration of the System Clock:\par 
+\tab - VCO clock used, input clock is connected\par 
+\tab - input frequency is 8.00 MHz\par 
+\tab - system clock is 80.00 MHz\par 
+\par 
+
+\par \plain\f4\fs20\cf0
+\par \plain\f4\fs28\cf0\ul Project Settings
+\par
+\par \plain\f4\fs24\cf0 Macros:\f4\fs20\cf0
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab INLINE void Scs_EnableHighPrecOsc(unsigned int Enable)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This use case function enables or disables the high precision
+
+\par \tab \tab oscillator for external crystal / clock at crystal input; may
+
+\par \tab \tab be called by the user to reduce waiting time.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab Enable: 0 = Disable, 1 = Enable
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab INLINE void Scs_CopyWords(unsigned int SHUGE *DestPtr,\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This global function copies words from source to destination.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab DestPtr: Destination pointer; SrcPtr: Source pointer;
+
+\par \tab \tab Words: Number of words to be copied (> 0)
+
+\par \plain\f4\fs24\cf0 Functions:\f4\fs20\cf0
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_lWaitForVcoLock(unsigned int Timeout)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function waits for VCO lock.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_lEnableVcoBypass(unsigned int Enable)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function enables or disables VCO bypass.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab Enable: 0 = Disable, 1 = Enable
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab INLINE Scs_ErrorType Scs_lSelectExternalPllClock(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function selects the external clock source for
+
+\par \tab \tab the PLL.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab INLINE void Scs_lStartTimer(unsigned int Cycles)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function starts timer T13 and waits until the
+
+\par \tab \tab specified number of clocks is counted.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab Cycles: Number of T13 clocks to count, 0...65535
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_lApplyNewK1Div(unsigned int K1Div)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function applies a new K1 divider value to the
+
+\par \tab \tab PLL.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab K1Div: K1 divider value
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_lApplyNewNDiv(unsigned int NDiv)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function applies a new N divider value
+
+\par \tab \tab to the PLL.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab NDiv: N divider value
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_lApplyNewPDiv(unsigned int PDiv)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function applies a new P divider value
+
+\par \tab \tab to the PLL.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab PDiv: P divider value
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_lApplyNewVcoDivs(unsigned int PDiv,\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function applies new P, N and K2 dividers
+
+\par \tab \tab to the VCO.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab PDiv: P divider value
+
+\par \tab \tab NDiv: N divider value
+
+\par \tab \tab K2Div: K2 divider value
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_lCheckFreqHighPrecOsc(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function checks the high precision oscillator
+
+\par \tab \tab for a valid output clock.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_lEnableVcoLockEmerg(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function enables the VCO loss-of-lock
+
+\par \tab \tab emergency handling.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_lRampPll(Scs_K2RampType *K2RampPtr)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This private function applies a stepwise ramp-up or ramp-down
+
+\par \tab \tab of the PLL output frequency using a set of K2 dividers
+
+\par \tab \tab and delay values.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_ApplyNewK2Div(unsigned int K2Div)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This global function applies a new K2 divider value
+
+\par \tab \tab to the PLL.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab K2Div: K2 divider value
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab Scs_ErrorType Scs_GoFromBaseModeToNormalMode(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This global function performs a transition from base mode
+
+\par \tab \tab to normal mode.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Error code, 0 = no error\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void Scs_InitTimer(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This global function CCU6 timer T13 as driver timer;
+
+\par \tab \tab previous CCU6 register contents may be saved.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void Scs_RestoreTimer(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This global function restores CCU6 register contents
+
+\par \tab \tab saved during the previous execution of Scs_InitTimer.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par \plain\f4\fs20\cf0
+\par \plain\f4\fs28\cf0\ul Real Time Clock (RTC)
+\par
+\par \plain\f4\fs24\cf0 Macros:\f4\fs20\cf0
+\par \plain\f4\fs24\cf0 Functions:\f4\fs20\cf0
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void RTC_vInit(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the initialization function of the RTC function
+
+\par \tab \tab library. It is assumed that the SFRs used by this library
+
+\par \tab \tab are in reset state.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void RTC_viRTC(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the RTC interrupt service routine. It is called up
+
+\par \tab \tab when:
+
+\par \tab \tab - counter T14 overflows and is reloaded
+
+\par \tab \tab - counter CNT0 overflows and is reloaded
+
+\par \tab \tab - counter CNT1 overflows and is reloaded
+
+\par \tab \tab - counter CNT2 overflows and is reloaded
+
+\par \tab \tab - counter CNT3 overflows and is reloaded
+
+\par \tab \tab This interrupt request may eg. be used to provide a system
+
+\par \tab \tab time tick independent of the CPU frequency, or to wake up
+
+\par \tab \tab regularly from idle mode.
+
+\par \tab \tab Please note that you have to add application specific code
+
+\par \tab \tab to this function.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs24\cf0 Initialization:
+\par \plain\f4\fs20\cf0\b
+\par
+\tab Configuration of the RTC Kernal\par 
+\par 
+\tab Configuration of the RTC Counter:\par 
+\tab - RTC input frequency is 8000.000 kHz\par 
+\tab - the input clock is divided by factor 32\par 
+\tab - the input clock is divided by factor 8\par 
+\tab - counter is started after initialization\par 
+\tab - RTC count clock frequency is 31.250 kHz\par 
+\par 
+\tab - overflow period on T14:  5.0240 [ms]\par 
+\tab - overflow period on CNT0: 1.0550 [s]\par 
+\tab - overflow period on CNT1: 1.1254 [min]\par 
+\tab - overflow period on CNT2: 1.2004 [h]\par 
+\tab - overflow period on CNT3: 1.7072 [months]\par 
+\par 
+\tab Configuration of the used RTC Interrupts:\par 
+\tab RTC service request node configuration:\par 
+\tab - RTC interrupt priority level (ILVL) = 15\par 
+\tab - RTC interrupt group level (GLVL) = 0\par 
+\tab - RTC group priority extension (GPX) = 0\par 
+\par 
+\tab Use PEC channel 4 for RTC INT:\par 
+\tab - normal interrupt\par 
+\tab - pointers are not modified\par 
+\tab - transfer a word\par 
+\tab - service End of PEC interrrupt by a EOP interrupt node is disabled\par 
+\tab - channel link mode is disabled\par 
+\par 
+
+}

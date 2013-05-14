@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.tasking.cdt.launch.localCLaunch">
+<booleanAttribute key="com.tasking.debug.cdt.core.BREAK_ON_EXIT" value="true"/>
+<booleanAttribute key="com.tasking.debug.cdt.core.CACHE_TARGET_ACCESS" value="false"/>
+<stringAttribute key="com.tasking.debug.cdt.core.COMMUNICATION" value="Simulator"/>
+<stringAttribute key="com.tasking.debug.cdt.core.DILOGCALLBACK_LOG_FILE_NAME" value=""/>
+<booleanAttribute key="com.tasking.debug.cdt.core.DOWNLOAD" value="true"/>
+<stringAttribute key="com.tasking.debug.cdt.core.FSS_ROOT" value="${project_loc}\${build_config}"/>
+<stringAttribute key="com.tasking.debug.cdt.core.GDILOG_FILE_NAME" value=""/>
+<booleanAttribute key="com.tasking.debug.cdt.core.GOTO_MAIN" value="true"/>
+<booleanAttribute key="com.tasking.debug.cdt.core.HISTORY_BUFFER_ENABLED" value="false"/>
+<stringAttribute key="com.tasking.debug.cdt.core.MSGLOG_FILE_NAME" value=""/>
+<booleanAttribute key="com.tasking.debug.cdt.core.PSM_ENABLED" value="true"/>
+<booleanAttribute key="com.tasking.debug.cdt.core.RESET_TARGET" value="true"/>
+<stringAttribute key="com.tasking.debug.cdt.core.TARGET" value="TASKING C166 Simulator"/>
+<booleanAttribute key="com.tasking.debug.cdt.core.USE_MDF_FILE" value="false"/>
+<booleanAttribute key="com.tasking.debug.cdt.core.VERIFY" value="true"/>
+<booleanAttribute key="com.tasking.debug.cdt.core.linkToProject" value="true"/>
+<stringAttribute key="debugger_configuration.general.kdi_orti_file" value=""/>
+<stringAttribute key="debugger_configuration.general.ksm_sharedlib" value=""/>
+<stringAttribute key="debugger_configuration.psm_dll_name" value="psm166"/>
+<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_ID" value="com.tasking.debug.cdt.core.CDebugger"/>
+<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_START_MODE" value="run"/>
+<booleanAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN" value="true"/>
+<booleanAttribute key="org.eclipse.cdt.launch.ENABLE_REGISTER_BOOKKEEPING" value="false"/>
+<booleanAttribute key="org.eclipse.cdt.launch.ENABLE_VARIABLE_BOOKKEEPING" value="false"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="Project"/>
+<booleanAttribute key="org.eclipse.cdt.launch.use_terminal" value="true"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/Project"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="4"/>
+</listAttribute>
+<stringAttribute key="psm_dll_name" value="psm166"/>
+</launchConfiguration>

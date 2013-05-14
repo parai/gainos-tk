@@ -44,6 +44,8 @@
 #define NULL ((void*)0)
 #endif
 
+#define NULL_FP   ((FP)0)
+
 #ifndef TRUE
 #define TRUE  1
 #endif

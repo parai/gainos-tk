@@ -74,6 +74,14 @@ del /s /q *.phy
 del /s /q *.stg
 del /s /q *.mot
 del /s /q *.tdt
+REM delete Tasking rubbish
+del /s /q *.obj
+del /s /q *.log
+del /s /q *.mk
+del /s /q *.mapxml
+del /s /q *.mdf
+del /s /q *.elf
+del /s /q *.src
 
 echo Cleared successfully
 echo on

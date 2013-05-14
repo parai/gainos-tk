@@ -98,7 +98,7 @@ EXPORT void knl_timer_handler( void )
 		}
 
 		QueRemove(&event->queue);
-		if ( event->callback != NULL ) {
+		if ( event->callback != NULL_FP ) {
 			(*event->callback)(event->arg);
 		}
 	}

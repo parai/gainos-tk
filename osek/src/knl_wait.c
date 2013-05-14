@@ -21,8 +21,9 @@
 #include "knl_wait.h"
 #include "knl_task.h"
 #include "knl_queue.h"
+#include "knl_timer.h"
 
-EXPORT WSPEC    knl_wspec_slp = { TTW_SLP,NULL,NULL};
+EXPORT WSPEC    knl_wspec_slp = { TTW_SLP,NULL_FP,NULL_FP};
 /*
  * Change the active task state to wait state and connect to the
  * timer event queue.
@@ -67,7 +68,7 @@ EXPORT void knl_wait_release_tmout( TCB *tcb )
 {
 	QueRemove(&tcb->tskque);
 	knl_make_non_wait(tcb);
-    if ( tcb->wspec->rel_wai_hook != NULL ) {
+    if ( tcb->wspec->rel_wai_hook != NULL_FP ) {
 		(*tcb->wspec->rel_wai_hook)(tcb);
 	}
 }
