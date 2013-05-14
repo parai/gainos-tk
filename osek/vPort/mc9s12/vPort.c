@@ -107,7 +107,7 @@ l_dispatch2:
 }
 void knl_force_dispatch(void)
 {
-    asm  lds #knl_tmp_stack:(cfgTMP_STACK_SZ-1)   /* Set temporal stack */
+    asm  lds #knl_tmp_stack:cfgTMP_STACK_SZ   /* Set temporal stack */
     knl_dispatch_disabled=1;    /* Dispatch disable */ 
     knl_ctxtsk=(void *)0;
     asm sei; 
