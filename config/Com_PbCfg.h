@@ -25,13 +25,7 @@ extern const Com_ConfigType ComConfiguration;
 //Group Signal Id defines
 
 // Notifications
-extern void vCom_IPdu1_TX_Signal0_Notification(void);
-extern void vCom_IPdu1_TX_Signal0_TimeoutNotification(void);
-extern void vCom_IPdu1_Signal0_Notification(void);
-extern void vCom_IPdu1_Signal0_TimeoutNotification(void);
 
 // Callouts
-extern boolean vCom_IPdu0_Callout(PduIdType PduId, const uint8 *IPduData);
-extern boolean vCom_IPdu1_Callout(PduIdType PduId, const uint8 *IPduData);
 #endif /* COM_PBCFG_H */
 

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_gainos_tk_os.ui'
 #
-# Created: Sun May 12 09:53:27 2013
+# Created: Tue May 14 19:56:45 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,6 +38,7 @@ class Ui_cd_gainos_tk_os(object):
         self.horizontalLayout.addWidget(self.label)
         self.spbxMaxIpl = QtGui.QSpinBox(self.layoutWidget)
         self.spbxMaxIpl.setMinimumSize(QtCore.QSize(91, 0))
+        self.spbxMaxIpl.setToolTip(_fromUtf8(""))
         self.spbxMaxIpl.setObjectName(_fromUtf8("spbxMaxIpl"))
         self.horizontalLayout.addWidget(self.spbxMaxIpl)
         self.horizontalLayout_4.addLayout(self.horizontalLayout)
@@ -58,6 +59,7 @@ class Ui_cd_gainos_tk_os(object):
         self.horizontalLayout_3.addWidget(self.label_3)
         self.cmbxOSConfCls = QtGui.QComboBox(self.layoutWidget)
         self.cmbxOSConfCls.setMinimumSize(QtCore.QSize(71, 0))
+        self.cmbxOSConfCls.setToolTip(_fromUtf8(""))
         self.cmbxOSConfCls.setObjectName(_fromUtf8("cmbxOSConfCls"))
         self.cmbxOSConfCls.addItem(_fromUtf8(""))
         self.cmbxOSConfCls.addItem(_fromUtf8(""))
@@ -76,6 +78,7 @@ class Ui_cd_gainos_tk_os(object):
         self.cmbxStatus = QtGui.QComboBox(self.layoutWidget)
         self.cmbxStatus.setMinimumSize(QtCore.QSize(201, 0))
         self.cmbxStatus.setMaximumSize(QtCore.QSize(210, 16777215))
+        self.cmbxStatus.setToolTip(_fromUtf8(""))
         self.cmbxStatus.setObjectName(_fromUtf8("cmbxStatus"))
         self.cmbxStatus.addItem(_fromUtf8(""))
         self.cmbxStatus.addItem(_fromUtf8(""))
@@ -88,6 +91,7 @@ class Ui_cd_gainos_tk_os(object):
         self.horizontalLayout_7.addWidget(self.label_9)
         self.cmbxSchedPolicy = QtGui.QComboBox(self.layoutWidget)
         self.cmbxSchedPolicy.setMinimumSize(QtCore.QSize(271, 0))
+        self.cmbxSchedPolicy.setToolTip(_fromUtf8(""))
         self.cmbxSchedPolicy.setObjectName(_fromUtf8("cmbxSchedPolicy"))
         self.cmbxSchedPolicy.addItem(_fromUtf8(""))
         self.cmbxSchedPolicy.addItem(_fromUtf8(""))
@@ -120,10 +124,12 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout.addWidget(self.label_8, 1, 0, 1, 2)
         self.spbxTskStkSize = QtGui.QSpinBox(self.layoutWidget_5)
         self.spbxTskStkSize.setMinimumSize(QtCore.QSize(101, 0))
+        self.spbxTskStkSize.setToolTip(_fromUtf8(""))
         self.spbxTskStkSize.setObjectName(_fromUtf8("spbxTskStkSize"))
         self.gridLayout.addWidget(self.spbxTskStkSize, 1, 2, 1, 3)
         self.cmbxTskType = QtGui.QComboBox(self.layoutWidget_5)
         self.cmbxTskType.setMinimumSize(QtCore.QSize(111, 0))
+        self.cmbxTskType.setToolTip(_fromUtf8(""))
         self.cmbxTskType.setObjectName(_fromUtf8("cmbxTskType"))
         self.cmbxTskType.addItem(_fromUtf8(""))
         self.cmbxTskType.addItem(_fromUtf8(""))
@@ -133,6 +139,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout.addWidget(self.label_7, 3, 0, 1, 2)
         self.spbxTskPrio = QtGui.QSpinBox(self.layoutWidget_5)
         self.spbxTskPrio.setMinimumSize(QtCore.QSize(101, 0))
+        self.spbxTskPrio.setToolTip(_fromUtf8(""))
         self.spbxTskPrio.setObjectName(_fromUtf8("spbxTskPrio"))
         self.gridLayout.addWidget(self.spbxTskPrio, 3, 3, 1, 2)
         self.label_10 = QtGui.QLabel(self.layoutWidget_5)
@@ -140,6 +147,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout.addWidget(self.label_10, 4, 0, 1, 4)
         self.spbxTskMaxActivateCount = QtGui.QSpinBox(self.layoutWidget_5)
         self.spbxTskMaxActivateCount.setMinimumSize(QtCore.QSize(91, 0))
+        self.spbxTskMaxActivateCount.setToolTip(_fromUtf8(""))
         self.spbxTskMaxActivateCount.setObjectName(_fromUtf8("spbxTskMaxActivateCount"))
         self.gridLayout.addWidget(self.spbxTskMaxActivateCount, 4, 4, 1, 1)
         self.cbxTskAutoStart = QtGui.QCheckBox(self.layoutWidget_5)
@@ -172,6 +180,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout_2.addWidget(self.label_12, 1, 0, 1, 2)
         self.spbxResCeilPrio = QtGui.QSpinBox(self.layoutWidget_6)
         self.spbxResCeilPrio.setMinimumSize(QtCore.QSize(91, 0))
+        self.spbxResCeilPrio.setToolTip(_fromUtf8(""))
         self.spbxResCeilPrio.setObjectName(_fromUtf8("spbxResCeilPrio"))
         self.gridLayout_2.addWidget(self.spbxResCeilPrio, 1, 2, 1, 1)
         self.tblGaInOsCfg.addTab(self.tabRes, _fromUtf8(""))
@@ -213,6 +222,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout_3.addWidget(self.label_14, 1, 0, 1, 2)
         self.spbxInResCeilPrio = QtGui.QSpinBox(self.layoutWidget_8)
         self.spbxInResCeilPrio.setMinimumSize(QtCore.QSize(91, 0))
+        self.spbxInResCeilPrio.setToolTip(_fromUtf8(""))
         self.spbxInResCeilPrio.setObjectName(_fromUtf8("spbxInResCeilPrio"))
         self.gridLayout_3.addWidget(self.spbxInResCeilPrio, 1, 2, 1, 1)
         self.tblGaInOsCfg.addTab(self.tabInRes, _fromUtf8(""))
@@ -236,6 +246,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout_4.addWidget(self.label_16, 1, 0, 1, 2)
         self.spbxCntMaxAllowedValue = QtGui.QSpinBox(self.layoutWidget_9)
         self.spbxCntMaxAllowedValue.setMinimumSize(QtCore.QSize(91, 0))
+        self.spbxCntMaxAllowedValue.setToolTip(_fromUtf8(""))
         self.spbxCntMaxAllowedValue.setMinimum(1)
         self.spbxCntMaxAllowedValue.setMaximum(65535)
         self.spbxCntMaxAllowedValue.setObjectName(_fromUtf8("spbxCntMaxAllowedValue"))
@@ -245,6 +256,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout_4.addWidget(self.label_17, 2, 0, 1, 2)
         self.spbxCntTickBase = QtGui.QSpinBox(self.layoutWidget_9)
         self.spbxCntTickBase.setMinimumSize(QtCore.QSize(91, 0))
+        self.spbxCntTickBase.setToolTip(_fromUtf8(""))
         self.spbxCntTickBase.setMinimum(1)
         self.spbxCntTickBase.setMaximum(65535)
         self.spbxCntTickBase.setObjectName(_fromUtf8("spbxCntTickBase"))
@@ -254,6 +266,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout_4.addWidget(self.label_18, 3, 0, 1, 3)
         self.spbxCntMinCycle = QtGui.QSpinBox(self.layoutWidget_9)
         self.spbxCntMinCycle.setMinimumSize(QtCore.QSize(91, 0))
+        self.spbxCntMinCycle.setToolTip(_fromUtf8(""))
         self.spbxCntMinCycle.setMinimum(1)
         self.spbxCntMinCycle.setMaximum(65535)
         self.spbxCntMinCycle.setObjectName(_fromUtf8("spbxCntMinCycle"))
@@ -282,6 +295,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout_5.addWidget(self.label_24, 1, 0, 1, 1)
         self.cmbxAlarmOwner = QtGui.QComboBox(self.layoutWidget_10)
         self.cmbxAlarmOwner.setMinimumSize(QtCore.QSize(231, 0))
+        self.cmbxAlarmOwner.setToolTip(_fromUtf8(""))
         self.cmbxAlarmOwner.setObjectName(_fromUtf8("cmbxAlarmOwner"))
         self.gridLayout_5.addWidget(self.cmbxAlarmOwner, 1, 1, 1, 2)
         self.label_20 = QtGui.QLabel(self.layoutWidget_10)
@@ -289,6 +303,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout_5.addWidget(self.label_20, 2, 0, 1, 1)
         self.cmbxAlarmType = QtGui.QComboBox(self.layoutWidget_10)
         self.cmbxAlarmType.setMinimumSize(QtCore.QSize(231, 0))
+        self.cmbxAlarmType.setToolTip(_fromUtf8(""))
         self.cmbxAlarmType.setObjectName(_fromUtf8("cmbxAlarmType"))
         self.cmbxAlarmType.addItem(_fromUtf8(""))
         self.cmbxAlarmType.addItem(_fromUtf8(""))
@@ -298,6 +313,7 @@ class Ui_cd_gainos_tk_os(object):
         self.label_21.setObjectName(_fromUtf8("label_21"))
         self.gridLayout_5.addWidget(self.label_21, 3, 0, 1, 2)
         self.leAlarmCbk = QtGui.QLineEdit(self.layoutWidget_10)
+        self.leAlarmCbk.setToolTip(_fromUtf8(""))
         self.leAlarmCbk.setObjectName(_fromUtf8("leAlarmCbk"))
         self.gridLayout_5.addWidget(self.leAlarmCbk, 3, 2, 1, 1)
         self.lblAlarmTask = QtGui.QLabel(self.layoutWidget_10)
@@ -305,6 +321,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout_5.addWidget(self.lblAlarmTask, 4, 0, 1, 2)
         self.cmbxAlarmTask = QtGui.QComboBox(self.layoutWidget_10)
         self.cmbxAlarmTask.setMinimumSize(QtCore.QSize(231, 0))
+        self.cmbxAlarmTask.setToolTip(_fromUtf8(""))
         self.cmbxAlarmTask.setObjectName(_fromUtf8("cmbxAlarmTask"))
         self.gridLayout_5.addWidget(self.cmbxAlarmTask, 4, 2, 1, 1)
         self.label_23 = QtGui.QLabel(self.layoutWidget_10)
@@ -312,6 +329,7 @@ class Ui_cd_gainos_tk_os(object):
         self.gridLayout_5.addWidget(self.label_23, 5, 0, 1, 2)
         self.cmbxAlarmEvent = QtGui.QComboBox(self.layoutWidget_10)
         self.cmbxAlarmEvent.setMinimumSize(QtCore.QSize(231, 0))
+        self.cmbxAlarmEvent.setToolTip(_fromUtf8(""))
         self.cmbxAlarmEvent.setObjectName(_fromUtf8("cmbxAlarmEvent"))
         self.gridLayout_5.addWidget(self.cmbxAlarmEvent, 5, 2, 1, 1)
         self.tblGaInOsCfg.addTab(self.tabAlm, _fromUtf8(""))
@@ -384,7 +402,7 @@ class Ui_cd_gainos_tk_os(object):
         self.verticalLayout.addWidget(self.btnDel)
 
         self.retranslateUi(cd_gainos_tk_os)
-        self.tblGaInOsCfg.setCurrentIndex(4)
+        self.tblGaInOsCfg.setCurrentIndex(6)
         self.cmbxTskType.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(cd_gainos_tk_os)
 
@@ -392,56 +410,24 @@ class Ui_cd_gainos_tk_os(object):
         cd_gainos_tk_os.setWindowTitle(QtGui.QApplication.translate("cd_gainos_tk_os", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("cd_gainos_tk_os", "GaInOS General Configure", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "MAX_IPL:", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxMaxIpl.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSä¸­æ–­çš„æœ€å¤§ä¼˜å…ˆçº§</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "MAX_PRI:", None, QtGui.QApplication.UnicodeUTF8))
         self.spbxMaxPrio.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
 "<tr>\n"
 "<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSä»»åŠ¡çš„æœ€å¤§ä¼˜å…ˆçº§</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Monospace\';\"></p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "OS Class:", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxOSConfCls.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSæœ€é«˜ä»»åŠ¡ç±»åž‹</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxOSConfCls.setItemText(0, QtGui.QApplication.translate("cd_gainos_tk_os", "BCC1", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxOSConfCls.setItemText(1, QtGui.QApplication.translate("cd_gainos_tk_os", "BCC2", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxOSConfCls.setItemText(2, QtGui.QApplication.translate("cd_gainos_tk_os", "ECC1", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxOSConfCls.setItemText(3, QtGui.QApplication.translate("cd_gainos_tk_os", "ECC2", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "Check Status:", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxStatus.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSé”™è¯¯è¯Šæ–­çº§åˆ«</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxStatus.setItemText(0, QtGui.QApplication.translate("cd_gainos_tk_os", "STANDARD", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxStatus.setItemText(1, QtGui.QApplication.translate("cd_gainos_tk_os", "EXTEND", None, QtGui.QApplication.UnicodeUTF8))
         self.label_9.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "Schedule Policy:", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxSchedPolicy.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSä»»åŠ¡è°ƒåº¦ç­–ç•¥</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxSchedPolicy.setItemText(0, QtGui.QApplication.translate("cd_gainos_tk_os", "FULL_PREEMPTIVE_SCHEDULE", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxSchedPolicy.setItemText(1, QtGui.QApplication.translate("cd_gainos_tk_os", "MIXED_PREEMPTIVE_SCHEDULE", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxSchedPolicy.setItemText(2, QtGui.QApplication.translate("cd_gainos_tk_os", "NONE_PREEMPTIVE_SCHEDULE", None, QtGui.QApplication.UnicodeUTF8))
@@ -450,42 +436,10 @@ class Ui_cd_gainos_tk_os(object):
         self.label_5.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Task Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leTskName.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "vTask", None, QtGui.QApplication.UnicodeUTF8))
         self.label_8.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Task Stack Size:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxTskStkSize.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOS ä»»åŠ¡å †æ ˆå¤§å°�</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxTskType.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSä»»åŠ¡ç±»åž‹</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxTskType.setItemText(0, QtGui.QApplication.translate("cd_gainos_tk_os", "BASIC_TASK", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxTskType.setItemText(1, QtGui.QApplication.translate("cd_gainos_tk_os", "EXTEND_TASK", None, QtGui.QApplication.UnicodeUTF8))
         self.label_7.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "Task Priority:", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxTskPrio.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOS ä»»åŠ¡çš„ä¼˜å…ˆçº§</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_10.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "Task Max Activate Count:", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxTskMaxActivateCount.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSçš„æœ€å¤§æ¿€æ´»æ¬¡æ•°</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxTskAutoStart.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "Task Auto-Start", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxTskPreemtable.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "Task Preemtable", None, QtGui.QApplication.UnicodeUTF8))
         self.label_22.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Task Type:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
@@ -493,14 +447,6 @@ class Ui_cd_gainos_tk_os(object):
         self.label_11.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Resource Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leResName.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "vRes1", None, QtGui.QApplication.UnicodeUTF8))
         self.label_12.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Resource Ceiling Priority:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxResCeilPrio.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOS æ™®é€šèµ„æº�å¤©èŠ±æ�¿ä¼˜å…ˆçº§</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabRes), QtGui.QApplication.translate("cd_gainos_tk_os", "Resource", None, QtGui.QApplication.UnicodeUTF8))
         self.trInResAssignedTask.headerItem().setText(0, QtGui.QApplication.translate("cd_gainos_tk_os", "Assigned To Task...", None, QtGui.QApplication.UnicodeUTF8))
         self.btnInResAdd.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<<--", None, QtGui.QApplication.UnicodeUTF8))
@@ -508,89 +454,24 @@ class Ui_cd_gainos_tk_os(object):
         self.label_13.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Internal Resource Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leInResName.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "vInRes1", None, QtGui.QApplication.UnicodeUTF8))
         self.label_14.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Internal Resource Ceiling Priority:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxInResCeilPrio.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOS å†…éƒ¨èµ„æº�çš„å¤©èŠ±æ�¿ä¼˜å…ˆçº§,åº”å¤§äºŽæ‰€æœ‰ä½¿ç”¨è¯¥å†…éƒ¨èµ„æº�çš„ä»»åŠ¡çš„ä¼˜å…ˆçº§</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabInRes), QtGui.QApplication.translate("cd_gainos_tk_os", "Internal Resource", None, QtGui.QApplication.UnicodeUTF8))
         self.label_15.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Counter Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leCntName.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "vCnt1", None, QtGui.QApplication.UnicodeUTF8))
         self.label_16.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Counter Max Allowed Value:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxCntMaxAllowedValue.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSè®¡æ•°å™¨çš„è®¡æ•°ä¸Šé™�</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_17.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Counter Ticks Per Base:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxCntTickBase.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSå®šæ—¶å™¨çš„è®¡æ•°åŸºæ•°</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_18.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Counter Minimum Cycle:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxCntMinCycle.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSå®šæ—¶å™¨çš„æœ€å°�å…�è®¸å‘¨æœŸ</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabCnt), QtGui.QApplication.translate("cd_gainos_tk_os", "Counter", None, QtGui.QApplication.UnicodeUTF8))
         self.label_19.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Alarm Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leAlarmName.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "vAlarm1", None, QtGui.QApplication.UnicodeUTF8))
         self.label_24.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Alarm Owner:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxAlarmOwner.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_20.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Alarm Type:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxAlarmType.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">é…�ç½®GaInOSæŠ¥è­¦å™¨çš„ç±»åž‹</p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxAlarmType.setItemText(0, QtGui.QApplication.translate("cd_gainos_tk_os", "callback", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxAlarmType.setItemText(1, QtGui.QApplication.translate("cd_gainos_tk_os", "task", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxAlarmType.setItemText(2, QtGui.QApplication.translate("cd_gainos_tk_os", "event", None, QtGui.QApplication.UnicodeUTF8))
         self.label_21.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Alarm Callback Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.leAlarmCbk.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>é…�ç½®GaInOSæŠ¥è­¦å™¨å›žè°ƒå‡½æ•°çš„å��ç§°</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leAlarmCbk.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "vAlarm1Cbk", None, QtGui.QApplication.UnicodeUTF8))
         self.lblAlarmTask.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Alarm Event Task:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxAlarmTask.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_23.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Alarm Set Event:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxAlarmEvent.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabAlm), QtGui.QApplication.translate("cd_gainos_tk_os", "Alarm", None, QtGui.QApplication.UnicodeUTF8))
         self.btnCfgSchedEp.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "Configure Expiry Point", None, QtGui.QApplication.UnicodeUTF8))
         self.label_28.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"

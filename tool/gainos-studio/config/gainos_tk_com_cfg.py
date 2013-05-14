@@ -87,13 +87,13 @@ class ComSignal():
         self.ComBitSize = 8;
         self.ComErrorNotification = 'NULL';
         self.ComFirstTimeoutFactor = 10;
-        self.ComNotification = name+'_Notification';
+        self.ComNotification = 'NULL';
         self.ComRxDataTimeoutAction = 'NONE';
         self.ComSignalEndianess = 'COM_BIG_ENDIAN';
         self.ComSignalInitValue = '0x00';
         self.ComSignalType = 'UINT8';
         self.ComTimeoutFactor =10;
-        self.ComTimeoutNotification = name+'_TimeoutNotification';
+        self.ComTimeoutNotification = 'NULL';
         self.ComTransferProperty = 'TRIGGERED';
         self.ComUpdateBitPosition = 0;
         self.ComSignalArcUseUpdateBit = False;
@@ -101,9 +101,12 @@ class ComSignal():
     def codeGenInitValue(self, fp):
         if(self.ComSignalType == 'UINT8_N' or self.ComSignalType == 'UINT8_DYN'):
             array = self.ComSignalInitValue.split(' ');
-            fp.write('const uint8 %s_InitValue[] ={'%(self.name));
+            fp.write('const uint8 %s_InitValue[%s] ={'%(self.name, (self.ComBitSize+7)/8));
             for vl in array:
                 fp.write('%s, '%(vl));
+            if(len(array) < (self.ComBitSize+7)/8):
+                for i in range(0, (self.ComBitSize+7)/8 - len(array)):
+                   fp.write('0x00,' );
             fp.write('};\n');
         else:
             fp.write('const %s %s_InitValue = %s;\n'%(str(self.ComSignalType).lower(), self.name, self.ComSignalInitValue));
@@ -156,9 +159,12 @@ class ComGroupSignal():
     def codeGenInitValue(self, fp):
         if(self.ComSignalType == 'UINT8_N'):
             array = self.ComSignalInitValue.split(' ');
-            fp.write('const uint8 %s_InitValue[] ={'%(self.name));
+            fp.write('const uint8 %s_InitValue[%s] ={'%(self.name, (self.ComBitSize+7)/8));
             for vl in array:
                 fp.write('%s, '%(vl));
+            if(len(array) < (self.ComBitSize+7)/8):
+                for i in range(0, (self.ComBitSize+7)/8 - len(array)):
+                   fp.write('0x00,' );
             fp.write('};\n');
         else:
             fp.write('const %s %s_InitValue = %s;\n'%(self.ComSignalType.lower(), self.name, self.ComSignalInitValue));
@@ -191,8 +197,8 @@ class ComSignalGroup():
         self.ComBitSize = 8;
         self.ComFirstTimeoutFactor = 10;
         self.ComTimeoutFactor = 10;
-        self.ComNotification = name+'_Notification';
-        self.ComTimeoutNotification = name+'_TimeoutNotification';
+        self.ComNotification = 'NULL';
+        self.ComTimeoutNotification = 'NULL';
         self.groupSignalList = [];
 
     def sizeInByte(self):
@@ -242,7 +248,7 @@ class ComSignalGroup():
 class ComIPdu():
     def __init__(self, name):
         self.name = name;
-        self.ComIPduCallout = name+'_Callout';
+        self.ComIPduCallout = 'NULL';
         self.ArcIPduOutgoingId ='';
         self.ComIPduSignalProcessing ='DEFERRED';
         #self.ComIPduSize = 64;#should calculate it
@@ -335,7 +341,6 @@ class ComConfig():
 class gainos_tk_com_cfg():
     def __init__(self, chip=None):
         self.cfg=ComConfig();
-        print "init Com Object"
 
     def toString(self):
         str='  Double Clicked to Start to Configure the Com!\n';

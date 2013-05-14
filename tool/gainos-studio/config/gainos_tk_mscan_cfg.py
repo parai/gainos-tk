@@ -178,7 +178,6 @@ class CanCfgMscan():
 class gainos_tk_mscan_cfg():
     def __init__(self, chip):
         self.cfg=CanCfgMscan();
-        self.dlg = None;
     
     def toString(self):
         str='  MSCAN !\n';

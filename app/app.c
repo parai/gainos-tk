@@ -5,12 +5,13 @@
  */
 #include "Os.h"
 #include <stdio.h>
-
+#include "Dcm.h"
 
 TASK(vTaskInit)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskInit is running.\r\n");
+    Dcm_Init();
     (void)TerminateTask();
 }
 

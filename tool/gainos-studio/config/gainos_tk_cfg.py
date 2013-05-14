@@ -112,7 +112,7 @@ class gainos_tk_obj():
         self.obj.gen(path);
     
     def toString(self):
-        return '%s For %s:\n%s.\n'%(self.module, self.chip, self.obj.toString())
+        return '%s For %s:\n%s\n'%(self.module, self.chip, self.obj.toString())
 
 class gainos_tk_cfg():
     def __init__(self, chip):

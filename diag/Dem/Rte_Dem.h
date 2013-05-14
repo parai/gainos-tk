@@ -5,7 +5,7 @@
  *
  * This source code is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published by the
- * Free Software Foundation; See <http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt>.                                           
+ * Free Software Foundation; See <http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt>.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
@@ -13,19 +13,17 @@
  * for more details.
  * -------------------------------- Arctic Core ------------------------------*/
 
-/* Modified && Ported by parai to integrated with GaInOS,which is an open source 
- * AUTOSAR OS based on uTenux(tkernel). 
- * And re-construct a GUI tool named gainos-studio,which is based on python and Qt4.8,
- * for the whole Com Architecture of ArCore.
- * URL:      https://github.com/parai
- * Email:    parai@foxmail.com
- * Name:     parai(Wang Fan)
- * from Date:2013-04-08 to $Date: 2013-04-13 13:51:22 $
- * $Revision: 1.1 $
- */
-#ifndef DEM_INTERRID_H_
-#define DEM_INTERRID_H_
+#ifndef RTE_DEM_H_
+#define RTE_DEM_H_
 
+typedef uint8 Dem_DTCKindType;
+typedef uint32 Dem_DTCType;
+typedef uint16 Dem_EventIdType;
+typedef uint8 Dem_EventStatusExtendedType;
+typedef sint8 Dem_FaultDetectionCounterType;
+typedef uint8 Dem_IndicatorStatusType;
+typedef uint8 Dem_InitMonitorKindType;
+typedef uint8 Dem_OperationCycleIdType;
+typedef uint8 Dem_OperationCycleStateType;
 
-
-#endif /* DEM_INTERRID_H_ */
+#endif /* RTE_DEM_H_ */

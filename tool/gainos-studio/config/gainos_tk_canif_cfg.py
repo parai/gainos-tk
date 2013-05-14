@@ -238,7 +238,6 @@ class CanIfConfig():
 class gainos_tk_canif_cfg():
     def __init__(self, chip=None):
         self.cfg=CanIfConfig();
-        print "init CanIf Object"
 
     def toString(self):
         str='  Double Clicked to Start to Configure the Can Interface!\n';

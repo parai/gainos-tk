@@ -30,4 +30,6 @@
 
 #define ISR(ISRname,ISRid) interrupt ISRid void ISRMain##ISRname(void) 
 
+#define __attribute__(expression)
+
 #endif /* COMPILER_H_H_H */

@@ -6,8 +6,8 @@
 #endif
 
 //Signal init values.
-const uint8 vCom_IPdu1_TX_Signal0_InitValue[] ={0x00, };
-const uint8 vCom_IPdu1_Signal0_InitValue[] ={0x00, };
+const uint8 vCom_IPdu1_TX_Signal0_InitValue[3] ={0x00, 0x00,0x00,};
+const uint8 vCom_IPdu1_Signal0_InitValue[3] ={0x00, 0x00,0x00,};
 
 //Group signal definitions
 #if(COM_N_GROUP_SIGNALS > 0)
@@ -30,13 +30,13 @@ const ComSignal_type ComSignal[] = {
 		/* .ComErrorNotification = */ NULL,
 		/* .ComFirstTimeoutFactor = */ 10,
 		/* .ComHandleId = */ vCom_IPdu1_TX_Signal0,
-		/* .ComNotification = */ vCom_IPdu1_TX_Signal0_Notification,
+		/* .ComNotification = */ NULL,
 		/* .ComRxDataTimeoutAction = */ COM_TIMEOUT_DATA_ACTION_NONE,
 		/* .ComSignalEndianess = */ COM_BIG_ENDIAN,
 		/* .ComSignalInitValue = */ &vCom_IPdu1_TX_Signal0_InitValue,
 		/* .ComSignalType = */ UINT8_N,
 		/* .ComTimeoutFactor = */ 10,
-		/* .ComTimeoutNotification = */ vCom_IPdu1_TX_Signal0_TimeoutNotification,
+		/* .ComTimeoutNotification = */ NULL,
 		/* .ComTransferProperty = */ TRIGGERED,
 		/* .ComUpdateBitPosition = */ 0,
 		/* .ComSignalArcUseUpdateBit = */ FALSE,
@@ -52,13 +52,13 @@ const ComSignal_type ComSignal[] = {
 		/* .ComErrorNotification = */ NULL,
 		/* .ComFirstTimeoutFactor = */ 10,
 		/* .ComHandleId = */ vCom_IPdu1_Signal0,
-		/* .ComNotification = */ vCom_IPdu1_Signal0_Notification,
+		/* .ComNotification = */ NULL,
 		/* .ComRxDataTimeoutAction = */ COM_TIMEOUT_DATA_ACTION_NONE,
 		/* .ComSignalEndianess = */ COM_BIG_ENDIAN,
 		/* .ComSignalInitValue = */ &vCom_IPdu1_Signal0_InitValue,
 		/* .ComSignalType = */ UINT8_N,
 		/* .ComTimeoutFactor = */ 10,
-		/* .ComTimeoutNotification = */ vCom_IPdu1_Signal0_TimeoutNotification,
+		/* .ComTimeoutNotification = */ NULL,
 		/* .ComTransferProperty = */ TRIGGERED,
 		/* .ComUpdateBitPosition = */ 0,
 		/* .ComSignalArcUseUpdateBit = */ FALSE,
@@ -90,7 +90,7 @@ const ComSignal_type * const vCom_IPdu1_RX_SignalRefs[] = {
 //I-PDU definitions
 const ComIPdu_type ComIPdu[] = {
 	{// vCom_IPdu1_TX
-		/* .ComIPduCallout = */ vCom_IPdu0_Callout,
+		/* .ComIPduCallout = */ NULL,
 		/* .ArcIPduOutgoingId = */ PDUR_TX_vEcuC_Pdu_1,
 		/* .ComIPduSignalProcessing = */ DEFERRED,
 		/* .ComIPduSize = */ 8,
@@ -114,7 +114,7 @@ const ComIPdu_type ComIPdu[] = {
 		/* .Com_Arc_EOL = */ FALSE,
 	},
 	{// vCom_IPdu1_RX
-		/* .ComIPduCallout = */ vCom_IPdu1_Callout,
+		/* .ComIPduCallout = */ NULL,
 		/* .ArcIPduOutgoingId = */ PDUR_RX_vEcuC_Pdu_1,
 		/* .ComIPduSignalProcessing = */ DEFERRED,
 		/* .ComIPduSize = */ 8,

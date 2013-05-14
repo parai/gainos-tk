@@ -23,8 +23,8 @@
  * from Date:2013-04-08 to $Date: 2013-04-13 13:51:22 $
  * $Revision: 1.1 $
  */
-#ifndef AR_DEBUG_H_
-#define AR_DEBUG_H_
+#ifndef DEBUG_H__H_H
+#define DEBUG_H__H_H
 
 /**
  *
@@ -115,4 +115,4 @@
 #endif /* USE_DEBUG */ 
 
 
-#endif /*AR_DEBUG_H_*/
+#endif /*DEBUG_H__H_H*/

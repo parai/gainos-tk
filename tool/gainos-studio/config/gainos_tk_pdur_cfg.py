@@ -192,7 +192,6 @@ class PduRConfig():
 class gainos_tk_pdur_cfg():
     def __init__(self, chip = None):
         self.cfg=PduRConfig();
-        print "init PduR Object"
 
     def toString(self):
         str='  Double Clicked to Start to Configure the Pdu Router!\n';

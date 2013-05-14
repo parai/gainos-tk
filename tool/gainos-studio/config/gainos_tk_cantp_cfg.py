@@ -170,7 +170,6 @@ class CanTpConfig():
 class gainos_tk_cantp_cfg():
     def __init__(self, chip=None):
         self.cfg=CanTpConfig();
-        print "init CanTp Object"
 
     def toString(self):
         str='  Double Clicked to Start to Configure the CanTp!\n';
