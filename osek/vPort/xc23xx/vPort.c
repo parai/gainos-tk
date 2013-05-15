@@ -22,30 +22,6 @@
 #include "knl_timer.h"
 #include "knl_task.h"
 
-/*
- *    Function Name : disint
- *    Description   : Disable external interrupt,CPSR interrupt flag is in  disabled status.
- */
-EXPORT imask_t disint()
-{
-	__asm("movw r2,PSW");
-	__asm("BCLR PSW_IEN");
-}
-
-/*
- *    Function Name : enaint
- *    Description   : Enable external interrupt (restore to original state),
- *                    Updates CPSR interrupt disabled flag with the intsts interrupt flag.
- */
-EXPORT void enaint(imask_t mask)
-{
-	__asm("movw PSW,r2");
-}
-
-EXPORT imask_t knl_getPRIMASK ( void )
-{
-	__asm("movw r2,PSW");
-}
 EXPORT void knl_start_hw_timer( void )
 {
 }

@@ -26,6 +26,7 @@ section_setup ::code
 				vector_prefix=".vector.", fill = loop)
 	{
 		vector (id=0, fill="__cstart");
+		vector (id=1, fill="_knl_dispatch_entry");
 	}
 }
 

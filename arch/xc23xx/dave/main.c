@@ -348,7 +348,7 @@ void MAIN_vChangeFreq(void)
 void main(void)
 {
   // USER CODE BEGIN (Main,2)
-	
+
   // USER CODE END
 
   MAIN_vInit();
