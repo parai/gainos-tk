@@ -32,6 +32,8 @@
 									<listOptionValue builtIn="false" value="../Project/xc23xx"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/Project/include}&quot;"/>
 								</option>
+								<option id="com.tasking.c166.cc.optimize.1171147780" superClass="com.tasking.c166.cc.optimize" value="com.tasking.c166.cc.optimize.0" valueType="enumerated"/>
+								<option id="com.tasking.c166.cc.tradeoff.314247210" superClass="com.tasking.c166.cc.tradeoff" value="com.tasking.c166.cc.tradeoff.2" valueType="enumerated"/>
 								<inputType id="com.tasking.c166.cppInputType.173075854" name="C++" superClass="com.tasking.c166.cppInputType"/>
 								<inputType id="com.tasking.c166.cpp.cInputType.405637262" name="C" superClass="com.tasking.c166.cpp.cInputType"/>
 								<inputType id="com.tasking.c166.cc.msInputType.1108110604" name="MS" superClass="com.tasking.c166.cc.msInputType"/>

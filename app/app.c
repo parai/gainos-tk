@@ -8,8 +8,10 @@
 
 TASK(vTaskInit)
 {
+	ActivateTask(ID_vTaskSender);
+	ActivateTask(ID_vTaskReceiver);
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    printf("vTaskInit is running.\r\n");
+    //printf("vTaskInit is running.\r\n");
     (void)TerminateTask();
 }
 

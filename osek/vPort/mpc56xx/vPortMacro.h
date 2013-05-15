@@ -21,8 +21,6 @@
 #ifndef VPORT_MACRO_H_H
 #define VPORT_MACRO_H_H
 
-#define cfgTMP_STACK_SZ 1024
-
 #define PMK_D		(1UL << 15UL)      	/* EE Interrupt disable */
 #define PMK_E		(0x00UL)     	    /* Interrupt enable */
 /*

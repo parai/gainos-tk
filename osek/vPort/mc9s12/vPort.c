@@ -116,7 +116,6 @@ void knl_force_dispatch(void)
 
 interrupt 4 void knl_dispatch_entry(void)
 {
-_ret_int_dispatch:
     knl_dispatch_disabled=1;    /* Dispatch disable */ 
     asm   ldd   knl_taskmode  
     asm   pshd;                 /* save knl_taskmode */

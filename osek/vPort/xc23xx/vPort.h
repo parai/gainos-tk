@@ -37,9 +37,10 @@
  * System stack configuration at task startup
  */
 typedef struct {
+	VH taskmode;
+	VH R[16];
 	VH MDH;
 	VH MDL;
-	VH R[16];
 	VH IP;
 	VH CSP;
 	VH PSW;
@@ -70,45 +71,5 @@ IMPORT void knl_start_hw_timer( void );
  *	Call from 'make_dormant()'
  */
 IMPORT void knl_setup_context( TCB *tcb );
-
-#define vPortSaveContext()                      \
-    __asm("push    MDH ");                      \
-    __asm("push    MDL ");                      \
-    __asm("push    r0 ");                       \
-    __asm("push    r1 ");                       \
-    __asm("push    r2 ");                       \
-    __asm("push    r3 ");                       \
-    __asm("push    r4 ");                       \
-    __asm("push    r5 ");                       \
-    __asm("push    r6 ");                       \
-    __asm("push    r7 ");                       \
-    __asm("push    r8 ");                       \
-    __asm("push    r9 ");                       \
-    __asm("push    r10 ");                      \
-    __asm("push    r11 ");                      \
-    __asm("push    r12 ");                      \
-    __asm("push    r13 ");                      \
-    __asm("push    r14 ");						\
-    __asm("push    r15 ");
-
-#define vPortRestoreContext()                   \
-	__asm("pop     r15 ");                      \
-    __asm("pop     r14 ");                      \
-    __asm("pop     r13 ");                      \
-    __asm("pop     r12 ");                      \
-    __asm("pop     r11 ");                      \
-    __asm("pop     r10 ");                      \
-    __asm("pop     r9 ");                       \
-    __asm("pop     r8 ");                       \
-    __asm("pop     r7 ");                       \
-    __asm("pop     r6 ");                       \
-    __asm("pop     r5 ");                       \
-    __asm("pop     r4 ");                       \
-    __asm("pop     r3 ");                       \
-    __asm("pop     r2 ");                       \
-    __asm("pop     r1 ");                       \
-    __asm("pop     r0 ");                       \
-    __asm("pop     MDL ");                      \
-    __asm("pop     MDH ");                      \
 
 #endif/* VPORT_H_H */

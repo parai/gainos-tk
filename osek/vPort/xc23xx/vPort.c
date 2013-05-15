@@ -20,8 +20,8 @@
  */
 #include "vPort.h"
 #include "knl_timer.h"
+#include "knl_task.h"
 
-LOCAL 	UB	knl_tmp_stack[cfgTMP_STACK_SZ];
 /*
  *    Function Name : disint
  *    Description   : Disable external interrupt,CPSR interrupt flag is in  disabled status.
@@ -57,22 +57,14 @@ EXPORT void knl_setup_context( TCB *tcb )
     ssp = knl_gtsk_table[tskid].isstack;
     ssp--;
     pc = (UW)knl_gtsk_table[tskid].task;
+    ssp->taskmode  = 0;             /* Initial taskmode */
     ssp->CSP = (UH)(pc>>16);
     ssp->IP = (UH)pc;
     ssp->PSW = 1<<11; /* Global Register Bank, Interrupt Enable. */
     tcb->tskctxb.ssp = ssp;         /* System stack */
 }
-static void l_dispatch0(void)
-{
-}
-void knl_force_dispatch(void)
-{
-}
 
-void knl_dispatch_entry(void)
-{
-
-}
+/* vector (id=1, fill="_knl_dispatch_entry"); */
 ISR(SystemTick)
 { 
     EnterISR(); 
