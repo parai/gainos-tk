@@ -32,7 +32,7 @@
  * Size of system stack area destroyed by 'make_dormant()'
  * In other words, the size of area required to write by 'setup_context().'
  */
-#define DORMANT_STACK_SIZE	( sizeof(VW) * 44 )	/* To 'taskmode' position */
+#define DORMANT_STACK_SIZE	( sizeof(VW) * 12 )	/* To 'taskmode' position */
 
 #define SP_OFFSET 8 /* sizeof(QUEUE) */
 /* ============================ TYPEs ============================================= */

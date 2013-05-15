@@ -36,6 +36,10 @@ EXPORT void knl_setup_context( TCB *tcb )
     ssp->taskmode  = 0;             /* Initial taskmode */
     ssp->CSP = (UH)(pc>>16);
     ssp->IP = (UH)pc;
+    ssp->R[15] = 0x7FFE;
+    ssp->R[13] = 0x7870;
+    ssp->R[12] = 0x4446;
+    ssp->R[11] = 0xFFFF;
     ssp->PSW = 1<<11; /* Global Register Bank, Interrupt Enable. */
     tcb->tskctxb.ssp = ssp;         /* System stack */
 }

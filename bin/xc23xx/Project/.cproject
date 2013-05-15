@@ -29,11 +29,17 @@
 								<option id="com.tasking.c166.cc.pr36858.696226843" name="workaround for PR36858" superClass="com.tasking.c166.cc.pr36858" value="true" valueType="string"/>
 								<option id="com.tasking.c166.cc.noTaskingSfr.1242946946" name="Automatic inclusion of '.sfr' file" superClass="com.tasking.c166.cc.noTaskingSfr" value="false" valueType="boolean"/>
 								<option id="com.tasking.c166.cc.includePaths.1058233594" name="Include paths" superClass="com.tasking.c166.cc.includePaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="../Project/xc23xx"/>
+									<listOptionValue builtIn="false" value="F:/parai@foxmail.com/github/gainos-tk/bin/xc23xx/Project/Project/xc23xx"/>
+									<listOptionValue builtIn="false" value="../Project/Project/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/Project/arch/xc23xx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/Project/arch/xc23xx/dave}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/Project/osek/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/Project/osek/vPort/xc23xx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/Project/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/Project/config}&quot;"/>
 								</option>
-								<option id="com.tasking.c166.cc.optimize.1171147780" superClass="com.tasking.c166.cc.optimize" value="com.tasking.c166.cc.optimize.0" valueType="enumerated"/>
-								<option id="com.tasking.c166.cc.tradeoff.314247210" superClass="com.tasking.c166.cc.tradeoff" value="com.tasking.c166.cc.tradeoff.2" valueType="enumerated"/>
+								<option id="com.tasking.c166.cc.optimize.1171147780" name="Optimization level:" superClass="com.tasking.c166.cc.optimize" value="com.tasking.c166.cc.optimize.0" valueType="enumerated"/>
+								<option id="com.tasking.c166.cc.tradeoff.314247210" name="Trade-off between speed and size:" superClass="com.tasking.c166.cc.tradeoff" value="com.tasking.c166.cc.tradeoff.2" valueType="enumerated"/>
 								<inputType id="com.tasking.c166.cppInputType.173075854" name="C++" superClass="com.tasking.c166.cppInputType"/>
 								<inputType id="com.tasking.c166.cpp.cInputType.405637262" name="C" superClass="com.tasking.c166.cpp.cInputType"/>
 								<inputType id="com.tasking.c166.cc.msInputType.1108110604" name="MS" superClass="com.tasking.c166.cc.msInputType"/>
@@ -42,10 +48,10 @@
 								<option id="com.tasking.c166.as.includePaths.450545549" name="Include paths" superClass="com.tasking.c166.as.includePaths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/arch/xc23xx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/arch/xc23xx/dave}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/osek/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/osek/vPort/xc23xx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project/config}&quot;"/>
 								</option>
 								<inputType id="com.tasking.c166.asmInputType.330441497" name="ASM" superClass="com.tasking.c166.asmInputType"/>
 							</tool>
@@ -73,11 +79,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="app|config|include|osek|arch" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="config|arch|include|app|osek" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
-						<entry excluding="vPort/mpc56xx|vPort/mc9s12|vPort/armv7_m" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="osek"/>
-						<entry excluding="at91sam3s|mc9s12|mpc56xx|stm32f1" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="arch"/>
-						<entry excluding="*Cfg.h|*Cfg.c|*_PBcfg.c|Dem_*.h" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="config"/>
+						<entry excluding="vPort/mc9s12|vPort/mpc56xx|vPort/armv7_m" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="osek"/>
+						<entry excluding="at91sam3s|mc9s12|mpc56xx|stm32f1" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="arch"/>
+						<entry excluding="*Cfg.h|Dem_*.h|*_PBcfg.c|*Cfg.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="config"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="app"/>
 					</sourceEntries>
 				</configuration>
@@ -94,6 +100,10 @@
 			<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 			<storageModule moduleId="com.tasking.toolInfo">
 				<toolInfo>TASKING program builder v3.0r3 Build 049</toolInfo>
+				<toolInfo>TASKING VX-toolset for C166: control program v3.0r3 Build 128</toolInfo>
+				<toolInfo>TASKING VX-toolset for C166: Assembler v3.0r3 Build 301</toolInfo>
+				<toolInfo>TASKING VX-toolset for C166: Linker Locator v3.0r3 Build 156</toolInfo>
+				<toolInfo>TASKING VX-toolset for C166: C compiler v3.0r3 Build 707</toolInfo>
 				<toolInfo>TASKING VX-toolset for C166: Eclipse plugin v1.24.0.0</toolInfo>
 			</storageModule>
 			<storageModule moduleId="scannerConfiguration">
