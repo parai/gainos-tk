@@ -25,13 +25,7 @@
 #include "vPortMacro.h"
 #include "knl_task.h"
 /* ============================ MACROs ============================================= */
-/*
- * Size of system stack area destroyed by 'make_dormant()'
- * In other words, the size of area required to write by 'setup_context().'
- */
-#define DORMANT_STACK_SIZE	( sizeof(VW) * 12 )	/* To 'PSW' position */
 
-#define SP_OFFSET 4 /* sizeof(QUEUE) */
 /* ============================ TYPEs ============================================= */
 /*
  * System stack configuration at task startup

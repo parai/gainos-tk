@@ -47,8 +47,10 @@ EXPORT void knl_setup_context( TCB *tcb )
     tcb->tskctxb.ssp = ssp;         /* System stack */
 }
 
-/* vector (id=1, fill="_knl_dispatch_entry"); */
-ISR(SystemTick)
+/* use RTC as system tick, only enable counter T14 overflow interrupt.
+ * configured by DAVE
+ */
+ISR(SystemTick,0x6E)
 { 
     EnterISR(); 
 	knl_timer_handler();

@@ -225,7 +225,7 @@ void RTC_vInit(void)
 //****************************************************************************
 
 // USER CODE BEGIN (RTC,1)
-
+#if 0	// has been processed in vPort.c ISR(SystemTick,0x6E)
 // USER CODE END
 
 _interrupt(RTCINT)  void RTC_viRTC(void)
@@ -257,6 +257,6 @@ _interrupt(RTCINT)  void RTC_viRTC(void)
 
 
 // USER CODE BEGIN (RTC_General,10)
-
+#endif
 // USER CODE END
 

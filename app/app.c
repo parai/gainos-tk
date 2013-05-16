@@ -8,10 +8,11 @@
 
 TASK(vTaskInit)
 {
-	ActivateTask(ID_vTaskSender);
-	ActivateTask(ID_vTaskReceiver);
+	(void)SetRelAlarm(ID_vAlarmReceiver,50,200);
+	(void)SetRelAlarm(ID_vAlarmSender,100,200);
+	(void)SetRelAlarm(ID_vAlarmMainFunction,150,200);
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    //printf("vTaskInit is running.\r\n");
+    printf("vTaskInit is running.\r\n");
     (void)TerminateTask();
 }
 
@@ -39,7 +40,11 @@ TASK(vTaskMainFunction)
 TASK(vTaskIdle)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    printf("vTaskIdle is running.\r\n");
+	for(;;)
+	{
+		printf("vTaskIdle is running.\r\n");
+		SleepTask(500);
+	}
     (void)TerminateTask();
 }
 
