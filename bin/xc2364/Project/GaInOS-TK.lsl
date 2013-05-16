@@ -9,14 +9,7 @@
 #define __DPP2_ADDR	0x008000
 #define __DPP3_ADDR	0x00C000
 
-#if defined(__CPU_XC2365B__)
-#include "xc2365b.lsl"
-derivative my_xc2365b extends xc2365b
-{
-}
-#else
 #include <cpu.lsl>
-#endif
 
 // Define interrupt vector table
 section_setup ::code
@@ -26,7 +19,6 @@ section_setup ::code
 				vector_prefix=".vector.", fill = loop)
 	{
 		vector (id=0, fill="__cstart");
-		vector (id=1, fill="_knl_dispatch_entry");
 	}
 }
 

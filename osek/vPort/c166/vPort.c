@@ -18,6 +18,10 @@
  * Email: parai@foxmail.com
  * Sourrce Open At: https://github.com/parai/gainos-tk/
  */
+/*
+ * This vPort is For TASKING VX-toolset C166.
+ * Run OK on XC2300 family chip.
+ */
 #include "vPort.h"
 #include "knl_timer.h"
 #include "knl_task.h"

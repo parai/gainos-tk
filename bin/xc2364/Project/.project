@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Project</name>
+	<name>GaInOS-TK</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -21,27 +21,33 @@
 		<link>
 			<name>app</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/github/gainos-tk/app</locationURI>
+			<locationURI>GaInOS_BD/app</locationURI>
 		</link>
 		<link>
 			<name>arch</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/github/gainos-tk/arch</locationURI>
+			<locationURI>GaInOS_BD/arch</locationURI>
 		</link>
 		<link>
 			<name>config</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/github/gainos-tk/config</locationURI>
+			<locationURI>GaInOS_BD/config</locationURI>
 		</link>
 		<link>
 			<name>include</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/github/gainos-tk/include</locationURI>
+			<locationURI>GaInOS_BD/include</locationURI>
 		</link>
 		<link>
 			<name>osek</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/github/gainos-tk/osek</locationURI>
+			<locationURI>GaInOS_BD/osek</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>GaInOS_BD</name>
+			<value>file:/F:/parai@foxmail.com/github/gainos-tk</value>
+		</variable>
+	</variableList>
 </projectDescription>

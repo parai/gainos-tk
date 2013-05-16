@@ -1,0 +1,399 @@
+{\rtf1\ansi\deff0\deftab720{\fonttbl{\f0\fnil MS Sans Serif;}{\f1\fnil\fcharset2 Symbol;}{\f2\fswiss\fprq2 System;}{\f3\fnil Times New Roman;}{\f4\fswiss\fprq2 Arial;}}
+{\colortbl\red0\green0\blue0;\red0\green0\blue128;\red255\green0\blue0;}
+\deflang1031\pard\plain\f4\fs28\cf0 DAvE's Project Documentation
+\par \plain\f4\fs22\cf0
+\par \plain\f4\fs22\cf0 Project: \tab\tab\b DAvE_Bsp.dav
+\par 
+\par \plain\f4\fs22\cf0 Controller: \tab\tab\b TC1797
+\par \plain\f4\fs22\cf0 Compiler: \tab\tab\b Tasking 3.1
+\par 
+\par \plain\f4\fs22\cf0 Date: \tab\tab\tab\b 2013/5/16 21:37:27
+\par 
+\par 
+\par \plain\f4\fs22\cf2\b Please read this document carefully and note
+\par \plain\f4\fs22\cf2\b the red-colored hints.
+\par 
+\par \plain\f4\fs22\cf2\b If you miss a file in the generated files list
+\par \plain\f4\fs22\cf2\b maybe you have forgotten to select the
+\par \plain\f4\fs22\cf2\b initialisation function of the related module.
+\par 
+\par \plain\f4\fs22\cf0 Generated Files:
+\plain\f4\fs20\cf0\b
+\par \tab\tab\tab MAIN.H
+\par \tab\tab\tab MAIN.C
+\par \tab\tab\tab INT.H
+\par \tab\tab\tab INT.C
+\par \tab\tab\tab STM.H
+\par \tab\tab\tab STM.C
+\par 
+\par 
+\par \plain\f4\fs20\cf0
+\par \plain\f4\fs28\cf0\ul Project Settings
+\par
+\par \plain\f4\fs24\cf0 Macros:\f4\fs20\cf0
+\par
+\par
+\par \plain\f4\fs20\cf0 \tab Macro:
+\par \plain\f4\fs20\cf0\b \tab \tab MAIN_vSetENDINIT()\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This macro sets the EndInit bit, which controls access to
+
+\par \tab \tab system critical registers. Setting the EndInit bit locks
+
+\par \tab \tab all EndInit protected registers.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par
+\par \plain\f4\fs20\cf0 \tab Macro:
+\par \plain\f4\fs20\cf0\b \tab \tab MAIN_vResetENDINIT()\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This macro clears the EndInit bit, which controls access to
+
+\par \tab \tab system critical registers. Clearing the EndInit bit unlocks
+
+\par \tab \tab all EndInit protected registers. Modifications of the
+
+\par \tab \tab EndInit bit are monitored by the watchdog timer such that
+
+\par \tab \tab after clearing EndInit, the watchdog timer enters a defined
+
+\par \tab \tab time-out mode; EndInit must be set again before the
+
+\par \tab \tab time-out expires.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par \plain\f4\fs24\cf0 Functions:\f4\fs20\cf0
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void MAIN_vInit(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This function initializes the microcontroller.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void MAIN_vWriteWDTCON0(uword uwValue)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This function writes the parameter uwValue to the WDT_CON0
+
+\par \tab \tab register which is password protected.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab uwValue:
+
+\par \tab \tab Value for the WDTCON0 register
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab sword main(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the main function.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b Returns an sword value\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs24\cf0 Initialization:
+\par \plain\f4\fs20\cf0\b
+\par
+\tab \cf2Begin of Important Settings for the Start-Up File\cf0\par 
+\tab All following settings must be set in the start-up file. You can use\par 
+\tab DAvE's project file (*.dpt) to include this register values into your\par 
+\tab compiler EDE.\par 
+\par 
+\tab System Peripheral Bus Control Unit (SBCU):\par 
+\tab SBCU starvation protection is enabled\par 
+\tab the debug trace is enabled. Error information is captured in\par 
+\tab register SBCU_EADD, SBCU_EDAT and SBCU_ECON\par 
+\tab sample period of request for starvation protection: 64\par 
+\tab SBCU bus time-out value: 65536 cycles\par 
+\par 
+\tab \cf2this register must be set in the start-up file\cf0\par 
+\tab \cf2SBCU_CON.U  = 0x4009FFFF;\cf0\par 
+\par 
+\tab LMB External Bus Unit (EBU):\par 
+\tab - enable the EBU module clock\par 
+\tab - disable EndInit Protection of the CLC Register\par 
+\tab - request EBU to run off input clock divided by 1\par 
+\par 
+\tab \cf2this register must be set in the start-up file\cf0\par 
+\tab \cf2EBU_CLC.U  = 0x00010000;\cf0\par 
+\par 
+\tab External Arbitration:\par 
+\tab - EBU is disabled\par 
+\par 
+\tab \cf2this register must be set in the start-up file\cf0\par 
+\tab \cf2EBU_MODCON.U  = 0x00000000;\cf0\par 
+\par 
+\tab Data Memory Interface (DMI):\par 
+\tab - No Data Cache\par 
+\tab - 128 Kbyte Data Memory\par 
+\par 
+\tab \cf2this register must be set in the start-up file\cf0\par 
+\tab \cf2DMI_CON.U  = 0x08000802;\cf0\par 
+\par 
+\tab Program Memory Interface (PMI):\par 
+\tab - No Instruction Cache\par 
+\tab - 40 Kbyte Program Memory\par 
+\par 
+\tab \cf2this register must be set in the start-up file\cf0\par 
+\tab \cf2PMI_CON2.U  = 0x02800284;\cf0\par 
+\par 
+\tab \cf2End of Important Settings for the Start-Up File\cf0\par 
+\par 
+\tab Clock System:\par 
+\tab - external clock frequency: 20.00 MHz\par 
+\tab - input divider (PDIV): 2\par 
+\tab - PLL operation (VCOBYP = 0)\par 
+\tab - VCO range: 700 MHz - 800 MHz\par 
+\tab - feedback divider (NDIV): 72\par 
+\tab - the VCO output frequency is: 720.00 MHz\par 
+\tab - output divider (KDIV): 4\par 
+\tab - CPU clock: 180.00 MHz\par 
+\tab - the ratio fcpu /ffpi is  2 / 1\par 
+\tab - the ratio fcpu /flmb is  1 / 1\par 
+\tab - the ratio fcpu /fpcp is  1 / 1\par 
+\tab - system clock: 90.00 MHz\par 
+\par 
+\tab Interrupt System:\par 
+\tab - four arbitration cycles (max. 255 interrupt sources)\par 
+\tab - two clocks per arbitration cycle\par 
+\par 
+\tab Peripheral Control Processor (PCP):\par 
+\tab - stop the PCP internal clock when PCP is idle\par 
+\par 
+\tab - use Full Context save area (R[0] - R[7])\par 
+\tab - start progam counter as left by last invocation\par 
+\tab - channel watchdog is disabled\par 
+\tab - maximum channel number checking is disabled\par 
+\par 
+\tab - four arbitration cycles (max. 255 PCP channels)\par 
+\tab - two clocks per arbitration cycle\par 
+\par 
+\tab - the PCP warning mechanism is disabled\par 
+\par 
+\tab - type of service of PCP node 4 is CPU interrupt\par 
+\par 
+\tab - type of service of PCP node 5 is CPU interrupt\par 
+\par 
+\tab - type of service of PCP node 6 is CPU interrupt\par 
+\par 
+\tab - type of service of PCP node 7 is CPU interrupt\par 
+\par 
+\tab - type of service of PCP node 8 is CPU interrupt\par 
+\par 
+\tab Configuration of the DMA Module Clock:\par 
+\tab - enable the DMA module\par 
+\par 
+\tab System Start Conditions:\par 
+\par 
+\tab \cf2- the CPU interrupt system is globally disabled\cf0\par 
+\par 
+\tab \cf2- the PCP interrupt system is globally disabled\cf0\par 
+\par 
+
+\par \plain\f4\fs20\cf0
+\par \plain\f4\fs28\cf0\ul Interrupt System (INT)
+\par
+\par \plain\f4\fs24\cf0 Macros:\f4\fs20\cf0
+\par \plain\f4\fs24\cf0 Functions:\f4\fs20\cf0
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void INT_vInit(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the initialization function of the INT function
+
+\par \tab \tab library. It is assumed that the SFRs used by this library
+
+\par \tab \tab are in their reset state.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void INT_viCPU0(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the interrupt service routine for the software
+
+\par \tab \tab interrupt 0.
+
+\par \tab \tab Please note that you have to add application specific code
+
+\par \tab \tab to this function.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs24\cf0 Initialization:
+\par \plain\f4\fs20\cf0\b
+\par
+\tab Configuration of the used CPU Interrupts:\par 
+\tab - CPU0 service request node configuration:\par 
+\tab - CPU0 interrupt priority level (SRPN) = 254\par 
+\tab - CPU0 CPU interrupt is selected\par 
+\par 
+
+\par \plain\f4\fs20\cf0
+\par \plain\f4\fs28\cf0\ul System Timer (STM)
+\par
+\par \plain\f4\fs24\cf0 Macros:\f4\fs20\cf0
+\par \plain\f4\fs24\cf0 Functions:\f4\fs20\cf0
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void STM_vInit(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the initialization function of the STM function
+
+\par \tab \tab library. It is assumed that the SFRs used by this library
+
+\par \tab \tab are in their reset state.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void STM_viSRN0(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the interrupt service routine 0 of STM. It is
+
+\par \tab \tab called if the selected compare match is pending.
+
+\par \tab \tab Please note that you have to add application specific code
+
+\par \tab \tab to this function.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void STM_viSRN1(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the interrupt service routine 1 of STM. It is
+
+\par \tab \tab called if the selected compare match is pending.
+
+\par \tab \tab Please note that you have to add application specific code
+
+\par \tab \tab to this function.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab None
+
+\par
+\par \plain\f4\fs24\cf0 Initialization:
+\par \plain\f4\fs20\cf0\b
+\par
+\tab Configuration of the Module Clock:\par 
+\tab - enable the STM module\par 
+\tab - Application Reset resets the STM module\par 
+\tab - STM clock is System clock / 2 (= 45.00 MHz; 22.22 ns )\par 
+\par 
+\tab STM Resolution And Range:\par 
+\tab STM_TIMER_0     bits 0 ... 31 :\par 
+\tab - resolution = 0.02 us\par 
+\tab - range = 1.59 min\par 
+\par 
+\tab STM_TIMER_1     bits 4 ... 35 :\par 
+\tab - resolution = 0.36 us\par 
+\tab - range = 25.45 min\par 
+\par 
+\tab STM_TIMER_2     bits 8 ... 39 :\par 
+\tab - resolution = 5.69 us\par 
+\tab - range = 6.79 h\par 
+\par 
+\tab STM_TIMER_3     bits 12 ... 43 :\par 
+\tab - resolution = 91.02 us\par 
+\tab - range = 4.52 days\par 
+\par 
+\tab STM_TIMER_4     bits 16 ... 47 :\par 
+\tab - resolution = 1.46 ms\par 
+\tab - range = 72.40 days\par 
+\par 
+\tab STM_TIMER_5     bits 20 ... 51 :\par 
+\tab - resolution = 23.30 ms\par 
+\tab - range = 3.17 years\par 
+\par 
+\tab STM_TIMER_6     bits 32 ... 55 :\par 
+\tab - resolution = 1.59 min\par 
+\tab - range = 50.78 years\par 
+\par 
+\tab STM_TIMER_7     bits 32 ... 55 :\par 
+\tab - resolution = 1.59 min\par 
+\tab - range = 50.78 years\par 
+\par 
+\tab STM Compare 0 configuration:\par 
+\tab - lowest bit number of STM which is compared with CMP0 is 7\par 
+\tab - 4 bit(s) in register CMP0 are used for the compare operation with STM\par 
+\tab - required compare value of CMP0 is 0x0000000A\par 
+\tab - real compare value of CMP0 is 0x0000000A\par 
+\tab - request on compare match with CMP0 is enabled and located to STMIR0\par 
+\par 
+\tab STM Compare 1 configuration:\par 
+\tab - lowest bit number of STM which is compared with CMP1 is 7\par 
+\tab - 4 bit(s) in register CMP1 are used for the compare operation with STM\par 
+\tab - required compare value of CMP1 is 0x0000000A\par 
+\tab - real compare value of CMP1 is 0x0000000A\par 
+\tab - request on compare match with CMP1 is enabled and located to STMIR1\par 
+\par 
+\tab Configuration of the used STM Interrupts:\par 
+\tab - SRN0 service request node configuration:\par 
+\tab - SRN0 interrupt priority level (SRPN) = 253\par 
+\tab - SRN0 CPU interrupt is selected\par 
+\par 
+\tab - SRN1 service request node configuration:\par 
+\tab - SRN1 interrupt priority level (SRPN) = 252\par 
+\tab - SRN1 CPU interrupt is selected\par 
+\par 
+
+}

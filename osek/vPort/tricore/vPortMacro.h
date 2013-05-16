@@ -57,8 +57,8 @@
 /*
  * Interrupt enable/disable
  */
-#define ENABLE_INTERRUPT	{ __asm("BSET PSW_IEN"); }
-#define DISABLE_INTERRUPT	{ __asm("BCLR PSW_IEN"); }
+#define ENABLE_INTERRUPT	{  }
+#define DISABLE_INTERRUPT	{  }
 
 /*
  * Enable interrupt nesting
