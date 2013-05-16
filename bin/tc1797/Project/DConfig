@@ -1,0 +1,1 @@
+pcp.dll -cmem_base 0xf0060000 -cmem_size 0x40000 -pram_base 0xf0050000 -pram_size 0x40000 -preg_base 0xf0043f00 -preg_size 0xcd -psrn_base 0xf0043fd0 -psrn_size 0x30

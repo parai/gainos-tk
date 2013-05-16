@@ -18,10 +18,13 @@
  * Email: parai@foxmail.com
  * Sourrce Open At: https://github.com/parai/gainos-tk/
  */
+/*
+ * This vPort is For TASKING VX-toolset TriCore.
+ * Run OK on TriCore(TC1797) family chip.
+ */
 #ifndef VPORT_MACRO_H_H
 #define VPORT_MACRO_H_H
 
-#define cfgTMP_STACK_SZ 512
 /*
  * CPU interrupt control
  *	'intsts' is the value of PRIMASK in CPU
@@ -33,7 +36,7 @@
  */
 #define DI(intsts)	    ( (intsts) = disint() )
 #define EI(intsts)	    ( (void)enaint(intsts) )
-#define isDI(intsts)	( ((intsts) & (1<<11)) == 0 )
+#define isDI(intsts)	( ((intsts) & (1<<12)) == 0 )
 
 /*
  * Start/End critical section
@@ -57,8 +60,8 @@
 /*
  * Interrupt enable/disable
  */
-#define ENABLE_INTERRUPT	{  }
-#define DISABLE_INTERRUPT	{  }
+#define ENABLE_INTERRUPT	{ __enable(); }
+#define DISABLE_INTERRUPT	{ __disable(); }
 
 /*
  * Enable interrupt nesting

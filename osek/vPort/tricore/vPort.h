@@ -18,21 +18,44 @@
  * Email: parai@foxmail.com
  * Sourrce Open At: https://github.com/parai/gainos-tk/
  */
+/*
+ * This vPort is For TASKING VX-toolset TriCore.
+ * Run OK on TriCore(TC1797) family chip.
+ */
 #ifndef  VPORT_H_H
 #define  VPORT_H_H
 /* ============================ INCLUDEs ========================================== */
 #include "osek_os.h"
 #include "vPortMacro.h"
 #include "knl_task.h"
+
 /* ============================ MACROs ============================================= */
+/* CSA Manipulation. */
+#define vPortCSA_TO_ADDRESS( pCSA )			( ( unsigned long * )( ( ( ( pCSA ) & 0x000F0000 ) << 12 ) | ( ( ( pCSA ) & 0x0000FFFF ) << 6 ) ) )
+#define vPortADDRESS_TO_CSA( pAddress )		( ( unsigned long )( ( ( ( (unsigned long)( pAddress ) ) & 0xF0000000 ) >> 12 ) | ( ( ( unsigned long )( pAddress ) & 0x003FFFC0 ) >> 6 ) ) )
 
 /* ============================ TYPEs ============================================= */
 /*
  * System stack configuration at task startup
  */
 typedef struct {
-	VH taskmode;
-} SStackFrame;
+	VW	pcxi;
+	VW	psw;
+	VW	SP;	//A[10] -> Stack Pointer
+	VW	RA; //A[11] -> Return Address
+	VW	D8;  VW	D9;  VW	D10; VW	D11;
+	VW	A12; VW A13; VW A14; VW A15;
+	VW	D12; VW D13; VW D14; VW D15;
+}UpperCSA;
+
+typedef struct {
+	VW	pcxi;
+	VW	RA; //A[11] -> Return Address
+	VW  A2;  VW A3;
+	VW	D0;  VW	D1;  VW	D2; VW	D3;
+	VW	A4;  VW A5;  VW A6; VW A7;
+	VW	D4;  VW D5;  VW D6; VW D7;
+}LowerCSA;
 
 /* ============================ FUNCTIONs ========================================= */
 /*
@@ -44,12 +67,12 @@ IMPORT void knl_force_dispatch(void);
 /*
  * Start task dispatcher
  */
-#define knl_dispatch() {}
+#define knl_dispatch() { __syscall(0); }
 
 /*
  * Start task dispatcher during ISR
  */
-#define knl_isr_dispatch() {}
+#define knl_isr_dispatch() {__syscall(0);}
 
 IMPORT imask_t disint( void );
 IMPORT void enaint( imask_t intsts );

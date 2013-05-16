@@ -210,11 +210,11 @@ void MAIN_vInit(void)
       MAIN_vResetENDINIT();
       SCU_CCUCON0.U  = 0x00000001; // set FPI,LMB and PCP dividers
       SCU_PLLCON0.B.VCOBYP  = 1; // set VCO bypass (goto Prescaler Mode)
-      while (!SCU_PLLSTAT.B.VCOBYST);// wait for prescaler mode
+      //while (!SCU_P/LLSTAT.B.VCOBYST);// wait for prescaler mode
       SCU_PLLCON0.U  = 0x01058E21; // set P,N divider, connect OSC
       SCU_PLLCON1.U  = 0x00020003; // set K1,K2 divider
       MAIN_vSetENDINIT();
-      while (SCU_PLLSTAT.B.VCOLOCK == 0);// wait for LOCK
+      //while (SCU_PLLSTAT.B.VCOLOCK == 0);// wait for LOCK
       MAIN_vResetENDINIT();
       SCU_PLLCON0.B.VCOBYP  = 0; // Reset VCO bypass (Leave Prescaler Mode)
       MAIN_vSetENDINIT();
@@ -382,7 +382,7 @@ void MAIN_vWriteWDTCON0(uword uwValue)
 //****************************************************************************
 
 // USER CODE BEGIN (Main,1)
-
+#include "Os.h"
 // USER CODE END
 
 sword main(void)
@@ -443,7 +443,7 @@ sword main(void)
 
 
          // USER CODE BEGIN (Main,7)
-
+	StartOS(OSDEFAULTAPPMODE);
          // USER CODE END
 
   return(swReturn);

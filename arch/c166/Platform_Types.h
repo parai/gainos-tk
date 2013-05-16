@@ -24,8 +24,8 @@
 #define CPU_TYPE            CPU_TYPE_16
 #define CPU_ENDIAN          CPU_BIG_ENDIAN 
 
-/* This is a Cpu ISR Mask type PSW*/
-typedef unsigned short               imask_t;
+/* This is a Cpu ISR Mask type ICR */
+typedef unsigned long               imask_t;
 /*
  * Task context block
  */

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>GaInOS-TK</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.tasking.ctc.TskManagedBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+		<nature>com.tasking.ctc.target</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>app</name>
+			<type>2</type>
+			<locationURI>GAINOS_BD/app</locationURI>
+		</link>
+		<link>
+			<name>arch</name>
+			<type>2</type>
+			<locationURI>GAINOS_BD/arch</locationURI>
+		</link>
+		<link>
+			<name>config</name>
+			<type>2</type>
+			<locationURI>GAINOS_BD/config</locationURI>
+		</link>
+		<link>
+			<name>include</name>
+			<type>2</type>
+			<locationURI>GAINOS_BD/include</locationURI>
+		</link>
+		<link>
+			<name>osek</name>
+			<type>2</type>
+			<locationURI>GAINOS_BD/osek</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>
