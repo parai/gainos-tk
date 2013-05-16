@@ -60,7 +60,8 @@ EXPORT void knl_make_dormant( TCB *tcb )
 {
     ID tskid = tcb - knl_tcb_table;
 	/* Initialize variables which should be reset at DORMANT state */
-	tcb->state	= TS_DORMANT;
+    // remove it for C166(USP and SSP)
+	//tcb->state	= TS_DORMANT;
 	tcb->priority = knl_gtsk_table[tskid].itskpri;
 
 	tcb->klockwait	= FALSE;
@@ -109,10 +110,14 @@ EXPORT void knl_task_init(void)
     knl_task_initialize();
     for(i=0,tcb=knl_tcb_table; i < cfgOSEK_TASK_NUM; i++,tcb++)
     {
-        knl_make_dormant(tcb);
         if((knl_gtsk_table[i].tskatr) & AUTOSTART)
         { 
+        	knl_make_dormant(tcb);
             knl_make_ready(tcb);
+        }
+        else
+        {
+        	tcb->state = TS_SUSPEND;
         }
     }
 }

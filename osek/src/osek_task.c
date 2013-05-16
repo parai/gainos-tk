@@ -62,10 +62,11 @@ StatusType ActivateTask ( TaskType TaskID )
 	tcb = &knl_tcb_table[TaskID];
 	BEGIN_CRITICAL_SECTION;
 	state = (TSTAT)tcb->state;
-	if ( state != TS_DORMANT ) {
+	if ( state != TS_SUSPEND ) {
 	    /* Now Task Max activations is 1*/
 		ercd = E_OS_LIMIT;
 	} else {
+		knl_make_dormant(tcb);
 		knl_make_ready(tcb);
 	}
 	END_CRITICAL_SECTION;
@@ -111,25 +112,16 @@ StatusType ActivateTask ( TaskType TaskID )
 StatusType TerminateTask ( void )
 {
 	StatusType ercd = E_NOT_OK;
-#ifdef DORMANT_STACK_SIZE
-	/* To avoid destroying stack used in 'knl_make_dormant', 
-	   allocate the dummy area on the stack. */
-	volatile VB _dummy[DORMANT_STACK_SIZE];
-#endif
 	CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
 	CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	DISABLE_INTERRUPT;
 	
 	knl_make_non_ready(knl_ctxtsk);
-	knl_make_dormant(knl_ctxtsk);
+	knl_ctxtsk->state = TS_SUSPEND;
 
 	knl_force_dispatch();
 	/* No return */
 
-#ifdef DORMANT_STACK_SIZE
-	/* for WARNING */
-	_dummy[0] = 0;
-#endif
 	Error_Exit:
 	return ercd;
 }
@@ -187,11 +179,7 @@ StatusType ChainTask ( TaskType TaskID )
 	StatusType ercd = E_NOT_OK;
 	TCB * tcb;
 	TSTAT state;
-#ifdef DORMANT_STACK_SIZE
-	/* To avoid destroying stack used in 'knl_make_dormant', 
-	   allocate the dummy area on the stack. */
-	volatile VB _dummy[DORMANT_STACK_SIZE];
-#endif	
+
 	tcb = &knl_tcb_table[TaskID];
 	state = (TSTAT)tcb->state;
 	CHECK_TASKID_EXT(TaskID);
@@ -200,13 +188,11 @@ StatusType ChainTask ( TaskType TaskID )
 	CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	DISABLE_INTERRUPT;
 	knl_make_non_ready(knl_ctxtsk);
-	knl_make_dormant(knl_ctxtsk);
+	knl_ctxtsk->state = TS_SUSPEND;
+	knl_make_dormant(tcb);
 	knl_make_ready(tcb);
     knl_force_dispatch();
-#ifdef DORMANT_STACK_SIZE
-	/* for WARNING */
-	_dummy[0] = 0;
-#endif    
+
 	/* No return */
 	Error_Exit:
     return ercd;

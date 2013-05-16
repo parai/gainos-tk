@@ -29,17 +29,20 @@ EXPORT void knl_setup_context( TCB *tcb )
 {
     SStackFrame     *ssp;
     UW pc;
-    ID tskid = tcb - knl_tcb_table;
-    ssp = knl_gtsk_table[tskid].isstack;
+    UH isstack;
+    ID tskid;
+
+    tskid = tcb - knl_tcb_table;
+    isstack = (UH)knl_gtsk_table[tskid].isstack;
+    /* half of the Stack Space for system stack and the other for user stack */
+    ssp = (SStackFrame*)(isstack - (knl_gtsk_table[tskid].stksz>>1));
     ssp--;
     pc = (UW)knl_gtsk_table[tskid].task;
-    ssp->taskmode  = 0;             /* Initial taskmode */
+    ssp->taskmode  = 0xBEEF;             /* Initial taskmode */
     ssp->CSP = (UH)(pc>>16);
     ssp->IP = (UH)pc;
-    ssp->R[15] = 0x7FFE;
-    ssp->R[13] = 0x7870;
-    ssp->R[12] = 0x4446;
-    ssp->R[11] = 0xFFFF;
+    /* init User Stack (R0 For keil) */
+    ssp->R[15] = isstack;
     ssp->PSW = 1<<11; /* Global Register Bank, Interrupt Enable. */
     tcb->tskctxb.ssp = ssp;         /* System stack */
 }
