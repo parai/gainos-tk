@@ -38,7 +38,7 @@ EXPORT void knl_setup_context( TCB *tcb )
     ssp = (SStackFrame*)(isstack - (knl_gtsk_table[tskid].stksz>>1));
     ssp--;
     pc = (UW)knl_gtsk_table[tskid].task;
-    ssp->taskmode  = 0xBEEF;             /* Initial taskmode */
+    ssp->taskmode  = 0;             /* Initial taskmode */
     ssp->CSP = (UH)(pc>>16);
     ssp->IP = (UH)pc;
     /* init User Stack (R0 For keil) */
