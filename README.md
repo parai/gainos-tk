@@ -7,9 +7,8 @@ gainos-tk
 概述
 ====
 	GaInOS-TK 首先是一个符合OSEK OS 2.2.3 规范的实时操作系统，其实现架构基于uTenux（http://www.uloong.cc，
-其遵循开源U-License协议。
-	在此 RTOS 的基础之上集成来自arccore（http://www.arccore.com/）的开源GPL协议的Com通讯栈代码。
-	并为上述两模块开发出静态配置工具gainos-studio。
+其遵循开源U-License协议。在此 RTOS 的基础之上集成来自arccore（http://www.arccore.com/）的开源GPL协议的Com
+通讯栈代码。并为上述两模块开发出静态配置工具gainos-studio。
 
 自述
 ====
@@ -30,9 +29,7 @@ Queue 的大一统的任务、信号量、互斥量等的管理，基于 TMEB �
 	之后，开始了基于uTenux的OSEK OS工作，这里感谢uLoong社区在此期间给予的帮助。所以到今天，
 有了基于uTenux的GaInOS-TK，之所以取名GaInOS，是因为我相信 No pain，No gain。还有就是GaIn 在韩语里面
 和 "가인" （佳人）同音，So I like it。
-	
-	
-	
+		
 
 源码说明
 ========
