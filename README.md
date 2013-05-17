@@ -6,8 +6,8 @@ gainos-tk
 	A configuring GUI tool based on python and Qt4.8.
 概述
 ====
-	GaInOS-TK 首先是一个符合OSEK OS 2.2.3 规范的实时操作系统，其实现架构基于uTenux（http://www.uloong.cc，其
-遵循开源U-License协议。在此 RTOS 的基础之上集成来自arccore（http://www.arccore.com/）的开源GPL协议的Com通讯栈
+	GaInOS-TK 首先是一个符合OSEK OS 2.2.3 规范的实时操作系统，其实现架构基于uTenux（http://www.uloong.cc，
+其遵循开源U-License协议。在此 RTOS 的基础之上集成来自arccore（http://www.arccore.com/）的开源GPL协议的Com通讯栈
 代码。并为上述两模块开发出静态配置工具gainos-studio。
 
 自述
