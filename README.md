@@ -6,14 +6,14 @@ gainos-tk
 	A configuring GUI tool based on python and Qt4.8.
 概述
 ====
-	GaInOS-TK 首先是一个符合OSEK OS 2.2.3 规范的实时操作系统，其实现架构基于uTenux（http://www.uloong.cc，
-其遵循开源U-License协议。在此 RTOS 的基础之上集成来自arccore（http://www.arccore.com/）的开源GPL协议的Com
-通讯栈代码。并为上述两模块开发出静态配置工具gainos-studio。
+	GaInOS-TK 首先是一个符合OSEK OS 2.2.3 规范的实时操作系统，其实现架构基于uTenux（http://www.uloong.cc，其
+遵循开源U-License协议。在此 RTOS 的基础之上集成来自arccore（http://www.arccore.com/）的开源GPL协议的Com通讯栈
+代码。并为上述两模块开发出静态配置工具gainos-studio。
 
 自述
 ====
-	和大多数嵌入式技术爱好者一样，最初我也仅仅是学习ucOS，但渐渐的，我发现我喜欢嵌入式微内核技术。
-之后也相继学习过FreeRTOS 和 RT-Thread，并也曾经阅读过linux 0.11代码。 并在阅读了 于渊 《自己动手写操作系统》
+	和大多数嵌入式技术爱好者一样，最初我也仅仅是学习ucOS，但渐渐的，我发现我喜欢嵌入式微内核技术。之后
+也相继学习过FreeRTOS 和 RT-Thread，并也曾经阅读过linux 0.11代码。 并在阅读了 于渊 《自己动手写操作系统》
 这样一本书之后，在自己的内心里也就一直有了这样的一个念头，那就是我希望有一天，我可以动手开始打造属于我自己
 的操作系统。那一年，我大三了。也就是在那一年，我有点懊恼我那浑浑噩噩的大一与大二。
 	但是，我也发现纯粹的自己动手写一个操作系统，实在是有点难度，因为我没有方向，难免将会以ucOS、FreeRTOS
@@ -29,7 +29,14 @@ Queue 的大一统的任务、信号量、互斥量等的管理，基于 TMEB �
 	之后，开始了基于uTenux的OSEK OS工作，这里感谢uLoong社区在此期间给予的帮助。所以到今天，
 有了基于uTenux的GaInOS-TK，之所以取名GaInOS，是因为我相信 No pain，No gain。还有就是GaIn 在韩语里面
 和 "가인" （佳人）同音，So I like it。
-		
+	但渐渐的我再想为什么OSEK OS 规范没有描述任务之间的通信机制，后来我在OSEK COM中找到了答案，所以我个人
+很想架构这样的一整套的OSEK 基础软件。但是个人能力毕竟有限，所以想到了arccore，既然其代码开源且遵循GPL协
+议，那么有就有权利去修改于在发布其源代码，所以我开始了集成arccore的通讯栈代码（含诊断）。至今已经完成相当
+一部分工作。
+    还是由于个人能力有限，这里很希望有志同道合之人能够加入我的此开源项目之中。
+	Author ： 汪帆 （parai）
+	Email ：parai@foxmail.com
+	Blog: http://hi.baidu.com/parai
 
 源码说明
 ========
