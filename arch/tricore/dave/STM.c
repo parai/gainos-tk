@@ -29,7 +29,7 @@
 #include "main.h"
 
 // USER CODE BEGIN (STM_General,2)
-
+#include "Os.h"
 // USER CODE END
 
 
@@ -248,20 +248,20 @@ void STM_vInit(void)
 void INTERRUPT (STM_INT0) STM_viSRN0(void)
 {
   // USER CODE BEGIN (SRN0,2)
-
+	EnterISR();
   // USER CODE END
 
   if(STM_ICR.B.CMP0IR == 1)   // if compare match of CMP0 is pending
   {
     // USER CODE BEGIN (SRN0,3)
-
+	  (void)IncrementCounter(0);
     // USER CODE END
 
     STM_ISRR.B.CMP0IRR = 1;  // clear request bit of CMP0
   }
 
   // USER CODE BEGIN (SRN0,5)
-
+	ExitISR();
   // USER CODE END
 
 } //  End of function STM_viSRN0
@@ -288,26 +288,26 @@ void INTERRUPT (STM_INT0) STM_viSRN0(void)
 //****************************************************************************
 
 // USER CODE BEGIN (SRN1,1)
-
+IMPORT void knl_timer_handler( void );
 // USER CODE END
 
 void INTERRUPT (STM_INT1) STM_viSRN1(void)
 {
   // USER CODE BEGIN (SRN1,2)
-
+	EnterISR();
   // USER CODE END
 
   if(STM_ICR.B.CMP1IR == 1)   // if compare match of CMP1 is pending
   {
     // USER CODE BEGIN (SRN1,4)
-
+	  knl_timer_handler();
     // USER CODE END
 
     STM_ISRR.B.CMP1IRR = 1;  // clear request bit of CMP1
   }
 
   // USER CODE BEGIN (SRN1,5)
-
+  ExitISR();
   // USER CODE END
 
 } //  End of function STM_viSRN1

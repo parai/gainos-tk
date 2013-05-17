@@ -42,8 +42,8 @@ TASK(vTaskIdle)
     /* Add your task special code here, but Don't delete this Task declaration.*/
 	for(;;)
 	{
-		printf("vTaskIdle is running.\r\n");
-		SleepTask(500);
+		//printf("vTaskIdle is running.\r\n");
+		//SleepTask(500);
 	}
     (void)TerminateTask();
 }

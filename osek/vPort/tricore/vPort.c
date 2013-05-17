@@ -77,6 +77,10 @@ EXPORT void knl_setup_context( TCB *tcb )
 	pulUpperCSA->psw = 0x000008FFUL; /* Supervisor Mode, MPU Register Set 0 and Call Depth Counting disabled. */
 
 	pulLowerCSA->RA = (UW)(knl_gtsk_table[tskid].task);
+
+	/* PCXI pointing to the Upper context and PIE = 1, So interrupt enabled */
+	pulLowerCSA->pcxi = ( ( 0x00C00000UL ) | ( unsigned long ) vPortADDRESS_TO_CSA( pulUpperCSA ) );
+	pulUpperCSA->pcxi = 0; /* NULL */
 	tcb->tskctxb.ssp = (unsigned long * ) vPortADDRESS_TO_CSA( pulLowerCSA );
 }
 
@@ -99,7 +103,7 @@ EXPORT void knl_setup_context( TCB *tcb )
  * deleted frequently.
  */
 /* In FreeRTOS,This API is called when in idle task.*/
-void vPortReclaimCSA( unsigned long pxHeadCSA )
+LOCAL void vPortReclaimCSA( unsigned long pxHeadCSA )
 {
     unsigned long  pxTailCSA, pxFreeCSA;
     unsigned long *pulNextCSA;
@@ -148,17 +152,6 @@ void vPortReclaimCSA( unsigned long pxHeadCSA )
 	}
 	/* Here When return,the link info in PCXI is of no use.
 	 * It has been put to FCX*/
-}
-
-/* use RTC as system tick, only enable counter T14 overflow interrupt.
- * configured by DAVE
- */
-ISR(SystemTick,0x6E)
-{ 
-    EnterISR(); 
-	knl_timer_handler();
-	(void)IncrementCounter(0);
-	ExitISR();	
 }
 
 EXPORT void enaint(imask_t mask)
@@ -210,6 +203,9 @@ EXPORT void knl_force_dispatch(void)
 	knl_ctxtsk = NULL;
 	__disable();	//disable interrupt
 
+	/* Free the csa used by knl_ctxtsk */
+	vPortReclaimCSA(__mfcr(PCXI));
+
 	/* Clear the PSW.CDC to enable the use of an RFE without it generating an
 	exception because this code is not genuinely in an exception. */
 	{
@@ -220,13 +216,19 @@ EXPORT void knl_force_dispatch(void)
 		__mtcr( PSW, ulMFCR );
 		__isync();
 	}
-	/* Free the csa used by knl_ctxtsk */
-	vPortReclaimCSA(__mfcr(PCXI));
 
 	/* Don't consume CSA.So just Jump*/
 	__asm("j l_dispatch0");
 }
 EXPORT __trap(6) void knl_dispatch_entry(void)
 {
+	knl_dispatch_disabled = 1;    /* Dispatch disable */
+	__disable();
+	__dsync();
+	__svlcx(); /* save lower contex */
+	knl_ctxtsk->tskctxb.ssp = __mfcr( PCXI );
+	__isync();
 
+	/* Don't consume CSA.So just Jump*/
+	__asm("j l_dispatch0");
 }
