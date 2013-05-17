@@ -63,5 +63,24 @@ gainos-tk
 	+-------+ inc            <--- GaInOS-TK 内核 .h 
 	+-------+ src            <--- GaInOS-TK 内核 .c 
 	+-------+ vPort          <--- GaInOS-TK 内核移植部分
-	+---+ tool               <--- GaInOS-TK 工具（gainos-studio）
+	
+使用说明
+========
+	1.bin 目录下工程使用
+	目前为止GaInOS提供5个工程包：
+	at91sam3s4c  <---> IAR 6.5
+	mc9s12dp512  <---> Codewarrior 5.0
+	mpc5634      <---> Codewarrior 2.8
+	stm32f107vc  <---> IAR 6.5
+	tc1797       <---> Tasking VX for TriCore <需修改 添加 GAINOS_BD 参数>
+	xc2364       <---> Tasking VX for C166    <需修改 添加 GAINOS_BD 参数>
+	
+	附注：
+		对于Tasking，需要在path and symbols 中添加 GAINOS_BD = "path/to/gainos-tk"
+	
+	2.tool/gainos-studio 工具的使用
+	首先要安装 python27 < http://www.python.org/download/releases/2.7/ >
+	其次安装 PyQt4-4.10.1-gpl-Py2.7-Qt4.8.4  < http://www.riverbankcomputing.com/software/pyqt/download >
+	程序入口为 main.py, 终端模式下，python main.py 运行之
+	如果您希望开发gainos-studio，推荐安装Eric，详情请百度。
 	
