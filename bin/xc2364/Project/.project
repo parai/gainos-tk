@@ -21,32 +21,32 @@
 		<link>
 			<name>app</name>
 			<type>2</type>
-			<locationURI>GaInOS_BD/app</locationURI>
+			<locationURI>GAINOS_BD/app</locationURI>
 		</link>
 		<link>
 			<name>arch</name>
 			<type>2</type>
-			<locationURI>GaInOS_BD/arch</locationURI>
+			<locationURI>GAINOS_BD/arch</locationURI>
 		</link>
 		<link>
 			<name>config</name>
 			<type>2</type>
-			<locationURI>GaInOS_BD/config</locationURI>
+			<locationURI>GAINOS_BD/config</locationURI>
 		</link>
 		<link>
 			<name>include</name>
 			<type>2</type>
-			<locationURI>GaInOS_BD/include</locationURI>
+			<locationURI>GAINOS_BD/include</locationURI>
 		</link>
 		<link>
 			<name>osek</name>
 			<type>2</type>
-			<locationURI>GaInOS_BD/osek</locationURI>
+			<locationURI>GAINOS_BD/osek</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>
 		<variable>
-			<name>GaInOS_BD</name>
+			<name>GAINOS_BD</name>
 			<value>file:/F:/parai@foxmail.com/github/gainos-tk</value>
 		</variable>
 	</variableList>
