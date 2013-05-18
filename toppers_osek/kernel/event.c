@@ -56,7 +56,7 @@
  */
 
 /*
- *	イベント制御機能
+ *	Includes
  */
 
 #include "osek_kernel.h"
@@ -65,7 +65,7 @@
 #include "resource.h"
 
 /*
- *  イベントのセット
+ *  Set a event or a group of event for a task
  */
 StatusType
 SetEvent(TaskType tskid, EventMaskType mask)
@@ -102,7 +102,7 @@ SetEvent(TaskType tskid, EventMaskType mask)
 }
 
 /*
- *  イベントのクリア
+ *  cleat task's current event by mask
  */
 StatusType
 ClearEvent(EventMaskType mask)
@@ -128,7 +128,7 @@ ClearEvent(EventMaskType mask)
 }
 
 /*
- *  イベントの状態参照
+ *  get task's current event
  */
 StatusType
 GetEvent(TaskType tskid, EventMaskRefType p_mask)
@@ -158,7 +158,7 @@ GetEvent(TaskType tskid, EventMaskRefType p_mask)
 }
 
 /*
- *  イベント待ち
+ *  wait a event
  */
 StatusType
 WaitEvent(EventMaskType mask)

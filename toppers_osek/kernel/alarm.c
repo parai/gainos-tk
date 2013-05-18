@@ -56,7 +56,7 @@
  */
 
 /*
- *	アラーム機能
+ *	Includes
  */
 
 #include "osek_kernel.h"
@@ -64,7 +64,7 @@
 #include "alarm.h"
 
 /*
- *  スタティック関数のプロトタイプ宣言
+ *  Local Alarm APIs
  */
 Inline TickType	add_tick(TickType almval, TickType incr, TickType maxval2);
 Inline TickType	diff_tick(TickType val1, TickType val2, TickType maxval2);
@@ -72,37 +72,35 @@ static void	enqueue_alarm(AlarmType almid, CounterType cntid);
 static void	dequeue_alarm(AlarmType almid, CounterType cntid);
 
 /*
- *  ティック値の加算
+ *  to calculate the next alarm expiry value or counter current value
  *
- *  almval に incr を加算したティック値を返す．加算したティック値が，
- *  maxval2 を超える場合には，(maxval2 + 1) を引いた値を返す．
+ *  almval + incr: alarm curreent value + alarm increment(cycle value)
+ *  maxval2 is the max allowed value for alarm and counter
  */
 Inline TickType
 add_tick(TickType almval, TickType incr, TickType maxval2)
 {
 	/*
-	 *  素直な条件式は almval + incr <= maxval2 であるが，この条件式で
-	 *  は，almval + incr が TickType で表せる範囲を超える場合に正しく
-	 *  判定できなくなるため，次の条件式としている．
+	 *  if almval + incr <= maxval2 then no overflow
+	 *  so next expiry value is (almval + incr)
 	 */
 	if (incr <= (maxval2 - almval)) {
 		return(almval + incr);
 	}
 	else {
 		/*
-		 *  下の計算式で，almval + incr と maxval2 + 1 が TickType で表
-		 *  せる範囲を超える場合があるが，オーバフローしても求まる値は
-		 *  正しいため差し支えない．
+		 *  if almval + incr > maxval2, overflow 
+		 *  so should roll back from zero
 		 */
 		return(almval + incr - (maxval2 + 1));
 	}
 }
 
 /*
- *  ティック値の差
+ *  diff_tick between alarm and counter
  *
- *  val1 と val2 の差（val1 から val2 を引いた値）を返す．差が負の値に
- *  なる場合には，(maxval2 + 1) を加えた値を返す．
+ *  val1: the counter current value; val2: the alarm next expiry value
+ *  calculate the diff between val1 and val2
  */
 Inline TickType
 diff_tick(TickType val1, TickType val2, TickType maxval2)
@@ -112,20 +110,21 @@ diff_tick(TickType val1, TickType val2, TickType maxval2)
 	}
 	else {
 		/*
-		 *  下の計算式で，val1 - val2 と maxval2 + 1 が TickType で表せ
-		 *  る範囲を超える場合があるが，オーバフローしても求まる値は正
-		 *  しいため差し支えない．
+		 *  as val1 < val2,that's counter current value < alarm next erpiry value
+		 *  So It's not the time to process this alarm.
+		 *  As maxval2 is always the 2 times of maxval,so |val2 - val1| < maxval.
+		 *  SO,the return value always bigger than maxval.
 		 */
 		return(val1 - val2 + (maxval2 + 1));
 	}
 }
 
 /*
- *  アラームキューへの挿入
+ *  put the alarm to counter queue
  *
- *  almid で指定されるアラームを，cntid で指定されるカウンタのアラーム
- *  キューに挿入する．また，アラームキューに同じ時刻のアラームがある場
- *  合には，その末尾に挿入する（先頭でも差し支えないと思われる）．
+ * in the time value order from min to max,the almid was linked to cntid's queue
+ * but shoul note that the absolut max value dosen't mean the the last in the queue,
+ * if the almid is an overflowed one,it should skip all the non-overflowed one.
  */
 static void
 enqueue_alarm(AlarmType almid, CounterType cntid)
@@ -137,16 +136,16 @@ enqueue_alarm(AlarmType almid, CounterType cntid)
 	curval = cntcb_curval[cntid];
 
 	/*
-	 *  挿入場所のサーチ
+	 *  get counter queue head
 	 */
 	next = cntcb_almque[cntid];
 	prev = ALMID_NULL;
 	if (curval < enqval) {
 		/*
-		 *  enqval が curval よりも大きい時．言い換えると，現在
-		 *  ティックからアラームの指定ティックまでの間に，カウ
-		 *  ンタのオーバフロー（最大値を超えて，0 に戻ること）
-		 *  が起こらない場合．
+		 *  enqval > curval , so it's an non-overflowed one
+		 *  skip all the alarm in the queue whose almval < enqval 
+		 *  untill find the right positon where almval >enqval or 
+		 *  find an overflowed alarm.
 		 */
 		while ((next != ALMID_NULL) && ((curval <= almcb_almval[next])
 					&& (almcb_almval[next] <= enqval))) {
@@ -156,9 +155,9 @@ enqueue_alarm(AlarmType almid, CounterType cntid)
 	}
 	else {
 		/*
-		 *  それ以外の時．言い換えると，現在ティックからアラー
-		 *  ムの指定ティックまでの間に，カウンタのオーバフロー
-		 *  が起こる場合．
+		 *  this is an overflowed alarm,so should first skip all the 
+		 *  non-overflowed one( whose value > curval),
+		 *  and then in the overflowed parts find the alarm whose value > enqval
 		 */
 		while ((next != ALMID_NULL) && ((curval <= almcb_almval[next])
 					|| (almcb_almval[next] <= enqval))) {
@@ -168,7 +167,7 @@ enqueue_alarm(AlarmType almid, CounterType cntid)
 	}
 
 	/*
-	 *  キューのつなぎ換え処理
+	 *  insert the almid between prev and next
 	 */
 	almcb_next[almid] = next;
 	almcb_prev[almid] = prev;
@@ -184,10 +183,7 @@ enqueue_alarm(AlarmType almid, CounterType cntid)
 }
 
 /*
- *  アラームキューからの削除
- *
- *  almid で指定されるアラームを，cntid で指定されるカウンタのアラー
- *  ムキューから削除する．
+ *  remove the almid from the queue of cntid
  */
 static void
 dequeue_alarm(AlarmType almid, CounterType cntid)
@@ -209,7 +205,7 @@ dequeue_alarm(AlarmType almid, CounterType cntid)
 }
 
 /*
- *  アラーム機能の初期化
+ *  initialize the alarm and counter
  */
 void
 alarm_initialize(void)
@@ -232,7 +228,7 @@ alarm_initialize(void)
 }
 
 /*
- *  アラームベースの参照
+ *  Get the alarm base information
  */
 StatusType
 GetAlarmBase(AlarmType almid, AlarmBaseRefType p_info)
@@ -262,7 +258,7 @@ GetAlarmBase(AlarmType almid, AlarmBaseRefType p_info)
 }
 
 /*
- *  アラームの状態参照
+ *  get the alarm next expiry value in ticks
  */
 StatusType
 GetAlarm(AlarmType almid, TickRefType p_tick)
@@ -304,7 +300,7 @@ GetAlarm(AlarmType almid, TickRefType p_tick)
 }
 
 /*
- *  アラームの設定（相対値）
+ *  start a alarm,set its next expiry value relate to counter curval
  */
 StatusType
 SetRelAlarm(AlarmType almid, TickType incr, TickType cycle)
@@ -348,7 +344,7 @@ SetRelAlarm(AlarmType almid, TickType incr, TickType cycle)
 }
 
 /*
- *  アラームの設定（絶対値）
+ *  start a alarm,set its next expiry value absolute to counter curval
  */
 StatusType
 SetAbsAlarm(AlarmType almid, TickType start, TickType cycle)
@@ -408,7 +404,7 @@ SetAbsAlarm(AlarmType almid, TickType start, TickType cycle)
 }
 
 /*
- *  アラームのキャンセル
+ *  cancle the alarm
  *
  */
 StatusType
@@ -449,7 +445,7 @@ CancelAlarm(AlarmType almid)
 }
 
 /*
- *  カウンタを進める
+ *  signal the counter that it should increment
  */
 StatusType
 SignalCounter(CounterType cntid)
@@ -465,24 +461,24 @@ SignalCounter(CounterType cntid)
 	lock_cpu();
 
 	/*
-	 *  更新後のカウンタ値を求める
+	 *  calculate the counter next value
 	 */
 	newval = add_tick(cntcb_curval[cntid], cntinib_tickbase[cntid],
 												cntinib_maxval2[cntid]);
 
 	/*
-	 *  カウンタの現在値の更新
+	 *  store the counter current value
 	 */
 	cntcb_curval[cntid] = newval;
 
 	/*
-	 *  アラームの expire 処理
+	 *  process the already expiried one
 	 */
 	while (((almid = cntcb_almque[cntid]) != ALMID_NULL)
 			&& diff_tick(newval, almcb_almval[almid], cntinib_maxval2[cntid])
 												<= cntinib_maxval[cntid]) {
 		/*
-		 *  アラームキューの先頭のアラームを，キューから外す．
+		 *  find one,first remove it from the counter queue
 		 */
 		next = almcb_next[almid];
 		cntcb_almque[cntid] = next;
@@ -492,20 +488,14 @@ SignalCounter(CounterType cntid)
 		almcb_next[almid] = almid;
 
 		/*
-		 *  アラームコールバックの呼び出し
+		 *  process it,call its callback routine
 		 */
 		unlock_cpu();
 		(*alminib_cback[almid])();
 		lock_cpu();
 
 		/*
-		 *  アラームキューへの再挿入（周期アラームの場合）
-		 *
-		 *  アラームコールバックの中で自アラームを SetRelAlarm/
-		 *  SetAbsAlarm した状況（OSEK仕様では許されていないが，
-		 *  TOPPERS/OSEKカーネルでは許している）で，アラームキュー
-		 *  への再挿入を防ぐために，almcb_next[almid] == almid
-		 *  の場合のみ再挿入する．
+		 *  if this alarm is cyclic alarm,put it to the counter queue again
 		 */
 		if ((almcb_next[almid] == almid) && (almcb_cycle[almid] > 0u)) {
 			almcb_almval[almid] = add_tick(almcb_almval[almid], 

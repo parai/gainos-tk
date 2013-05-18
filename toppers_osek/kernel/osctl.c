@@ -56,7 +56,7 @@
  */
 
 /*
- *	実行制御機能
+ *	Includes
  */
 
 #include "osek_kernel.h"
@@ -64,19 +64,19 @@
 #include "interrupt.h"
 
 /*
- *  OS実行制御のための変数
+ *  help os to remember os status
  */
-UINT8		callevel;		/* 実行中のコンテキスト */
-AppModeType	appmode;		/* アプリケーションモード */
+UINT8		callevel;		/* remember calling level<task,ISR> */
+AppModeType	appmode;		/* remember current application mode */
 
 /*
- *  エラーフックに渡す情報を格納する変数
+ *  help to remember error related information
  */
 OSServiceIdType	_errorhook_svcid;
 _ErrorHook_Par	_errorhook_par1, _errorhook_par2, _errorhook_par3;
 
 /*
- *  エラーフックの呼び出し
+ *  called when os encounter an error
  */
 void
 call_errorhook(StatusType ercd, OSServiceIdType svcid)
@@ -98,7 +98,7 @@ call_errorhook(StatusType ercd, OSServiceIdType svcid)
 			_errorhook_svcid = svcid;
 			ErrorHook(ercd);
 		}
-		ShutdownOS(E_OS_CALLEVEL);	/* 回復不可能 */
+		ShutdownOS(E_OS_CALLEVEL);	/* error cann't be restored,... */
 	}
 	else {
 		if (( errorhook_adr != NULL) && (callevel != TCL_ERROR)) {
@@ -121,7 +121,7 @@ call_errorhook(StatusType ercd, OSServiceIdType svcid)
 }
 
 /*
- *  ポストタスクフックの呼び出し
+ *  called the task release the cpu
  */
 void
 call_posttaskhook(void)
@@ -136,7 +136,7 @@ call_posttaskhook(void)
 }
 
 /*
- *  プレタスクフックの呼び出し
+ *  called the task acquire the cpu
  */
 void
 call_pretaskhook(void)
@@ -151,7 +151,7 @@ call_pretaskhook(void)
 }
 
 /*
- *  現在のアプリケーションモードの取得
+ *  get current Application mode
  */
 AppModeType
 GetActiveApplicationMode(void)
@@ -170,7 +170,7 @@ extern void sys_initialize(void);
 extern void tool_initialize(void);
 
 /*
- *  OSの起動
+ *  OS Start
  */
 void
 StartOS(AppModeType mode)
@@ -234,7 +234,7 @@ ShutdownOS(StatusType ercd)
 	LOG_STUTOS_ENTER(ercd);
 
 	/*
-	 *  すべての割込みを禁止する
+	 *  disable interrupt
 	 */
 	disable_int();
 

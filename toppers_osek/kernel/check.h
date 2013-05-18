@@ -55,9 +55,6 @@
  * INDIRECTLY CAUSED FROM THE USE OF THIS SOFTWARE.
  */
 
-/*
- *	エラーチェック用マクロ
- */
 
 #ifndef _CHECK_H_
 #define _CHECK_H_

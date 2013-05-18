@@ -56,14 +56,14 @@
  */
 
 /*
- *	割込み管理機能
+ *	Includes
  */
 
 #include "osek_kernel.h"
 #include "interrupt.h"
 
 /*
- *  実行中のISR（カテゴリ2）
+ *  help the kernel to remember current ISR ID
  */
 IsrType		runisr;
 
