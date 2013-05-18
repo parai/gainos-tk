@@ -63,6 +63,7 @@ gainos-tk
 	+-------+ inc            <--- GaInOS-TK 内核 .h 
 	+-------+ src            <--- GaInOS-TK 内核 .c 
 	+-------+ vPort          <--- GaInOS-TK 内核移植部分
+	+---+ toppers_osek       <--- GaInOS-TK 实现时参考的一个os
 	
 使用说明
 ========
@@ -83,4 +84,14 @@ gainos-tk
 	其次安装 PyQt4-4.10.1-gpl-Py2.7-Qt4.8.4  < http://www.riverbankcomputing.com/software/pyqt/download >
 	程序入口为 main.py, 终端模式下，python main.py 运行之
 	如果您希望开发gainos-studio，推荐安装Eric，详情请百度。
+	
+	3.实现的另一个参考 toppers_osek 
+	toppers_osek无疑是一个优秀的OSKE OS，实时性超棒，任务启动激活快速。
+	对于该OS，本次只是实现了9S12平台的移植，编译器codewarrior 5.0，利用该IDE可以完美仿真运行，从而可以初步
+	体验一下该RTOS的魅力。
+	对于该OS，本项目不提供配置工具，要创建Task、Counter、Alarm、Event、ISR以及Resource，只能通过手动的方式
+	编写os_cfg.c 和 os_cfg.h。
+	由于，该OS，源码注释为日文，很多我自己都没看明白，我是参照其默认提供的一个at91sam7的底层移植文件来往
+	MC9S12DP512 平台来移植的，我不保证移植的完全正确性。并且，由于原at91sam7移植文件太多，被我有所精简，
+	现在只有portable.h 和 portable.c (我先换FreeRTOS的代码目录结构)。并且该OS的代码很多地方，被我有所改动。
 	
