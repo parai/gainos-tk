@@ -22,7 +22,7 @@
 #include "knl_task.h"
 #include "knl_queue.h"
 #include "knl_timer.h"
-
+#if(cfgOS_TK_EXTEND == STD_ON)
 EXPORT WSPEC    knl_wspec_slp = { TTW_SLP,NULL_FP,NULL_FP};
 /*
  * Change the active task state to wait state and connect to the
@@ -86,3 +86,4 @@ EXPORT void knl_make_non_wait( TCB *tcb )
 		tcb->state = TS_SUSPEND;
 	}
 }
+#endif /* cfgOS_TK_EXTEND */

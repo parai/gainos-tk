@@ -24,6 +24,7 @@
 #include "knl_queue.h"
 #include "vPort.h"
 
+#if(cfgOSEK_RESOURCE_NUM > 0)
 EXPORT RESCB knl_rescb_table[cfgOSEK_RESOURCE_NUM];
 
 EXPORT void knl_resource_init(void)
@@ -177,3 +178,4 @@ StatusType ReleaseResource ( ResourceType ResID )
 Error_Exit:
 	return ercd;
 }
+#endif /* (cfgOSEK_RESOURCE_NUM > 0) */

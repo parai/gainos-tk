@@ -332,6 +332,7 @@ Error_Exit:
 	return ercd;
 }
 
+#if(cfgOS_TK_EXTEND == STD_ON)
 StatusType SleepTask ( TickType Timeout )
 {
     StatusType ercd = E_OK;
@@ -357,6 +358,7 @@ StatusType SleepTask ( TickType Timeout )
 Error_Exit:	
 	return ercd;
 }
+
 StatusType WakeUpTask ( TaskType TaskID )
 {
     StatusType ercd = E_OK;
@@ -384,4 +386,4 @@ StatusType WakeUpTask ( TaskType TaskID )
 Error_Exit:	
 	return ercd;
 }
-
+#endif /* cfgOS_TK_EXTEND */

@@ -95,6 +95,7 @@ typedef enum {
 	TS_DORMANT	= 8	    /* DORMANT state */
 } TSTAT;
 
+#if(cfgOS_TK_EXTEND == STD_ON)
 /*
  * Definition of wait specification structure
  */
@@ -115,6 +116,8 @@ typedef struct timer_event_block {
 	CBACK	            callback;	             /* Callback function */
 	VP	                arg;		             /* Argument to be sent to callback func*/
 } TMEB;
+
+#endif /* cfgOS_TK_EXTEND */
 /*
  * Task gerneration information
  */
@@ -134,11 +137,13 @@ typedef struct task_control_block{
 	BOOL	    klockwait:1;	/* TRUE at wait kernel lock */
 	BOOL     	klocked:1;	    /* TRUE at hold kernel lock */	
 	UB /*TSTAT*/	state;  	/* Task state (Int. expression) */
+#if(cfgOS_TK_EXTEND == STD_ON)
 	WSPEC *	        wspec;	  /* Wait specification */
 	StatusType *    wercd;    /* Wait error code set area */
 	ID	            wid;	  /* Wait object ID */
 	UINT	        wupcnt;   /* Number of wakeup requests queuing */	
-	TMEB	        wtmeb;	  /* Wait timer event block */		
+	TMEB	        wtmeb;	  /* Wait timer event block */
+#endif
 	QUEUE resque;	/* queue to hold resources */		 
 }TCB;
 

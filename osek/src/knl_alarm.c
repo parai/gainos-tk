@@ -20,8 +20,7 @@
  */
 #include "knl_alarm.h"
 #include "knl_queue.h"
-
-EXPORT CCB knl_ccb_table[cfgOSEK_COUNTER_NUM];
+#if(cfgOSEK_ALARM_NUM >0)
 EXPORT ALMCB knl_almcb_table[cfgOSEK_ALARM_NUM];
 
 EXPORT void knl_cntalm_init(void)
@@ -83,3 +82,5 @@ EXPORT void knl_alm_insert(ALMCB *almcb,CCB* ccb)
     }
     QueInsert(&almcb->almque,q);
 }
+
+#endif /* (cfgOSEK_ALARM_NUM >0) */

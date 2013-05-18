@@ -271,7 +271,11 @@
 </scannerConfigBuildInfo>
 </storageModule>
 <storageModule moduleId="com.tasking.toolInfo">
+<toolInfo>TASKING VX-toolset for TriCore: C compiler v3.5r1 Build 484.1.2</toolInfo>
 <toolInfo>TASKING program builder v3.5r1 Build 039</toolInfo>
+<toolInfo>TASKING VX-toolset for TriCore: assembler v3.5r1 Build 263</toolInfo>
+<toolInfo>TASKING VX-toolset for TriCore: object linker v3.5r1 Build 166</toolInfo>
+<toolInfo>TASKING VX-toolset for TriCore: control program v3.5r1 Build 131</toolInfo>
 </storageModule>
 </cconfiguration>
 <cconfiguration id="com.tasking.config.ctc.abs.release.244258907">

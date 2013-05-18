@@ -22,6 +22,7 @@
 #include "knl_queue.h"
 #include "vPort.h"             
 
+#if(cfgOS_TK_EXTEND == STD_ON)
 EXPORT LSYSTIM  knl_current_time = 0 ;
 EXPORT QUEUE	knl_timer_queue;
 
@@ -104,3 +105,5 @@ EXPORT void knl_timer_handler( void )
 	}
 	END_DISABLE_INTERRUPT;
 }
+
+#endif /* cfgOS_TK_EXTEND */

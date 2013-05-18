@@ -24,6 +24,8 @@
 #include "knl_alarm.h"
 #include "vPort.h"
 
+#if(cfgOSEK_COUNTER_NUM > 0)
+EXPORT CCB knl_ccb_table[cfgOSEK_COUNTER_NUM];
 /* |-------------------+-----------------------------------------------------------------| */
 /* | Service name:     | GetCounterValue                                                 | */
 /* |-------------------+-----------------------------------------------------------------| */
@@ -172,3 +174,5 @@ StatusType IncrementCounter(CounterType CounterID)
     Error_Exit:
     return E_OK;
 }
+#endif /* (cfgOSEK_COUNTER_NUM > 0) */
+

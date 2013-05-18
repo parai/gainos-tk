@@ -22,6 +22,7 @@
 #include "knl_alarm.h"
 #include "knl_queue.h"
 #include "vPort.h"
+#if(cfgOSEK_ALARM_NUM >0)
 /* |------------------+------------------------------------------------------------------| */
 /* | Syntax:          | StatusType GetAlarmBase (AlarmType <AlarmID>,                    | */
 /* |                  | AlarmBaseRefType <Info> )                                        | */
@@ -279,3 +280,5 @@ StatusType CancelAlarm ( AlarmType AlarmID )
     Error_Exit:
     	return ercd;
 }
+
+#endif /* (cfgOSEK_ALARM_NUM >0) */

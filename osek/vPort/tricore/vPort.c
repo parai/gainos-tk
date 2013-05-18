@@ -74,7 +74,7 @@ EXPORT void knl_setup_context( TCB *tcb )
 		__svlcx();
 	}
 	pulUpperCSA->SP = (UW)(knl_gtsk_table[tskid].isstack);
-	pulUpperCSA->psw = 0x000008FFUL; /* Supervisor Mode, MPU Register Set 0 and Call Depth Counting disabled. */
+	pulUpperCSA->psw = 0x000008FFUL; /* Supervisor Mode, IS = 0 User Stack and Call Depth Counting disabled. */
 
 	pulLowerCSA->RA = (UW)(knl_gtsk_table[tskid].task);
 
@@ -180,7 +180,7 @@ l_dispatch1:
 		__nop();
 		goto l_dispatch1;
 	}
-l_dispatch2:
+//l_dispatch2:
 	knl_ctxtsk = knl_schedtsk;
 	knl_dispatch_disabled=0;    /* Dispatch enable */
 
@@ -196,9 +196,14 @@ l_dispatch2:
 	/* Return to the first task selected to execute. */
 	__asm volatile( "rfe" );
 }
-
+extern __far void _lc_ue_istack[];      /* interrupt stack end */
 EXPORT void knl_force_dispatch(void)
 {
+	{	//load tmp stack(share the ISP,see the linker file)
+		//but a waste of _lc_ue_ustack.
+		 unsigned int sp = (unsigned int)(_lc_ue_istack);
+		 __asm("mov.a\tsp,%0"::"d"(sp));
+	}
 	knl_dispatch_disabled = 1;    /* Dispatch disable */
 	knl_ctxtsk = NULL;
 	__disable();	//disable interrupt
