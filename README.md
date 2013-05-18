@@ -93,5 +93,5 @@ gainos-tk
 	编写os_cfg.c 和 os_cfg.h。
 	由于，该OS，源码注释为日文，很多我自己都没看明白，我是参照其默认提供的一个at91sam7的底层移植文件来往
 	MC9S12DP512 平台来移植的，我不保证移植的完全正确性。并且，由于原at91sam7移植文件太多，被我有所精简，
-	现在只有portable.h 和 portable.c (我先换FreeRTOS的代码目录结构)。并且该OS的代码很多地方，被我有所改动。
+	现在只有portable.h 和 portable.c (我喜欢FreeRTOS的代码目录结构)。并且该OS的代码很多地方，被我有所改动。
 	
