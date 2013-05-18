@@ -169,6 +169,8 @@ EXPORT imask_t disint()
 
 void l_dispatch0(void)
 {
+	/* lower CPU IPL to 0*/
+	__mtcr(ICR,((__mfcr(ICR)&(0xFFFFFF00))));
 l_dispatch1:
 	__disable();
 	if(NULL == knl_schedtsk)
@@ -199,11 +201,10 @@ l_dispatch1:
 extern __far void _lc_ue_istack[];      /* interrupt stack end */
 EXPORT void knl_force_dispatch(void)
 {
-	{	//load tmp stack(share the ISP,see the linker file)
-		//but a waste of _lc_ue_ustack.
-		 unsigned int sp = (unsigned int)(_lc_ue_istack);
-		 __asm("mov.a\tsp,%0"::"d"(sp));
-	}
+	/* load tmp stack(share the ISP,see the linker file) */
+	 unsigned int sp = (unsigned int)(_lc_ue_istack);
+	 __asm("mov.a\tsp,%0"::"d"(sp));
+
 	knl_dispatch_disabled = 1;    /* Dispatch disable */
 	knl_ctxtsk = NULL;
 	__disable();	//disable interrupt
