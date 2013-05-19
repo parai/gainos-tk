@@ -18,7 +18,7 @@ void set_ipl(IPL ipl)
     (void)ipl;
     if(ipl > 0)
     {
-        __asm CLI;// disable interrupt
+        __asm SEI;// disable interrupt
     }
 }
 IPL current_ipl(void)
@@ -55,12 +55,12 @@ void pre_idle(void)
     //         callevel = TCS_TASK
     //         jump to "start_dispatch"
     idle_loop:
-    __asm SEI; // enable interrupt
+    __asm CLI; // enable interrupt
     __asm nop; // wait for a while
     __asm nop;
     __asm nop;
     __asm nop;
-    __asm CLI;// disable interrupt
+    __asm SEI;// disable interrupt
     if (INVALID_TASK == schedtsk)
     {
         goto  idle_loop;
@@ -137,24 +137,24 @@ void activate_context(TaskType TaskID)
 static UINT8 knl_tskind = 0; /* task independent part nested value */
 void EnterISR2(void)
 {
-    if(knl_tskind < 0xFFU)
+    if (INVALID_TASK != runtsk)
     {
+        callevel = TCL_ISR2;
         knl_tskind++;
     }
-    callevel = TCL_ISR2;
 }
 void ExitISR2(void)
 {
-    if(knl_tskind > 0U)
+    if (INVALID_TASK != runtsk)
     {
         knl_tskind--;
-    }
-    if(0U == knl_tskind)
-    {
-        callevel = TCL_TASK;
-        if(schedtsk != runtsk)
+        if(0U == knl_tskind)
         {
-            dispatch();
+            callevel = TCL_TASK;
+            if(schedtsk != runtsk)
+            {
+                dispatch();
+            }
         }
     }
 }

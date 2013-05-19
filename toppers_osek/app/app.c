@@ -47,7 +47,7 @@ TASK(vTaskMainFunction)
 TASK(vTaskIdle)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-	for(;;);
+	//for(;;);
     (void)TerminateTask();
 }
 
