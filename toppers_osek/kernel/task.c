@@ -56,7 +56,7 @@
  */
 
 /*
- *	タスク管理モジュール
+ *	includes
  */
 
 #include "osek_kernel.h"
@@ -65,7 +65,7 @@
 #include "resource.h"
 
 /*
- *  スタティック関数のプロトタイプ宣言
+ *  task ready queue management APIs
  */
 Inline void	ready_insert_first(Priority pri, TaskType tskid);
 Inline void	ready_insert_last(Priority pri, TaskType tskid);
@@ -73,22 +73,21 @@ Inline TaskType	ready_delete_first(Priority pri);
 Inline Priority	bitmap_search(UINT16 bitmap);
 
 /*
- *  レディキュー
+ *  task ready queue list
  *
- *  レディキューには実行可能状態のタスクのみをつなぐこととし，実行状態
- *  のタスクはレディキューからは外す．厳密には，schedtsk をレディキュー
- *  から外す（割込み処理中には，runtsk がレディキューから外れているとは
- *  限らない）．
- *  レディキューは，優先度毎の単方向リンクキューで構成する．レディキュー
- *  の先頭のタスクIDを ready_queue_first に，末尾のタスクID を
- *  ready_queue_last に保持する．レディキューが空の時は，ready_queue_first 
- *  を TSKID_NULL とし，ready_queue_last は不定とする．
+ *  each priority can have multiply tasks in ready state( note that runtsk 
+ *  is noot on the queue as it is in running state, also the schedtsk is not 
+ *  on the ready queue).
+ *  ready_queue_first[pri] help to remember the first/head task on the queue 
+ *  of pri,and the ready_queue_last[pri] help to remember the last/tail task
+ *  on the queue of pri.Note that when ready_queue_first[pri] = TSKID_NULL, 
+ *  it means that no task is in ready state with priority <pri>.
  */
 static TaskType ready_queue_first[TNUM_PRIORITY];
 static TaskType ready_queue_last[TNUM_PRIORITY];
 
 /*
- *  レディキューの先頭への挿入
+ *  insert the task tskid at the head of the ready queue of pri
  */
 Inline void
 ready_insert_first(Priority pri, TaskType tskid)
@@ -105,7 +104,7 @@ ready_insert_first(Priority pri, TaskType tskid)
 }
 
 /*
- *  レディキューの末尾への挿入
+ *  insert the tskid at the tail of the ready queue of pri
  */
 Inline void
 ready_insert_last(Priority pri, TaskType tskid)
@@ -122,7 +121,7 @@ ready_insert_last(Priority pri, TaskType tskid)
 }
 
 /*
- *  レディキューの先頭タスクの削除
+ *  remove the head tsk from the ready queue of pri,and return it.
  */
 Inline TaskType
 ready_delete_first(Priority pri)
@@ -136,24 +135,25 @@ ready_delete_first(Priority pri)
 }
 
 /*
- *  ビットマップサーチ関数
+ *  task ready priority map
  *
- *  bitmap 内の 1 のビットの内，最も上記（左）のものをサーチし，そのビ
- *  ット番号を返す．ビット番号は，最下位ビットを 0 とする．bitmap に 0
- *  を指定してはならない．この関数では，優先度が16段階以下であることを
- *  仮定し，bitmap の下位16ビットのみをサーチする．
- *  ビットサーチ命令を持つプロセッサでは，ビットサーチ命令を使うように
- *  書き直した方が効率が良いだろう．このような場合には，cpu_insn.h で
- *  ビットサーチ命令を使った bitmap_search を定義し，CPU_BITMAP_SEARCH 
- *  をマクロ定義すればよい．また，ビットサーチ命令のサーチ方向が逆など
- *  の理由で優先度とビットとの対応を変更したい場合には，PRIMAP_BIT を
- *  マクロ定義すればよい．
- *  また，標準ライブラリに ffs があるなら，次のように定義して標準ライ
- *  ブラリを使った方が効率が良い可能性もある．
+ *  each bit of bitmap corresponds to a special priority <pri>. if at least
+ *  one task with pri is in ready state, the <pri> bit in bitmap should be set.
+ *  Only when no any task with <pri> is in ready state, the <pri> bit in bitmap
+ *  should be cleared, which means no tasks is in the ready state on the queue
+ *  of <pri>.
+ *  For toppers_osek,this bit map is 16 bit long,so only 16 prioritys was allowed
+ *  from 0 to 15.
+ *  by default toppers_osek assume that the host cpu is big endianness mode.
+ *  Also the default PRIMAP implement is ok for little endianness mode cpu,as it 
+ *  just has 16 bit.
+ *  if you want to make it more rigth,you can change the define as belows if the 
+ *  host cpu is in little endianness mode by the way add the define in your compiler
+ *  pre-processor.
  *	#define PRIMAP_BIT(pri)	(0x8000u >> (pri))
  *	#define	bitmap_search(bitmap) (16 - ffs(bitmap))
- *  μITRON仕様とは優先度の意味が逆のため，サーチする方向が逆になって
- *  いる．bitmap_search を置き換える場合には，注意が必要である．
+ *  And also you can re-implement the bitmap mechanism to make better osek os.
+ *  Such as use the ucOS ready map
  */
 #ifndef PRIMAP_BIT
 #define	PRIMAP_BIT(pri)		(1u << (pri))
@@ -183,29 +183,29 @@ bitmap_search(UINT16 bitmap)
 #endif /* CPU_BITMAP_SEARCH */
 
 /*
- *  実行状態のタスク
+ * current running task 
  */
 TaskType	runtsk;
 
 /*
- *  最高優先順位タスク
+ * the next should be scheduled task which has higher or equal priority 
  */
 TaskType	schedtsk;
 
 /*
- *  レディキュー中の最高優先度
+ *  the next should be scheduled task's priority,may lower than schedtsk's pri
  */
 Priority	nextpri;
 
 /*
- *  レディキューに入っているタスクの優先度のビットマップ
+ *  ready priority map
  *
- *  レディキューが空の時（実行可能状態のタスクが無い時）は 0 にする．
+ *  each bit of it correspond to a priority which has task(s) in runnable state
  */
 static UINT16	ready_primap;
 
 /*
- *  タスク管理モジュールの初期化
+ *  initialize task related 
  */
 void
 task_initialize(void)
@@ -234,10 +234,10 @@ task_initialize(void)
 }
 
 /*
- *  タスクの起動
+ *  make a task active, prepare to run
  *
- *  TerminateTask や ChainTask の中で，自タスクに対して make_active を
- *  呼ぶ場合があるので注意する．
+ *  TerminateTask and ChainTask may call make_active only when task actcnt is not zero
+ *  set up task's pre-running enviroment
  */
 BOOL
 make_active(TaskType tskid)
@@ -253,7 +253,7 @@ make_active(TaskType tskid)
 }
 
 /*
- *  実行できる状態への移行
+ *  make the task runnable
  */
 BOOL
 make_runnable(TaskType tskid)
@@ -266,8 +266,8 @@ make_runnable(TaskType tskid)
 		schedpri = tcb_curpri[schedtsk];
 		if (pri <= schedpri) {
 			/*
-			 *  schedtsk の方が優先度が高い場合，tskid をレ
-			 *  ディキューの最後に入れる．
+			 *  schedtsk has higher priority than tskid, so just 
+			 *  put the tskid at the tail of the ready queue of pri
 			 */
 			ready_insert_last(pri, tskid);
 			ready_primap |= PRIMAP_BIT(pri);
@@ -277,8 +277,9 @@ make_runnable(TaskType tskid)
 			return(FALSE);
 		}
 		/*
-		 *  tskid の方が優先度が高い場合，schedtsk をレディキュー
-		 *  の先頭に入れ，tskid を新しい schedtsk とする．
+		 *  tskid has higher priority than schedtsk, so put 
+		 *  the schedtsk at the head of the ready queue of schedpri
+         *  because the schedtsk will be preempted by tskid
 		 */
 		ready_insert_first(schedpri, schedtsk);
 		ready_primap |= PRIMAP_BIT(schedpri);
@@ -289,7 +290,7 @@ make_runnable(TaskType tskid)
 }
 
 /*
- *  最高優先順位タスクのサーチ
+ *  search task should be scheduled next
  */
 void
 search_schedtsk(void)
@@ -308,7 +309,7 @@ search_schedtsk(void)
 }
 
 /*
- *  タスクのプリエンプト
+ *  preempt current running task<runtsk> which is also the schedtsk
  */
 void
 preempt(void)

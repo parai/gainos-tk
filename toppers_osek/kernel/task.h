@@ -56,23 +56,23 @@
  */
 
 /*
- *	タスク管理モジュール
+ *	Task
  */
 
 #ifndef _TASK_H_
 #define _TASK_H_
 
 /*
- *  タスクIDの特殊な値の定義
+ *  Task ID macro
  */
-#define TSKID_NULL		((TaskType) UINT8_INVALID)	/* 無効ID */
+#define TSKID_NULL		((TaskType) UINT8_INVALID)	/* invalid ID */
 
 /*
- *  タスク状態（tcb_stat）値の定義
+ *  task state, tcb_tstat
  */
-#define TS_RUNNABLE		READY				/* 実行状態，実行可能状態 */
-#define TS_DORMANT		SUSPENDED			/* 休止状態 */
-#define TS_WAITING		WAITING				/* 待ち状態 */
+#define TS_RUNNABLE		READY				/* ready state */
+#define TS_DORMANT		SUSPENDED			/* suspended state */
+#define TS_WAITING		WAITING				/* waiting state */
 
 /*
  *  os_cfg.c, static configured information for tasks
@@ -118,52 +118,50 @@ extern TaskType			schedtsk;
 extern Priority			nextpri;
 
 /*
- *  タスク管理モジュールの初期化
+ *  initialize tasks
  */
 extern void	task_initialize(void);
 
 /*
- *  タスクの起動
- *
- *  対象タスク（tskid で指定したタスク）を起動する（休止状態から実行で
- *  きる状態に遷移させる．タスクの起動時に必要な初期化を行う．
+ *  activate a task
+ *  activate the task tskid,set its pre-running enviroment.
+ *  and if the tskid has the highest priority, this API will
+ *  return ture, so a dispatch should be done, else return false
  */
 extern BOOL	make_active(TaskType tskid);
 
 /*
- *  実行できる状態への移行
+ *  help to make the tskid runnable
  *
- *  対象タスク（tskid で指定したタスク）を実行できる状態に遷移させる．
- *  対象タスクの優先度が，最高優先度タスク（schedtsk）の優先度よりも高
- *  い場合には，対象タスクを新しい最高優先度タスクとし，それまでの最高
- *  優先度タスクをレディキューの先頭に入れる．そうでない場合には，対象
- *  タスクをレディキューの末尾に入れる．対象タスクを最高優先度タスクと
- *  した場合に，TRUE を返す．
+ *  this API will put the tskid on tskid's priority queue if the tskid
+ *  has a priority lower than schedtsk's, and if the tskid has higher 
+ *  priority than nextpri, the nextpri's value will be replaced by tskid's
+ *  priority.
+ *  Else,if the schedtsk is NULL or has lower priority than tskid,then
+ *  the schedtsk will be put to the its ready queue and update nextpri,
+ *  and the tskid will be the next schedtsk, the API then return TRUE to
+ *  indicate that a dispatch should be done.
  */
 extern BOOL	make_runnable(TaskType tskid);
 
 /*
- *  最高優先順位タスクのサーチ
+ *  search a schedtsk
  *
- *  レディキュー中で最も優先順位の高いタスクをサーチし，それをレディ
- *  キューから外して，最高優先順位タスク（schedtsk）とする．実際には，
- *  レディキュー中の最高優先度が nextpri に設定されているためにサーチ
- *  は必要なく，優先度 nextpri のレディキューの先頭のタスクを最高優先
- *  順位タスクとする．レディキューのサーチは，そのタスクをレディキュー
- *  から外した後に nextpri を更新するために必要となる．このサーチに，
- *  ready_primap を用いる．
- *  この関数は，それまで実行状態であったタスクが待ち状態か休止状態に移
- *  行した時に，次に実行すべきタスクを選ぶために呼び出す．よってこの関
- *  数では，それまでの最高優先度タスクは無視する．
+ *  this API will search the the schedtsk by get the first task on the
+ *  queue of nextpri if the ready_primap is not NULL(all is ZERO),and then
+ *  will update the nextpri by means of bitmap_search if the queue of 
+ *  nextpri becomes empty.
+ *  if when this API was called and ready_primap is arleady 0,then TSKID_NULL
+ *  will just be returned.
  */
 extern void	search_schedtsk(void);
 
 /*
- *  タスクのプリエンプト
+ *  preempt current running task
  *
- *  自タスクを実行可能状態に移行させ，最高優先度タスクを実行状態にする．
- *  この関数から戻った後に，dispatch を呼び出して他のタスクへ切り替える
- *  ことを想定している．
+ *  When called,the runtsk which also must be the schedtsk  will be put at 
+ *  the head of its ready queue and set its bitmap priority.
+ *  And followed preempt() should be a dispatch().
  */
 extern void	preempt(void);
 

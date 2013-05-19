@@ -59,81 +59,81 @@
 #define _OSEK_KERNEL_H_
 
 /*
- *  カーネル内部共通のインクルードファイル
+ *  includes
  */
 #include "kernel.h"
 
 /*
- *  カーネル内で使用するデータ型の定義
+ *  type defines for kernel
  */
 #ifndef _MACRO_ONLY
-typedef void		*VP;			/* 型が定まらないものへのポインタ */
-typedef void		(*FP)(void);	/* プログラムの起動番地（ポインタ） */
-typedef UINT8		Priority;		/* 優先度（タスク，ISR） */
-typedef	UINT8		IPL;			/* 割込み優先レベル */
+typedef void		*VP;			/* void pointer */
+typedef void		(*FP)(void);	/* function pointer */
+typedef UINT8		Priority;		/* priority for task/resource/ISR */
+typedef	UINT8		IPL;			/* interrupt processing level */
 #endif /* _MACRO_ONLY */
 
 #include "portable.h"
 /*
- *  優先度の段階数の定義
+ *  number of prioritys
  */
 #define TNUM_PRIORITY	((Priority) 16)
 
 /*
- *  一般的な定数の定義
+ *  NULL
  */
-#define	NULL			((void *) 0)		/* 無効ポインタ */
+#define	NULL			((void *) 0)		/* NULL */
 
 /*
- *  優先度値の定義
+ *  Macros for priority
  */
-#define TPRI_MINTASK	((Priority) 0)		/* 最低タスク優先度 */
+#define TPRI_MINTASK	((Priority) 0)		/* minimum priority */
 #define TPRI_MAXTASK	((Priority)(TNUM_PRIORITY - 1))
-											/* 最高タスク優先度 */
-#define TPRI_SCHEDULER	((Priority) 127)	/* スケジューラの優先度 */
-#define TPRI_MINISR		((Priority) 128)	/* 最低割込み優先度 */
+											/* maximum priority */
+#define TPRI_SCHEDULER	((Priority) 127)	/* priority of the scheduler */
+#define TPRI_MINISR		((Priority) 128)	/* the minimum priority of ISRs */
 #define TPRI_NULL		((Priority) UINT8_INVALID)
-											/* 無効優先度 */
+											/* invalid priprity */
 
 /*
- *  イベントマスク値の定義
+ *  Event Macros
  */
-#define EVTMASK_NONE	((EventMaskType) 0)	/* イベントなし */
+#define EVTMASK_NONE	((EventMaskType) 0)	/* No event */
 
 /*
- *  アプリケーションモード値の定義
+ *  Application mode
  */
-#define APPMODE_NONE	((AppModeType) 0)	/* モードなし */
+#define APPMODE_NONE	((AppModeType) 0)	/* void application mode */
 
 /*
- *  IPL値の定義
+ *  IPL
  */
-#define IPL_ENA_ALL	((IPL) 0)		/* すべての割込みを許可 */
+#define IPL_ENA_ALL	((IPL) 0)		/* IPL default mode,all interrupt is abled to get to be processed by cpu if enabled */
 
 /*
- *  実行中のコンテキスト（callevel）の値の定義
+ *  kernel call level
  */
-#define TCL_NULL		((UINT8) 0x00)	/* サービスコールを呼び出せない */
-#define TCL_TASK		((UINT8) 0x01)	/* タスク */
-#define TCL_ISR2		((UINT8) 0x02)	/* カテゴリ2 ISR */
+#define TCL_NULL		((UINT8) 0x00)	/* invalid kernel call level */
+#define TCL_TASK		((UINT8) 0x01)	/* task level */
+#define TCL_ISR2		((UINT8) 0x02)	/* interrupt type 2 ISR */
 #define TCL_ERROR		((UINT8) 0x04)	/* ErrorHook */
-#define TCL_PREPOST		((UINT8) 0x08)	/* PreTaskHook，PostTaskHook */
+#define TCL_PREPOST		((UINT8) 0x08)	/* PreTaskHook & PostTaskHook */
 #define TCL_STARTUP		((UINT8) 0x10)	/* StartupHook */
 #define TCL_SHUTDOWN	((UINT8) 0x20)	/* ShutdownHook */
 
 
 #ifndef _MACRO_ONLY
 /*
- *  OS実行制御のための変数（osctl.c）
+ *  help the OS to remember os kernel status,see osctl.c
  */
-extern UINT8		callevel;	/* 実行中のコンテキスト */
-extern AppModeType	appmode;	/* アプリケーションモード */
+extern UINT8		callevel;	/* help to remember os calling level */
+extern AppModeType	appmode;	/* help to remember os application mode */
 
 /*
- *  OS内のクリティカルセクション操作関数
+ *  OS lock/unlock API
  */
-Inline void	lock_cpu(void);		/* クリティカルセクション開始 */
-Inline void	unlock_cpu(void);	/* クリティカルセクション終了 */
+Inline void	lock_cpu(void);		/* lock the cpu,that no interrupts will be acknowledged */
+Inline void	unlock_cpu(void);	/* unlock the cpu,that interruprs can be acknowledged */
 
 Inline void
 lock_cpu(void)
@@ -148,16 +148,12 @@ unlock_cpu(void)
 }
 
 /*
- *  エラーフック呼び出しのための宣言（osctl.c）
- *
- *  サービスコール内でエラーが発生した場合には，サービスコールへのパラ
- *  メータを _errorhook_par1～3 に設定した後，call_errorhook を呼び出す．
- *  call_errorhook へは，エラーコードとサービスコールのIDを渡す．
+ *  called when os error encountered
  */
 extern void	call_errorhook(StatusType ercd, OSServiceIdType svcid);
 
 /*
- *  ポストタスクフック/プレタスクフック呼び出しのための宣言（osctl.c）
+ *  called when task enter or leave running state
  */
 extern void	call_posttaskhook(void);
 extern void	call_pretaskhook(void);
@@ -170,7 +166,7 @@ extern void	object_initialize(void);
 #endif /* _MACRO_ONLY */
 
 /*
- *  拡張ステータスを標準に
+ *  if BASIC_STATUS undefined, the EXTEND_STATUS will be the default
  */
 #ifndef BASIC_STATUS
 #define EXTENDED_STATUS

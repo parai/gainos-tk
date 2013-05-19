@@ -55,10 +55,6 @@
  * INDIRECTLY CAUSED FROM THE USE OF THIS SOFTWARE.
  */
 
-/*
- *	アラーム機能
- */
-
 #ifndef _ALARM_H_
 #define _ALARM_H_
 
@@ -98,9 +94,6 @@ extern const TickType	 alminib_cycle[];	/* alarm init cycle time at autostart*/
 
 /*
  *  alarm control block
- *
- *  アラームがアラームキューに挿入されていない場合，almcb_nextには
- *  そのアラームのIDが入っている（nextが自分を指している）．
  */
 extern AlarmType		almcb_next[];		/* next alarm in queue */
 extern AlarmType		almcb_prev[];		/* previous alarm in queue */
@@ -108,7 +101,7 @@ extern TickType			almcb_almval[];		/* expire time */
 extern TickType			almcb_cycle[];		/* alarm cycle time */
 
 /*
- *  アラーム機能の初期化
+ *  initialize alarm
  */
 extern void	alarm_initialize(void);
 

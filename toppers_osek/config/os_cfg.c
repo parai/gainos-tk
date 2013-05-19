@@ -10,17 +10,17 @@ const UINT8	tnum_exttask = cfgOSEK_TASK_NUM;
 const Priority	tinib_inipri[] =
 {
     7, /* vTaskInit */
-    4, /* vTaskSender */ 
+    5, /* vTaskSender */ 
     5, /* vTaskReceiver */ 
-    6, /* vTaskMainFunction */ 
+    5, /* vTaskMainFunction */ 
     0  /* vTaskIdle */ 
 };
 const Priority	tinib_exepri[] = 
 {
     7, /* vTaskInit */
-    4, /* vTaskSender */ 
+    5, /* vTaskSender */ 
     5, /* vTaskReceiver */ 
-    6, /* vTaskMainFunction */ 
+    5, /* vTaskMainFunction */ 
     0  /* vTaskIdle */ 
 };
 const UINT8		tinib_maxact[]=
@@ -155,9 +155,6 @@ const TickType	 alminib_cycle[cfgOSEK_ALARM_NUM] =
 
 /*
  *  alarm control block
- *
- *  アラームがアラームキューに挿入されていない場合，almcb_nextには
- *  そのアラームのIDが入っている（nextが自分を指している）．
  */
 AlarmType		almcb_next[cfgOSEK_ALARM_NUM];		/* next alarm in queue */
 AlarmType		almcb_prev[cfgOSEK_ALARM_NUM];		/* previous alarm in queue */

@@ -56,7 +56,7 @@
  */
 
 /*
- *	リソース管理機能
+ *	includes
  */
 
 #include "osek_kernel.h"
@@ -66,7 +66,7 @@
 #include "resource.h"
 
 /*
- *  リソース管理機能の初期化
+ *  initialize resource
  */
 void
 resource_initialize(void)
@@ -79,7 +79,7 @@ resource_initialize(void)
 }
 
 /*
- *  リソースの獲得
+ *  Get resource
  */
 StatusType
 GetResource(ResourceType resid)
@@ -135,7 +135,7 @@ GetResource(ResourceType resid)
 }
 
 /*
- *  リソースの返却
+ *  release resource
  */
 StatusType
 ReleaseResource(ResourceType resid)

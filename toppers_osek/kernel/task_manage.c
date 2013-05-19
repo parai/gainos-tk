@@ -56,7 +56,7 @@
  */
 
 /*
- *	タスク管理機能
+ *	includes
  */
 
 #include "osek_kernel.h"
@@ -65,7 +65,7 @@
 #include "resource.h"
 
 /*
- *  タスクの起動
+ *  Activate Task
  */
 StatusType
 ActivateTask(TaskType tskid)
@@ -103,7 +103,7 @@ ActivateTask(TaskType tskid)
 }
 
 /*
- *  自タスクの終了
+ *  Terminate Task
  */
 StatusType
 TerminateTask(void)
@@ -116,8 +116,8 @@ TerminateTask(void)
 
 	lock_cpu();
 	/*
-	 *  内部リソースの解放は優先度を下げるだけなので，ここでは
-	 *  何もしなくてよい．
+	 *  move runtsk to TS_DORMANT state
+	 *  and the find the next schedtsk
 	 */
 	tcb_tstat[runtsk] = TS_DORMANT;
 	search_schedtsk();
@@ -126,7 +126,7 @@ TerminateTask(void)
 		(void)make_active(runtsk);
 	}
 	exit_and_dispatch();
-	/* ここには戻ってこない */
+	/* shouldn't return here,if it is an serious error */
 
   error_exit:
 	lock_cpu();
@@ -137,16 +137,12 @@ TerminateTask(void)
 }
 
 /*
- *  自タスクの終了とタスクの起動
+ *  chain task
  */
 StatusType
 ChainTask(TaskType tskid)
 {
-	/*
-	 *  ここでの ercd の初期化は本来は不要であるが，コンパイラの警
-	 *  告メッセージを避けるために初期化している．
-	 */
-	StatusType	ercd = E_OK;
+    StatusType	ercd = E_OK;
 
 	LOG_CHNTSK_ENTER(tskid);
 	CHECK_CALLEVEL(TCL_TASK);
@@ -161,8 +157,8 @@ ChainTask(TaskType tskid)
 	}
 	else {
 		/*
-		 *  エラー時に副作用が残らないように，エラーチェックは
-		 *  タスク終了処理の前に行う必要がある．
+		 *  first activete tskid
+		 *  then terminate runtsk
 		 */
 		if ((tcb_tstat[tskid] != TS_DORMANT)
 			&& (tcb_actcnt[tskid] >= tinib_maxact[tskid])) {
@@ -183,7 +179,7 @@ ChainTask(TaskType tskid)
 		}
 	}
 	exit_and_dispatch();
-	/* ここには戻ってこない */
+	/* shouldn't return here, if so , a serious error */
 
   error_exit:
 	lock_cpu();
@@ -196,15 +192,11 @@ ChainTask(TaskType tskid)
 }
 
 /*
- *  スケジューラの呼び出し
+ *  Schedule
  */
 StatusType
 Schedule(void)
 {
-	/*
-	 *  ここでの ercd の初期化は本来は不要であるが，コンパイラの警
-	 *  告メッセージを避けるために初期化している．
-	 */
 	StatusType	ercd = E_OK;
 
 	LOG_SCHED_ENTER();
@@ -230,7 +222,7 @@ Schedule(void)
 }
 
 /*
- *  実行状態のタスクIDの参照
+ *  Get Task ID
  */
 StatusType
 GetTaskID(TaskRefType p_tskid)
@@ -243,9 +235,9 @@ GetTaskID(TaskRefType p_tskid)
 	lock_cpu();
 	*p_tskid = runtsk;
 	/*
-	 *  本来は runtsk ではなく以下の式になるべきだが，TSKID_NULL 
-	 *  と INVALID_TASK は等しいので，単に runtsk でよい．
+     *  if runtsk id TSKID_NULL,should return INVALID_TASK
 	 *      (runtsk == TSKID_NULL) ? INVALID_TASK : runtsk
+     *  but infact TSKID_NULL == INVALID_TASK
 	 */
   exit:
 	unlock_cpu();
@@ -260,7 +252,7 @@ GetTaskID(TaskRefType p_tskid)
 }
 
 /*
- *  タスク状態の参照
+ *  Get Task State
  */
 StatusType
 GetTaskState(TaskType tskid, TaskStateRefType p_state)

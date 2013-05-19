@@ -10,9 +10,11 @@ TASK(vTaskInit)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskInit is running.\r\n");
-    SetRelAlarm(ID_vAlarmSender,501,500);
-    SetAbsAlarm(ID_vAlarmReceiver,501,500);
-    SetRelAlarm(ID_vAlarmMainFunction,501,500);
+    SetRelAlarm(ID_vAlarmSender,100,500);
+    SetAbsAlarm(ID_vAlarmReceiver,200,500);
+    SetRelAlarm(ID_vAlarmMainFunction,300,500);
+    (void)ActivateTask(ID_vTaskSender);
+    (void)ActivateTask(ID_vTaskReceiver);
     (void)TerminateTask();
 }
 
