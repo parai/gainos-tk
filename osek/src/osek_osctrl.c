@@ -55,9 +55,11 @@ void StartOS ( AppModeType xAppMode )
 #if(cfgOS_START_UP_HOOK == 1)
 	StartupHook();			/* Call Start up hook */
 #endif
-    /* OS424: The first call to StartOS() (for starting the Operating System) shall not
-       return. */
+#if(cfgOS_TK_EXTEND == STD_ON)
     knl_timer_init();
+#endif
+    /* OS424: The first call to StartOS() (for starting the Operating System) shall not
+       return. */    
     knl_force_dispatch();
 }
 

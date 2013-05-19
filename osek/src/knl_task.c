@@ -64,8 +64,8 @@ EXPORT void knl_make_dormant( TCB *tcb )
 	//tcb->state	= TS_DORMANT;
 	tcb->priority = knl_gtsk_table[tskid].itskpri;
 
-	tcb->klockwait	= FALSE;
-	tcb->klocked	= FALSE;
+//	tcb->klockwait	= FALSE;
+//	tcb->klocked	= FALSE;
 
     QueInit(&tcb->resque);
 

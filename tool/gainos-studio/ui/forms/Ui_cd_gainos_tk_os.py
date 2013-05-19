@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_gainos_tk_os.ui'
 #
-# Created: Tue May 14 19:56:45 2013
+# Created: Sun May 19 10:15:08 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -24,12 +24,10 @@ class Ui_cd_gainos_tk_os(object):
         self.groupBox.setStyleSheet(_fromUtf8("font: 12pt \"Consolas\";"))
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.layoutWidget = QtGui.QWidget(self.groupBox)
-        self.layoutWidget.setGeometry(QtCore.QRect(60, 30, 759, 66))
+        self.layoutWidget.setGeometry(QtCore.QRect(21, 31, 516, 29))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
-        self.verticalLayout_2 = QtGui.QVBoxLayout(self.layoutWidget)
-        self.verticalLayout_2.setMargin(0)
-        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
-        self.horizontalLayout_4 = QtGui.QHBoxLayout()
+        self.horizontalLayout_4 = QtGui.QHBoxLayout(self.layoutWidget)
+        self.horizontalLayout_4.setMargin(0)
         self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
@@ -49,6 +47,7 @@ class Ui_cd_gainos_tk_os(object):
         self.horizontalLayout_2.addWidget(self.label_2)
         self.spbxMaxPrio = QtGui.QSpinBox(self.layoutWidget)
         self.spbxMaxPrio.setMinimumSize(QtCore.QSize(91, 0))
+        self.spbxMaxPrio.setToolTip(_fromUtf8(""))
         self.spbxMaxPrio.setObjectName(_fromUtf8("spbxMaxPrio"))
         self.horizontalLayout_2.addWidget(self.spbxMaxPrio)
         self.horizontalLayout_4.addLayout(self.horizontalLayout_2)
@@ -67,15 +66,18 @@ class Ui_cd_gainos_tk_os(object):
         self.cmbxOSConfCls.addItem(_fromUtf8(""))
         self.horizontalLayout_3.addWidget(self.cmbxOSConfCls)
         self.horizontalLayout_4.addLayout(self.horizontalLayout_3)
-        self.verticalLayout_2.addLayout(self.horizontalLayout_4)
-        self.horizontalLayout_8 = QtGui.QHBoxLayout()
+        self.layoutWidget1 = QtGui.QWidget(self.groupBox)
+        self.layoutWidget1.setGeometry(QtCore.QRect(23, 68, 903, 29))
+        self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
+        self.horizontalLayout_8 = QtGui.QHBoxLayout(self.layoutWidget1)
+        self.horizontalLayout_8.setMargin(0)
         self.horizontalLayout_8.setObjectName(_fromUtf8("horizontalLayout_8"))
         self.horizontalLayout_5 = QtGui.QHBoxLayout()
         self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
-        self.label_4 = QtGui.QLabel(self.layoutWidget)
+        self.label_4 = QtGui.QLabel(self.layoutWidget1)
         self.label_4.setObjectName(_fromUtf8("label_4"))
         self.horizontalLayout_5.addWidget(self.label_4)
-        self.cmbxStatus = QtGui.QComboBox(self.layoutWidget)
+        self.cmbxStatus = QtGui.QComboBox(self.layoutWidget1)
         self.cmbxStatus.setMinimumSize(QtCore.QSize(201, 0))
         self.cmbxStatus.setMaximumSize(QtCore.QSize(210, 16777215))
         self.cmbxStatus.setToolTip(_fromUtf8(""))
@@ -86,10 +88,10 @@ class Ui_cd_gainos_tk_os(object):
         self.horizontalLayout_8.addLayout(self.horizontalLayout_5)
         self.horizontalLayout_7 = QtGui.QHBoxLayout()
         self.horizontalLayout_7.setObjectName(_fromUtf8("horizontalLayout_7"))
-        self.label_9 = QtGui.QLabel(self.layoutWidget)
+        self.label_9 = QtGui.QLabel(self.layoutWidget1)
         self.label_9.setObjectName(_fromUtf8("label_9"))
         self.horizontalLayout_7.addWidget(self.label_9)
-        self.cmbxSchedPolicy = QtGui.QComboBox(self.layoutWidget)
+        self.cmbxSchedPolicy = QtGui.QComboBox(self.layoutWidget1)
         self.cmbxSchedPolicy.setMinimumSize(QtCore.QSize(271, 0))
         self.cmbxSchedPolicy.setToolTip(_fromUtf8(""))
         self.cmbxSchedPolicy.setObjectName(_fromUtf8("cmbxSchedPolicy"))
@@ -98,7 +100,9 @@ class Ui_cd_gainos_tk_os(object):
         self.cmbxSchedPolicy.addItem(_fromUtf8(""))
         self.horizontalLayout_7.addWidget(self.cmbxSchedPolicy)
         self.horizontalLayout_8.addLayout(self.horizontalLayout_7)
-        self.verticalLayout_2.addLayout(self.horizontalLayout_8)
+        self.cbxTkExtend = QtGui.QCheckBox(self.layoutWidget1)
+        self.cbxTkExtend.setObjectName(_fromUtf8("cbxTkExtend"))
+        self.horizontalLayout_8.addWidget(self.cbxTkExtend)
         self.groupBox_2 = QtGui.QGroupBox(cd_gainos_tk_os)
         self.groupBox_2.setGeometry(QtCore.QRect(10, 130, 941, 431))
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
@@ -388,16 +392,16 @@ class Ui_cd_gainos_tk_os(object):
         item_0 = QtGui.QTreeWidgetItem(self.trModule)
         item_0 = QtGui.QTreeWidgetItem(self.trModule)
         item_0 = QtGui.QTreeWidgetItem(self.trModule)
-        self.layoutWidget1 = QtGui.QWidget(self.groupBox_2)
-        self.layoutWidget1.setGeometry(QtCore.QRect(290, 70, 151, 62))
-        self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget1)
+        self.layoutWidget2 = QtGui.QWidget(self.groupBox_2)
+        self.layoutWidget2.setGeometry(QtCore.QRect(290, 70, 151, 62))
+        self.layoutWidget2.setObjectName(_fromUtf8("layoutWidget2"))
+        self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget2)
         self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.btnAdd = QtGui.QPushButton(self.layoutWidget1)
+        self.btnAdd = QtGui.QPushButton(self.layoutWidget2)
         self.btnAdd.setObjectName(_fromUtf8("btnAdd"))
         self.verticalLayout.addWidget(self.btnAdd)
-        self.btnDel = QtGui.QPushButton(self.layoutWidget1)
+        self.btnDel = QtGui.QPushButton(self.layoutWidget2)
         self.btnDel.setObjectName(_fromUtf8("btnDel"))
         self.verticalLayout.addWidget(self.btnDel)
 
@@ -411,14 +415,6 @@ class Ui_cd_gainos_tk_os(object):
         self.groupBox.setTitle(QtGui.QApplication.translate("cd_gainos_tk_os", "GaInOS General Configure", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "MAX_IPL:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "MAX_PRI:", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxMaxPrio.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<table border=\"0\" style=\"-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;\">\n"
-"<tr>\n"
-"<td style=\"border: none;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Monospace\';\"></p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "OS Class:", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxOSConfCls.setItemText(0, QtGui.QApplication.translate("cd_gainos_tk_os", "BCC1", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxOSConfCls.setItemText(1, QtGui.QApplication.translate("cd_gainos_tk_os", "BCC2", None, QtGui.QApplication.UnicodeUTF8))
@@ -431,6 +427,12 @@ class Ui_cd_gainos_tk_os(object):
         self.cmbxSchedPolicy.setItemText(0, QtGui.QApplication.translate("cd_gainos_tk_os", "FULL_PREEMPTIVE_SCHEDULE", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxSchedPolicy.setItemText(1, QtGui.QApplication.translate("cd_gainos_tk_os", "MIXED_PREEMPTIVE_SCHEDULE", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxSchedPolicy.setItemText(2, QtGui.QApplication.translate("cd_gainos_tk_os", "NONE_PREEMPTIVE_SCHEDULE", None, QtGui.QApplication.UnicodeUTF8))
+        self.cbxTkExtend.setToolTip(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">when on,the tk extend api(SleepTask &amp; WakeUpTask) can be used.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.cbxTkExtend.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "Tk Extend API", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("cd_gainos_tk_os", "GaInOS-TK Configure", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setWhatsThis(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p><br/></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Task Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))

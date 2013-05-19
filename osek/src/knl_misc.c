@@ -47,7 +47,7 @@ EXPORT void knl_ready_queue_initialize( RDYQUE *rq )
 		QueInit(&rq->tskque[i]);
 	}
 	rq->null = NULL;
-	rq->klocktsk = NULL;
+//	rq->klocktsk = NULL;
 	(void)memset(rq->bitmap, 0, sizeof(rq->bitmap));
 }
 /*
@@ -56,9 +56,9 @@ EXPORT void knl_ready_queue_initialize( RDYQUE *rq )
 EXPORT TCB* knl_ready_queue_top( RDYQUE *rq )
 {
 	/* If there is a task at kernel lock, that is the highest priority task */
-	if ( rq->klocktsk != NULL ) {
-		return rq->klocktsk;
-	}
+//	if ( rq->klocktsk != NULL ) {
+//		return rq->klocktsk;
+//	}
 
 	return (TCB*)rq->tskque[rq->top_priority].next;
 }
@@ -76,9 +76,9 @@ EXPORT BOOL knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 	QueInsert(&tcb->tskque, &rq->tskque[priority]);
 	knl_tstdlib_bitset(rq->bitmap, priority);
 
-	if ( tcb->klocked ) {
-		rq->klocktsk = tcb;
-	}
+//	if ( tcb->klocked ) {
+//		rq->klocktsk = tcb;
+//	}
 
 	if ( priority < rq->top_priority ) {
 		rq->top_priority = priority;
@@ -97,9 +97,9 @@ EXPORT void knl_ready_queue_insert_top( RDYQUE *rq, TCB *tcb )
 	QueInsert(&tcb->tskque, rq->tskque[priority].next);
 	knl_tstdlib_bitset(rq->bitmap, priority);
 
-	if ( tcb->klocked ) {
-		rq->klocktsk = tcb;
-	}
+//	if ( tcb->klocked ) {
+//		rq->klocktsk = tcb;
+//	}
 
 	if ( priority < rq->top_priority ) {
 		rq->top_priority = priority;
@@ -118,16 +118,16 @@ EXPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb )
 	INT	priority = tcb->priority;
 	INT	i;
 
-	if ( rq->klocktsk == tcb ) {
-		rq->klocktsk = NULL;
-	}
+//	if ( rq->klocktsk == tcb ) {
+//		rq->klocktsk = NULL;
+//	}
 
 	QueRemove(&tcb->tskque);
-	if ( tcb->klockwait ) {
-		/* Delete from kernel lock wait queue */
-		tcb->klockwait = FALSE;
-		return;
-	}
+//	if ( tcb->klockwait ) {
+//		/* Delete from kernel lock wait queue */
+//		tcb->klockwait = FALSE;
+//		return;
+//	}
 	if ( !isQueEmpty(&rq->tskque[priority]) ) {
 		return;
 	}

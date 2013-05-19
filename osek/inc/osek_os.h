@@ -95,7 +95,6 @@ typedef enum {
 	TS_DORMANT	= 8	    /* DORMANT state */
 } TSTAT;
 
-#if(cfgOS_TK_EXTEND == STD_ON)
 /*
  * Definition of wait specification structure
  */
@@ -117,7 +116,6 @@ typedef struct timer_event_block {
 	VP	                arg;		             /* Argument to be sent to callback func*/
 } TMEB;
 
-#endif /* cfgOS_TK_EXTEND */
 /*
  * Task gerneration information
  */
@@ -134,8 +132,8 @@ typedef struct task_control_block{
     QUEUE	    tskque;		/* Task queue */
     CTXB     	tskctxb;	/* Task context block */
 	PRI	        priority;	/* Current priority */
-	BOOL	    klockwait:1;	/* TRUE at wait kernel lock */
-	BOOL     	klocked:1;	    /* TRUE at hold kernel lock */	
+//	BOOL	    klockwait:1;	/* TRUE at wait kernel lock */
+//	BOOL     	klocked:1;	    /* TRUE at hold kernel lock */	
 	UB /*TSTAT*/	state;  	/* Task state (Int. expression) */
 #if(cfgOS_TK_EXTEND == STD_ON)
 	WSPEC *	        wspec;	  /* Wait specification */
@@ -167,7 +165,7 @@ typedef	struct ready_queue {
 	QUEUE	tskque[NUM_PRI];	/* Task queue per priority */
 	TCB	*   null;			/* When the ready queue is empty, */
 	UINT	bitmap[NUM_BITMAP];	/* Bitmap area per priority */
-	TCB	*klocktsk;	/* READY task with kernel lock */
+//	TCB	*klocktsk;	/* READY task with kernel lock */
 } RDYQUE;
 
 /* ============================ TYPEs FOR ALARM   =============================== */

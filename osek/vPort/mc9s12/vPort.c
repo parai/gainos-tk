@@ -130,7 +130,9 @@ ISR(SystemTick,7)
 { 
     CRGFLG &=0xEF;			// clear the interrupt flag 
     EnterISR(); 
+#if(cfgOS_TK_EXTEND == STD_ON)    
 	knl_timer_handler();
+#endif	
 	(void)IncrementCounter(0);
 	ExitISR();	
 }

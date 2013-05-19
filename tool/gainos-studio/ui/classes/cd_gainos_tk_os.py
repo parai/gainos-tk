@@ -85,6 +85,7 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
         self.cmbxOSConfCls.setCurrentIndex(self.cmbxOSConfCls.findText(self.cfg.general.os_class));
         self.cmbxStatus.setCurrentIndex(self.cmbxStatus.findText(self.cfg.general.status));
         self.spbxMaxPrio.setValue(self.cfg.general.max_pri);
+        self.cbxTkExtend.setChecked(self.cfg.general.tk_extend);
         
     def initGui(self):
         self.initButton();
@@ -465,6 +466,10 @@ class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
     @pyqtSignature("QString")
     def on_cmbxStatus_activated(self, p0):
         self.cfg.general.status = p0;
+        self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxTkExtend_clicked(self, p0):
+        self.cfg.general.tk_extend = p0;
         self.fileInd(False);
     
     

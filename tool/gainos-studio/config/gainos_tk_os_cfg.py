@@ -16,6 +16,7 @@ class General():
         self.os_class = 'ECC2';
         self.status = 'STANDARD';
         self.sched_policy = 'FULL_PREEMPTIVE_SCHEDULE';
+        self.tk_extend = False;
     def save(self, root):
         nd = ET.Element('General');
         nd.attrib['chip'] = str(self.chip);
@@ -24,6 +25,7 @@ class General():
         nd.attrib['os_class'] = str(self.os_class);  
         nd.attrib['status'] = str(self.status);  
         nd.attrib['sched_policy'] = str(self.sched_policy);  
+        nd.attrib['tk_extend'] = str(self.tk_extend);  
         root.append(nd); 
     def parse(self, nd):
         self.chip = nd.attrib['chip'];
@@ -32,6 +34,7 @@ class General():
         self.status = nd.attrib['status'];
         self.status = nd.attrib['status'];
         self.sched_policy = nd.attrib['sched_policy'];
+        self.tk_extend = bool(nd.attrib['tk_extend']);
         
 class Resource():
     def __init__(self, name, ceilprio):
@@ -223,6 +226,7 @@ class gainos_tk_os_cfg():
 /* =====================  MISC  ========================== */
 """%(gcgetTime()));
         fp.write('#define cfgOS_STATUS_LEVEL OS_STATUS_%s\n'%(self.cfg.general.status));
+        fp.write('#define cfgOS_TK_EXTEND %s\n'%(gSTD_ON(self.cfg.general.tk_extend)));
         fp.write('#define CHIP_%s\n'%(self.cfg.general.chip));
         fp.write("""#if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */

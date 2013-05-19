@@ -6,11 +6,13 @@
 #include <stdio.h>
 #include "Os.h"
 
+IMPORT void knl_start_hw_timer(void);
 TASK(vTaskInit)
 {
 	(void)SetRelAlarm(ID_vAlarmReceiver,50,200);
 	(void)SetRelAlarm(ID_vAlarmSender,100,200);
 	(void)SetRelAlarm(ID_vAlarmMainFunction,150,200);
+	(void)knl_start_hw_timer(); // start counter 0
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskInit is running.\r\n");
     (void)TerminateTask();

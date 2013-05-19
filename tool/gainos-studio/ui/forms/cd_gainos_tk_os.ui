@@ -34,198 +34,209 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>30</y>
-      <width>759</width>
-      <height>66</height>
+      <x>21</x>
+      <y>31</y>
+      <width>516</width>
+      <height>29</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>MAX_IPL:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spbxMaxIpl">
-           <property name="minimumSize">
-            <size>
-             <width>91</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>MAX_IPL:</string>
+         </property>
+        </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>MAX_PRI:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spbxMaxPrio">
-           <property name="minimumSize">
-            <size>
-             <width>91</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Monospace';&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>OS Class:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="cmbxOSConfCls">
-           <property name="minimumSize">
-            <size>
-             <width>71</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string/>
-           </property>
-           <item>
-            <property name="text">
-             <string>BCC1</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>BCC2</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>ECC1</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>ECC2</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QSpinBox" name="spbxMaxIpl">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string/>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_8">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>Check Status:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="cmbxStatus">
-           <property name="minimumSize">
-            <size>
-             <width>201</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>210</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string/>
-           </property>
-           <item>
-            <property name="text">
-             <string>STANDARD</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>EXTEND</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>MAX_PRI:</string>
+         </property>
+        </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>Schedule Policy:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="cmbxSchedPolicy">
-           <property name="minimumSize">
-            <size>
-             <width>271</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string/>
-           </property>
-           <item>
-            <property name="text">
-             <string>FULL_PREEMPTIVE_SCHEDULE</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>MIXED_PREEMPTIVE_SCHEDULE</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>NONE_PREEMPTIVE_SCHEDULE</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QSpinBox" name="spbxMaxPrio">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string/>
+         </property>
+        </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>OS Class:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cmbxOSConfCls">
+         <property name="minimumSize">
+          <size>
+           <width>71</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string/>
+         </property>
+         <item>
+          <property name="text">
+           <string>BCC1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>BCC2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ECC1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ECC2</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>23</x>
+      <y>68</y>
+      <width>903</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Check Status:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cmbxStatus">
+         <property name="minimumSize">
+          <size>
+           <width>201</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>210</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string/>
+         </property>
+         <item>
+          <property name="text">
+           <string>STANDARD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>EXTEND</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Schedule Policy:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cmbxSchedPolicy">
+         <property name="minimumSize">
+          <size>
+           <width>271</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string/>
+         </property>
+         <item>
+          <property name="text">
+           <string>FULL_PREEMPTIVE_SCHEDULE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MIXED_PREEMPTIVE_SCHEDULE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>NONE_PREEMPTIVE_SCHEDULE</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="cbxTkExtend">
+       <property name="toolTip">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;when on,the tk extend api(SleepTask &amp;amp; WakeUpTask) can be used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Tk Extend API</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
