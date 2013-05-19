@@ -424,11 +424,10 @@ CancelAlarm(AlarmType almid)
 	dequeue_alarm(almid, alminib_cntid[almid]);
 
 	/*
-	 *  アラームコールバックの中から，自アラームを SetRelAlarm/
-	 *  SetAbsAlarm した後に CancelAlarm した状況（OSEK仕様では許
-	 *  されていないが，TOPPERS/OSEKカーネルでは許している）で，自
-	 *  アラームがアラームキューに再挿入されるのを防ぐために，
-	 *  almcb_cycle[almid] を 0 にしておく．
+	 *  set alarm cycle to zero
+	 *  if something wrong with dequeue_alarm() not really cancel
+	 *  this alarm, the Zero value of alarm cycle will make sure 
+	 *  it will be auto-cancled at the next expiry value when SignalCounter()
 	 */
 	almcb_cycle[almid] = 0u;
   exit:
