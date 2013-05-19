@@ -22,7 +22,7 @@
 #include "knl_task.h"
 #include "knl_event.h"
 #include "knl_queue.h"
-#include "vPort.h"
+#include "portable.h"
 #if(cfgOSEK_EVENTFLAG_NUM > 0)
 EXPORT FLGCB knl_flgcb_table[cfgOSEK_EVENTFLAG_NUM];
 EXPORT void knl_entflg_init(void)

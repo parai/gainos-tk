@@ -24,7 +24,7 @@
 #include "knl_event.h"
 #include "knl_resource.h"
 #include "knl_timer.h"
-#include "vPort.h"
+#include "portable.h"
 /* |------------------+------------------------------------------------------| */
 /* | Syntax:          | void StartOS ( AppModeType <Mode> )                  | */
 /* |------------------+------------------------------------------------------| */

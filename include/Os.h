@@ -25,16 +25,6 @@
 #include "Std_Types.h" 
 
 /* ============================ MACROs   ========================================== */
-/* Scheduling Policy */
-#define FULL_PREEMPTIVE_SCHEDULE  0
-#define NONE_PREEMPTIVE_SCHEDULE  1
-#define MIXED_PREEMPTIVE_SCHEDULE 2
-
-/* Task's Policy Per Priority */
-#define ONLY_ONE_TASK_PER_PRIORITY 0
-#define SEVERAL_TASKS_PER_PRIORITY 1
-
-
 #define INVALID_TASK (-1)
 
 #define OS_STATUS_STANDARD 0
@@ -52,11 +42,13 @@
 #define TMO_FEVR (TickType)(UINT_MAX)
 
 /* Values for TaskStateType */
-#define RUNNING   (0x00u)
-#define READY     (0x01u)
-#define WAITING   (0x02u)
-#define SUSPENDED (0x03u)
+#define SUSPENDED (0x00u)
+#define RUNNING   (0x01u)
+#define READY     (0x02u)
+#define WAITING   (0x03u)
 
+
+#define E_OS_ACCESS     (1u)
 #define E_OS_CALLEVEL   (2u)
 #define E_OS_ID         (3u)
 #define E_OS_LIMIT      (4u)
@@ -64,95 +56,19 @@
 #define E_OS_RESOURCE   (6u)
 #define E_OS_STATE      (7u)
 #define E_OS_VALUE      (8u)
-#define E_OS_ACCESS     (9u)
+#define E_OS_TMOUT      (9u)
+#define E_OS_QOVR       (10u)
 
-/* Extended for autosar */  
-/* An invalid adress is given as a paraimeter to a service */
-#define E_OS_ILLEGAL_ADDRESS        (10u)
-/* Tasks terminates without a TerminateTask() or ChainTask() call. */
-#define E_OS_MISSINGEND             (11u)     
-/* a service of the os is called inside an interrupt  disable/enable pair. */
-#define E_OS_DISABLEDINT            (12u)
-/* a stack fault detected via stack monitoring by the os */
-#define E_OS_STACKFAULT             (13u)
-/* a memory access violation occurred */
-#define E_OS_PROTECTION_MEMORY      (14u)
-/* A Task exceeds its execution time budget &&
-   A Category 2 OsIsr exceeds its execution time budget  */
-#define E_OS_PROTECTION_TIME        (15U)
-/* A Task/Category 2 arrives before its timeframe has expired  */
-#define E_OS_PROTECTION_ARRIVAL     (16u)
-/* A Task/Category 2 OsIsr blocks for too long  */
-#define E_OS_PROTECTION_LOCKED      (17u)
-/* service can not be called */
-#define E_OS_SERVICEID              (18u)  
-/* A trap occurred  */
-#define E_OS_PROTECTION_EXCEPTION   (19u)
-/* Self define for implementation */
-#define E_OS_SYS_NOT_OK (20u)
-
-#define E_OS_TMOUT      (21u)   /* Polling fail/time out */
-#define E_OS_QOVR		(22u)	/* Queuing overflow */
-
-/* autosar:These macros return a value not equal to zero if the memory is 
-   readable/writable/executable or stack space. */
-#define OSMEMORY_IS_READABLE   ((AccessType)1u)
-#define OSMEMORY_IS_WRITEABLE  ((AccessType)2u)
-#define OSMEMORY_IS_EXECUTABLE ((AccessType)3u)
-#define OSMEMORY_IS_STACKSPACE ((AccessType)4u)
 
 /*  Constant of data type ResourceType (see (osek)chapter 8, Resource management).*/
 #define RES_SCHEDULER 0
 /* Default application mode, always a valid parameter to StartOS */
-#define OSDEFAULTAPPMODE (0u)
-/* for autosar */
-#define INVALID_OSAPPLICATION  (ApplicationType)(-1)
-#define INVALID_ISR            (ISRType)(-1)
-#define INVALID_SCHEDULE_TABLE (ScheduleTableType)(-1)
-#define ACCESS    (ObjectAccessType)0u
-#define NO_ACCESS (ObjectAccessType)1u
-#define OBJECT_TASK          (ObjectTypeType)0u
-#define OBJECT_ISR           (ObjectTypeType)1u
-#define OBJECT_ALARM         (ObjectTypeType)2u
-#define OBJECT_RESOURCE      (ObjectTypeType)3u
-#define OBJECT_COUNTER       (ObjectTypeType)4u
-#define OBJECT_SCHEDULETABLE (ObjectTypeType)5u
-#define SCHEDULETABLE_STOPPED                 (ScheduleTableStatusType)0u
-#define SCHEDULETABLE_NEXT                    (ScheduleTableStatusType)1u
-#define SCHEDULETABLE_WAITING                 (ScheduleTableStatusType)2u
-#define SCHEDULETABLE_RUNNING                 (ScheduleTableStatusType)3u
-#define SCHEDULETABLE_RUNNING_AND_SYNCHRONOUS (ScheduleTableStatusType)4u
-#define PRO_IGNORE                (ProtectionReturnType)0u
-#define PRO_TERMINATETASKISR      (ProtectionReturnType)1u
-#define PRO_TERMINATEAPPL         (ProtectionReturnType)2u
-#define PRO_TERMINATEAPPL_RESTART (ProtectionReturnType)3u
-#define PRO_SHUTDOWN              (ProtectionReturnType)4u
-#define RESTART    (RestartType)0u
-#define NO_RESTART (RestartType)1u
-/* The schedule table is started during startup with the
-   StartScheduleTableAbs() service. */
-#define ABSOLUTE (OsScheduleTableAutostartType)0u
-/* The schedule table is started during startup with the
-   StartScheduleTableRel() service. */
-#define RELATIVE (OsScheduleTableAutostartType)1u
-/* The schedule table is started during startup with the
-   StartScheduleTableSynchron() service. */
-#define SYNCHRON (OsScheduleTableAutostartType)2u
-/* The schedule table is driven by an OS counter but
-   processing needs to be synchronized with a different
-   counter which is not an OS counter object.*/
-#define EXPLICIT (OsScheduleTblSyncStrategyType)0u
-/* The counter driving the schedule table is the counter
-   with which synchronisation is required.*/
-#define IMPLICIT (OsScheduleTblSyncStrategyType)1u
-/* No support for synchronisation. (default) */
-#define NONE     (OsScheduleTblSyncStrategyType)2u
+#define OSDEFAULTAPPMODE (0x01u)
 
 #define TASK(TaskName) void TaskMain##TaskName(void)
 #define ALARM(AlarmName)     \
     void AlarmMain##AlarmName(void)             
 /* ============================ TYPEs   ========================================== */
-/* ============ OSEK STD TYPEs ===================== */
 /* This data type identifies a task. */
 typedef ID TaskType;
 /* This data type points to a variable of TaskType. */
@@ -192,58 +108,6 @@ typedef uint8 StatusType;
 typedef uint8 AppModeType;
 /* This data type represents the identification of system services. */
 typedef uint8 OSServiceIdType;
-
-/* ============ AUTOSAR STD TYPEs ===================== */
-/* This data type identifies the OS-Application. */
-typedef uint8 ApplicationType;
-/* This data type identifies a trusted function. */
-typedef uint8 TrustedFunctionIndexType;
-/* This data type points to a structure which holds the arguments for a call to a
-   trusted function. */
-typedef void* TrustedFunctionParameterRefType;
-/* This type holds information how a specific memory region can be accessed. */
-typedef uint8 AccessType;
-/* This data type identifies if an OS-Application has access to an object. */
-typedef uint8 ObjectAccessType;
-/* This data type identifies an object. */
-typedef uint8 ObjectTypeType;
-/* This data type is a pointer which is able to point to any location in the MCU */
-/* address space. */
-typedef uint8* MemoryStartAddressType;
-/* This data type holds the size (in bytes) of a memory region. */
-typedef uint32 MemorySizeType;
-/* This data type identifies an interrupt service routine (OsIsr). */
-typedef uint8 ISRType;
-/* This data type identifies a schedule table. */
-typedef uint8 ScheduleTableType;
-/*
-  This type describes the status of a schedule. The status can be one of the
-  following:
-  1. The schedule table is not started (SCHEDULETABLE_STOPPED)
-  2. The schedule table will be started after the end of currently running schedule
-  table (schedule table was used in NextScheduleTable() service)
-  (SCHEDULETABLE_NEXT)
-  3. The schedule table uses implicit synchronization, has been started and is
-  waiting for the global time. (SCHEDULETABLE_WAITING)
-  4. The schedule table is running, but is currently not synchronous to a global
-  time source (SCHEDULETABLE_RUNNING)
-  5. The schedule table is running and is synchronous to a global time source
-  (SCHEDULETABLE_RUNNING_AND_SYNCHRONOUS)
-*/
-typedef uint8 ScheduleTableStatusType;
-/* This data type points to a variable of the data type ScheduleTableStatusType. */
-typedef ScheduleTableStatusType* ScheduleTableStatusRefType;
-/* This data type identifies a value which controls further actions of the OS on return
-   from the protection hook. */
-typedef uint8 ProtectionReturnType;
-/* This data type defines the use of a Restart Task after terminating an OS-
-   Application.*/
-typedef uint8 RestartType;
-/* This data type is used for values returned by the conversion macro (see OS393())
-   OS_TICKS2<Unit>_<Counter>(). */
-typedef uint8 PhysicalTimeType;
-typedef uint8 OsScheduleTableAutostartType;
-typedef uint8 OsScheduleTblSyncStrategyType; 
 
 /* ============================ INCLUDEs ========================================== */
 #include "osek_cfg.h"

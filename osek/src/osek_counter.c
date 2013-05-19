@@ -22,7 +22,7 @@
 #include "osek_os.h"
 #include "knl_queue.h"
 #include "knl_alarm.h"
-#include "vPort.h"
+#include "portable.h"
 
 #if(cfgOSEK_COUNTER_NUM > 0)
 EXPORT CCB knl_ccb_table[cfgOSEK_COUNTER_NUM];

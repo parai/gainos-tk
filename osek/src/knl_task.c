@@ -21,7 +21,7 @@
 #include "knl_task.h"
 #include "knl_timer.h"
 #include "knl_queue.h"
-#include "vPort.h"
+#include "portable.h"
 
 EXPORT INT	knl_dispatch_disabled;
 EXPORT TCB	*knl_ctxtsk;

@@ -22,7 +22,7 @@
 #include "knl_resource.h"
 #include "knl_task.h"
 #include "knl_queue.h"
-#include "vPort.h"
+#include "portable.h"
 
 #if(cfgOSEK_RESOURCE_NUM > 0)
 EXPORT RESCB knl_rescb_table[cfgOSEK_RESOURCE_NUM];

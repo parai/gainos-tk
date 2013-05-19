@@ -23,7 +23,7 @@
 #include "knl_timer.h"
 #include "knl_queue.h"
 #include "knl_wait.h"
-#include "vPort.h"
+#include "portable.h"
 /* |------------------+------------------------------------------------------------| */
 /* | Syntax:          | StatusType ActivateTask ( TaskType <TaskID> )              | */
 /* |------------------+------------------------------------------------------------| */

@@ -18,9 +18,9 @@
  * Email: parai@foxmail.com
  * Sourrce Open At: https://github.com/parai/gainos-tk/
  */
-#include  "knl_timer.h" 
+#include "knl_timer.h" 
 #include "knl_queue.h"
-#include "vPort.h"             
+#include "portable.h"             
 
 #if(cfgOS_TK_EXTEND == STD_ON)
 EXPORT LSYSTIM  knl_current_time = 0 ;
@@ -99,7 +99,7 @@ EXPORT void knl_timer_handler( void )
 		}
 
 		QueRemove(&event->queue);
-		if ( event->callback != NULL_FP ) {
+		if ( event->callback != (CBACK)NULL_FP ) {
 			(*event->callback)(event->arg);
 		}
 	}
