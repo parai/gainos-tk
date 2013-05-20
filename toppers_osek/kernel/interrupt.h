@@ -55,52 +55,48 @@
  * INDIRECTLY CAUSED FROM THE USE OF THIS SOFTWARE.
  */
 
-/*
- *	割込み管理機能
- */
-
 #ifndef _INTERRUPT_H_
 #define _INTERRUPT_H_
 
 /*
- *  ISR（カテゴリ2）IDの特殊な値の定義
+ *  ISR ID INVALID MACRO
  */
-#define ISRID_NULL		((IsrType) UINT8_INVALID)	/* 無効ID */
+#define ISRID_NULL		((IsrType) UINT8_INVALID)	
 
 /*
- *  ISR（カテゴリ2）数を保持する変数の宣言（kernel_cfg.c）
+ *  ISR type 2 numbers configured, see os_cfg.c
  */
-extern const UINT8		tnum_isr2;			/* ISR（カテゴリ2）の数 */
+extern const UINT8		tnum_isr2;			
 
 /*
- *  ISR（カテゴリ2）初期化ブロック（kernel_cfg.c）
+ *  ISR initialize priority
  */
-extern const Priority	isrinib_intpri[];	/* 割込み優先度 */
+extern const Priority	isrinib_intpri[];	
 
 /*
- *  ISR（カテゴリ2）管理ブロック（kernel_cfg.c）
+ *  ISR reource acquired since last GetResource()
  */
-extern ResourceType		isrcb_lastres[];	/* 最後に獲得したリソース */
+extern ResourceType		isrcb_lastres[];	
 
 /*
- *  ISR（カテゴリ2）の最高優先レベル（kernel_cfg.c）
+ *  ISR maximum IPL allowed for ECU, see os_cfg.c
  */
 extern const IPL		ipl_maxisr2;
 
 /*
- *  実行中のISR（カテゴリ2）
+ *  help the os to remember the current running catalogue 2 ISR
  *
- *  ISR（カテゴリ2）を実行していない時は，ISRID_NULL にする．
+ *  if it is ISRID_NULL, then no ISR is running
  */
 extern IsrType		runisr;
 
 /*
- *  SuspendAllInterrupts のネスト回数
+ *  SuspendAllInterrupts nest count
  */
-extern UINT8		sus_all_cnt;	/* SuspendAllInterrupts のネスト回数 */
+extern UINT8		sus_all_cnt;	
 
 /*
- *  割込み管理機能の初期化
+ *  interrupt initialize
  */
 extern void	interrupt_initialize(void);
 

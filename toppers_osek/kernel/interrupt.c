@@ -68,49 +68,44 @@
 IsrType		runisr;
 
 /*
- *  割込み管理機能内部で使用する変数の定義
- */
-
-/*
- *  SuspendAllInterrupts のネスト回数
+ *  SuspendAllInterrupts nest count
  *
- *  この変数は，disable_int() した状態でのみ変更してよい．
+ *  disable_int() will be called when sus_all_cnt is ZERO
  */
 UINT8		sus_all_cnt;
 
 /*
- *  SuspendOSInterrupts のネスト回数
+ *  SuspendOSInterrupts nest
  *
- *  この変数は，set_ipl(ipl_maxisr2) した状態でのみ変更してよい．
- *  set_ipl(ipl_maxisr2) しても，カテゴリ1 の ISR は入ってくるが，元の
- *  値に戻してからリターンすれば問題はない．
+ *  will call set_ipl(ipl_maxisr2) to block all the ISR2 if sus_os_cnt
+ *  is ZERO. 
  */
 static UINT8	sus_os_cnt;
 
 /*
- *  SuspendOSInterrupts する前の割込み優先レベル
+ *  SuspendOSInterrupts call time ipl
  *
- *  この変数は，set_ipl(ipl_maxisr2) した状態でのみ変更してよい．また，
- *  この変数を使用している間は，sus_os_cnt を非ゼロにしておく．
- *  set_ipl(ipl_maxisr2) してもカテゴリ1 の ISR は入ってくるが，
- *  sus_os_cnt を非ゼロにしておくことで，カテゴリ1 の ISR でこの変数が
- *  変更されることはない．
+ *  when call set_ipl(ipl_maxisr2) to block all the OS ISR2 if
+ *  sus_os_cnt is ZERO, saved_ipl will used to store the current 
+ *  CPU IPL(interrupt processing level).
+ *  And then when ResumeOSInterrupts called and sus_os_cnt is One,
+ *  then CPU IPL will be restored by saved_ipl.
  */
 static IPL	saved_ipl;
 
 /*
- *  SuspendAllInterrupts/SuspendOSInterrupts する前の実行コンテキスト
+ *  SuspendAllInterrupts/SuspendOSInterrupts call level saved
  *
- *  この変数は，disable_int または set_ipl(ipl_maxisr2) した状態でのみ
- *  変更してよい．また，この変数を使用している間は，sus_all_cnt か 
- *  sus_os_cnt を非ゼロにしておく．set_ipl(ipl_maxisr2) してもカテゴリ1
- *  の ISR は入ってくるが，sus_os_cnt を非ゼロにしておくことで，カテゴ
- *  リ1 の ISR でこの変数が変更されることはない．
+ *  when disable_int or set_ipl(ipl_maxisr2), should save the current
+ *  OS calling level if sus_os_cnt is ZERO for disable_int or if
+ *  sus_all_cnt is ZERO for set_ipl(ipl_maxisr2).
+ *  when ResumeAllInterrupts/ResumeOSInterrupts is called and if
+ *  sus_all_cnt or sus_os_cnt is One, should restore OS calling level.
  */
 static UINT8	saved_callevel;
 
 /*
- *  割込み管理機能の初期化
+ *  interrupt initialize
  */
 void
 interrupt_initialize(void)
@@ -126,7 +121,7 @@ interrupt_initialize(void)
 }
 
 /*
- *  すべての割込みの禁止（高速簡易版）
+ *  Disable all interrupts
  */
 void
 DisableAllInterrupts(void)
@@ -137,7 +132,7 @@ DisableAllInterrupts(void)
 }
 
 /*
- *  すべての割込みの許可（高速簡易版）
+ *  Enable all interrupts
  */
 void
 EnableAllInterrupts(void)
@@ -148,7 +143,7 @@ EnableAllInterrupts(void)
 }
 
 /*
- *  すべての割込みの禁止
+ *  Suspend all interrupts
  */
 void
 SuspendAllInterrupts(void)
@@ -156,8 +151,8 @@ SuspendAllInterrupts(void)
 	LOG_SUSALL_ENTER();
 	if (sus_all_cnt == UINT8_INVALID) {
 		/*
-		 *  SuspendAllInterrupts を繰り返し呼んだ場合の対策
-		 *  （何もせずに抜ける）
+		 *  SuspendAllInterrupts has reached its max nest count
+		 *  So do nothing. May a ResumeAllInterrupts call has been forgot.
 		 */
 	}
 	else if (sus_all_cnt == 0) {
@@ -175,7 +170,7 @@ SuspendAllInterrupts(void)
 }
 
 /*
- *  すべての割込みの許可
+ *  Resume all interrupts
  */
 void
 ResumeAllInterrupts(void)
@@ -183,8 +178,8 @@ ResumeAllInterrupts(void)
 	LOG_RSMALL_ENTER();
 	if (sus_all_cnt == 0) {
 		/*
-		 *  SuspendAllInterrupts を呼ばずに，ResumeAllInterrupts
-		 *  を呼んだ場合の対策（何もせずに抜ける）
+		 *  SuspendAllInterrupts hasn't been called before ResumeAllInterrupts
+		 *  It's an error, so just do nothig.
 		 */
 	}
 	else if (sus_all_cnt == 1) {
@@ -201,7 +196,7 @@ ResumeAllInterrupts(void)
 }
 
 /*
- *  カテゴリ2の割込みの禁止
+ *  Suspend OS interrupts
  */
 void
 SuspendOSInterrupts(void)
@@ -211,15 +206,15 @@ SuspendOSInterrupts(void)
 	LOG_SUSOSI_ENTER();
 	if (sus_os_cnt == UINT8_INVALID) {
 		/*
-		 *  SuspendOSInterrupts を繰り返し呼んだ場合の対策
-		 *  （何もせずに抜ける）
+		 *  SuspendOSInterrupts has reached its max nest count
+		 *  do nothing.
 		 */
 	}
 	else if (sus_os_cnt == 0) {
 		ipl = current_ipl();
 
 		/*
-		 *  すでに ISR2 が禁止されている時は何もしない．
+		 *  to block all the OS ISR2s, should set the IPL to the max IPL of all the OS ISR2
 		 */
 		if (ipl < ipl_maxisr2) {
 			set_ipl(ipl_maxisr2);
@@ -238,7 +233,7 @@ SuspendOSInterrupts(void)
 }
 
 /*
- *  カテゴリ2の割込みの許可
+ *  Resume OS Interrupts
  */
 void
 ResumeOSInterrupts(void)
@@ -246,8 +241,8 @@ ResumeOSInterrupts(void)
 	LOG_RSMOSI_ENTER();
 	if (sus_os_cnt == 0) {
 		/*
-		 *  SuspendOSInterrupts を呼ばずに，ResumeOSInterrupts
-		 *  を呼んだ場合の対策（何もせずに抜ける）
+		 *  SuspendOSInterrupts hasn't been called before ResumeOSInterrupts
+		 *  do nothing as it is an error
 		 */
 	}
 	else if (sus_os_cnt == 1) {
@@ -257,7 +252,7 @@ ResumeOSInterrupts(void)
 		sus_os_cnt--;
 
 		/*
-		 *  もともと ISR2 が禁止されていた時は何もしない．
+		 *  to resume the OS ISR2 acknowledge, restore the IPL to the saved_ipl
 		 */
 		if (saved_ipl < ipl_maxisr2) {
 			set_ipl(saved_ipl);
