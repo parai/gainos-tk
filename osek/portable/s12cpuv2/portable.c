@@ -67,10 +67,9 @@ EXPORT void knl_setup_context( TCB *tcb )
 {
     SStackFrame     *ssp;
     UW pc;
-    ID tskid = tcb - knl_tcb_table;
-    ssp = knl_gtsk_table[tskid].isstack;
+    ssp = knl_gtsk_table[tcb->tskid].isstack;
     ssp--;
-    pc = (UW)knl_gtsk_table[tskid].task;
+    pc = (UW)knl_gtsk_table[tcb->tskid].task;
 
     /* CPU context initialization */
     ssp->ppage =(VB)pc;

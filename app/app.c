@@ -9,10 +9,14 @@
 IMPORT void knl_start_hw_timer(void);
 TASK(vTaskInit)
 {
-	(void)SetRelAlarm(ID_vAlarmReceiver,50,200);
-	(void)SetRelAlarm(ID_vAlarmSender,100,200);
-	(void)SetRelAlarm(ID_vAlarmMainFunction,150,200);
-	(void)knl_start_hw_timer(); // start counter 0
+//	(void)SetRelAlarm(ID_vAlarmReceiver,50,200);
+//	(void)SetRelAlarm(ID_vAlarmSender,100,200);
+//	(void)SetRelAlarm(ID_vAlarmMainFunction,150,200);
+//	(void)knl_start_hw_timer(); // start counter 0
+	
+	ActivateTask(ID_vTaskSender);
+	ActivateTask(ID_vTaskReceiver);
+	ActivateTask(ID_vTaskMainFunction);
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskInit is running.\r\n");
     (void)TerminateTask();
@@ -21,21 +25,33 @@ TASK(vTaskInit)
 TASK(vTaskSender)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    printf("vTaskSender is running.\r\n");
+    for(;;)
+    {
+        printf("vTaskSender is running.\r\n");
+        SleepTask(500);
+    }
     (void)TerminateTask();
 }
 
 TASK(vTaskReceiver)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    printf("vTaskReceiver is running.\r\n");
+    for(;;)
+    {
+        printf("vTaskReceiver is running.\r\n");
+        SleepTask(500);
+    }
     (void)TerminateTask();
 }
 
 TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    printf("vTaskMainFunction is running.\r\n");
+    for(;;)
+    {
+        printf("vTaskMainFunction is running.\r\n");
+        SleepTask(500);
+    }
     (void)TerminateTask();
 }
 

@@ -68,15 +68,14 @@ IMPORT	UINT	knl_taskmode;
 IMPORT void knl_task_init(void);
 IMPORT void knl_ready_queue_initialize( RDYQUE *rq );
 IMPORT TCB* knl_ready_queue_top( RDYQUE *rq );
-IMPORT BOOL knl_ready_queue_insert( RDYQUE *rq, TCB *tcb );
+IMPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb );
 IMPORT void knl_ready_queue_insert_top( RDYQUE *rq, TCB *tcb );
 IMPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb );
 IMPORT void knl_ready_queue_rotate( RDYQUE *rq, INT priority );
 IMPORT TCB* knl_ready_queue_move_last( RDYQUE *rq, TCB *tcb );
 IMPORT void knl_reschedule( void );
-IMPORT void knl_make_dormant( TCB *tcb );
-IMPORT void knl_make_ready( TCB *tcb );
-IMPORT void knl_make_non_ready( TCB *tcb );
-IMPORT void knl_change_task_priority( TCB *tcb, PRI priority );
+IMPORT void knl_make_active( TCB *tcb );
+IMPORT void knl_make_runnable( TCB *tcb );
+IMPORT void knl_search_schedtsk(void);
 
 #endif /* KNL_TASK_H_H */

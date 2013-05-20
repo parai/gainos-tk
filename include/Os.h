@@ -56,6 +56,7 @@
 #define E_OS_RESOURCE   (6u)
 #define E_OS_STATE      (7u)
 #define E_OS_VALUE      (8u)
+// tk_extend macros
 #define E_OS_TMOUT      (9u)
 #define E_OS_QOVR       (10u)
 

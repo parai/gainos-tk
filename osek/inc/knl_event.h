@@ -27,6 +27,4 @@
 
 IMPORT FLGCB knl_flgcb_table[];
 
-IMPORT void knl_entflg_init(void);
-
 #endif /* KNL_EVENT_H_H*/

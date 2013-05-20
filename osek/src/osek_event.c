@@ -25,15 +25,6 @@
 #include "portable.h"
 #if(cfgOSEK_EVENTFLAG_NUM > 0)
 EXPORT FLGCB knl_flgcb_table[cfgOSEK_EVENTFLAG_NUM];
-EXPORT void knl_entflg_init(void)
-{
-    ID i;
-    for(i=0;i<cfgOSEK_EVENTFLAG_NUM;i++)
-    {
-        knl_flgcb_table[i].flgptn=NO_EVENT;
-        knl_flgcb_table[i].waipth=NO_EVENT;
-    }
-}
 /* |------------------+----------------------------------------------------------| */
 /* | Syntax:          | StatusType SetEvent ( TaskType <TaskID>                  | */
 /* |                  | EventMaskType <Mask> )                                   | */
@@ -81,7 +72,7 @@ StatusType SetEvent ( TaskType TaskID , EventMaskType Mask )
     if((flgcb->flgptn & flgcb->waipth) != NO_EVENT)
     {
         flgcb->waipth = NO_EVENT;
-        knl_make_ready(tcb);
+        knl_make_runnable(tcb);
     }
     END_CRITICAL_SECTION;
        

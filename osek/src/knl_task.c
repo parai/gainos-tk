@@ -21,6 +21,7 @@
 #include "knl_task.h"
 #include "knl_timer.h"
 #include "knl_queue.h"
+#include "knl_event.h"
 #include "portable.h"
 
 EXPORT INT	knl_dispatch_disabled;
@@ -56,14 +57,23 @@ EXPORT void knl_reschedule( void )
 /*
  * Prepare task execution.
  */
-EXPORT void knl_make_dormant( TCB *tcb )
+EXPORT void knl_make_active( TCB *tcb )
 {
-    ID tskid = tcb - knl_tcb_table;
 	/* Initialize variables which should be reset at DORMANT state */
     // remove it for C166(USP and SSP)
 	//tcb->state	= TS_DORMANT;
-	tcb->priority = knl_gtsk_table[tskid].itskpri;
-
+	tcb->priority = knl_gtsk_table[tcb->tskid].itskpri;
+	#if(cfgOSEK_EVENTFLAG_NUM > 0)
+    {
+        ID flgid;
+        flgid = knl_gtsk_table[tcb->tskid].flgid;
+        if(flgid != INVALID_EVENT)
+        { 
+            knl_flgcb_table[flgid].flgptn=NO_EVENT;
+            knl_flgcb_table[flgid].waipth=NO_EVENT;
+        }
+    }
+    #endif
 //	tcb->klockwait	= FALSE;
 //	tcb->klocked	= FALSE;
 
@@ -71,35 +81,44 @@ EXPORT void knl_make_dormant( TCB *tcb )
 
 	/* Set context to start task */
 	knl_setup_context(tcb);
+	
+	knl_make_runnable(tcb);
 }
 
 /*
- * Set task to READY state.
+ * Set task to runnable state.
  *	Update the task state and insert in the ready queue. If necessary, 
  *	update 'knl_schedtsk' and request to start task dispatcher. 
  */
-EXPORT void knl_make_ready( TCB *tcb )
+EXPORT void knl_make_runnable( TCB *tcb )
 {
 	tcb->state = TS_READY;
-	if ( knl_ready_queue_insert(&knl_ready_queue, tcb) ) {
-		knl_schedtsk = tcb;
-		knl_dispatch_request();
+	if(NULL != knl_schedtsk)
+	{
+	    if(tcb->priority > knl_schedtsk->priority)
+	    {   /* tcb has lower priority */
+	        knl_ready_queue_insert(&knl_ready_queue, tcb);
+	        return;
+	    }
+	    else
+	    {   /* tcb has higher priority */
+	        knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);
+	    }
 	}
+	knl_schedtsk = tcb;
 }
+
 /*
- * Set task to non-executable state.
- *	Delete the task from the ready queue.
- *	If the deleted task is 'knl_schedtsk', set 'knl_schedtsk' to the
- *	highest priority task in the ready queue. 
- *	'tcb' task must be READY.
+ * search the next high ready schedtsk 
+ * and then detach it from the ready queue, as it is able to run
  */
-EXPORT void knl_make_non_ready( TCB *tcb )
+EXPORT void knl_search_schedtsk(void)
 {
-	knl_ready_queue_delete(&knl_ready_queue, tcb);
-	if ( knl_schedtsk == tcb ) {
-		knl_schedtsk = knl_ready_queue_top(&knl_ready_queue);
-		knl_dispatch_request();
-	}
+    knl_schedtsk = knl_ready_queue_top(&knl_ready_queue);
+    if(NULL != knl_schedtsk)
+    {
+        knl_ready_queue_delete(&knl_ready_queue, knl_schedtsk);
+    } 
 }
 
 /* Start all the tasks configured in autosatrt */
@@ -110,34 +129,16 @@ EXPORT void knl_task_init(void)
     knl_task_initialize();
     for(i=0,tcb=knl_tcb_table; i < cfgOSEK_TASK_NUM; i++,tcb++)
     {
+        tcb->tskid = i;
+        QueInit(&tcb->tskque);
         if((knl_gtsk_table[i].tskatr) & AUTOSTART)
         { 
-        	knl_make_dormant(tcb);
-            knl_make_ready(tcb);
+        	knl_make_active(tcb);
         }
         else
         {
-        	tcb->state = TS_SUSPEND;
+        	tcb->state = TS_DORMANT;
         }
     }
-}
-
-/*
- * Change task priority.
- */
-EXPORT void knl_change_task_priority( TCB *tcb, PRI priority )
-{
-//	if ( tcb->state == TS_READY ) {
-		/*
-		 * When deleting a task from the ready queue, 
-		 * a value in the 'priority' field in TCB is needed. 
-		 * Therefore you need to delete the task from the
-		 * ready queue before changing 'tcb->priority.'
-		 */
-		knl_ready_queue_delete(&knl_ready_queue, tcb);
-		tcb->priority = (UB)priority;
-		knl_ready_queue_insert(&knl_ready_queue, tcb);
-		knl_reschedule();
-//	}
 }
 

@@ -66,10 +66,9 @@ EXPORT TCB* knl_ready_queue_top( RDYQUE *rq )
  * Insert task in ready queue
  *	Insert it at the end of the same priority tasks with task priority 
  *	indicated with 'tcb'. Set the applicable bit in the bitmap area and 
- *	update 'top_priority' if necessary. When updating 'top_priority,' 
- *	return TRUE, otherwise FALSE.
+ *	update 'top_priority' if necessary. 
  */
-EXPORT BOOL knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
+EXPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 {
 	INT	priority = tcb->priority;
 
@@ -82,9 +81,7 @@ EXPORT BOOL knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 
 	if ( priority < rq->top_priority ) {
 		rq->top_priority = priority;
-		return TRUE;
 	}
-	return FALSE;
 }
 
 /*
@@ -93,8 +90,8 @@ EXPORT BOOL knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 EXPORT void knl_ready_queue_insert_top( RDYQUE *rq, TCB *tcb )
 {
 	INT	priority = tcb->priority;
-
-	QueInsert(&tcb->tskque, rq->tskque[priority].next);
+    QUEUE* topque = rq->tskque[priority].next; 
+	QueInsert(&tcb->tskque, topque);
 	knl_tstdlib_bitset(rq->bitmap, priority);
 
 //	if ( tcb->klocked ) {

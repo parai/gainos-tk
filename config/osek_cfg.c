@@ -14,7 +14,7 @@ GenTaskStack(vTaskSender,1024);
 GenTaskStack(vTaskReceiver,1024);
 GenTaskStack(vTaskMainFunction,1024);
 GenTaskStack(vTaskIdle,1024);
-EXPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM]=
+EXPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM] =
 {
 	GenTaskInfo(vTaskInit,5,1024,AUTOSTART,INVALID_EVENT),
 	GenTaskInfo(vTaskSender,6,1024,0,INVALID_EVENT),

@@ -62,12 +62,11 @@ StatusType ActivateTask ( TaskType TaskID )
 	tcb = &knl_tcb_table[TaskID];
 	BEGIN_CRITICAL_SECTION;
 	state = (TSTAT)tcb->state;
-	if ( state != TS_SUSPEND ) {
+	if ( state != TS_DORMANT ) {
 	    /* Now Task Max activations is 1*/
 		ercd = E_OS_LIMIT;
 	} else {
-		knl_make_dormant(tcb);
-		knl_make_ready(tcb);
+		knl_make_active(tcb);
 	}
 	END_CRITICAL_SECTION;
 	Error_Exit:
@@ -116,9 +115,10 @@ StatusType TerminateTask ( void )
 	CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	DISABLE_INTERRUPT;
 	
-	knl_make_non_ready(knl_ctxtsk);
-	knl_ctxtsk->state = TS_SUSPEND;
-
+	knl_ctxtsk->state = TS_DORMANT;
+	
+	knl_search_schedtsk();
+	
 	knl_force_dispatch();
 	/* No return */
 
@@ -187,10 +187,10 @@ StatusType ChainTask ( TaskType TaskID )
     CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
 	CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	DISABLE_INTERRUPT;
-	knl_make_non_ready(knl_ctxtsk);
-	knl_ctxtsk->state = TS_SUSPEND;
-	knl_make_dormant(tcb);
-	knl_make_ready(tcb);
+
+    knl_ctxtsk->state = TS_DORMANT;	
+	knl_search_schedtsk();
+	knl_make_active(tcb);
     knl_force_dispatch();
 
 	/* No return */

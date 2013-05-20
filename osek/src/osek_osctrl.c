@@ -48,7 +48,6 @@ void StartOS ( AppModeType xAppMode )
 {
     DISABLE_INTERRUPT;
     knl_cntalm_init();
-    knl_entflg_init();
     knl_resource_init();
 	knl_task_init();
 

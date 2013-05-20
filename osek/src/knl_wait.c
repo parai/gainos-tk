@@ -41,8 +41,9 @@ EXPORT void knl_make_wait( TickType tmout)
 {
 	switch ( knl_ctxtsk->state ) {
 	  case TS_READY:
-		knl_make_non_ready(knl_ctxtsk);
+		// knl_make_non_ready(knl_ctxtsk);
 		knl_ctxtsk->state = TS_WAIT;
+		knl_search_schedtsk();
 		break;
 	  case TS_SUSPEND:
 		knl_ctxtsk->state = TS_WAITSUS;
@@ -81,7 +82,7 @@ EXPORT void knl_wait_release_tmout( TCB *tcb )
 EXPORT void knl_make_non_wait( TCB *tcb )
 {
 	if ( tcb->state == TS_WAIT ) {
-		knl_make_ready(tcb);
+		knl_make_runnable(tcb);
 	} else {
 		tcb->state = TS_SUSPEND;
 	}

@@ -2,21 +2,21 @@
  *  TOPPERS/OSEK Kernel
  *      Toyohashi Open Platform for Embedded Real-Time Systems/
  *      OSEK Kernel
- * 
+ *
  *  Copyright (C) 2000-2003 by Embedded and Real-Time Systems Laboratory
  *                              Toyohashi Univ. of Technology, JAPAN
  *  Copyright (C) 2004 by Embedded and Real-Time Systems Laboratory
  *              Graduate School of Information Science, Nagoya Univ., JAPAN
  *  Copyright (C) 2004 by Witz Corporation, JAPAN
- * 
+ *
  *  Copyright (C) 2013 by Fan Wang(parai), China
- * 
+ *
  * The above copyright holders grant permission gratis to use,
  * duplicate, modify, or redistribute (hereafter called use) this
  * software (including the one made by modifying this software),
  * provided that the following four conditions (1) through (4) are
  * satisfied.
- * 
+ *
  * (1) When this software is used in the form of source code, the above
  *    copyright notice, this use conditions, and the disclaimer shown
  *    below must be retained in the source code without modification.
@@ -117,7 +117,7 @@ TerminateTask(void)
 	lock_cpu();
 	/*
 	 *  move runtsk to TS_DORMANT state
-	 *  and the find the next schedtsk
+	 *  and then find the next schedtsk
 	 */
 	tcb_tstat[runtsk] = TS_DORMANT;
 	search_schedtsk();

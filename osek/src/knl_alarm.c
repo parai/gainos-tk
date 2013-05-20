@@ -38,7 +38,8 @@ EXPORT void knl_cntalm_init(void)
     for(i=0;i<cfgOSEK_ALARM_NUM;i++)
     {
         almcb = &knl_almcb_table[i];
-        QueInit(&almcb->almque); 
+        QueInit(&almcb->almque);
+        almcb->almid = i; 
     }
 }
 

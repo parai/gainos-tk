@@ -103,7 +103,7 @@ StatusType GetResource (ResourceType ResID)
         }
         else
         {
-            knl_change_task_priority(knl_ctxtsk,newpri); 
+            knl_ctxtsk->priority = newpri; 
             rescb->tskpri = oldpri;
             QueInsert(&knl_ctxtsk->resque,&rescb->resque);  
         }
@@ -169,7 +169,7 @@ StatusType ReleaseResource ( ResourceType ResID )
         }
         else
         {
-            knl_change_task_priority(knl_ctxtsk,newpri); 
+            knl_ctxtsk->priority = newpri; 
             QueRemove(&rescb->resque);
             QueInit(&rescb->resque);      
         }

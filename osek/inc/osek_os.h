@@ -120,17 +120,19 @@ typedef struct timer_event_block {
  * Task gerneration information
  */
 typedef struct t_gtsk {
-	ATR	tskatr;		/* Task attribute */
-	FP	task;		/* Task startup address */
-	PRI	itskpri;	/* Priority at task startup */
+	ATR 	tskatr;		/* Task attribute */
+	FP      task;		/* Task startup address */
+	PRI	    itskpri;	/* Priority at task startup */
 	UINT	stksz;		/* User stack size (byte) */
-	VP	isstack;	/* User stack top pointer */
-    ID  flgid;      /* Event Id occupied by task */
+	VP	    isstack;	/* User stack top pointer */
+    ID      flgid;      /* Event Id occupied by task */
 } T_GTSK;
 
 typedef struct task_control_block{
     QUEUE	    tskque;		/* Task queue */
     CTXB     	tskctxb;	/* Task context block */
+    TaskType    tskid;      /* Task ID */
+    UINT        actcnt;     /* Task Activate Count */
 	PRI	        priority;	/* Current priority */
 //	BOOL	    klockwait:1;	/* TRUE at wait kernel lock */
 //	BOOL     	klocked:1;	    /* TRUE at hold kernel lock */	
@@ -161,7 +163,7 @@ typedef struct task_control_block{
  *	Multiple READY tasks with kernel lock do not exist at the same time.
  */
 typedef	struct ready_queue {
-	INT	top_priority;		/* Highest priority in ready queue */
+	PRI	top_priority;		/* Highest priority in ready queue */
 	QUEUE	tskque[NUM_PRI];	/* Task queue per priority */
 	TCB	*   null;			/* When the ready queue is empty, */
 	UINT	bitmap[NUM_BITMAP];	/* Bitmap area per priority */
@@ -171,8 +173,8 @@ typedef	struct ready_queue {
 /* ============================ TYPEs FOR ALARM   =============================== */
 typedef struct counter_control_block
 {
-    QUEUE  almque;
-    TickType  curvalue; /* current value of the Counter */
+    QUEUE       almque;
+    TickType    curvalue; /* current value of the Counter */
 }CCB;
 
 typedef struct alarm_generate_info
@@ -185,6 +187,7 @@ typedef struct alarm_generate_info
 typedef struct AlmCtrlBlk
 {
     QUEUE           almque;
+    AlarmType       almid;
     TickType        time; /* The Time It will expire */
     TickType        cycle;
 }ALMCB;
