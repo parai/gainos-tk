@@ -95,17 +95,18 @@ EXPORT void knl_make_runnable( TCB *tcb )
 	tcb->state = TS_READY;
 	if(NULL != knl_schedtsk)
 	{
-	    if(tcb->priority > knl_schedtsk->priority)
-	    {   /* tcb has lower priority */
-	        knl_ready_queue_insert(&knl_ready_queue, tcb);
-	        return;
+	    if(tcb->priority < knl_schedtsk->priority)
+	    {   /* tcb has higher priority */
+	        knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);       
 	    }
 	    else
-	    {   /* tcb has higher priority */
-	        knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);
+	    {   /* tcb has lower priority */
+	        knl_ready_queue_insert(&knl_ready_queue, tcb);
+	        return;  
 	    }
 	}
 	knl_schedtsk = tcb;
+	knl_dispatch_request();
 }
 
 /*

@@ -71,8 +71,6 @@ IMPORT TCB* knl_ready_queue_top( RDYQUE *rq );
 IMPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb );
 IMPORT void knl_ready_queue_insert_top( RDYQUE *rq, TCB *tcb );
 IMPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb );
-IMPORT void knl_ready_queue_rotate( RDYQUE *rq, INT priority );
-IMPORT TCB* knl_ready_queue_move_last( RDYQUE *rq, TCB *tcb );
 IMPORT void knl_reschedule( void );
 IMPORT void knl_make_active( TCB *tcb );
 IMPORT void knl_make_runnable( TCB *tcb );

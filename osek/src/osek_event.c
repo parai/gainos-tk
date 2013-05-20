@@ -60,11 +60,11 @@ StatusType SetEvent ( TaskType TaskID , EventMaskType Mask )
     ID flgid;
     FLGCB *flgcb;
     TCB *tcb;
-    CHECK_COMMON_EXT((TaskID < cfgOSEK_TASK_NUM),E_OS_ID);
+    OS_CHECK_EXT((TaskID < cfgOSEK_TASK_NUM),E_OS_ID);
     flgid = knl_gtsk_table[TaskID].flgid;
-    CHECK_COMMON_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
+    OS_CHECK_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
     tcb = &knl_tcb_table[TaskID];
-    CHECK_COMMON_EXT(((tcb->state & (TS_READY | TS_WAIT)) != 0),E_OS_STATE);
+    OS_CHECK_EXT(((tcb->state & (TS_READY | TS_WAIT)) != 0),E_OS_STATE);
     
     flgcb = &knl_flgcb_table[flgid];
     BEGIN_CRITICAL_SECTION;
@@ -104,10 +104,10 @@ StatusType ClearEvent ( EventMaskType Mask )
 	StatusType ercd = E_OK;
     ID flgid;
     FLGCB *flgcb;
-    CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
+    OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL);
     flgid = knl_ctxtsk - knl_tcb_table;
     flgid = knl_gtsk_table[flgid].flgid;
-    CHECK_COMMON_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
+    OS_CHECK_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
     
     flgcb = &knl_flgcb_table[flgid];
     BEGIN_DISABLE_INTERRUPT;
@@ -151,11 +151,11 @@ StatusType GetEvent ( TaskType TaskID , EventMaskRefType Event )
     ID flgid;
     FLGCB *flgcb;
     TCB* tcb;
-    CHECK_COMMON_EXT((TaskID < cfgOSEK_TASK_NUM),E_OS_ID);
+    OS_CHECK_EXT((TaskID < cfgOSEK_TASK_NUM),E_OS_ID);
     flgid = knl_gtsk_table[TaskID].flgid;
-    CHECK_COMMON_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
+    OS_CHECK_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
     tcb = &knl_tcb_table[TaskID];
-    CHECK_COMMON_EXT(((tcb->state & (TS_READY | TS_WAIT)) != 0),E_OS_STATE);
+    OS_CHECK_EXT(((tcb->state & (TS_READY | TS_WAIT)) != 0),E_OS_STATE);
     
     flgcb = &knl_flgcb_table[flgid];
     BEGIN_DISABLE_INTERRUPT;
@@ -197,19 +197,19 @@ StatusType WaitEvent( EventMaskType Mask )
 	StatusType ercd = E_OK;
     ID flgid;
     FLGCB *flgcb;
-    CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
-    CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
+    OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL);
+    OS_CHECK_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
     flgid = knl_ctxtsk - knl_tcb_table;
     flgid = knl_gtsk_table[flgid].flgid;
-    CHECK_COMMON_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
+    OS_CHECK_EXT((flgid != INVALID_EVENT),E_OS_ACCESS);
     
     flgcb = &knl_flgcb_table[flgid];
     BEGIN_CRITICAL_SECTION;
     if((flgcb->flgptn & Mask) == NO_EVENT)
     {
         flgcb->waipth = Mask;
-        knl_make_non_ready(knl_ctxtsk);
         knl_ctxtsk->state = TS_WAIT;
+        knl_search_schedtsk();
     }
     END_CRITICAL_SECTION;
        

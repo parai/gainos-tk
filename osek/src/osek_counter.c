@@ -55,7 +55,7 @@ EXPORT CCB knl_ccb_table[cfgOSEK_COUNTER_NUM];
 StatusType GetCounterValue(CounterType CounterID,TickRefType Value)
 {
     StatusType ercd = E_OK;
-    CHECK_COMMON_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
+    OS_CHECK_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
     *Value = knl_ccb_table[CounterID].curvalue;
     Error_Exit:
     return ercd;
@@ -96,7 +96,7 @@ StatusType GetElapsedCounterValue(CounterType CounterID,
                                   TickRefType Value,TickRefType ElapsedValue)
 {
     StatusType ercd = E_OK;
-    CHECK_COMMON_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
+    OS_CHECK_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
     *ElapsedValue = knl_ccb_table[CounterID].curvalue -*Value;
     Error_Exit:
     return E_OK;
@@ -138,7 +138,7 @@ StatusType IncrementCounter(CounterType CounterID)
     StatusType ercd = E_OK;
     TickType max,curvalue;
     CCB* ccb;
-    CHECK_COMMON_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
+    OS_CHECK_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
 	BEGIN_DISABLE_INTERRUPT;
     ccb = &knl_ccb_table[CounterID];
     max = knl_almbase_table[CounterID].MaxAllowedValue;

@@ -114,7 +114,7 @@
 /*
  * Request for task dispatcher startup
  *	Do nothing at this point because there is no delayed
- *	interrupt function in ARM.
+ *	interrupt function.
  *	Perform dispatcher startup with END_CRITICAL_SECTION.
  */
 #define knl_dispatch_request()	/* */

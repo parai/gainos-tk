@@ -140,29 +140,3 @@ EXPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb )
 		rq->top_priority = NUM_PRI;
 	}
 }
-/*
- * Move the task, whose ready queue priority is 'priority', at head of
- * queue to the end of queue. Do nothing, if the queue is empty.
- */
-EXPORT void knl_ready_queue_rotate( RDYQUE *rq, INT priority )
-{
-	QUEUE	*tskque = &rq->tskque[priority];
-	TCB	*tcb;
-
-	tcb = (TCB*)QueRemoveNext(tskque);
-	if ( tcb != NULL ) {
-		QueInsert((QUEUE*)tcb, tskque);
-	}
-}
-/*
- * Put 'tcb' to the end of ready queue. 
- */
-EXPORT TCB* knl_ready_queue_move_last( RDYQUE *rq, TCB *tcb )
-{
-	QUEUE	*tskque = &rq->tskque[tcb->priority];
-
-	QueRemove(&tcb->tskque);
-	QueInsert(&tcb->tskque, tskque);
-
-	return (TCB*)tskque->next;	/* New task at head of queue */
-}

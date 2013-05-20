@@ -56,6 +56,8 @@ void StartOS ( AppModeType xAppMode )
 #endif
 #if(cfgOS_TK_EXTEND == STD_ON)
     knl_timer_init();
+#else
+    knl_start_hw_timer();     
 #endif
     /* OS424: The first call to StartOS() (for starting the Operating System) shall not
        return. */    

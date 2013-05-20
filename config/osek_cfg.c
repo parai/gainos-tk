@@ -16,11 +16,11 @@ GenTaskStack(vTaskMainFunction,1024);
 GenTaskStack(vTaskIdle,1024);
 EXPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM] =
 {
-	GenTaskInfo(vTaskInit,5,1024,AUTOSTART,INVALID_EVENT),
-	GenTaskInfo(vTaskSender,6,1024,0,INVALID_EVENT),
-	GenTaskInfo(vTaskReceiver,6,1024,0,ID_vTaskReceiverEvent),
-	GenTaskInfo(vTaskMainFunction,4,1024,0,INVALID_EVENT),
-	GenTaskInfo(vTaskIdle,10,1024,AUTOSTART,INVALID_EVENT),
+	GenTaskInfo(vTaskInit,5,1024,AUTOSTART,INVALID_EVENT,0),
+	GenTaskInfo(vTaskSender,7,1024,0,INVALID_EVENT,3),
+	GenTaskInfo(vTaskReceiver,6,1024,0,ID_vTaskReceiverEvent,3),
+	GenTaskInfo(vTaskMainFunction,4,1024,0,INVALID_EVENT,3),
+	GenTaskInfo(vTaskIdle,10,1024,AUTOSTART,INVALID_EVENT,0),
 };
 
 EXPORT const AlarmBaseType knl_almbase_table[cfgOSEK_COUNTER_NUM]=
@@ -37,6 +37,6 @@ EXPORT const T_GALM knl_galm_table[cfgOSEK_ALARM_NUM]=
 
 EXPORT const PRI knl_gres_table[cfgOSEK_RESOURCE_NUM]=
 {
-	/* ceilpri */ 1,  /* RES_SCHEDULER */
+	/* ceilpri */ 0,  /* RES_SCHEDULER */
 };
 

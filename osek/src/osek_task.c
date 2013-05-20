@@ -57,16 +57,21 @@ StatusType ActivateTask ( TaskType TaskID )
 	StatusType ercd = E_OK;
 	TCB *tcb;
 	TSTAT	state;
-	CHECK_TASKID_EXT(TaskID);
-	CHECK_NONSELF_EXT(TaskID);
+	OS_CHECK((TaskID<cfgOSEK_TASK_NUM),E_OS_ID);
 	tcb = &knl_tcb_table[TaskID];
 	BEGIN_CRITICAL_SECTION;
 	state = (TSTAT)tcb->state;
-	if ( state != TS_DORMANT ) {
-	    /* Now Task Max activations is 1*/
-		ercd = E_OS_LIMIT;
+	if (TS_DORMANT == state) {
+        knl_make_active(tcb);  
 	} else {
-		knl_make_active(tcb);
+	    if(tcb->actcnt < knl_gtsk_table[TaskID].maxact)
+	    {
+	        tcb->actcnt += 1;
+	    }
+	    else
+	    {
+	    	ercd = E_OS_LIMIT;
+		}
 	}
 	END_CRITICAL_SECTION;
 	Error_Exit:
@@ -111,13 +116,17 @@ StatusType ActivateTask ( TaskType TaskID )
 StatusType TerminateTask ( void )
 {
 	StatusType ercd = E_NOT_OK;
-	CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
-	CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
+	OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL);
+	OS_CHECK_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	DISABLE_INTERRUPT;
 	
 	knl_ctxtsk->state = TS_DORMANT;
-	
 	knl_search_schedtsk();
+	if(knl_ctxtsk->actcnt > 0)
+	{
+	    knl_ctxtsk->actcnt -= 1;
+	    knl_make_active(knl_ctxtsk);
+	}
 	
 	knl_force_dispatch();
 	/* No return */
@@ -182,10 +191,10 @@ StatusType ChainTask ( TaskType TaskID )
 
 	tcb = &knl_tcb_table[TaskID];
 	state = (TSTAT)tcb->state;
-	CHECK_TASKID_EXT(TaskID);
-	CHECK_COMMON_EXT((state == TS_DORMANT),E_OS_LIMIT);
-    CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
-	CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
+	OS_CHECK((TaskID<cfgOSEK_TASK_NUM),E_OS_ID);
+	OS_CHECK_EXT((state == TS_DORMANT),E_OS_LIMIT);
+    OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL);
+	OS_CHECK_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	DISABLE_INTERRUPT;
 
     knl_ctxtsk->state = TS_DORMANT;	
@@ -232,8 +241,8 @@ StatusType ChainTask ( TaskType TaskID )
 StatusType Schedule ( void )
 {
     StatusType ercd = E_NOT_OK;
-	CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
-	CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
+	OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL);
+	OS_CHECK_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	BEGIN_CRITICAL_SECTION;
     knl_reschedule();
 	END_CRITICAL_SECTION;
@@ -306,7 +315,7 @@ StatusType GetTaskState ( TaskType TaskID,TaskStateRefType State )
 	StatusType ercd = E_OK;
 	TCB* tcb;
 	TSTAT state;
-	CHECK_TASKID_EXT(TaskID);
+	OS_CHECK((TaskID<cfgOSEK_TASK_NUM),E_OS_ID);
 	tcb = &knl_tcb_table[TaskID];
 	state = (TSTAT)tcb->state;
 	if(TS_READY== state)
@@ -336,8 +345,8 @@ Error_Exit:
 StatusType SleepTask ( TickType Timeout )
 {
     StatusType ercd = E_OK;
-    CHECK_COMMON_EXT(!in_indp(),E_OS_CALLEVEL);
-	CHECK_COMMON_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
+    OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL);
+	OS_CHECK_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	
 	BEGIN_CRITICAL_SECTION;
 
@@ -364,8 +373,8 @@ StatusType WakeUpTask ( TaskType TaskID )
     StatusType ercd = E_OK;
     TCB	*tcb;
 	TSTAT	state;
-    CHECK_TASKID_EXT(TaskID);
-    CHECK_NONSELF_EXT(TaskID);
+    OS_CHECK((TaskID<cfgOSEK_TASK_NUM),E_OS_ID);
+    OS_CHECK((TaskID != knl_ctxtsk->tskid),E_OS_ID);
     
     tcb = &knl_tcb_table[TaskID];
 	BEGIN_CRITICAL_SECTION;

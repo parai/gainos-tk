@@ -47,7 +47,7 @@ StatusType GetAlarmBase ( AlarmType AlarmID, AlarmBaseRefType Info )
 {
 	StatusType ercd = E_OK;
     CounterType cntid;
-    CHECK_COMMON_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
+    OS_CHECK_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
     cntid = knl_galm_table[AlarmID].owner;
     Info->MaxAllowedValue = knl_almbase_table[cntid].MaxAllowedValue;
     Info->MinCycle = knl_almbase_table[cntid].MinCycle;
@@ -86,9 +86,9 @@ StatusType GetAlarm ( AlarmType AlarmID ,TickRefType Tick )
     CCB *ccb;
     CounterType cntid;
     TickType max;
-    CHECK_COMMON_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
+    OS_CHECK_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
     almcb = &knl_almcb_table[AlarmID];
-    CHECK_COMMON_STD((!isQueEmpty(&almcb->almque)),E_OS_NOFUNC);
+    OS_CHECK((!isQueEmpty(&almcb->almque)),E_OS_NOFUNC);
     cntid = knl_galm_table[AlarmID].owner;
     ccb = &knl_ccb_table[cntid];
     max = knl_almbase_table[cntid].MaxAllowedValue;
@@ -154,14 +154,14 @@ StatusType SetRelAlarm ( AlarmType AlarmID , TickType Increment ,TickType Cycle 
     CCB *ccb;
     CounterType cntid;
     TickType max;
-    CHECK_COMMON_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
+    OS_CHECK_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
     almcb = &knl_almcb_table[AlarmID];
-    CHECK_COMMON_STD((isQueEmpty(&almcb->almque)),E_OS_STATE);
+    OS_CHECK((isQueEmpty(&almcb->almque)),E_OS_STATE);
     cntid = knl_galm_table[AlarmID].owner;
     max = knl_almbase_table[cntid].MaxAllowedValue;
-    CHECK_COMMON_EXT((max > Increment),E_OS_VALUE);
-    CHECK_COMMON_EXT((max > Cycle),E_OS_VALUE);
-    CHECK_COMMON_EXT(((knl_almbase_table[cntid].MinCycle < Cycle) || (0 == Cycle)),E_OS_VALUE);
+    OS_CHECK_EXT((max > Increment),E_OS_VALUE);
+    OS_CHECK_EXT((max > Cycle),E_OS_VALUE);
+    OS_CHECK_EXT(((knl_almbase_table[cntid].MinCycle < Cycle) || (0 == Cycle)),E_OS_VALUE);
     ccb = &knl_ccb_table[cntid];
     
     BEGIN_DISABLE_INTERRUPT;
@@ -228,14 +228,14 @@ StatusType SetAbsAlarm ( AlarmType AlarmID , TickType Start ,TickType Cycle )
     CCB *ccb;
     CounterType cntid;
     TickType max;
-    CHECK_COMMON_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
+    OS_CHECK_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
     almcb = &knl_almcb_table[AlarmID];
-    CHECK_COMMON_STD((isQueEmpty(&almcb->almque)),E_OS_STATE);
+    OS_CHECK((isQueEmpty(&almcb->almque)),E_OS_STATE);
     cntid = knl_galm_table[AlarmID].owner;
     max = knl_almbase_table[cntid].MaxAllowedValue;
-    CHECK_COMMON_EXT((max > Start),E_OS_VALUE);
-    CHECK_COMMON_EXT((max > Cycle),E_OS_VALUE);
-    CHECK_COMMON_EXT(((knl_almbase_table[cntid].MinCycle < Cycle) || (0 == Cycle)),E_OS_VALUE);
+    OS_CHECK_EXT((max > Start),E_OS_VALUE);
+    OS_CHECK_EXT((max > Cycle),E_OS_VALUE);
+    OS_CHECK_EXT(((knl_almbase_table[cntid].MinCycle < Cycle) || (0 == Cycle)),E_OS_VALUE);
     ccb = &knl_ccb_table[cntid];
     
     BEGIN_DISABLE_INTERRUPT;
@@ -269,9 +269,9 @@ StatusType CancelAlarm ( AlarmType AlarmID )
 {
     StatusType ercd = E_OK;
     ALMCB* almcb;
-    CHECK_COMMON_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
+    OS_CHECK_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
     almcb = &knl_almcb_table[AlarmID];
-    CHECK_COMMON_STD((!isQueEmpty(&almcb->almque)),E_OS_NOFUNC);
+    OS_CHECK((!isQueEmpty(&almcb->almque)),E_OS_NOFUNC);
 
     BEGIN_DISABLE_INTERRUPT;
     QueRemove(&almcb->almque);

@@ -82,9 +82,9 @@ StatusType GetResource (ResourceType ResID)
 	StatusType ercd = E_OK;
 	RESCB *rescb;
 	PRI newpri,oldpri;
-	CHECK_COMMON_EXT((ResID < cfgOSEK_RESOURCE_NUM),E_OS_ID);
+	OS_CHECK_EXT((ResID < cfgOSEK_RESOURCE_NUM),E_OS_ID);
 	rescb = &knl_rescb_table[ResID];
-    CHECK_COMMON_EXT((isQueEmpty(&rescb->resque)),E_OS_ACCESS);	
+    OS_CHECK_EXT((isQueEmpty(&rescb->resque)),E_OS_ACCESS);	
     if(in_indp())  /* Interrupt level */
     {
         /* not supported */
@@ -93,7 +93,7 @@ StatusType GetResource (ResourceType ResID)
     {
         oldpri = knl_ctxtsk->priority;
         newpri = knl_gres_table[ResID];
-        CHECK_COMMON_EXT((newpri < oldpri),E_OS_ACCESS);
+        OS_CHECK_EXT((newpri < oldpri),E_OS_ACCESS);
         BEGIN_DISABLE_INTERRUPT;
         if(newpri < 0)
         {
@@ -145,7 +145,7 @@ StatusType ReleaseResource ( ResourceType ResID )
 	StatusType ercd = E_OK;
 	RESCB *rescb;
 	PRI newpri,oldpri;
-	CHECK_COMMON_EXT((ResID < cfgOSEK_RESOURCE_NUM),E_OS_ID);
+	OS_CHECK_EXT((ResID < cfgOSEK_RESOURCE_NUM),E_OS_ID);
 	rescb = &knl_rescb_table[ResID];
     	
     if(in_indp())  /* Interrupt level */
@@ -154,11 +154,11 @@ StatusType ReleaseResource ( ResourceType ResID )
     }
     else
     {
-        CHECK_COMMON_EXT((knl_ctxtsk->resque.next == &rescb->resque),E_OS_NOFUNC);
+        OS_CHECK_EXT((knl_ctxtsk->resque.next == &rescb->resque),E_OS_NOFUNC);
         oldpri = knl_gres_table[ResID];
         newpri = rescb->tskpri;
          
-        CHECK_COMMON_EXT((newpri > oldpri),E_OS_ACCESS);
+        OS_CHECK_EXT((newpri > oldpri),E_OS_ACCESS);
         
         BEGIN_CRITICAL_SECTION;
         if(oldpri < 0)

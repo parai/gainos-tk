@@ -6,52 +6,43 @@
 #include <stdio.h>
 #include "Os.h"
 
-IMPORT void knl_start_hw_timer(void);
 TASK(vTaskInit)
 {
-//	(void)SetRelAlarm(ID_vAlarmReceiver,50,200);
-//	(void)SetRelAlarm(ID_vAlarmSender,100,200);
-//	(void)SetRelAlarm(ID_vAlarmMainFunction,150,200);
-//	(void)knl_start_hw_timer(); // start counter 0
+	(void)SetRelAlarm(ID_vAlarmReceiver,50,200);
+	(void)SetRelAlarm(ID_vAlarmSender,100,200);
+	(void)SetRelAlarm(ID_vAlarmMainFunction,150,200);
 	
-	ActivateTask(ID_vTaskSender);
-	ActivateTask(ID_vTaskReceiver);
-	ActivateTask(ID_vTaskMainFunction);
+	//(void)ActivateTask(ID_vTaskSender);
+	//(void)ActivateTask(ID_vTaskReceiver);
+	//(void)ActivateTask(ID_vTaskMainFunction);
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    printf("vTaskInit is running.\r\n");
+    (void)printf("vTaskInit is running.\r\n");
     (void)TerminateTask();
 }
 
 TASK(vTaskSender)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    for(;;)
-    {
-        printf("vTaskSender is running.\r\n");
-        SleepTask(500);
-    }
+    (void)printf("vTaskSender is running.\r\n");
+    (void)GetResource(RES_SCHEDULER);
+    (void)SetEvent(ID_vTaskReceiver,0x01);
+    (void)ReleaseResource(RES_SCHEDULER);
     (void)TerminateTask();
 }
 
 TASK(vTaskReceiver)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    for(;;)
-    {
-        printf("vTaskReceiver is running.\r\n");
-        SleepTask(500);
-    }
+    (void)printf("vTaskReceiver is running.\r\n");
+    (void)WaitEvent(0x01);
+    (void)ClearEvent(0x01);
     (void)TerminateTask();
 }
 
 TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    for(;;)
-    {
-        printf("vTaskMainFunction is running.\r\n");
-        SleepTask(500);
-    }
+    (void)printf("vTaskMainFunction is running.\r\n");
     (void)TerminateTask();
 }
 

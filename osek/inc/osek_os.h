@@ -47,14 +47,15 @@
 #define DeclareTask(TaskName)  TaskType TaskName
 #define GenTaskStack(TaskName,stksz)  static uint32 TaskStack##TaskName[stksz/4]
 /* Task Generate information */
-#define GenTaskInfo(TaskName,Priority,stksz,Attribute,flgid)             \
+#define GenTaskInfo(TaskName,Priority,stksz,Attribute,flgid,maxact)             \
     {                                                           \
         /* tskatr */   Attribute,                               \
         /* task */     TaskMain##TaskName,                      \
         /* itskpri */Priority,                                \
         /* sstksz */   stksz,             \
         /* isstack */  &TaskStack##TaskName[stksz/4-1],               \
-        /* flgid   */  flgid                    \
+        /* flgid */  flgid,                    \
+        /* maxact */  maxact        \
     }                                                     
                                   
 #define GenAlarmInfo(AlarmName,Owner)   \
@@ -126,6 +127,7 @@ typedef struct t_gtsk {
 	UINT	stksz;		/* User stack size (byte) */
 	VP	    isstack;	/* User stack top pointer */
     ID      flgid;      /* Event Id occupied by task */
+    UINT    maxact;     /* Task maxium activate count */
 } T_GTSK;
 
 typedef struct task_control_block{

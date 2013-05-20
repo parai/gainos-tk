@@ -23,7 +23,7 @@
 
 
 /* ============================ MACROs   ========================================== */
-#define CHECK_COMMON_STD(_con,_ercd)    {   \
+#define OS_CHECK(_con,_ercd)    {   \
     if(!(_con))                             \
     {                                       \
         ercd = _ercd;                       \
@@ -31,23 +31,7 @@
     }                                       \
 }
 #if(cfgOS_STATUS_LEVEL == OS_STATUS_EXTEND)
-#define CHECK_TASKID_EXT(_tskid)         \
-{                                   \
-    if(_tskid >= cfgOSEK_TASK_NUM)   \
-    {                               \
-        ercd = E_OS_ID;             \
-        goto Error_Exit;            \
-    }                               \
-}    
-
-#define CHECK_NONSELF_EXT(_tskid) {				            	\
-	if (!in_indp() && (_tskid) == (knl_ctxtsk-knl_tcb_table)) {		\
-		ercd = E_OS_ID;                                     \
-        goto Error_Exit;                                    \
-	}						                              	\
-}
-
-#define CHECK_COMMON_EXT(_con,_ercd)    {   \
+#define OS_CHECK_EXT(_con,_ercd)    {   \
     if(!(_con))                             \
     {                                       \
         ercd = _ercd;                       \
@@ -55,9 +39,7 @@
     }                                       \
 }
 #else /* OS_STATUS_STANDARD*/
-#define CHECK_TASKID_EXT(_tskid)
-#define CHECK_NONSELF_EXT(_tskid)
-#define CHECK_COMMON_EXT(_con,_ercd)
+#define OS_CHECK_EXT(_con,_ercd)
 #endif /* OS_STATUS_EXTEND */ 
 
 
