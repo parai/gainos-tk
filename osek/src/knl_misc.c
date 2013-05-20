@@ -90,8 +90,7 @@ EXPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 EXPORT void knl_ready_queue_insert_top( RDYQUE *rq, TCB *tcb )
 {
 	INT	priority = tcb->priority;
-    QUEUE* topque = rq->tskque[priority].next; 
-	QueInsert(&tcb->tskque, topque);
+	QueInsert(&tcb->tskque, rq->tskque[priority].next);
 	knl_tstdlib_bitset(rq->bitmap, priority);
 
 //	if ( tcb->klocked ) {

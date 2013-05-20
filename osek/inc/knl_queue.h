@@ -26,7 +26,7 @@
 
 /* ============================ MACROs    ========================================== */
 /*
- * Queue initialization 
+ * Queue initialization
  */
 #define QueInit(__que)                              \
 do                                                  \
@@ -36,27 +36,26 @@ do                                                  \
 }while(0);
 
 /*
- * TRUE if the queue is empty 
+ * TRUE if the queue is empty
  */
 #define isQueEmpty(__que)   ((boolean)(( (__que)->next == (__que) )))
 
 /*
- * Insert in queue 
- *	Inserts entry directly prior to que 
+ * Insert in queue
+ *	Inserts entry directly prior to que
  */
-#define QueInsert(__entry,__que)                                        \
-do                                                                      \
-{                                                                       \
-	(__entry)->prev = (struct queue*) (__que)->prev;                    \
-	(__entry)->next = (__que);                                          \
-	(__que)->prev->next = (__entry);                                    \
-	(__que)->prev = (__entry);                                          \
-}while(0)
+Inline void QueInsert(QUEUE* entry,QUEUE* que) 
+{
+	entry->prev = (struct queue*) que->prev;
+	entry->next = que;
+	que->prev->next = entry;
+	que->prev = entry; 
+}
 
 /*
- * Delete from queue 
- *	Deletes entry from queue 
- *	No action is performed if entry is empty. 
+ * Delete from queue
+ *	Deletes entry from queue
+ *	No action is performed if entry is empty.
  */
 #define QueRemove(__entry)                                          \
 do                                                                  \
@@ -69,7 +68,7 @@ do                                                                  \
 
 /* ============================ FUNCTIONs    ========================================== */
 /*
- * Remove top entry 
+ * Remove top entry
  *	Deletes the entry directly after que from the queue,
  *	and returns the deleted entry.
  *	Returns NULL if que is empty.
