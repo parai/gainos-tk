@@ -42,6 +42,41 @@ disint:
     ldr     r1, =TS_PMK_D
     msr     primask, r1
     bx      lr
+    
+    SECTION .text:CODE
+    THUMB
+    PUBLIC  knl_activate_r
+    EXTERN  knl_gtsk_table
+knl_activate_r: 
+    mov r3, #TS_PSR_T    //xPSR
+    ldr r2, =l_start_task
+    push {r2,r3}
+    subs  SP,SP,#24
+    bx lr
+l_start_task:
+    ldr r0, =knl_gtsk_table
+    ldr r1, =knl_ctxtsk
+    ldr r1,[r1]
+    ldr r1,[r1,#16]     //r1 = tskid 
+    mov r2,#28          // sizeof(T_GTSK)
+    mul r2,r1,r2
+    add r2,r0,r2       
+    ldr r2, [r2,#4]      // PC
+    cpsie   i    /* Interrupt enable */
+    bx  r2
+    
+
+    SECTION .text:CODE
+    THUMB
+    PUBLIC  knl_dispatch_r
+knl_dispatch_r:
+     /* start to restore task's context */
+    pop     {r4-r11}
+    ldr     r12, =knl_taskmode
+    pop     {r0}
+    str     r0, [r12]
+    cpsie   i                                    /* just before schedule to next task */
+    bx      lr                                   /* lr is EXC_RETURN */
 
     SECTION .text:CODE
     THUMB
@@ -76,6 +111,8 @@ knl_dispatch_ret_int:
     ldr     r0, =0
     ldr     r8, [r4]                             /* R8 = ctxtsk */
     str     sp, [r8, #SP_OFFSET]    /* Save 'ssp' to TCB */
+    ldr     r12,=knl_dispatch_r
+    str     r12, [r8, #12]          /* Save 'dispatcher' to TCB */
     str     r0, [r4]                             /* ctxtsk = NULL */
 
 l_dispatch0:
@@ -102,13 +139,11 @@ l_dispatch2:                                     /* Switch to 'schedtsk' */
     ldr     r12, =knl_dispatch_disabled
     ldr     r0, =0
     str     r0, [r12]                            /* Dispatch enable */
-    /* start to restore task's context */
-    pop     {r4-r11}
-    ldr     r12, =knl_taskmode
-    pop     {r0}
-    str     r0, [r12]
-    cpsie   i                                    /* just before schedule to next task */
-    bx      lr                                   /* lr is EXC_RETURN */
+    
+    ldr     r0, [r8, #12]    /* Restore 'dispatcher' from TCB */
+    bx      r0
+
+   
 
 #if (cfgCORTEX_M3_ISR == ISR_IN_ASSEMBLY)
     PUBLIC EnterISR

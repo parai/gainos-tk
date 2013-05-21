@@ -5,6 +5,7 @@
 
 int main()
 {
+#if 0
     WDT_Disable(WDT); 
     /* Set 3 FWS for Embedded Flash Access */
     EFC->EEFC_FMR = EEFC_FMR_FWS(3);
@@ -12,6 +13,7 @@ int main()
     /* I don't know why, the baudrate is 38400 = 115200/3 */
     UART_Configure(115200, 64000000/3);// so I add this to solve the problem
     printf("Start GaInOS-TK.\r\n");
+#endif    
     StartOS(OSDEFAULTAPPMODE);
     return 0;
 }

@@ -389,7 +389,7 @@
         </option>
         <option>
           <name>IccCppInlineSemantics</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IccCmsis</name>
@@ -1910,10 +1910,10 @@
       </group>
     </group>
     <file>
-      <name>$PROJ_DIR$\..\..\arch\at91sam3s\Compiler.h</name>
+      <name>$PROJ_DIR$\..\..\..\arch\at91sam3s\Compiler.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\arch\at91sam3s\Platform_Types.h</name>
+      <name>$PROJ_DIR$\..\..\..\arch\at91sam3s\Platform_Types.h</name>
     </file>
   </group>
   <group>
@@ -1979,6 +1979,30 @@
       </file>
     </group>
     <group>
+      <name>portable</name>
+      <group>
+        <name>armv7_m</name>
+        <group>
+          <name>icc</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\icc\portableS.S</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\icc\startup.S</name>
+          </file>
+        </group>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portable.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portable.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portmacro.h</name>
+        </file>
+      </group>
+    </group>
+    <group>
       <name>src</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\osek\src\knl_alarm.c</name>
@@ -2019,30 +2043,6 @@
       <file>
         <name>$PROJ_DIR$\..\..\..\osek\src\osek_task.c</name>
       </file>
-    </group>
-    <group>
-      <name>portable</name>
-      <group>
-        <name>armv7_m</name>
-        <group>
-          <name>icc</name>
-          <file>
-            <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\icc\portableS.S</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\icc\startup.S</name>
-          </file>
-        </group>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portable.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portable.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portmacro.h</name>
-        </file>
-      </group>
     </group>
   </group>
   <file>
