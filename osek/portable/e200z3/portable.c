@@ -135,22 +135,8 @@ extern const unsigned _SDA_BASE_;
 extern const unsigned _SDA2_BASE_;
 EXPORT void knl_setup_context( TCB *tcb )
 {
-    SStackFrame     *ssp;
-    UW pc;
-
-    ID tskid = tcb - knl_tcb_table;
-    ssp = knl_gtsk_table[tskid].isstack;
-    ssp--;
-    pc = (UW)knl_gtsk_table[tskid].task;
-
-    /* CPU context initialization */
-    ssp->taskmode  = 0;             /* Initial taskmode */
-    ssp->srr1 = portINITIAL_MSR;
-    ssp->srr0 = pc;             /* Task startup address */
-    ssp->lr   =pc;
-    ssp->r[13] = (UW)&_SDA_BASE_;
-    ssp->r[2] =  (UW)&_SDA2_BASE_;
-    tcb->tskctxb.ssp = ssp;         /* System stack */
+	tcb->tskctxb.ssp = knl_gtsk_table[tcb->tskid].isstack;
+    tcb->tskctxb.dispatcher = knl_activate_r;
 }
 EXPORT ISR(SystemTick)
 {
@@ -161,6 +147,25 @@ EXPORT ISR(SystemTick)
 	(void)IncrementCounter(0);
 	ExitISR();
 }
+EXPORT void knl_activate_r(void)
+{
+	enaint(portINITIAL_MSR); // enable interrupt
+    knl_gtsk_table[knl_ctxtsk->tskid].task();
+}
+EXPORT __asm void knl_dispatch_r(void)
+{
+nofralloc
+	lwz    r11,XTMODE(r1);
+	lis    r12,knl_taskmode@h;
+	stw    r11,knl_taskmode@l(r12);  /* restore taskmode */  
+	  
+	OS_RESTORE_R2_TO_R31();   /* all GPRs restored */
+	OS_RESTORE_SPFRS();        /* all SPFRs restored */	
+	/* restore R0 */
+	lwz   r0,XR0(r1);
+    addi  r1,r1, STACK_FRAME_SIZE
+  	rfi
+}
 #pragma section RX ".__exception_handlers"
 #pragma push /* Save the current state */
 __declspec (section ".__exception_handlers") extern long EXCEPTION_HANDLERS;  
@@ -169,25 +174,6 @@ __declspec (section ".__exception_handlers") extern long EXCEPTION_HANDLERS;
 __declspec(interrupt)
 __declspec (section ".__exception_handlers")
 LOCAL void l_dispatch0(void);
-/*
- *    Function Name : knl_dispatch_to_schedtsk,knl_dispatch_entry,_ret_int_dispatch
- *    Create Date   : 2009/12/27-2012/11/22
- *    Author        : wangshb
- *    Description   : Dispatcher,save contexts 'ssp' to TCB.include three parts.
- *                    1.dispatch_to_schedtsk:
- *                         Throw away the current contexts and forcibly dispatch to
- *                         'schedtsk.'
- *                         Called directly by jump (bx) but do not return.
- *                         Called on the undefined stack state (undefined 'ssp').
- *                         Called on the interrupt disable state.
- *                    2.dispatch_entry:
- *                         Normal dispatch processing.
- *                         Called by PendSV exception.
- *                    3._ret_int_dispatch:
- *                         Called when dispatch is required by 'tk_ret_int().'
- *    Param	        : none
- *    Return Code   : none
- */
 EXPORT __asm void knl_force_dispatch(void)
 {
 nofralloc
@@ -205,7 +191,6 @@ nofralloc
 	wrteei  1;		                         /* Interrupt enable */ 
 	b	   l_dispatch0  	  
 }
-
 EXPORT __asm void knl_dispatch_entry(void)
 {
 nofralloc
@@ -217,7 +202,7 @@ nofralloc
 _ret_int_dispatch:
 	li     r0,1
 	lis    r3,knl_dispatch_disabled@h
-	stw    r0,knl_dispatch_disabled@l(r12)  /* Dispatch disable */
+	stw    r0,knl_dispatch_disabled@l(r3)  /* Dispatch disable */
 
 	wrteei  1;		                        /* Interrupt enable */ 	 
 	OS_SAVE_R4_TO_R31();   /* all GPRs saved */
@@ -229,9 +214,13 @@ _ret_int_dispatch:
 	lis  r5,knl_ctxtsk@h;
 	lwz  r5,knl_ctxtsk@l(r5);
 			
-	li     r6,SP_OFFSET
-	stwx   r1, r5,r6;     /* Save 'ssp' to TCB */	
+	stw   r1, SP_OFFSET(r5);     /* Save 'ssp' to TCB */
 	
+	//tcb->tskctxb.dispatcher = knl_dispatch_r;
+	lis    r11,knl_dispatch_r@h
+	ori    r11,r11,knl_dispatch_r@l
+	stw    r11,12(r5)
+	   		
 	li	   r11,0
 	lis	   r12,knl_ctxtsk@h
 	stw    r11,knl_ctxtsk@l(r12)             /* ctxtsk = NULL */
@@ -260,23 +249,16 @@ l_dispatch2:                   /* Switch to 'schedtsk' */
 	lis  r6,knl_ctxtsk@h;
 	stw  r8,knl_ctxtsk@l(r6);  /* ctxtsk = schedtsk */
 	
-	li     r6,SP_OFFSET
-	lwzx   r1, r8,r6;     /* Restore 'ssp' from TCB */	
+	lwz   r1, SP_OFFSET(r8);     /* Restore 'ssp' from TCB */	
 
 	li     r11,0
 	lis    r12,knl_dispatch_disabled@h
 	stw    r11,knl_dispatch_disabled@l(r12)  /* Dispatch enable */
 	
-	lwz    r11,XTMODE(r1);
-	lis    r12,knl_taskmode@h;
-	stw    r11,knl_taskmode@l(r12);  /* restore taskmode */  
-	  
-	OS_RESTORE_R2_TO_R31();   /* all GPRs restored */
-	OS_RESTORE_SPFRS();        /* all SPFRs restored */	
-	/* restore R0 */
-	lwz   r0,XR0(r1);
-    addi  r1,r1, STACK_FRAME_SIZE
-  	rfi
+	//knl_ctxtsk->tskctxb.dispatcher();
+	lwz   r12, 12(r8);     /* Restore 'dispatcher' from TCB */
+	mtctr    r12
+	se_bctrl	
 }
 
 #if (configTickSrc==configDEC)
