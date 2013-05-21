@@ -202,12 +202,10 @@ StatusType ChainTask ( TaskType TaskID )
         knl_make_active(knl_ctxtsk);
     }
     else{
-        /* firstly activate TaskID,
-         * and then terminate current running task knl_ctxtsk */
+        /* firstly terminate current running task knl_ctxtsk,
+         * and then activate TaskID */
         state = (TSTAT)tcb->state;
-    	if (TS_DORMANT == state) {
-            knl_make_active(tcb);
-    	} else {
+    	if (TS_DORMANT != state) {
     	    if(tcb->actcnt < knl_gtsk_table[TaskID].maxact)
     	    {
     	        tcb->actcnt += 1;
@@ -225,6 +223,10 @@ StatusType ChainTask ( TaskType TaskID )
     	{
     	    knl_ctxtsk->actcnt -= 1;
     	    knl_make_active(knl_ctxtsk);
+    	}
+        
+        if (TS_DORMANT == state) {
+            knl_make_active(tcb);
     	}
     }
     knl_force_dispatch();

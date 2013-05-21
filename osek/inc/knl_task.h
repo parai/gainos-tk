@@ -75,5 +75,6 @@ IMPORT void knl_reschedule( void );
 IMPORT void knl_make_active( TCB *tcb );
 IMPORT void knl_make_runnable( TCB *tcb );
 IMPORT void knl_search_schedtsk(void);
+IMPORT void knl_preempt(void);
 
 #endif /* KNL_TASK_H_H */

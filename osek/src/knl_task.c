@@ -122,6 +122,13 @@ EXPORT void knl_search_schedtsk(void)
     } 
 }
 
+EXPORT void knl_preempt(void)
+{
+    knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);
+    knl_search_schedtsk();
+    knl_dispatch_request();
+}
+
 /* Start all the tasks configured in autosatrt */
 EXPORT void knl_task_init(void)
 {

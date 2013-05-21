@@ -171,7 +171,11 @@ StatusType ReleaseResource ( ResourceType ResID )
         {
             knl_ctxtsk->priority = newpri; 
             QueRemove(&rescb->resque);
-            QueInit(&rescb->resque);      
+            QueInit(&rescb->resque);    
+            if(newpri > knl_ready_queue.top_priority)
+            {
+                knl_preempt();
+            }
         }
         END_CRITICAL_SECTION;	
     }

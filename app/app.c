@@ -24,9 +24,9 @@ TASK(vTaskSender)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     (void)printf("vTaskSender is running.\r\n");
-    (void)GetResource(RES_SCHEDULER);
+    //(void)GetResource(RES_SCHEDULER);
     (void)SetEvent(ID_vTaskReceiver,0x01);
-    (void)ReleaseResource(RES_SCHEDULER);
+    //(void)ReleaseResource(RES_SCHEDULER);
     (void)TerminateTask();
 }
 
