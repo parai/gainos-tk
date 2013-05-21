@@ -195,8 +195,8 @@ EXPORT void knl_force_dispatch(void)
 	__disable();	//disable interrupt
 
 	/* Free the csa used by knl_ctxtsk */
-	// TODO: BUG here
-	// vPortReclaimCSA(__mfcr(PCXI));
+	vPortReclaimCSA(__mfcr(PCXI));
+	__mtcr(PCXI,0);
 	/* Don't consume CSA.So just Jump*/
 	__asm("j l_dispatch0");
 }
@@ -212,6 +212,7 @@ EXPORT __trap(6) void knl_dispatch_entry(void)
 	__dsync();
 	__svlcx(); /* save lower contex */
 	knl_ctxtsk->tskctxb.ssp = __mfcr( PCXI );
+	__mtcr(PCXI,0);
 	knl_ctxtsk->tskctxb.dispatcher = 0;
 	knl_ctxtsk = NULL;
 	__isync();

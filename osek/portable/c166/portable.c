@@ -33,7 +33,7 @@ EXPORT void knl_start_hw_timer( void )
 EXPORT void knl_setup_context( TCB *tcb )
 {
     tcb->tskctxb.ssp = tcb->isstack;
-    tcb->tskctxb.usp = (VP)((UW)(tcb->isstack)-tcb->stksz);
+    tcb->tskctxb.usp = (VP)((UW)(tcb->isstack)-(tcb->stksz>>1));
     tcb->tskctxb.dispatcher = 1;
 }
 

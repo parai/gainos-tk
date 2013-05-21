@@ -39,11 +39,6 @@
 			<locationURI>GAINOS_BD/include</locationURI>
 		</link>
 		<link>
-			<name>mcal</name>
-			<type>2</type>
-			<locationURI>GAINOS_BD/mcal</locationURI>
-		</link>
-		<link>
 			<name>osek</name>
 			<type>2</type>
 			<locationURI>GAINOS_BD/osek</locationURI>

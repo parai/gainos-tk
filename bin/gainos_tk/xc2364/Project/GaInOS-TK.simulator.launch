@@ -10,15 +10,25 @@
 <booleanAttribute key="com.tasking.debug.cdt.core.GOTO_MAIN" value="true"/>
 <booleanAttribute key="com.tasking.debug.cdt.core.HISTORY_BUFFER_ENABLED" value="false"/>
 <stringAttribute key="com.tasking.debug.cdt.core.MSGLOG_FILE_NAME" value=""/>
+<booleanAttribute key="com.tasking.debug.cdt.core.PROGRAM_FLASH" value="true"/>
 <booleanAttribute key="com.tasking.debug.cdt.core.PSM_ENABLED" value="true"/>
 <booleanAttribute key="com.tasking.debug.cdt.core.RESET_TARGET" value="true"/>
 <stringAttribute key="com.tasking.debug.cdt.core.TARGET" value="TASKING C166 Simulator"/>
+<booleanAttribute key="com.tasking.debug.cdt.core.TARGET_POLLING" value="false"/>
 <booleanAttribute key="com.tasking.debug.cdt.core.USE_MDF_FILE" value="false"/>
 <booleanAttribute key="com.tasking.debug.cdt.core.VERIFY" value="true"/>
 <booleanAttribute key="com.tasking.debug.cdt.core.linkToProject" value="true"/>
+<stringAttribute key="debugger_configuration.debug_instrument_module" value="disim166"/>
+<stringAttribute key="debugger_configuration.gdi.flash.flash_monitor" value=""/>
+<stringAttribute key="debugger_configuration.gdi.flash.flash_sector_buffer_size" value="4096"/>
+<stringAttribute key="debugger_configuration.gdi.flash.flash_workspace" value=""/>
+<stringAttribute key="debugger_configuration.gdi.resource.__DPP0_ADDR" value="0x000000"/>
+<stringAttribute key="debugger_configuration.gdi.resource.__DPP1_ADDR" value="0x004000"/>
+<stringAttribute key="debugger_configuration.gdi.resource.__DPP2_ADDR" value="0x010000"/>
+<stringAttribute key="debugger_configuration.gdi.resource.psm_dll_name" value="psm166"/>
+<stringAttribute key="debugger_configuration.gdi.resource.vectortable.run_addr" value="0x000000"/>
 <stringAttribute key="debugger_configuration.general.kdi_orti_file" value=""/>
 <stringAttribute key="debugger_configuration.general.ksm_sharedlib" value=""/>
-<stringAttribute key="debugger_configuration.psm_dll_name" value="psm166"/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_ID" value="com.tasking.debug.cdt.core.CDebugger"/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_REGISTER_GROUPS" value=""/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_START_MODE" value="run"/>
@@ -28,6 +38,7 @@
 <stringAttribute key="org.eclipse.cdt.launch.FORMAT" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&lt;contentList/&gt;"/>
 <stringAttribute key="org.eclipse.cdt.launch.GLOBAL_VARIABLES" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;globalVariableList/&gt;&#13;&#10;"/>
 <stringAttribute key="org.eclipse.cdt.launch.MEMORY_BLOCKS" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;memoryBlockExpressionList/&gt;&#13;&#10;"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="${project_loc}\${build_config}\GaInOS-TK.elf"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="GaInOS-TK"/>
 <booleanAttribute key="org.eclipse.cdt.launch.use_terminal" value="true"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
