@@ -139,6 +139,7 @@ EXPORT void knl_task_init(void)
     {
         tcb->tskid = i;
         QueInit(&tcb->tskque);
+        tcb->task = knl_gtsk_table[i].task; /* save task entry */
         if((knl_gtsk_table[i].tskatr) & AUTOSTART)
         { 
         	knl_make_active(tcb);

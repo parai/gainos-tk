@@ -42,18 +42,19 @@ TASK(vTaskReceiver)
 TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    //(void)printf("vTaskMainFunction is running.\r\n");
+    (void)printf("vTaskMainFunction is running.\r\n");
     (void)TerminateTask();
 }
 
 TASK(vTaskIdle)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-	for(;;)
+	//for(;;)
 	{
-		printf("vTaskIdle is running.\r\n");
-		SleepTask(500);
+		//printf("vTaskIdle is running.\r\n");
+		//SleepTask(500);
 	}
+    (void)ChainTask(ID_vTaskIdle);
     (void)TerminateTask();
 }
 

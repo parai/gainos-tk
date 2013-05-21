@@ -134,6 +134,7 @@ typedef struct task_control_block{
     QUEUE	    tskque;		/* Task queue */
     CTXB     	tskctxb;	/* Task context block */
     TaskType    tskid;      /* Task ID */
+    FP          task;       /* Task Entry */
     UINT        actcnt;     /* Task Activate Count */
 	PRI	        priority;	/* Current priority */
 //	BOOL	    klockwait:1;	/* TRUE at wait kernel lock */

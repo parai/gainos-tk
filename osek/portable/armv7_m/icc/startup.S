@@ -37,7 +37,7 @@
 
     SECTION .intvec:CODE:NOROOT(2)
     EXTERN __iar_program_start
-    EXTERN  knl_dispatch_entry,knl_timer_handler,knl_force_dispatch_impl  
+    EXTERN  knl_dispatch_entry,knl_timer_handler,knl_force_dispatch_impl 
     EXTERN  ISREntry(SystemTick) 
     PUBLIC __vector_table
     DATA

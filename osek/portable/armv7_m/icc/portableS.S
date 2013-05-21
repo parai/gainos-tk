@@ -46,22 +46,17 @@ disint:
     SECTION .text:CODE
     THUMB
     PUBLIC  knl_activate_r
-    EXTERN  knl_gtsk_table
-knl_activate_r: 
-    mov r3, #TS_PSR_T    //xPSR
+    EXTERN  knl_activate_rr
+knl_activate_r:
+    mov r3, #TS_PSR_T     //{ //return from exception&interrupr first
     ldr r2, =l_start_task
     push {r2,r3}
     subs  SP,SP,#24
-    bx lr
+    bx lr                 //}
 l_start_task:
-    ldr r0, =knl_gtsk_table
     ldr r1, =knl_ctxtsk
-    ldr r1,[r1]
-    ldr r1,[r1,#16]     //r1 = tskid 
-    mov r2,#28          // sizeof(T_GTSK)
-    mul r2,r1,r2
-    add r2,r0,r2       
-    ldr r2, [r2,#4]      // PC
+    ldr r1, [r1]
+    ldr r2, [r1,#20]     //r2 = knl_ctxtsk->task 
     cpsie   i    /* Interrupt enable */
     bx  r2
     

@@ -189,10 +189,7 @@ StatusType ChainTask ( TaskType TaskID )
 	TCB * tcb;
 	TSTAT state;
 
-	tcb = &knl_tcb_table[TaskID];
-	state = (TSTAT)tcb->state;
 	OS_CHECK((TaskID<cfgOSEK_TASK_NUM),E_OS_ID);
-	OS_CHECK_EXT((state == TS_DORMANT),E_OS_LIMIT);
     OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL);
 	OS_CHECK_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	DISABLE_INTERRUPT;
@@ -204,6 +201,7 @@ StatusType ChainTask ( TaskType TaskID )
     else{
         /* firstly terminate current running task knl_ctxtsk,
          * and then activate TaskID */
+      	tcb = &knl_tcb_table[TaskID];
         state = (TSTAT)tcb->state;
     	if (TS_DORMANT != state) {
     	    if(tcb->actcnt < knl_gtsk_table[TaskID].maxact)
