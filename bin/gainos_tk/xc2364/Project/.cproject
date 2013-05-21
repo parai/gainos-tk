@@ -345,10 +345,6 @@
 			<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 			<storageModule moduleId="com.tasking.toolInfo">
 				<toolInfo>TASKING program builder v3.0r3 Build 049</toolInfo>
-				<toolInfo>TASKING VX-toolset for C166: control program v3.0r3 Build 128</toolInfo>
-				<toolInfo>TASKING VX-toolset for C166: Assembler v3.0r3 Build 301</toolInfo>
-				<toolInfo>TASKING VX-toolset for C166: Linker Locator v3.0r3 Build 156</toolInfo>
-				<toolInfo>TASKING VX-toolset for C166: C compiler v3.0r3 Build 707</toolInfo>
 				<toolInfo>TASKING VX-toolset for C166: Eclipse plugin v1.24.0.0</toolInfo>
 			</storageModule>
 		</cconfiguration>

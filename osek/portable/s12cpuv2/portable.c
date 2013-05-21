@@ -66,7 +66,7 @@ EXPORT void knl_start_hw_timer( void )
 EXPORT void knl_activate_r(void)
 {
     __asm CLI; // enable interrupt
-    knl_gtsk_table[knl_ctxtsk->tskid].task();
+    knl_ctxtsk->task();
 }
 EXPORT void knl_dispatch_r(void)
 {
@@ -78,7 +78,7 @@ EXPORT void knl_dispatch_r(void)
 }
 EXPORT void knl_setup_context( TCB *tcb )
 {
-    tcb->tskctxb.ssp = knl_gtsk_table[tcb->tskid].isstack;
+    tcb->tskctxb.ssp = tcb->isstack;
     tcb->tskctxb.dispatcher = knl_activate_r;
 }
 #pragma CODE_SEG __NEAR_SEG NON_BANKED

@@ -29,26 +29,12 @@
 EXPORT void knl_start_hw_timer( void )
 {
 }
+
 EXPORT void knl_setup_context( TCB *tcb )
 {
-    SStackFrame     *ssp;
-    UW pc;
-    UH isstack;
-    ID tskid;
-
-    tskid = tcb - knl_tcb_table;
-    isstack = (UH)knl_gtsk_table[tskid].isstack;
-    /* half of the Stack Space for system stack and the other for user stack */
-    ssp = (SStackFrame*)(isstack - (knl_gtsk_table[tskid].stksz>>1));
-    ssp--;
-    pc = (UW)knl_gtsk_table[tskid].task;
-    ssp->taskmode  = 0;             /* Initial taskmode */
-    ssp->CSP = (UH)(pc>>16);
-    ssp->IP = (UH)pc;
-    /* init User Stack (R0 For keil) */
-    ssp->R[15] = isstack;
-    ssp->PSW = 1<<11; /* Global Register Bank, Interrupt Enable. */
-    tcb->tskctxb.ssp = ssp;         /* System stack */
+    tcb->tskctxb.ssp = tcb->isstack;
+    tcb->tskctxb.usp = (VP)((UW)(tcb->isstack)-tcb->stksz);
+    tcb->tskctxb.dispatcher = 1;
 }
 
 /* use RTC as system tick, only enable counter T14 overflow interrupt.

@@ -22,7 +22,7 @@
 #ifndef COMPILER_H_H_H
 #define COMPILER_H_H_H
 
-#define Inline static
+#define Inline inline
 
 #define EXPORT
 #define IMPORT  extern 

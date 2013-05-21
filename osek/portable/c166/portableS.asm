@@ -27,10 +27,14 @@
 	.extern _knl_taskmode
 	.extern _knl_ctxtsk
 	.extern _knl_schedtsk
+	.extern	__icall : far
 
 	cfgTMP_STACK_SZ .set  	1024	;system stack
 	cfgTMP_USTK_SZ  .set  	128		;user stack
-	SP_OFFSET 		.set 	4 		;sizeof(QUEUE)
+	SSP_OFFSET 		.set 	4 		;sizeof(QUEUE)               ->  ssp
+	USP_OFFSET 		.set 	6		;sizeof(QUEUE) +sizeof(VP)   ->  usp
+	DSP_OFFSET 		.set 	8		;sizeof(QUEUE) +sizeof(VP)*2 ->  dispatcher
+	TSK_OFFSET      .set    12		;  -> tcb->task
 
 	near_knl_tmp_stack	.section	near, clear, cluster 'knl_tmp_stack', new
 _knl_tmp_stack	.label	nearword
@@ -95,9 +99,8 @@ _knl_force_dispatch .proc far
 	movw r12,#_knl_dispatch_disabled
 	movw [r12],r11	;/* Dispatch disable */
 
-	movw r11,_knl_ctxtsk
+	movw r11,#_knl_ctxtsk
 	movw [r11],ZEROS	; knl_ctxtsk = NULL
-
 
 	jmp l_dispatch0
 ;}
@@ -138,7 +141,14 @@ _knl_dispatch_entry	.proc	intno knl_dispatch_entry_trap = 1
 	; /* save SP */
 	movw r0,_knl_ctxtsk
 	movw r1,SP
-	movw [r0+#SP_OFFSET],r1
+	movw [r0+#SSP_OFFSET],r1
+
+	; knl_ctxtsk->tskctxb.dispatcher = 0;
+	movw	r1,ZEROS
+	movw	[r0+#DSP_OFFSET],r1
+
+	movw r11,#_knl_ctxtsk
+	movw [r11],ZEROS	; knl_ctxtsk = NULL
 
 l_dispatch0:
 
@@ -157,14 +167,34 @@ l_dispatch2:
 	movw r12,#_knl_ctxtsk
 	movw [r12],r11		;knl_ctxtsk=knl_schedtsk
 	; restore SP
-	movw r12,[r11+#SP_OFFSET]
+	movw r12,[r11+#SSP_OFFSET]
 	movw SP,r12
 
+	movw r12,#_knl_dispatch_disabled
+	movw [r12],ZEROS	;/* Dispatch enable */
+
+	movw r12,[r11+#DSP_OFFSET]   ;r12 = knl_ctxtsk->dispatcher
+
+	cmpw r12,#1
+; if(knl_ctxtsk->dispatcher = 1)
+;{
+	jmp cc_nz,knl_dispatch_r
+knl_activate_r:
+	; restore user sp
+	movw r15,[r11+#USP_OFFSET]
+	BSET PSW_IEN
+	; knl_ctxtsk->task();
+	addw	r11,#TSK_OFFSET
+	movw	r9,[r11+]
+	movw	r10,[r11]
+	calls	__icall
+;}else
+;{
+knl_dispatch_r:
 	; restore context
 	pop  r11
 	movw r12,#_knl_taskmode
 	movw [r12],r11
-
 	pop r0
 	pop r1
 	pop r2
@@ -176,10 +206,6 @@ l_dispatch2:
 	pop r8
 	pop r9
 	pop r10
-
-	movw r11,#_knl_dispatch_disabled
-	movw [r11],ZEROS
-
 	pop r11
 	pop r12
 	pop r13
@@ -188,6 +214,8 @@ l_dispatch2:
 	pop MDH
 	pop MDL
 	reti
+;}
+
 ;}
 
 

@@ -135,7 +135,7 @@ extern const unsigned _SDA_BASE_;
 extern const unsigned _SDA2_BASE_;
 EXPORT void knl_setup_context( TCB *tcb )
 {
-	tcb->tskctxb.ssp = knl_gtsk_table[tcb->tskid].isstack;
+	tcb->tskctxb.ssp = tcb->isstack;
     tcb->tskctxb.dispatcher = knl_activate_r;
 }
 EXPORT ISR(SystemTick)

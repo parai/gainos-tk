@@ -112,9 +112,8 @@ void ShutdownOS( StatusType xError )
 
 }
 
-#if (defined(CHIP_MC9S12) || defined(CHIP_MPC54XX) || (cfgCORTEX_M3_ISR ==  ISR_IN_C))
-/* This only works OK for s12cpuv2 and e200z3. 
- * For Arm Cortex M3, terrible. So I move them to vPortS.S */
+#if defined(cfgOSEK_STD_ISR_PROCESS)
+/* For Arm Cortex M3, terrible. So I move them to portableS.S */
 void EnterISR(void)
 {
     knl_taskindp++;/* Enter Task Independedt Part */

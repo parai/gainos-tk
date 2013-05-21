@@ -61,7 +61,7 @@ EXPORT void knl_start_hw_timer( void )
 
 EXPORT void knl_setup_context( TCB *tcb )
 {
-    tcb->tskctxb.ssp = knl_gtsk_table[tcb->tskid].isstack;
+    tcb->tskctxb.ssp = tcb->isstack;
     tcb->tskctxb.dispatcher = knl_activate_r;
 }
 #if(cfgCORTEX_M3_ISR == ISR_IN_C) 

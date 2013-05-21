@@ -74,6 +74,7 @@ StatusType ActivateTask ( TaskType TaskID )
 		}
 	}
 	END_CRITICAL_SECTION;
+
 	Error_Exit:
 	return ercd;
 }

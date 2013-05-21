@@ -133,8 +133,12 @@ typedef struct t_gtsk {
 typedef struct task_control_block{
     QUEUE	    tskque;		/* Task queue */
     CTXB     	tskctxb;	/* Task context block */
+    //{{    Yes, the three var help the os run fast by a more usage of RAM
     TaskType    tskid;      /* Task ID */
     FP          task;       /* Task Entry */
+    VP          isstack;    /* Init Task Stack Top Pointer*/
+    UINT		stksz;		/* User stack size (byte) */
+    //}}
     UINT        actcnt;     /* Task Activate Count */
 	PRI	        priority;	/* Current priority */
 //	BOOL	    klockwait:1;	/* TRUE at wait kernel lock */

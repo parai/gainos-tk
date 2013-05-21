@@ -8,10 +8,11 @@
 /* =====================  MISC  ========================== */
 #define cfgOS_STATUS_LEVEL OS_STATUS_EXTEND
 #define cfgOS_TK_EXTEND STD_ON
-#define CHIP_STM32F1
+//#define CHIP_MC9S12
 #if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
 #define OSC_FREQUENCY         8000000 /* HZ */
+#define cfgOSEK_STD_ISR_PROCESS // EnterISR & ExitISR in osek_ctrl.c
 #elif defined(CHIP_STM32F1)//stm32
 #define CPU_FREQUENCY        72000000 /* HZ */
 #elif defined(CHIP_AT91SAM3S)
@@ -19,6 +20,9 @@
 #elif defined(CHIP_MPC56XX)
 #define CPU_FREQUENCY  64000000   /* HZ */
 #define OSC_FREQUENCY  8000000    /* Oscillator Clock 8MHZ */
+#define cfgOSEK_STD_ISR_PROCESS // EnterISR & ExitISR in osek_ctrl.c
+#else
+#define cfgOSEK_STD_ISR_PROCESS // EnterISR & ExitISR in osek_ctrl.c
 #endif
 
 /* =====================  TASK  ========================== */

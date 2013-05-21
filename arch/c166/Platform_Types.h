@@ -31,6 +31,9 @@ typedef unsigned long               imask_t;
  */
 typedef struct {
 	void* ssp;		/* System stack pointer */
+	void* usp;		//TODO static allocate user stack R15
+	unsigned int dispatcher;  //if 1 jmp to knl_activate_r
+							  // else knl_dispatch_r
 } CTXB;
 
 

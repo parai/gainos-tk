@@ -36,7 +36,7 @@
  */
 #define DI(intsts)	    ( (intsts) = disint() )
 #define EI(intsts)	    ( (void)enaint(intsts) )
-#define isDI(intsts)	( ((intsts) & (1<<12)) == 0 )
+#define isDI(intsts)	( ((intsts) & (1<<8)) == 0 )
 
 /*
  * Start/End critical section

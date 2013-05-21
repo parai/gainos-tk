@@ -32,56 +32,8 @@ EXPORT void knl_start_hw_timer( void )
 }
 EXPORT void knl_setup_context( TCB *tcb )
 {
-    UpperCSA *pulUpperCSA = NULL;
-    LowerCSA *pulLowerCSA = NULL;
-    ID tskid = tcb - knl_tcb_table;
-    /* 16 Address Registers (4 Address registers are global), 16 Data
-    	Registers, and 3 System Registers.
-
-    	There are 3 registers that track the CSAs.
-    		FCX points to the head of globally free set of CSAs.
-    		PCX for the task needs to point to Lower->Upper->NULL arrangement.
-    		LCX points to the last free CSA so that corrective action can be taken.
-
-    	Need two CSAs to store the context of a task.
-    		The upper context contains D8-D15, A10-A15, PSW and PCXI->NULL.
-    		The lower context contains D0-D7, A2-A7, A11 and PCXI->UpperContext.
-    		The pxCurrentTCB->pxTopOfStack points to the Lower Context RSLCX matching the initial BISR.
-    		The Lower Context points to the Upper Context ready for the return from the interrupt handler.
-
-    	 The Real stack pointer for the task is stored in the A10 which is restored
-    	 with the upper context. */
-    /* DSync to ensure that buffering is not a problem. */
-    __dsync();
-    /* Consume two free CSAs. */
-    pulLowerCSA = (LowerCSA*)vPortCSA_TO_ADDRESS( __mfcr( FCX ) );
-    if( NULL != pulLowerCSA )
-	{
-		/* The Lower Links to the Upper. */
-		pulUpperCSA = (UpperCSA*)vPortCSA_TO_ADDRESS( pulLowerCSA->pcxi );
-	}
-    /* Check that we have successfully reserved two CSAs. */
-	if( ( NULL != pulLowerCSA ) && ( NULL != pulUpperCSA ) )
-	{
-		/* Remove the two consumed CSAs from the free CSA list. */
-		__dsync();
-		__mtcr( FCX, pulUpperCSA->pcxi );
-		__isync();
-	}
-	else
-	{
-		/* Simply trigger a context list depletion trap. */
-		__svlcx();
-	}
-	pulUpperCSA->SP = (UW)(knl_gtsk_table[tskid].isstack);
-	pulUpperCSA->psw = 0x000008FFUL; /* Supervisor Mode, IS = 0 User Stack and Call Depth Counting disabled. */
-
-	pulLowerCSA->RA = (UW)(knl_gtsk_table[tskid].task);
-
-	/* PCXI pointing to the Upper context and PIE = 1, So interrupt enabled */
-	pulLowerCSA->pcxi = ( ( 0x00C00000UL ) | ( unsigned long ) vPortADDRESS_TO_CSA( pulUpperCSA ) );
-	pulUpperCSA->pcxi = 0; /* NULL */
-	tcb->tskctxb.ssp = (unsigned long * ) vPortADDRESS_TO_CSA( pulLowerCSA );
+	tcb->tskctxb.ssp = tcb->isstack;
+	tcb->tskctxb.dispatcher = 1;
 }
 
 /*
@@ -166,7 +118,43 @@ EXPORT imask_t disint()
 	__disable();
 	return mask;
 }
+void knl_activate_r(void)
+{
+	unsigned long sp = (unsigned long)(knl_ctxtsk->isstack);
+	__asm("mov.a\tsp,%0"::"d"(sp));
+	/* Supervisor Mode, IS = 0 User Stack and Call Depth Counting disabled. */
+	__mtcr(PSW,0x000008FFUL);
+	{//lower cpu IPL
+		unsigned long ulICR;
+		ulICR = __mfcr( ICR );
+		ulICR &= ~0x000000FFUL;
+		__mtcr(ICR,ulICR);
+	}
+	__enable();
+	knl_ctxtsk->task();
+}
+void knl_dispatch_r(void)
+{
+	/* Clear the PSW.CDC to enable the use of an RFE without it generating an
+		exception because this code is not genuinely in an exception. */
+//	{
+//		unsigned long ulMFCR = 0UL;
+//		ulMFCR = __mfcr( PSW );
+//		ulMFCR &= ( ~( 0x000000FFUL ) );
+//		__dsync();
+//		__mtcr( PSW, ulMFCR );
+//		__isync();
+//	}
+	__dsync();
+	__mtcr( PCXI, (UW)(knl_ctxtsk->tskctxb.ssp) );
+	__isync();
+	__nop();
+	__rslcx();
+	__nop();
 
+	/* Return to the first task selected to execute. */
+	__asm volatile( "rfe" );
+}
 void l_dispatch0(void)
 {
 	/* lower CPU IPL to 0*/
@@ -186,17 +174,14 @@ l_dispatch1:
 	knl_ctxtsk = knl_schedtsk;
 	knl_dispatch_disabled=0;    /* Dispatch enable */
 
-	/* Finally, perform the equivalent of a portRESTORE_CONTEXT() */
-
-	__dsync();
-	__mtcr( PCXI, (UW)(knl_ctxtsk->tskctxb.ssp) );
-	__isync();
-	__nop();
-	__rslcx();
-	__nop();
-
-	/* Return to the first task selected to execute. */
-	__asm volatile( "rfe" );
+	if(1 == knl_ctxtsk->tskctxb.dispatcher)
+	{
+		__asm("j knl_activate_r");
+	}
+	else
+	{
+		__asm("j knl_dispatch_r");
+	}
 }
 extern __far void _lc_ue_istack[];      /* interrupt stack end */
 EXPORT void knl_force_dispatch(void)
@@ -210,21 +195,15 @@ EXPORT void knl_force_dispatch(void)
 	__disable();	//disable interrupt
 
 	/* Free the csa used by knl_ctxtsk */
-	vPortReclaimCSA(__mfcr(PCXI));
-
-	/* Clear the PSW.CDC to enable the use of an RFE without it generating an
-	exception because this code is not genuinely in an exception. */
-	{
-		unsigned long ulMFCR = 0UL;
-		ulMFCR = __mfcr( PSW );
-		ulMFCR &= ( ~( 0x000000FFUL ) );
-		__dsync();
-		__mtcr( PSW, ulMFCR );
-		__isync();
-	}
-
+	// TODO: BUG here
+	// vPortReclaimCSA(__mfcr(PCXI));
 	/* Don't consume CSA.So just Jump*/
 	__asm("j l_dispatch0");
+}
+EXPORT __trap(3) void knl_context_trap(void)
+{
+	/* If Context Error, Deadloop. */
+	for(;;);
 }
 EXPORT __trap(6) void knl_dispatch_entry(void)
 {
@@ -233,6 +212,8 @@ EXPORT __trap(6) void knl_dispatch_entry(void)
 	__dsync();
 	__svlcx(); /* save lower contex */
 	knl_ctxtsk->tskctxb.ssp = __mfcr( PCXI );
+	knl_ctxtsk->tskctxb.dispatcher = 0;
+	knl_ctxtsk = NULL;
 	__isync();
 
 	/* Don't consume CSA.So just Jump*/
