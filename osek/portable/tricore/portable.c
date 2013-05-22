@@ -20,12 +20,12 @@
  */
 /*
  * This vPort is For TASKING VX-toolset TriCore.
- * Run OK on TriCore(TC1797) family chip.
+ * TODO:still not finshed, trap instruction will be generated
  */
 #include "portable.h"
 #include "knl_timer.h"
 #include "knl_task.h"
-
+#include "INT.h"
 EXPORT void knl_start_hw_timer( void )
 {
 	/* Do nothing, as DAVE has done this. */
@@ -110,7 +110,6 @@ LOCAL void vPortReclaimCSA( unsigned long pxHeadCSA )
 EXPORT void enaint(imask_t mask)
 {
 	__mtcr(ICR,mask);
-	__isync();
 }
 
 EXPORT imask_t disint()
@@ -120,7 +119,15 @@ EXPORT imask_t disint()
 	__disable();
 	return mask;
 }
-
+EXPORT void knl_set_ipl(UINT ipl)
+{
+	UW ulICR;
+	ulICR = __mfcr( ICR );
+	ulICR &= ~0x000000FFUL;
+	ulICR |= ipl;
+	__mtcr(ICR,ulICR);
+}
+#if 0
 void knl_activate_r(void)
 {
 	UW *pulUpperCSA = vPortCSA_TO_ADDRESS(__mfcr(FCX));
@@ -149,6 +156,25 @@ void knl_activate_r(void)
 	__asm("mov.a\ta11,%0"::"d"((UW)knl_ctxtsk->task));
 	__asm("rfe");
 }
+#else
+void knl_activate_r(void)
+{
+	UW sp = (UW)(knl_ctxtsk->tskctxb.ssp);
+	__asm("mov.a\tsp,%0"::"d"(sp));
+	__dsync();
+	/* Supervisor Mode, IS = 0 User Stack and Call Depth Counting disabled. */
+	__mtcr(PSW,0x000008FFUL);
+	__mtcr( PCXI, 0 );
+	__isync();
+	knl_set_ipl(0);
+	__enable();
+	{	//jump to task
+		UW task = (UW)knl_ctxtsk->task;
+		__asm("mov.a\ta15,%0"::"d"(task));
+		__asm("ji a15");
+	}
+}
+#endif
 void knl_dispatch_r(void)
 {
 	__dsync();
@@ -164,7 +190,7 @@ void knl_dispatch_r(void)
 void l_dispatch0(void)
 {
 	/* lower CPU IPL to 0*/
-	__mtcr(ICR,((__mfcr(ICR)&(0xFFFFFF00))));
+	knl_set_ipl(0);
 l_dispatch1:
 	__disable();
 	if(NULL == knl_schedtsk)
@@ -180,29 +206,39 @@ l_dispatch1:
 	knl_ctxtsk = knl_schedtsk;
 	knl_dispatch_disabled=0;    /* Dispatch enable */
 	{
-		unsigned long dispatcher = (UW)knl_ctxtsk->tskctxb.dispatcher;
+		UW dispatcher = (UW)knl_ctxtsk->tskctxb.dispatcher;
 		__asm("mov.a\ta15,%0"::"d"(dispatcher));
 		__asm("ji a15");
 	}
 }
 extern __far void _lc_ue_istack[];      /* interrupt stack end */
-EXPORT void knl_force_dispatch_impl(void)
+EXPORT void knl_force_dispatch(void)
 {
+	UW sp = (UW)(_lc_ue_istack);
+	__asm("mov.a\tsp,%0"::"d"(sp));
 	knl_dispatch_disabled = 1;    /* Dispatch disable */
 	knl_ctxtsk = NULL;
 	__disable();	//disable interrupt
 
 	/* Free the csa used by knl_ctxtsk */
 	vPortReclaimCSA(__mfcr(PCXI));
+
 	/* Don't consume CSA.So just Jump*/
 	__asm("j l_dispatch0");
 }
+//EXPORT __trap(2) void knl_instruction_trap(void)
+//{
+//	/* If Instruction Error, Deadloop. */
+//	__debug();
+//	for(;;);
+//}
 EXPORT __trap(3) void knl_context_trap(void)
 {
 	/* If Context Error, Deadloop. */
+	__debug();
 	for(;;);
 }
-EXPORT void knl_dispatch_entry(void)
+EXPORT void __interrupt (CPU0INT) knl_dispatch_entry(void)
 {
 	knl_dispatch_disabled = 1;    /* Dispatch disable */
 	__disable();
@@ -214,6 +250,7 @@ EXPORT void knl_dispatch_entry(void)
 	/* Don't consume CSA.So just Jump*/
 	__asm("j l_dispatch0");
 }
+#if 0
 EXPORT __trap(6) void knl_syscall_entry(void)
 {
 	UINT syscall_nr;
@@ -230,3 +267,4 @@ EXPORT __trap(6) void knl_syscall_entry(void)
 			break;
 	}
 }
+#endif

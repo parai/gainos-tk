@@ -150,7 +150,7 @@ EXPORT ISR(SystemTick)
 EXPORT void knl_activate_r(void)
 {
 	enaint(portINITIAL_MSR); // enable interrupt
-    knl_gtsk_table[knl_ctxtsk->tskid].task();
+    knl_ctxtsk->task();
 }
 EXPORT __asm void knl_dispatch_r(void)
 {

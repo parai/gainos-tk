@@ -16,7 +16,7 @@ TASK(vTaskInit)
 	(void)ActivateTask(ID_vTaskReceiver);
 	(void)ActivateTask(ID_vTaskMainFunction);
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    //(void)printf("vTaskInit is running.\r\n");
+    (void)printf("vTaskInit is running.\r\n");
     (void)TerminateTask();
 }
 

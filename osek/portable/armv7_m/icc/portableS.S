@@ -48,7 +48,7 @@ disint:
     PUBLIC  knl_activate_r
     EXTERN  knl_activate_rr
 knl_activate_r:
-    mov r3, #TS_PSR_T     //{ //return from exception&interrupr first
+    mov r3, #TS_PSR_T     //{ //return from exception&interrupr firstly
     ldr r2, =l_start_task
     push {r2,r3}
     subs  SP,SP,#24
@@ -59,6 +59,8 @@ l_start_task:
     ldr r2, [r1,#20]     //r2 = knl_ctxtsk->task 
     cpsie   i    /* Interrupt enable */
     bx  r2
+    //TODO:how to just do a jump knl_ctxtsk->task() withour
+    //return from exception&interrupr firstly
     
 
     SECTION .text:CODE

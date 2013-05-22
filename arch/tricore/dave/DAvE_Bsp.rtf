@@ -7,7 +7,7 @@
 \par \plain\f4\fs22\cf0 Controller: \tab\tab\b TC1797
 \par \plain\f4\fs22\cf0 Compiler: \tab\tab\b Tasking 3.1
 \par 
-\par \plain\f4\fs22\cf0 Date: \tab\tab\tab\b 2013/5/16 21:37:27
+\par \plain\f4\fs22\cf0 Date: \tab\tab\tab\b 2013/5/22 23:25:46
 \par 
 \par 
 \par \plain\f4\fs22\cf2\b Please read this document carefully and note
@@ -223,6 +223,112 @@
 \par \plain\f4\fs28\cf0\ul Interrupt System (INT)
 \par
 \par \plain\f4\fs24\cf0 Macros:\f4\fs20\cf0
+\par
+\par
+\par \plain\f4\fs20\cf0 \tab Macro:
+\par \plain\f4\fs20\cf0\b \tab \tab INT_vSetIntReq(IntName)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This macro sets the service request bit of the selected
+
+\par \tab \tab service request node. The service request bit can be set or
+
+\par \tab \tab cleared regardless of the state of the enable bit (SRE). If
+
+\par \tab \tab the service request node is enabled, a pending service
+
+\par \tab \tab request takes part in the interrupt arbitration of the
+
+\par \tab \tab service provider.
+
+\par \tab \tab If the service request node is disabled, a pending service
+
+\par \tab \tab request is excluded from the interrupt arbitrations.
+
+\par \tab \tab Software can poll the service request bit to check for a
+
+\par \tab \tab pending service request. The service request bit must be
+
+\par \tab \tab reset by software in this case.
+
+\par \tab \tab Note:
+
+\par \tab \tab See the 'Defines for the parameter IntName' section in this
+
+\par \tab \tab header file for the available definitions for the parameter
+
+\par \tab \tab IntName.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab IntName:
+
+\par \tab \tab Name of the service request
+
+\par
+\par
+\par \plain\f4\fs20\cf0 \tab Macro:
+\par \plain\f4\fs20\cf0\b \tab \tab INT_vClearIntReq(IntName)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This macro clears the service request bit of the selected
+
+\par \tab \tab service request node.
+
+\par \tab \tab Note:
+
+\par \tab \tab See the 'Defines for the parameter IntName' section in this
+
+\par \tab \tab header file for the available definitions for the parameter
+
+\par \tab \tab IntName.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b None\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab IntName:
+
+\par \tab \tab Name of the service request
+
+\par
+\par
+\par \plain\f4\fs20\cf0 \tab Macro:
+\par \plain\f4\fs20\cf0\b \tab \tab INT_ubPendingReq(IntName)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This macro returns the state of the selected service
+
+\par \tab \tab request bit.
+
+\par \tab \tab If the service request node is disabled, a pending service
+
+\par \tab \tab request is excluded from the interrupt arbitrations. This
+
+\par \tab \tab macro can poll the service request bit to check for a
+
+\par \tab \tab pending service request. The service request bit must be
+
+\par \tab \tab reset by software in this case.
+
+\par \tab \tab Note:
+
+\par \tab \tab See the 'Defines for the parameter IntName' section in this
+
+\par \tab \tab header file for the available definitions for the parameter
+
+\par \tab \tab IntName.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b State of the selected service request bit\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab IntName:
+
+\par \tab \tab Name of the service request
+
 \par \plain\f4\fs24\cf0 Functions:\f4\fs20\cf0
 \par
 \par \plain\f4\fs20\cf0 \tab Function:
@@ -266,7 +372,7 @@
 \par
 \tab Configuration of the used CPU Interrupts:\par 
 \tab - CPU0 service request node configuration:\par 
-\tab - CPU0 interrupt priority level (SRPN) = 254\par 
+\tab - CPU0 interrupt priority level (SRPN) = 1\par 
 \tab - CPU0 CPU interrupt is selected\par 
 \par 
 

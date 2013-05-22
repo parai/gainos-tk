@@ -63,17 +63,17 @@ typedef struct {
  * and forcibly dispatch to the task that should be performed next.
  *	Use at system startup and 'tk_ext_tsk, tk_exd_tsk.'
  */
-//IMPORT void knl_force_dispatch(void);
-#define knl_force_dispatch() { __syscall(1); }
-/*
- * Start task dispatcher
- */
-#define knl_dispatch() { __syscall(0); }
+IMPORT void knl_force_dispatch(void);
 
 /*
- * Start task dispatcher during ISR
+ * Start task dispatcher, pend a ISR
  */
-#define knl_isr_dispatch() {__syscall(0);}
+#define knl_dispatch() { CPU_SRC0.B.SETR = 1; }
+
+/*
+ * Start task dispatcher during ISR, pend a ISR
+ */
+#define knl_isr_dispatch() { CPU_SRC0.B.SETR = 1; }
 
 IMPORT imask_t disint( void );
 IMPORT void enaint( imask_t intsts );

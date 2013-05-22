@@ -50,7 +50,7 @@
 <entry excluding="at91sam3s|c166|s12cpuv2|e200z3|stm32f1" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="arch"/>
 <entry excluding="C*.*|D*.*|P*.*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="config"/>
 <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
-<entry excluding="portable/armv7_m|portable/c166|portable/s12cpuv2|portable/e200z3" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="osek"/>
+<entry excluding="portable/armv7_m|portable/c166|portable/s12cpuv2|portable/e200z3|portable/tricore/TODO" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="osek"/>
 </sourceEntries>
 </configuration>
 </storageModule>

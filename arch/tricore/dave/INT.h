@@ -13,7 +13,7 @@
 //                the INT module.
 //
 //----------------------------------------------------------------------------
-// @Date          2013/5/16 21:37:27
+// @Date          2013/5/22 23:25:45
 //
 //****************************************************************************
 
@@ -254,10 +254,102 @@ void INT_vInit(void);
 
 
 //****************************************************************************
+// @Macro         INT_vSetIntReq(IntName) 
+//
+//----------------------------------------------------------------------------
+// @Description   This macro sets the service request bit of the selected 
+//                service request node. The service request bit can be set or 
+//                cleared regardless of the state of the enable bit (SRE). If 
+//                the service request node is enabled, a pending service 
+//                request takes part in the interrupt arbitration of the 
+//                service provider. 
+//                If the service request node is disabled, a pending service 
+//                request is excluded from the interrupt arbitrations. 
+//                Software can poll the service request bit to check for a 
+//                pending service request. The service request bit must be 
+//                reset by software in this case. 
+//                Note:
+//                See the 'Defines for the parameter IntName' section in this 
+//                header file for the available definitions for the parameter 
+//                IntName.
+//
+//----------------------------------------------------------------------------
+// @Returnvalue   None
+//
+//----------------------------------------------------------------------------
+// @Parameters    IntName: 
+//                Name of the service request
+//
+//----------------------------------------------------------------------------
+// @Date          2013/5/22
+//
+//****************************************************************************
+
+#define INT_vSetIntReq(IntName) IntName |= 0x8000
+
+
+//****************************************************************************
+// @Macro         INT_vClearIntReq(IntName) 
+//
+//----------------------------------------------------------------------------
+// @Description   This macro clears the service request bit of the selected 
+//                service request node.
+//                Note:
+//                See the 'Defines for the parameter IntName' section in this 
+//                header file for the available definitions for the parameter 
+//                IntName.
+//
+//----------------------------------------------------------------------------
+// @Returnvalue   None
+//
+//----------------------------------------------------------------------------
+// @Parameters    IntName: 
+//                Name of the service request
+//
+//----------------------------------------------------------------------------
+// @Date          2013/5/22
+//
+//****************************************************************************
+
+#define INT_vClearIntReq(IntName) IntName |= 0x4000
+
+
+//****************************************************************************
+// @Macro         INT_ubPendingReq(IntName) 
+//
+//----------------------------------------------------------------------------
+// @Description   This macro returns the state of the selected service 
+//                request bit. 
+//                If the service request node is disabled, a pending service 
+//                request is excluded from the interrupt arbitrations. This 
+//                macro can poll the service request bit to check for a 
+//                pending service request. The service request bit must be 
+//                reset by software in this case. 
+//                Note:
+//                See the 'Defines for the parameter IntName' section in this 
+//                header file for the available definitions for the parameter 
+//                IntName.
+//
+//----------------------------------------------------------------------------
+// @Returnvalue   State of the selected service request bit
+//
+//----------------------------------------------------------------------------
+// @Parameters    IntName: 
+//                Name of the service request
+//
+//----------------------------------------------------------------------------
+// @Date          2013/5/22
+//
+//****************************************************************************
+
+#define INT_ubPendingReq(IntName) (ubyte)((IntName & 0x2000) >> 13)
+
+
+//****************************************************************************
 // @Interrupt Vectors
 //****************************************************************************
 
-#define CPU0INT    0xFE
+#define CPU0INT    0x01
 
 // USER CODE BEGIN (INT_Header,9)
 
