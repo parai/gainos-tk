@@ -31,8 +31,7 @@ typedef unsigned short               imask_t;
  */
 typedef struct {
 	void* ssp;		/* System stack pointer */
-	unsigned int dispatcher;	//if 1 jmp to knl_activate_r
-							    // else knl_dispatch_r
+	void (*dispatcher)(void);
 } CTXB;
 
 

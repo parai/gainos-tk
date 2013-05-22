@@ -30,10 +30,11 @@ EXPORT void knl_start_hw_timer( void )
 {
 	/* Do nothing, as DAVE has done this. */
 }
+void knl_activate_r(void);
 EXPORT void knl_setup_context( TCB *tcb )
 {
 	tcb->tskctxb.ssp = tcb->isstack;
-	tcb->tskctxb.dispatcher = 1;
+	tcb->tskctxb.dispatcher = knl_activate_r;
 }
 
 /*
@@ -131,7 +132,11 @@ void knl_activate_r(void)
 		__mtcr(ICR,ulICR);
 	}
 	__enable();
-	knl_ctxtsk->task();
+	{	//jump to task
+		unsigned long task = (UW)knl_ctxtsk->task;
+		__asm("mov.a\ta15,%0"::"d"(task));
+		__asm("ji a15");
+	}
 }
 void knl_dispatch_r(void)
 {
@@ -173,14 +178,10 @@ l_dispatch1:
 //l_dispatch2:
 	knl_ctxtsk = knl_schedtsk;
 	knl_dispatch_disabled=0;    /* Dispatch enable */
-
-	if(1 == knl_ctxtsk->tskctxb.dispatcher)
 	{
-		__asm("j knl_activate_r");
-	}
-	else
-	{
-		__asm("j knl_dispatch_r");
+		unsigned long dispatcher = (UW)knl_ctxtsk->tskctxb.dispatcher;
+		__asm("mov.a\ta15,%0"::"d"(dispatcher));
+		__asm("ji a15");
 	}
 }
 extern __far void _lc_ue_istack[];      /* interrupt stack end */
@@ -213,7 +214,7 @@ EXPORT __trap(6) void knl_dispatch_entry(void)
 	__svlcx(); /* save lower contex */
 	knl_ctxtsk->tskctxb.ssp = __mfcr( PCXI );
 	__mtcr(PCXI,0);
-	knl_ctxtsk->tskctxb.dispatcher = 0;
+	knl_ctxtsk->tskctxb.dispatcher = knl_dispatch_r;
 	knl_ctxtsk = NULL;
 	__isync();
 

@@ -45,7 +45,7 @@
 </toolChain>
 </folderInfo>
 <sourceEntries>
-<entry excluding="appd|osek|include|config|arch|app" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+<entry excluding="tool|appd|osek|include|config|arch|app" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="app"/>
 <entry excluding="at91sam3s|c166|s12cpuv2|e200z3|stm32f1" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="arch"/>
 <entry excluding="C*.*|D*.*|P*.*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="config"/>
