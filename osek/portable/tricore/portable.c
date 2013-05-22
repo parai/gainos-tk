@@ -110,6 +110,7 @@ LOCAL void vPortReclaimCSA( unsigned long pxHeadCSA )
 EXPORT void enaint(imask_t mask)
 {
 	__mtcr(ICR,mask);
+	__isync();
 }
 
 EXPORT imask_t disint()
@@ -119,37 +120,25 @@ EXPORT imask_t disint()
 	__disable();
 	return mask;
 }
+void knl_activate_rr(void)
+{
+	unsigned long *pulUpperCSA = vPortCSA_TO_ADDRESS(__mfcr(PCXI));
+	/* Upper Context. */
+	pulUpperCSA[ 2 ] = ( unsigned long )knl_ctxtsk->isstack;		/* A10;	Stack Return aka Stack Pointer */
+	pulUpperCSA[ 1 ] = 0x000008FFUL;		/* PSW	*/
+	{
+		unsigned long task = (UW)knl_ctxtsk->task;
+		__asm("mov.a\ta11,%0"::"d"(task));
+		__asm("rfe");
+	}
+}
 void knl_activate_r(void)
 {
-	unsigned long sp = (unsigned long)(knl_ctxtsk->isstack);
-	__asm("mov.a\tsp,%0"::"d"(sp));
-	/* Supervisor Mode, IS = 0 User Stack and Call Depth Counting disabled. */
-	__mtcr(PSW,0x000008FFUL);
-	{//lower cpu IPL
-		unsigned long ulICR;
-		ulICR = __mfcr( ICR );
-		ulICR &= ~0x000000FFUL;
-		__mtcr(ICR,ulICR);
-	}
-	__enable();
-	{	//jump to task
-		unsigned long task = (UW)knl_ctxtsk->task;
-		__asm("mov.a\ta15,%0"::"d"(task));
-		__asm("ji a15");
-	}
+	knl_activate_rr();
+	__nop();//make a call to knl_activate_rr() to take CSA
 }
 void knl_dispatch_r(void)
 {
-	/* Clear the PSW.CDC to enable the use of an RFE without it generating an
-		exception because this code is not genuinely in an exception. */
-//	{
-//		unsigned long ulMFCR = 0UL;
-//		ulMFCR = __mfcr( PSW );
-//		ulMFCR &= ( ~( 0x000000FFUL ) );
-//		__dsync();
-//		__mtcr( PSW, ulMFCR );
-//		__isync();
-//	}
 	__dsync();
 	__mtcr( PCXI, (UW)(knl_ctxtsk->tskctxb.ssp) );
 	__isync();
@@ -185,7 +174,7 @@ l_dispatch1:
 	}
 }
 extern __far void _lc_ue_istack[];      /* interrupt stack end */
-EXPORT void knl_force_dispatch(void)
+EXPORT void knl_force_dispatch_impl(void)
 {
 	/* load tmp stack(share the ISP,see the linker file) */
 	 unsigned int sp = (unsigned int)(_lc_ue_istack);
@@ -206,7 +195,7 @@ EXPORT __trap(3) void knl_context_trap(void)
 	/* If Context Error, Deadloop. */
 	for(;;);
 }
-EXPORT __trap(6) void knl_dispatch_entry(void)
+EXPORT void knl_dispatch_entry(void)
 {
 	knl_dispatch_disabled = 1;    /* Dispatch disable */
 	__disable();
@@ -220,4 +209,20 @@ EXPORT __trap(6) void knl_dispatch_entry(void)
 
 	/* Don't consume CSA.So just Jump*/
 	__asm("j l_dispatch0");
+}
+EXPORT __trap(6) void knl_syscall_entry(void)
+{
+	UINT syscall_nr;
+	__asm("mov %0,d15":"=d"(syscall_nr):);
+	switch(syscall_nr)
+	{
+		case 0:
+			__asm("j knl_dispatch_entry");
+			break;
+		case 1:
+			__asm("j knl_force_dispatch_impl");
+			break;
+		default:
+			break;
+	}
 }
