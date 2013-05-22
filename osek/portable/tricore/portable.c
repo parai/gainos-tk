@@ -120,22 +120,34 @@ EXPORT imask_t disint()
 	__disable();
 	return mask;
 }
-void knl_activate_rr(void)
-{
-	unsigned long *pulUpperCSA = vPortCSA_TO_ADDRESS(__mfcr(PCXI));
-	/* Upper Context. */
-	pulUpperCSA[ 2 ] = ( unsigned long )knl_ctxtsk->isstack;		/* A10;	Stack Return aka Stack Pointer */
-	pulUpperCSA[ 1 ] = 0x000008FFUL;		/* PSW	*/
-	{
-		unsigned long task = (UW)knl_ctxtsk->task;
-		__asm("mov.a\ta11,%0"::"d"(task));
-		__asm("rfe");
-	}
-}
+
 void knl_activate_r(void)
 {
-	knl_activate_rr();
-	__nop();//make a call to knl_activate_rr() to take CSA
+	UW *pulUpperCSA = vPortCSA_TO_ADDRESS(__mfcr(FCX));
+	/* Check that we have successfully reserved two CSAs. */
+	if( NULL != pulUpperCSA )
+	{
+		/* Remove the two consumed CSAs from the free CSA list. */
+		__disable();
+		__dsync();
+		__mtcr( FCX, pulUpperCSA[ 0 ] );
+		__isync();
+		__enable();
+	}
+	else
+	{
+		/* Simply trigger a context list depletion trap. */
+		__svlcx();
+	}
+	/* Upper Context. */
+	pulUpperCSA[ 2 ] = (UW)knl_ctxtsk->isstack;		/* A10;	Stack Return aka Stack Pointer */
+	pulUpperCSA[ 1 ] = 0x000008FFUL;				/* PSW	*/
+	pulUpperCSA[ 0 ] = 0x00000000UL;				/* PCXI */
+	__dsync();
+	__mtcr(PCXI,(0x00C00000UL | (UW)vPortADDRESS_TO_CSA(pulUpperCSA)));
+	__isync();
+	__asm("mov.a\ta11,%0"::"d"((UW)knl_ctxtsk->task));
+	__asm("rfe");
 }
 void knl_dispatch_r(void)
 {
@@ -176,17 +188,12 @@ l_dispatch1:
 extern __far void _lc_ue_istack[];      /* interrupt stack end */
 EXPORT void knl_force_dispatch_impl(void)
 {
-	/* load tmp stack(share the ISP,see the linker file) */
-	 unsigned int sp = (unsigned int)(_lc_ue_istack);
-	 __asm("mov.a\tsp,%0"::"d"(sp));
-
 	knl_dispatch_disabled = 1;    /* Dispatch disable */
 	knl_ctxtsk = NULL;
 	__disable();	//disable interrupt
 
 	/* Free the csa used by knl_ctxtsk */
 	vPortReclaimCSA(__mfcr(PCXI));
-	__mtcr(PCXI,0);
 	/* Don't consume CSA.So just Jump*/
 	__asm("j l_dispatch0");
 }
@@ -199,13 +206,10 @@ EXPORT void knl_dispatch_entry(void)
 {
 	knl_dispatch_disabled = 1;    /* Dispatch disable */
 	__disable();
-	__dsync();
 	__svlcx(); /* save lower contex */
 	knl_ctxtsk->tskctxb.ssp = __mfcr( PCXI );
-	__mtcr(PCXI,0);
 	knl_ctxtsk->tskctxb.dispatcher = knl_dispatch_r;
 	knl_ctxtsk = NULL;
-	__isync();
 
 	/* Don't consume CSA.So just Jump*/
 	__asm("j l_dispatch0");
