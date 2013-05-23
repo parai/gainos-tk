@@ -18,10 +18,6 @@
  * Email: parai@foxmail.com
  * Sourrce Open At: https://github.com/parai/gainos-tk/
  */
-/*
- * This vPort is For TASKING VX-toolset TriCore.
- * Run OK on TriCore(TC1797) family chip.
- */
 #ifndef  VPORT_H_H
 #define  VPORT_H_H
 /* ============================ INCLUDEs ========================================== */
@@ -31,8 +27,8 @@
 
 /* ============================ MACROs ============================================= */
 /* CSA Manipulation. */
-#define vPortCSA_TO_ADDRESS( pCSA )			( ( unsigned long * )( ( ( ( pCSA ) & 0x000F0000 ) << 12 ) | ( ( ( pCSA ) & 0x0000FFFF ) << 6 ) ) )
-#define vPortADDRESS_TO_CSA( pAddress )		( ( unsigned long )( ( ( ( (unsigned long)( pAddress ) ) & 0xF0000000 ) >> 12 ) | ( ( ( unsigned long )( pAddress ) & 0x003FFFC0 ) >> 6 ) ) )
+#define CSA_TO_ADDRESS( pCSA )			( ( unsigned long * )( ( ( ( pCSA ) & 0x000F0000 ) << 12 ) | ( ( ( pCSA ) & 0x0000FFFF ) << 6 ) ) )
+#define ADDRESS_TO_CSA( pAddress )		( ( unsigned long )( ( ( ( (unsigned long)( pAddress ) ) & 0xF0000000 ) >> 12 ) | ( ( ( unsigned long )( pAddress ) & 0x003FFFC0 ) >> 6 ) ) )
 
 /* ============================ TYPEs ============================================= */
 /*
@@ -64,24 +60,21 @@ typedef struct {
  *	Use at system startup and 'tk_ext_tsk, tk_exd_tsk.'
  */
 IMPORT void knl_force_dispatch(void);
-
 /*
- * Start task dispatcher, pend a ISR
+ * Start task dispatcher, pend a contex swtich ISR
  */
 #define knl_dispatch() { CPU_SRC0.B.SETR = 1; }
 
 /*
- * Start task dispatcher during ISR, pend a ISR
+ * Start task dispatcher during ISR, pend a contex swtich ISR
  */
 #define knl_isr_dispatch() { CPU_SRC0.B.SETR = 1; }
 
 IMPORT imask_t disint( void );
 IMPORT void enaint( imask_t intsts );
 IMPORT void knl_start_hw_timer( void );
-/*
- * Create stack frame for task startup
- *	Call from 'make_dormant()'
- */
 IMPORT void knl_setup_context( TCB *tcb );
+IMPORT void knl_reclaim_csa( unsigned long pxHeadCSA );
+IMPORT void knl_set_ipl(UINT ipl);
 
 #endif/* VPORT_H_H */

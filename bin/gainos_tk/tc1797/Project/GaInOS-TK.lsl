@@ -8,6 +8,7 @@
 //**                                                                         *
 //****************************************************************************
 
+#define CSA 64
 // Include the CPU specific .lsl file
 // The CPU is specified by the __CPU__ macro
 #ifndef __CPU__
