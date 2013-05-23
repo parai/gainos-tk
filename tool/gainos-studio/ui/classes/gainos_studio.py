@@ -126,7 +126,7 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         from cd_add import cd_add
         ArModule=['OS','Adc', 'Can','CanIf','CanNm', 'CanTp', 'CanSm', 'Com', 
             'Dio', 'Eep', 'EcuC', 'Fls', 'Gpt', 'Icu', 'Pwm', 'Port', 'Mcu', 
-            'PduR', 'Spi', 'Wdg', 'WdgIf']
+            'PduR', 'Spi', 'Wdg', 'WdgIf', 'Dcm']
         list =[];
         for it in ArModule:
             if(self.cfg.findModule(it) == None):

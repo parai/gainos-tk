@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-Module implementing cd_mscan.
+/* Copyright 2012, Fan Wang(Parai). All rights reserved.
+ *
+ * This file is part of GaInOS-Studio.
+ */
 """
 
 from PyQt4.QtGui import QDialog
