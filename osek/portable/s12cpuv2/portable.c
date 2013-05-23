@@ -102,8 +102,7 @@ l_dispatch2:
 	asm   ldx  knl_ctxtsk;
 	asm   lds  SP_OFFSET,x;       /* Restore 'ssp' from TCB */
     //knl_ctxtsk->tskctxb.dispatcher();
-    asm   ldy   knl_ctxtsk;
-    asm   jmp  [6,y];
+    asm   jmp  [6,x];
 }
 void knl_force_dispatch(void)
 {

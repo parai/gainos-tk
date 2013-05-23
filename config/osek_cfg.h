@@ -8,7 +8,7 @@
 /* =====================  MISC  ========================== */
 #define cfgOS_STATUS_LEVEL OS_STATUS_EXTEND
 #define cfgOS_TK_EXTEND STD_ON
-//#define CHIP_MC9S12
+#define CHIP_MC9S12
 #if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
 #define OSC_FREQUENCY         8000000 /* HZ */
