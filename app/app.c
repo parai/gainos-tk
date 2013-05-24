@@ -6,11 +6,6 @@
 #include <stdio.h>
 #include "Os.h"
 
-UINT g_counter = 0;
-void test_call(void)
-{
-	g_counter++;
-}
 TASK(vTaskInit)
 {
 	StatusType ercd;
@@ -23,10 +18,8 @@ TASK(vTaskInit)
 	(void)ActivateTask(ID_vTaskMainFunction);
     /* Add your task special code here, but Don't delete this Task declaration.*/
     (void)printf("vTaskInit is running.\r\n");
-    test_call();
-    ercd = TerminateTask();
-    printf("Error Code is %d.\r\n",ercd);
-    test_call();
+
+    (void)TerminateTask();
 }
 
 TASK(vTaskSender)
@@ -60,8 +53,8 @@ TASK(vTaskIdle)
     /* Add your task special code here, but Don't delete this Task declaration.*/
 	for(;;)
 	{
-		//printf("vTaskIdle is running.\r\n");
-		//SleepTask(500);
+		printf("vTaskIdle is running.\r\n");
+		SleepTask(200);
 	}
     (void)ChainTask(ID_vTaskIdle);
     (void)TerminateTask();

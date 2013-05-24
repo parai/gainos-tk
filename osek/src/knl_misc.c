@@ -23,21 +23,6 @@
 #include "knl_bitop.h"
 #include <string.h>
 
-EXPORT QUEUE* QueRemoveNext( QUEUE *que )
-{
-	QUEUE	*entry;
-
-	if ( que->next == que ) {
-		return NULL;
-	}
-
-	entry = que->next;
-	que->next = (struct queue*)entry->next;
-	entry->next->prev = que;
-
-	return entry;
-}
-
 EXPORT void knl_ready_queue_initialize( RDYQUE *rq )
 {
 	INT	i;
@@ -49,18 +34,6 @@ EXPORT void knl_ready_queue_initialize( RDYQUE *rq )
 	rq->null = NULL;
 //	rq->klocktsk = NULL;
 	(void)memset(rq->bitmap, 0, sizeof(rq->bitmap));
-}
-/*
- * Return the highest priority task in ready queue
- */
-EXPORT TCB* knl_ready_queue_top( RDYQUE *rq )
-{
-	/* If there is a task at kernel lock, that is the highest priority task */
-//	if ( rq->klocktsk != NULL ) {
-//		return rq->klocktsk;
-//	}
-
-	return (TCB*)rq->tskque[rq->top_priority].next;
 }
 /*
  * Insert task in ready queue

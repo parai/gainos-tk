@@ -54,6 +54,19 @@
  */
 #define  knl_ready_queue_top_priority(__rq) ((INT) ((__rq)->top_priority))
 
+/*
+ * Return the highest priority task in ready queue
+ */
+Inline TCB* knl_ready_queue_top( RDYQUE *rq )
+{
+	/* If there is a task at kernel lock, that is the highest priority task */
+//	if ( rq->klocktsk != NULL ) {
+//		return rq->klocktsk;
+//	}
+
+	return (TCB*)rq->tskque[rq->top_priority].next;
+}
+
 /* ============================ DATAs    ========================================== */
 IMPORT INT	knl_dispatch_disabled;
 IMPORT TCB	*knl_ctxtsk;
@@ -67,7 +80,6 @@ IMPORT	UINT	knl_taskmode;
 /* ============================ FUNCTIONs    ====================================== */
 IMPORT void knl_task_init(void);
 IMPORT void knl_ready_queue_initialize( RDYQUE *rq );
-IMPORT TCB* knl_ready_queue_top( RDYQUE *rq );
 IMPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb );
 IMPORT void knl_ready_queue_insert_top( RDYQUE *rq, TCB *tcb );
 IMPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb );

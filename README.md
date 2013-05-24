@@ -78,9 +78,6 @@ gainos-tk
 	
 	附注：
 		对于Tasking，需要在path and symbols 中添加 GAINOS_BD = "path/to/gainos-tk"
-		tc1797 的移植是一个不完全的移植，任务一旦被抢占，在恢复运行时将会发生context异常，portable提供了
-	FreeRTOS和gainos-tk的两种任务上下文处理机制，使用宏cfgUSE_FREERTOS_PORT来切换。由于个人精力与能力的
-	有限，我不纠结于该问题，先置之于一旁，接着向前进。（希望懂tricore架构的RTOS爱好者可以帮助我解决这一问题。）
 	
 	2.tool/gainos-studio 工具的使用
 	首先要安装 python27 < http://www.python.org/download/releases/2.7/ >

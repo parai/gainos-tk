@@ -28,11 +28,23 @@
 /*
  * Queue initialization
  */
+#if 0
+/* Yeah, I think the Macro QueInit() is ok. It really works ok on codewarrior.
+ * But for Tasking for TriCore, shit.
+ */
+#define QueInit(__que)                              \
+do                                                  \
+{                                                   \
+     (__que)->next = (struct queue *)(__que);       \
+     (__que)->prev = (struct queue *)(__que);       \
+}while(0);
+#else
 Inline void  QueInit(QUEUE* que)
 {
 	que->next = (struct queue *)que;
 	que->prev = (struct queue *)que;
 }
+#endif
 
 /*
  * TRUE if the queue is empty
@@ -56,6 +68,7 @@ Inline void QueInsert(QUEUE* entry,QUEUE* que)
  *	Deletes entry from queue
  *	No action is performed if entry is empty.
  */
+#if 0    /* make consistant with QueInit() ... */
 #define QueRemove(__entry)                                          \
 do                                                                  \
 {                                                                   \
@@ -64,14 +77,37 @@ do                                                                  \
 		(__entry)->next->prev = (struct queue*) (__entry)->prev;    \
 	}                                                               \
 }while(0)
+#else
+Inline void QueRemove(QUEUE* entry)                                                                                            
+{                                                                   
+ 	if ( entry->next != entry ) {                      
+    	entry->prev->next = (struct queue*) entry->next;    
+    	entry->next->prev = (struct queue*) entry->prev;  
+	} 
+}                                                             
+#endif
 
 /* ============================ FUNCTIONs    ========================================== */
+#if 0
 /*
  * Remove top entry
  *	Deletes the entry directly after que from the queue,
  *	and returns the deleted entry.
  *	Returns NULL if que is empty.
  */
-IMPORT QUEUE* QueRemoveNext( QUEUE *que );
+Inline QUEUE* QueRemoveNext( QUEUE *que )
+{
+	QUEUE	*entry;
 
+	if ( que->next == que ) {
+		return NULL;
+	}
+
+	entry = que->next;
+	que->next = (struct queue*)entry->next;
+	entry->next->prev = que;
+
+	return entry;
+}
+#endif
 #endif /* KNL_QUEUE_H_H */
