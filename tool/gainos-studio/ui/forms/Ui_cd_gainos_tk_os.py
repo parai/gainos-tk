@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_gainos_tk_os.ui'
 #
-# Created: Thu May 23 21:50:32 2013
+# Created: Fri May 24 21:08:32 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -108,6 +108,7 @@ class Ui_cd_gainos_tk_os(object):
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.tblGaInOsCfg = QtGui.QTabWidget(self.groupBox_2)
         self.tblGaInOsCfg.setGeometry(QtCore.QRect(450, 20, 481, 401))
+        self.tblGaInOsCfg.setStyleSheet(_fromUtf8("font: 12pt \"Consolas\";"))
         self.tblGaInOsCfg.setObjectName(_fromUtf8("tblGaInOsCfg"))
         self.tabTask = QtGui.QWidget()
         self.tabTask.setObjectName(_fromUtf8("tabTask"))
@@ -342,25 +343,23 @@ class Ui_cd_gainos_tk_os(object):
         self.btnCfgSchedEp = QtGui.QPushButton(self.tab)
         self.btnCfgSchedEp.setGeometry(QtCore.QRect(120, 250, 211, 23))
         self.btnCfgSchedEp.setObjectName(_fromUtf8("btnCfgSchedEp"))
-        self.layoutWidget_11 = QtGui.QWidget(self.tab)
-        self.layoutWidget_11.setGeometry(QtCore.QRect(50, 10, 351, 27))
-        self.layoutWidget_11.setObjectName(_fromUtf8("layoutWidget_11"))
-        self.horizontalLayout_6 = QtGui.QHBoxLayout(self.layoutWidget_11)
+        self.pteSchedTblInfo = QtGui.QPlainTextEdit(self.tab)
+        self.pteSchedTblInfo.setGeometry(QtCore.QRect(10, 50, 451, 191))
+        self.pteSchedTblInfo.setObjectName(_fromUtf8("pteSchedTblInfo"))
+        self.widget = QtGui.QWidget(self.tab)
+        self.widget.setGeometry(QtCore.QRect(30, 10, 419, 27))
+        self.widget.setObjectName(_fromUtf8("widget"))
+        self.horizontalLayout_6 = QtGui.QHBoxLayout(self.widget)
         self.horizontalLayout_6.setMargin(0)
         self.horizontalLayout_6.setObjectName(_fromUtf8("horizontalLayout_6"))
-        self.label_28 = QtGui.QLabel(self.layoutWidget_11)
-        self.label_28.setEnabled(True)
-        self.label_28.setFrameShape(QtGui.QFrame.NoFrame)
-        self.label_28.setObjectName(_fromUtf8("label_28"))
-        self.horizontalLayout_6.addWidget(self.label_28)
-        self.leSchedTblName = QtGui.QLineEdit(self.layoutWidget_11)
+        self.label_27 = QtGui.QLabel(self.widget)
+        self.label_27.setObjectName(_fromUtf8("label_27"))
+        self.horizontalLayout_6.addWidget(self.label_27)
+        self.leSchedTblName = QtGui.QLineEdit(self.widget)
         self.leSchedTblName.setEnabled(True)
         self.leSchedTblName.setMinimumSize(QtCore.QSize(231, 0))
         self.leSchedTblName.setObjectName(_fromUtf8("leSchedTblName"))
         self.horizontalLayout_6.addWidget(self.leSchedTblName)
-        self.pteSchedTblInfo = QtGui.QPlainTextEdit(self.tab)
-        self.pteSchedTblInfo.setGeometry(QtCore.QRect(10, 50, 451, 191))
-        self.pteSchedTblInfo.setObjectName(_fromUtf8("pteSchedTblInfo"))
         self.tblGaInOsCfg.addTab(self.tab, _fromUtf8(""))
         self.tabEvent = QtGui.QWidget()
         self.tabEvent.setObjectName(_fromUtf8("tabEvent"))
@@ -406,7 +405,7 @@ class Ui_cd_gainos_tk_os(object):
         self.verticalLayout.addWidget(self.btnDel)
 
         self.retranslateUi(cd_gainos_tk_os)
-        self.tblGaInOsCfg.setCurrentIndex(6)
+        self.tblGaInOsCfg.setCurrentIndex(2)
         self.cmbxTskType.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(cd_gainos_tk_os)
 
@@ -476,11 +475,11 @@ class Ui_cd_gainos_tk_os(object):
         self.label_23.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p>Alarm Set Event:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabAlm), QtGui.QApplication.translate("cd_gainos_tk_os", "Alarm", None, QtGui.QApplication.UnicodeUTF8))
         self.btnCfgSchedEp.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "Configure Expiry Point", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_28.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        self.label_27.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Monospace\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">SchedTbl Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Schedule Table Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leSchedTblName.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "vSchedTbl", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tab), QtGui.QApplication.translate("cd_gainos_tk_os", "Schedule Table", None, QtGui.QApplication.UnicodeUTF8))
         self.label_25.setText(QtGui.QApplication.translate("cd_gainos_tk_os", "<html><head/><body><p><span style=\" font-size:12pt;\">Event Name:</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
