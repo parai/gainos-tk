@@ -28,12 +28,11 @@
 /*
  * Queue initialization
  */
-#define QueInit(__que)                              \
-do                                                  \
-{                                                   \
-     (__que)->next = (struct queue *)(__que);       \
-     (__que)->prev = (struct queue *)(__que);       \
-}while(0);
+Inline void  QueInit(QUEUE* que)
+{
+	que->next = (struct queue *)que;
+	que->prev = (struct queue *)que;
+}
 
 /*
  * TRUE if the queue is empty

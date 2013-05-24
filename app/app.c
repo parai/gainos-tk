@@ -6,18 +6,27 @@
 #include <stdio.h>
 #include "Os.h"
 
+UINT g_counter = 0;
+void test_call(void)
+{
+	g_counter++;
+}
 TASK(vTaskInit)
 {
+	StatusType ercd;
 	(void)SetRelAlarm(ID_vAlarmReceiver,50,200);
 	(void)SetRelAlarm(ID_vAlarmSender,100,200);
 	(void)SetRelAlarm(ID_vAlarmMainFunction,150,200);
 	
-//	(void)ActivateTask(ID_vTaskSender);
-//	(void)ActivateTask(ID_vTaskReceiver);
-//	(void)ActivateTask(ID_vTaskMainFunction);
+	(void)ActivateTask(ID_vTaskSender);
+	(void)ActivateTask(ID_vTaskReceiver);
+	(void)ActivateTask(ID_vTaskMainFunction);
     /* Add your task special code here, but Don't delete this Task declaration.*/
     (void)printf("vTaskInit is running.\r\n");
-    (void)TerminateTask();
+    test_call();
+    ercd = TerminateTask();
+    printf("Error Code is %d.\r\n",ercd);
+    test_call();
 }
 
 TASK(vTaskSender)
