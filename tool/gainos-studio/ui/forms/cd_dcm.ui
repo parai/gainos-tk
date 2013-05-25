@@ -409,7 +409,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -577,7 +577,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>41</width>
+          <width>77</width>
           <height>62</height>
          </rect>
         </property>
@@ -623,7 +623,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>41</width>
+          <width>77</width>
           <height>62</height>
          </rect>
         </property>
@@ -812,7 +812,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>41</width>
+          <width>77</width>
           <height>62</height>
          </rect>
         </property>
@@ -858,7 +858,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>41</width>
+          <width>77</width>
           <height>62</height>
          </rect>
         </property>
@@ -996,7 +996,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>41</width>
+          <width>77</width>
           <height>62</height>
          </rect>
         </property>
@@ -1042,7 +1042,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>41</width>
+          <width>77</width>
           <height>62</height>
          </rect>
         </property>
@@ -1607,7 +1607,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_20"/>
+          <widget class="QLineEdit" name="leRxProtocolName"/>
          </item>
         </layout>
        </item>
@@ -1621,10 +1621,15 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_15">
+          <widget class="QComboBox" name="cmbxRxAddrType">
            <item>
             <property name="text">
-             <string>DCM_PHYSICAL_TYPE</string>
+             <string>DCM_PROTOCOL_FUNCTIONAL_ADDR_TYPE</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>DCM_PROTOCOL_PHYSICAL_ADDR_TYPE</string>
             </property>
            </item>
           </widget>
@@ -1641,7 +1646,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_16"/>
+          <widget class="QComboBox" name="cmbxRxPdu"/>
          </item>
         </layout>
        </item>
@@ -1670,7 +1675,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_19"/>
+        <widget class="QLineEdit" name="leConnectionName"/>
        </item>
       </layout>
      </widget>
@@ -1699,7 +1704,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_21"/>
+          <widget class="QLineEdit" name="leTxProtocolName"/>
          </item>
         </layout>
        </item>
@@ -1713,7 +1718,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_18"/>
+          <widget class="QComboBox" name="cmbxTxPdu"/>
          </item>
         </layout>
        </item>

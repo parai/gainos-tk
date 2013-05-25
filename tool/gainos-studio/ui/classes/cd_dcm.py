@@ -17,14 +17,15 @@ class cd_dcm(QDialog, Ui_cd_dcm):
     """
     Class documentation goes here.
     """
-    def __init__(self, title, fileInd, cfg, parent = None):
+    def __init__(self, title, fileInd, cfg, depinfo, parent = None):
         """
-        Constructor
+        depinfo[0] --> ECUC obj
         """
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.setWindowTitle(title);
         self.cfg = cfg;
+        self.depinfo = depinfo;
         self.fileInd = fileInd;
         self.curtree = None; 
         self.curobj = None;
@@ -70,7 +71,6 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             del temp;
         for obj in list:
             item=QTreeWidgetItem(tree,QStringList(obj.name));
-            tree.addChild(item);
     def reloadTreeDidInfo(self):
         tree=self.trDcm.topLevelItem(1);
         for index in range(0, tree.childCount()):
@@ -78,10 +78,8 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             del temp;
         for obj in self.cfg.didInfoList:
             item=QTreeWidgetItem(tree,QStringList(obj.name));
-            tree.addChild(item);
             for obj2 in obj.ControlAccessList+obj.ReadAccessList+obj.WriteAccessList:
                 item2 = QTreeWidgetItem(item,QStringList(obj2.name));
-                item.addChild(item2);
     def reloadTreeProtocol(self):
         tree=self.trDcm.topLevelItem(4);
         for index in range(0, tree.childCount()):
@@ -89,7 +87,10 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             del temp;
         for obj in self.cfg.protocolList:
             item=QTreeWidgetItem(tree,QStringList(obj.name));
-            tree.addChild(item);
+            for obj2 in obj.ConnectionList:
+                item2=QTreeWidgetItem(item,QStringList(obj2.name));
+                for obj3 in obj2.RxChannelList+obj2.TxChannelList:
+                    item3=QTreeWidgetItem(item2,QStringList(obj3.name));
     def reloadGui(self):
         self.reloadTreeGui(0, self.cfg.bufferList); # -- 0  Buffers
         self.reloadTreeDidInfo();                   # -- 1  Did Infos
@@ -187,6 +188,21 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn2.setDisabled(True);
             self.btn3.setDisabled(True);
             self.btn4.setDisabled(True);
+        elif(self.curtree.parent().parent().text(0) == 'Protocols'):
+            self.btn1.setText('Del Connection');
+            self.btn1.setDisabled(False);
+            self.btn2.setText('Add Rx Channel');
+            self.btn2.setDisabled(False);
+            self.btn3.setText('Add Tx Channel');
+            self.btn3.setDisabled(False);
+            self.btn4.setDisabled(True);
+        #-------------------------------- 四级 -------------------
+        elif(self.curtree.parent().parent().parent().text(0) == 'Protocols'):
+            self.btn1.setText('Del Channel');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         else:
             self.initButton(); # disable all button
     def refreshBufferTab(self, name):
@@ -244,11 +260,45 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.leProtocolName.setText(name);
         self.cmbxProtocolId.setCurrentIndex(self.cmbxProtocolId.findText(self.curobj.ProtocolId));
         self.cmbxTransType.setCurrentIndex(self.cmbxTransType.findText(self.curobj.TransType));
+        self.cmbxRxBufferID.clear();
+        self.cmbxTxBufferID.clear();
+        for obj in self.cfg.bufferList:
+            self.cmbxRxBufferID.addItem(obj.name);
+            self.cmbxTxBufferID.addItem(obj.name);
         self.cmbxRxBufferID.setCurrentIndex(self.cmbxRxBufferID.findText(self.curobj.RxBufferID));
         self.cmbxTxBufferID.setCurrentIndex(self.cmbxTxBufferID.findText(self.curobj.TxBufferID));
         self.cmbxTimeLimit.setCurrentIndex(self.cmbxTimeLimit.findText(self.curobj.TimeLimit));
         self.cmbxServiceTable.setCurrentIndex(self.cmbxServiceTable.findText(self.curobj.ServiceTable));
         self.enableTab(6);
+    def refreshRxProtocolTab(self, obj):
+        self.curobj=obj;
+        self.leRxProtocolName.setText(obj.name);
+        self.cmbxRxAddrType.setCurrentIndex(self.cmbxRxAddrType.findText(obj.RxAddrType));
+        self.cmbxRxPdu.clear();
+        for pdu in self.depinfo[0].cfg.pduList:
+            self.cmbxRxPdu.addItem(pdu.name+'_Rx');
+        self.cmbxRxPdu.setCurrentIndex(self.cmbxRxPdu.findText(obj.RxPdu));
+        self.enableTab(7);
+    def refreshConnectionTab(self, name):
+        p = gcfindObj(self.cfg.protocolList, self.curtree.parent().text(0));
+        self.curobj = gcfindObj(p.ConnectionList, name);
+        self.leConnectionName.setText(name);
+        self.enableTab(8);
+    def refreshTxProtocolTab(self, obj):
+        self.curobj=obj;
+        self.leTxProtocolName.setText(obj.name);
+        self.cmbxTxPdu.clear();
+        for pdu in self.depinfo[0].cfg.pduList:
+            self.cmbxTxPdu.addItem(pdu.name+'_Tx');
+        self.cmbxTxPdu.setCurrentIndex(self.cmbxTxPdu.findText(obj.TxPdu));
+        self.enableTab(9);
+    def refreshChannelTab(self, name):
+        protocol = gcfindObj(self.cfg.protocolList, self.curtree.parent().parent().text(0));
+        connection = gcfindObj(protocol.ConnectionList, self.curtree.parent().text(0));
+        if(gcfindObj(connection.RxChannelList, name)):
+            self.refreshRxProtocolTab(gcfindObj(connection.RxChannelList, name));
+        elif(gcfindObj(connection.TxChannelList, name)):
+            self.refreshTxProtocolTab(gcfindObj(connection.TxChannelList, name));
     def refreshTab(self):
         if(self.curtree.parent() == None):
             self.disableAllTab();
@@ -266,6 +316,10 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.refreshProtocolTab(objname);
         elif(self.curtree.parent().parent().text(0) == 'Did Infos'):
             self.refreshDidAccessTab(objname);
+        elif(self.curtree.parent().parent().text(0) == 'Protocols'):
+            self.refreshConnectionTab(objname);
+        elif(self.curtree.parent().parent().parent().text(0) == 'Protocols'):
+            self.refreshChannelTab(objname);
     @pyqtSignature("QTreeWidgetItem*, int")
     def on_trDcm_itemClicked(self, item, column):
         self.curtree = item;
@@ -282,7 +336,13 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             obj.ReadAccessList.remove(self.curobj);
         elif(gcfindObj(obj.WriteAccessList, self.curobj.name)):
             obj.WriteAccessList.remove(self.curobj);
-        
+    def delProtocolChannel(self):
+        protocol = gcfindObj(self.cfg.protocolList, self.curtree.parent().parent().text(0));
+        connection = gcfindObj(protocol.ConnectionList, self.curtree.parent().text(0));
+        if(gcfindObj(connection.RxChannelList, self.curobj.name)):
+            connection.RxChannelList.remove(self.curobj);
+        elif(gcfindObj(connection.TxChannelList, self.curobj.name)):
+            connection.TxChannelList.remove(self.curobj);
     def delObj(self, text):
         #remove it from obj list
         if(text=='Del Buffer'):
@@ -293,6 +353,13 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.delDidAccess();
         elif(text == 'Del DID'):
             self.cfg.didList.remove(self.curobj);
+        elif(text == 'Del Protocol'):
+            self.cfg.protocolList.remove(self.curobj);
+        elif(text == 'Del Connection'):
+            p = gcfindObj(self.cfg.protocolList, self.curtree.parent().text(0));
+            p.ConnectionList.remove(self.curobj);
+        elif(text == 'Del Channel'):
+            self.delProtocolChannel();
         #delete the tree, reselect a tree item
         parent = self.curtree.parent();
         index = parent.indexOfChild(self.curtree);
@@ -304,7 +371,6 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         else:
             parent.setSelected(True);
             self.on_trDcm_itemClicked(parent, 0);
-        self.fileInd(False);
 # ========================== Add Object ============
     def addBuffer(self):
         id = len(self.cfg.bufferList);
@@ -362,6 +428,30 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         obj = DcmProtocol(name);
         self.cfg.protocolList.append(obj);
         self.curtree.setExpanded(True);
+    def addConnection(self):
+        id = len(self.curobj.ConnectionList);
+        name=QString('vConnection%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmConnection(name);
+        self.curobj.ConnectionList.append(obj);
+        self.curtree.setExpanded(True);
+    def addRxChannel(self):
+        id = len(self.curobj.RxChannelList);
+        name=QString('vRxChannel%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmRxChannel(name);
+        self.curobj.RxChannelList.append(obj);
+        self.curtree.setExpanded(True);
+    def addTxChannel(self):
+        id = len(self.curobj.TxChannelList);
+        name=QString('vTxChannel%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmTxChannel(name);
+        self.curobj.TxChannelList.append(obj);
+        self.curtree.setExpanded(True);
 # ========================== Button ================        
     @pyqtSignature("")
     def on_btn1_clicked(self):
@@ -376,21 +466,31 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.addProtocol();
         elif(text[:3] == 'Del'):
             self.delObj(text);
+        self.fileInd(False);
     @pyqtSignature("")
     def on_btn2_clicked(self):
         text=self.btn2.text();
         if(text=='Add Control Access'):
             self.addDidInfoControlAccess();
+        elif(text=='Add Connection'):
+            self.addConnection();
+        elif(text=='Add Rx Channel'):
+            self.addRxChannel();
+        self.fileInd(False);
     @pyqtSignature("")
     def on_btn3_clicked(self):
         text=self.btn3.text();
         if(text=='Add Read Access'):
             self.addDidInfoReadAccess();
+        elif(text=='Add Tx Channel'):
+            self.addTxChannel();
+        self.fileInd(False);
     @pyqtSignature("")
     def on_btn4_clicked(self):
         text=self.btn4.text();
         if(text=='Add Write Access'):
             self.addDidInfoWriteAccess();
+        self.fileInd(False);
 # ========================= General =====================================
     @pyqtSignature("bool")
     def on_cbxDevErrorDetection_clicked(self, checked):
@@ -545,7 +645,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             if(self.curobj.didInfoRef!=p0):
                 self.curobj.didInfoRef=p0;
                 self.fileInd(False);
-# ==================== DID ===========================================
+# ==================== Protocol ===========================================
     @pyqtSignature("QString")
     def on_leProtocolName_textChanged(self, p0):
         if(self.curobj!=None):
@@ -587,4 +687,45 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             if(self.curobj.ServiceTable!=p0):
                 self.curobj.ServiceTable=p0;
                 self.fileInd(False);
-        
+# ====================== Connection ====================================
+    @pyqtSignature("QString")
+    def on_leConnectionName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False); 
+#==================== Protocol Rx ============================================                
+    @pyqtSignature("QString")
+    def on_leRxProtocolName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxRxAddrType_activated(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.RxAddrType!=p0):
+                self.curobj.RxAddrType=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxRxPdu_activated(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.RxPdu!=p0):
+                self.curobj.RxPdu=p0;
+                self.fileInd(False);
+#===================== Protocol Tx =======================
+    @pyqtSignature("QString")
+    def on_leTxProtocolName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxTxPdu_activated(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.TxPdu!=p0):
+                self.curobj.TxPdu=p0;
+                self.fileInd(False);

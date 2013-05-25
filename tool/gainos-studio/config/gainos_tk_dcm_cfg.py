@@ -236,6 +236,63 @@ class DcmDID():
         self.size = int(nd.attrib['size']);
         self.didInfoRef = str(nd.attrib['didInfoRef']);
         self.usePort = bool(nd.attrib['usePort']);
+class DcmRxChannel():
+    def __init__(self, name):
+        self.name = name;
+        self.RxAddrType = 'DCM_PROTOCOL_PHYSICAL_ADDR_TYPE';
+        self.RxPdu = ''
+    def save(self, root):
+        nd  = ET.Element('DcmRxChannel');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['RxAddrType'] = str(self.RxAddrType);
+        nd.attrib['RxPdu'] = str(self.RxPdu);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        self.RxAddrType = nd.attrib['RxAddrType'];
+        self.RxPdu = nd.attrib['RxPdu'];
+        
+class DcmTxChannel():
+    def __init__(self, name):
+        self.name = name;
+        self.TxPdu = ''
+    def save(self, root):
+        nd  = ET.Element('DcmTxChannel');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['TxPdu'] = str(self.TxPdu);
+        root.append(nd)
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        self.TxPdu = nd.attrib['TxPdu'];
+class DcmConnection():
+    def __init__(self, name):
+        self.name = name;
+        self.RxChannelList = [];
+        self.TxChannelList = [];
+    def save(self, root):
+        nd = ET.Element('DcmConnection');
+        nd.attrib['name'] = str(self.name);
+        
+        nd2 = ET.Element('RxChannelList');
+        for obj in self.RxChannelList:
+            obj.save(nd2);
+        nd.append(nd2);
+        
+        nd2 = ET.Element('TxChannelList');
+        for obj in self.TxChannelList:
+            obj.save(nd2);
+        nd.append(nd2);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        for nd2 in nd.find('RxChannelList'):
+            obj = DcmRxChannel('');
+            obj.parse(nd2);
+            self.RxChannelList.append(obj);
+        for nd2 in nd.find('TxChannelList'):
+            obj = DcmTxChannel('');
+            obj.parse(nd2);
+            self.TxChannelList.append(obj);
 class DcmProtocol():
     def __init__(self, name):
         self.name = name;
@@ -255,6 +312,10 @@ class DcmProtocol():
         nd.attrib['TxBufferID'] = str(self.TxBufferID);
         nd.attrib['TimeLimit'] = str(self.TimeLimit);
         nd.attrib['ServiceTable'] = str(self.ServiceTable);
+        nd2 = ET.Element('ConnectionList');
+        for obj in self.ConnectionList:
+            obj.save(nd2);
+        nd.append(nd2);
         root.append(nd);
     def parse(self, nd):
         self.name = str(nd.attrib['name']);
@@ -264,6 +325,10 @@ class DcmProtocol():
         self.TxBufferID = str(nd.attrib['TxBufferID']);
         self.TimeLimit = str(nd.attrib['TimeLimit']);
         self.ServiceTable = str(nd.attrib['ServiceTable']);
+        for nd2 in nd.find('ConnectionList'):
+            obj = DcmConnection('')
+            obj.parse(nd2);
+            self.ConnectionList.append(obj)
 class gainos_tk_dcm_obj():
     def __init__(self):
         self.general = DcmGeneral();
@@ -327,7 +392,15 @@ class gainos_tk_dcm_cfg():
 
     def show(self, title, fileInd, module_list = None):
         from cd_dcm import cd_dcm
-        self.dlg  = cd_dcm(title, fileInd, self.cfg);
+        from PyQt4.QtGui import QMessageBox
+        depinfo=[];
+        md=gcfindModule(module_list, 'EcuC');
+        if(md==None):
+            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                'Please Configure EcuC Firstly!').exec_();
+            return;
+        depinfo.append(md.obj);
+        self.dlg  = cd_dcm(title, fileInd, self.cfg, depinfo);
         self.dlg.setModal(False);
         self.dlg.show();
    
