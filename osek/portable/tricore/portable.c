@@ -20,7 +20,6 @@
  */
 /*
  * This portable is For TASKING VX-toolset TriCore.
- * TODO:still not finshed, trap context will be generated
  */
 #include "portable.h"
 #include "knl_timer.h"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>cd_gainos_tk_os</class>
- <widget class="QDialog" name="cd_gainos_tk_os">
+ <class>cd_os</class>
+ <widget class="QDialog" name="cd_os">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -873,7 +873,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>30</x>

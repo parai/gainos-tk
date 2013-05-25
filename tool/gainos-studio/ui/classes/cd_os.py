@@ -11,9 +11,9 @@ from PyQt4.QtGui import QTreeWidgetItem, QMessageBox
 
 from Common import *
 
-from Ui_cd_gainos_tk_os import Ui_cd_gainos_tk_os
+from Ui_cd_os import Ui_cd_os
 from gainos_tk_os_cfg import Task, Resource, Alarm, Event, Counter
-class cd_gainos_tk_os(QDialog, Ui_cd_gainos_tk_os):
+class cd_os(QDialog, Ui_cd_os):
     """
     Class documentation goes here.
     """

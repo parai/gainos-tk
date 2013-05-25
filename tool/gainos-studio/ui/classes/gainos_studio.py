@@ -44,6 +44,7 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
         self.initGui()
+        self.setWindowTitle("gainos-studio");
         self.cfg = None;
         self.curtree = None;
         self.arxml = '';
