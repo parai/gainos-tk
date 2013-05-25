@@ -409,7 +409,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -487,19 +487,19 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_2"/>
+          <widget class="QLineEdit" name="leDidInfoName"/>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_6">
+        <widget class="QCheckBox" name="cbxDidInfoFixedLength">
          <property name="text">
           <string>Fixed length</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_7">
+        <widget class="QCheckBox" name="cbxDidInfoDynamicllyDefined">
          <property name="text">
           <string>Dynamically defined</string>
          </property>
@@ -508,14 +508,14 @@ p, li { white-space: pre-wrap; }
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_11">
          <item>
-          <widget class="QCheckBox" name="checkBox_5">
+          <widget class="QCheckBox" name="cbxDidInfoScalingEnable">
            <property name="text">
             <string>Scaling info size:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_9"/>
+          <widget class="QSpinBox" name="spbxDidInfoScalingInfoSize"/>
          </item>
         </layout>
        </item>
@@ -577,7 +577,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
@@ -623,7 +623,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
@@ -752,7 +752,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_3"/>
+        <widget class="QLineEdit" name="leDidControlName"/>
        </item>
       </layout>
      </widget>
@@ -812,7 +812,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
@@ -858,7 +858,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
@@ -914,7 +914,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_4"/>
+        <widget class="QLineEdit" name="leDidReadName"/>
        </item>
       </layout>
      </widget>
@@ -941,7 +941,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_5"/>
+        <widget class="QLineEdit" name="leDidWriteName"/>
        </item>
       </layout>
      </widget>
@@ -996,7 +996,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
@@ -1042,7 +1042,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
@@ -1121,7 +1121,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_6"/>
+            <widget class="QLineEdit" name="leDIDName"/>
            </item>
           </layout>
          </item>
@@ -1135,7 +1135,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_7"/>
+            <widget class="QLineEdit" name="leDidId"/>
            </item>
           </layout>
          </item>
@@ -1144,12 +1144,19 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QLabel" name="label_10">
              <property name="text">
-              <string>Size:</string>
+              <string>Size(bit):</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_10"/>
+            <widget class="QSpinBox" name="spbxDidSize">
+             <property name="minimum">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <number>65535</number>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -1163,7 +1170,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_5"/>
+            <widget class="QComboBox" name="cmbxDidInfoRef"/>
            </item>
           </layout>
          </item>
@@ -1177,7 +1184,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_6"/>
+            <widget class="QComboBox" name="cmbxDidRef"/>
            </item>
           </layout>
          </item>
@@ -1201,7 +1208,7 @@ p, li { white-space: pre-wrap; }
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_15">
            <item>
-            <widget class="QCheckBox" name="checkBox_12">
+            <widget class="QCheckBox" name="cbxUsePort">
              <property name="text">
               <string>Use Rte Ports</string>
              </property>
@@ -1221,7 +1228,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_8"/>
+              <widget class="QLineEdit" name="lineEdit_8">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -1235,7 +1246,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_9"/>
+              <widget class="QLineEdit" name="lineEdit_9">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -1253,7 +1268,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_11"/>
+              <widget class="QLineEdit" name="lineEdit_11">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -1267,7 +1286,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_10"/>
+              <widget class="QLineEdit" name="lineEdit_10">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -1285,7 +1308,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_12"/>
+              <widget class="QLineEdit" name="lineEdit_12">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -1303,7 +1330,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_13"/>
+              <widget class="QLineEdit" name="lineEdit_13">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -1321,7 +1352,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_14"/>
+              <widget class="QLineEdit" name="lineEdit_14">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -1335,7 +1370,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_15"/>
+              <widget class="QLineEdit" name="lineEdit_15">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -1351,7 +1390,11 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_16"/>
+            <widget class="QLineEdit" name="lineEdit_16">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -1365,7 +1408,11 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_17"/>
+            <widget class="QLineEdit" name="lineEdit_17">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -1398,7 +1445,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_18"/>
+          <widget class="QLineEdit" name="leProtocolName"/>
          </item>
         </layout>
        </item>
@@ -1412,10 +1459,40 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_7">
+          <widget class="QComboBox" name="cmbxProtocolId">
+           <item>
+            <property name="text">
+             <string>DCM_OBD_ON_CAN</string>
+            </property>
+           </item>
            <item>
             <property name="text">
              <string>DCM_UDS_ON_CAN</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>DCM_UDS_ON_FLEAXRAY</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>DCM_ROE_ON_CAN</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>DCM_ROE_ON_FLEXRAY</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>DCM_PERIODICTRANS_ON_CAN</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>DCM_PERIODICTRANS_ON_FLEXRAY</string>
             </property>
            </item>
           </widget>
@@ -1432,15 +1509,15 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_8">
+          <widget class="QComboBox" name="cmbxTransType">
            <item>
             <property name="text">
-             <string>Type1</string>
+             <string>DCM_PROTOCOL_TRANS_TYPE_1</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Type2</string>
+             <string>DCM_PROTOCOL_TRANS_TYPE_2</string>
             </property>
            </item>
           </widget>
@@ -1457,7 +1534,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_9"/>
+          <widget class="QComboBox" name="cmbxRxBufferID"/>
          </item>
         </layout>
        </item>
@@ -1471,7 +1548,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_11"/>
+          <widget class="QComboBox" name="cmbxTxBufferID"/>
          </item>
         </layout>
        </item>
@@ -1485,7 +1562,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_12"/>
+          <widget class="QComboBox" name="cmbxTimeLimit"/>
          </item>
         </layout>
        </item>
@@ -1499,7 +1576,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_13"/>
+          <widget class="QComboBox" name="cmbxServiceTable"/>
          </item>
         </layout>
        </item>
@@ -2556,9 +2633,9 @@ p, li { white-space: pre-wrap; }
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>270</x>
       <y>60</y>
-      <width>131</width>
+      <width>171</width>
       <height>128</height>
      </rect>
     </property>
