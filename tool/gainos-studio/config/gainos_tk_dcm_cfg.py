@@ -692,7 +692,7 @@ class gainos_tk_dcm_cfg():
                 str += '\t\t/* DspSecurityKeySize = */ %s,\n'%(sec.keySize);
                 str += '\t\t/* GetSeed = */ %s,\n'%(sec.getSeedCbk);
                 str += '\t\t/* CompareKey = */ %s,\n'%(sec.compKeyCbk);
-                str += '\t\t/* Arc_EOL = */ FALSE,\n';
+                str += '\t\t/* Arc_EOL = */ FALSE\n';
                 str += '\t},\n';
             str += '\t{ // %s\n'%('Dummy For EOL');
             str += '\t\t/* DspSecurityLevel = */ %s,\n'%('0xBD');
@@ -705,9 +705,38 @@ class gainos_tk_dcm_cfg():
             str += '\t\t/* DspSecurityKeySize = */ %s,\n'%('0xBD');
             str += '\t\t/* GetSeed = */ %s,\n'%('NULL');
             str += '\t\t/* CompareKey = */ %s,\n'%('NULL');
-            str += '\t\t/* Arc_EOL = */ TRUE,\n';
+            str += '\t\t/* Arc_EOL = */ TRUE\n';
             str += '\t}\n';
             str += '};\n\n'
             fp.write(str);
+            fp.write("""const Dcm_DspSecurityType DspSecurity = {
+    /* DspSecurityRow = */ DspSecurityList
+};\n""");
+        #-------------------------- Session -------------
+        if(len(self.cfg.sessionList)):
+            str = 'const Dcm_DspSessionRowType DspSessionList[] = {\n';
+            for ses in self.cfg.sessionList:
+                str +='\t{ //%s\n'%(ses.name);
+                str +='\t\t/* DspSessionLevel = */ %s,\n'%('???');
+                str +='\t\t/* DspSessionP2ServerMax = */ %s,\n'%('???');
+                str +='\t\t/* DspSessionP2StarServerMax = */ %s,\n'%('???');
+                str +='\t\t/* Arc_EOL = */ %s\n'%('FALSE');
+                str +='\t},\n';
+            str +='\t{ //%s\n'%('Dummy Session For EOL');
+            str +='\t\t/* DspSessionLevel = */ %s,\n'%('???');
+            str +='\t\t/* DspSessionP2ServerMax = */ %s,\n'%('???');
+            str +='\t\t/* DspSessionP2StarServerMax = */ %s,\n'%('???');
+            str +='\t\t/* Arc_EOL = */ %s\n'%('TRUE');
+            str +='\t},\n';
+            str += '};\n\n';
+            fp.write(str);
+        #----------------- Service Table ---------------
+        for sertbl in self.cfg.serviceTableList:
+            for ser in sertbl.serviceList:
+                str = 'const Dcm_DspSessionRowType *%s_%s_SessionList[] = {\n'%(sertbl.name, ser.name);
+                for ses in ser.sessionRefList:
+                    str += '\t&DspSessionList[%s],//%s\n'%(gcfindIndex(self.cfg.sessionList, ses), ses);
+                str += '\t&DspSessionList[DCM_SESSION_EOL_INDEX]\n};\n'
+                fp.write(str);
         #------------------------------------------------------------------
         fp.close();

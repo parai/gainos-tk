@@ -72,6 +72,14 @@ def gcfindObj(list, name):
         if(name==obj.name):
             return obj;
     return None;
+
+def gcfindIndex(list, name):
+    index = 0;
+    for obj in list:
+        if(name==obj.name):
+            return index;
+        index += 1;
+    return -1;
 def gcfindStr(list, str):
     """Is the Str in the list,I mean has the same value, and return it,if so"""
     for string in list:
