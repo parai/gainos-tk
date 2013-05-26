@@ -286,6 +286,35 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn4.setDisabled(True);
         else:
             self.initButton(); # disable all button
+#--------- Tree Control Common operation -----------------------------
+    def moveTreeItem(self, trFrom, trTo):
+        if(trFrom.currentItem()):
+            name = trFrom.currentItem().text(0)
+            item = QTreeWidgetItem(trTo, QStringList(name)); #add
+            trFrom.takeTopLevelItem(trFrom.indexOfTopLevelItem(trFrom.currentItem()));#remove
+    def refreshTreeCtrl(self, trSrc, trDst, lsSrc, lsDst):
+        """lsSrc：源资源列表，trSrc：源目录树控件
+           lsDst：目标资源列表，trDst：目标目录树控件
+           一般的，lsSrc是 GaInOS-TK一个对象列表
+           而 lsDst则是一个字符串 String 列表
+        """
+        #移除所有
+        for index in range(0, trSrc.topLevelItemCount()):
+            temp=trSrc.takeTopLevelItem(0);
+            del temp;
+        for index in range(0, trDst.topLevelItemCount()):
+            temp=trDst.takeTopLevelItem(0);
+            del temp;
+        #向相应控件注册对象
+        for str in lsDst:
+            if(gcfindObj(lsSrc, str) != None):#if it still in the lsSrc
+                item=QTreeWidgetItem(trDst,QStringList(str));
+            else: # maybe you have removed & rename it, so should remove it from the list
+                lsDst.remove(str);
+        for obj in lsSrc:
+            if(gcfindStr(lsDst, obj.name) == None):
+                item=QTreeWidgetItem(trSrc,QStringList(obj.name));
+        #print lsDst
     def refreshBufferTab(self, name):
         self.curobj=gcfindObj(self.cfg.bufferList, name);
         self.leBufferName.setText(name);
@@ -304,14 +333,20 @@ class cd_dcm(QDialog, Ui_cd_dcm):
     def refreshDidControlTab(self, obj):
         self.curobj = obj;
         self.leDidControlName.setText(obj.name);
+        self.refreshTreeCtrl(self.trDidCtrlSecSrc, self.trDidCtrlSecDst, self.cfg.securityLevelList, self.curobj.securityRefList);
+        self.refreshTreeCtrl(self.trDidCtrlSesSrc, self.trDidCtrlSesDst, self.cfg.sessionList, self.curobj.sessionRefList);
         self.enableTab(2);
     def refreshDidReadTab(self, obj):
         self.curobj = obj;
         self.leDidReadName.setText(obj.name);
+        self.refreshTreeCtrl(self.trDidReadSecSrc, self.trDidReadSecDst, self.cfg.securityLevelList, self.curobj.securityRefList);
+        self.refreshTreeCtrl(self.trDidReadSesSrc, self.trDidReadSesDst, self.cfg.sessionList, self.curobj.sessionRefList);
         self.enableTab(3);
     def refreshDidWriteTab(self, obj):
         self.curobj = obj;
         self.leDidWriteName.setText(obj.name);
+        self.refreshTreeCtrl(self.trDidWriteSecSrc, self.trDidWriteSecDst, self.cfg.securityLevelList, self.curobj.securityRefList);
+        self.refreshTreeCtrl(self.trDidWriteSesSrc, self.trDidWriteSesDst, self.cfg.sessionList, self.curobj.sessionRefList);
         self.enableTab(4);
     def refreshDidAccessTab(self, name):
         obj = gcfindObj(self.cfg.didInfoList, self.curtree.parent().text(0));
@@ -830,6 +865,30 @@ class cd_dcm(QDialog, Ui_cd_dcm):
                 self.curobj.name=p0;
                 self.curtree.setText(0, p0);
                 self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidCtrlSecAdd_clicked(self):
+        if(self.trDidCtrlSecSrc.currentItem()):
+            self.curobj.securityRefList.append(self.trDidCtrlSecSrc.currentItem().text(0));
+            self.moveTreeItem(self.trDidCtrlSecSrc, self.trDidCtrlSecDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidCtrlSecDel_clicked(self):
+        if(self.trDidCtrlSecDst.currentItem()):
+            self.curobj.securityRefList.remove(self.trDidCtrlSecDst.currentItem().text(0));
+            self.moveTreeItem(self.trDidCtrlSecDst, self.trDidCtrlSecSrc);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidCtrlSesAdd_clicked(self):
+        if(self.trDidCtrlSesSrc.currentItem()):
+            self.curobj.sessionRefList.append(self.trDidCtrlSesSrc.currentItem().text(0));
+            self.moveTreeItem(self.trDidCtrlSesSrc, self.trDidCtrlSesDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidCtrlSesDel_clicked(self):
+        if(self.trDidCtrlSesDst.currentItem()):
+            self.curobj.sessionRefList.remove(self.trDidCtrlSesDst.currentItem().text(0));
+            self.moveTreeItem(self.trDidCtrlSesDst, self.trDidCtrlSesSrc);
+            self.fileInd(False);
 # ==================== Did Info Read Access =========================
     @pyqtSignature("QString")
     def on_leDidReadName_textChanged(self, p0):
@@ -838,6 +897,30 @@ class cd_dcm(QDialog, Ui_cd_dcm):
                 self.curobj.name=p0;
                 self.curtree.setText(0, p0);
                 self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidReadSecAdd_clicked(self):
+        if(self.trDidReadSecSrc.currentItem()):
+            self.curobj.securityRefList.append(self.trDidReadSecSrc.currentItem().text(0));
+            self.moveTreeItem(self.trDidReadSecSrc, self.trDidReadSecDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidReadSecDel_clicked(self):
+        if(self.trDidReadSecDst.currentItem()):
+            self.curobj.securityRefList.remove(self.trDidReadSecDst.currentItem().text(0));
+            self.moveTreeItem(self.trDidReadSecDst, self.trDidReadSecSrc);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidReadSesAdd_clicked(self):
+        if(self.trDidReadSesSrc.currentItem()):
+            self.curobj.sessionRefList.append(self.trDidReadSesSrc.currentItem().text(0));
+            self.moveTreeItem(self.trDidReadSesSrc, self.trDidReadSesDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidReadSesDel_clicked(self):
+        if(self.trDidReadSesDst.currentItem()):
+            self.curobj.sessionRefList.remove(self.trDidReadSesDst.currentItem().text(0));
+            self.moveTreeItem(self.trDidReadSesDst, self.trDidReadSesSrc);
+            self.fileInd(False);
 # ==================== Did Info Write Access =========================
     @pyqtSignature("QString")
     def on_leDidWriteName_textChanged(self, p0):
@@ -846,6 +929,30 @@ class cd_dcm(QDialog, Ui_cd_dcm):
                 self.curobj.name=p0;
                 self.curtree.setText(0, p0);
                 self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidWriteSecAdd_clicked(self):
+        if(self.trDidWriteSecSrc.currentItem()):
+            self.curobj.securityRefList.append(self.trDidWriteSecSrc.currentItem().text(0));
+            self.moveTreeItem(self.trDidWriteSecSrc, self.trDidWriteSecDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidWriteSecDel_clicked(self):
+        if(self.trDidWriteSecDst.currentItem()):
+            self.curobj.securityRefList.remove(self.trDidWriteSecDst.currentItem().text(0));
+            self.moveTreeItem(self.trDidWriteSecDst, self.trDidWriteSecSrc);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidWriteSesAdd_clicked(self):
+        if(self.trDidWriteSesSrc.currentItem()):
+            self.curobj.sessionRefList.append(self.trDidWriteSesSrc.currentItem().text(0));
+            self.moveTreeItem(self.trDidWriteSesSrc, self.trDidWriteSesDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnDidWriteSesDel_clicked(self):
+        if(self.trDidWriteSesDst.currentItem()):
+            self.curobj.sessionRefList.remove(self.trDidWriteSesDst.currentItem().text(0));
+            self.moveTreeItem(self.trDidWriteSesDst, self.trDidWriteSesSrc);
+            self.fileInd(False);
 # ==================== DID ===========================================
     @pyqtSignature("QString")
     def on_leDIDName_textChanged(self, p0):

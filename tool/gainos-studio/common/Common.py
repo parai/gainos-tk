@@ -72,7 +72,12 @@ def gcfindObj(list, name):
         if(name==obj.name):
             return obj;
     return None;
-
+def gcfindStr(list, str):
+    """Is the Str in the list,I mean has the same value, and return it,if so"""
+    for string in list:
+        if(string == str):
+            return string
+    return None
 def gcfindModule(list, name):
     for md in list:
         if(md.module == name):

@@ -409,7 +409,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="currentIndex">
-     <number>22</number>
+     <number>13</number>
     </property>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -526,7 +526,7 @@ p, li { white-space: pre-wrap; }
      <attribute name="title">
       <string>Did Control</string>
      </attribute>
-     <widget class="QTabWidget" name="tabWidget_2">
+     <widget class="QTabWidget" name="table">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -542,7 +542,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Security level</string>
        </attribute>
-       <widget class="QTreeWidget" name="treeWidget_2">
+       <widget class="QTreeWidget" name="trDidCtrlSecDst">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -557,7 +557,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </column>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_3">
+       <widget class="QTreeWidget" name="trDidCtrlSecSrc">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -568,7 +568,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <column>
          <property name="text">
-          <string notr="true">Avaliable Security level</string>
+          <string notr="true">Availiable Security level</string>
          </property>
         </column>
        </widget>
@@ -577,20 +577,20 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
-          <widget class="QPushButton" name="pushButton_5">
+          <widget class="QPushButton" name="btnDidCtrlSecAdd">
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_6">
+          <widget class="QPushButton" name="btnDidCtrlSecDel">
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -603,7 +603,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Session</string>
        </attribute>
-       <widget class="QTreeWidget" name="treeWidget_4">
+       <widget class="QTreeWidget" name="trDidCtrlSesDst">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -623,20 +623,20 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_8">
          <item>
-          <widget class="QPushButton" name="pushButton_7">
+          <widget class="QPushButton" name="btnDidCtrlSesAdd">
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_8">
+          <widget class="QPushButton" name="btnDidCtrlSesDel">
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -644,7 +644,7 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_5">
+       <widget class="QTreeWidget" name="trDidCtrlSesSrc">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -655,7 +655,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <column>
          <property name="text">
-          <string notr="true">Avaliable Session</string>
+          <string notr="true">Availiable Session</string>
          </property>
         </column>
        </widget>
@@ -678,13 +678,20 @@ p, li { white-space: pre-wrap; }
           <layout class="QHBoxLayout" name="horizontalLayout_14">
            <item>
             <widget class="QCheckBox" name="checkBox_8">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Freeze Current State Ref:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox"/>
+            <widget class="QComboBox" name="comboBox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -692,13 +699,20 @@ p, li { white-space: pre-wrap; }
           <layout class="QHBoxLayout" name="horizontalLayout_15">
            <item>
             <widget class="QCheckBox" name="checkBox_9">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Reset to Default Ref:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_2"/>
+            <widget class="QComboBox" name="comboBox_2">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -706,13 +720,20 @@ p, li { white-space: pre-wrap; }
           <layout class="QHBoxLayout" name="horizontalLayout_16">
            <item>
             <widget class="QCheckBox" name="checkBox_10">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Return Control to Ecu Ref</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_3"/>
+            <widget class="QComboBox" name="comboBox_3">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -720,13 +741,20 @@ p, li { white-space: pre-wrap; }
           <layout class="QHBoxLayout" name="horizontalLayout_17">
            <item>
             <widget class="QCheckBox" name="checkBox_11">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Short Term Adjustement Ref</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_4"/>
+            <widget class="QComboBox" name="comboBox_4">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -777,7 +805,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Security level</string>
        </attribute>
-       <widget class="QTreeWidget" name="treeWidget_6">
+       <widget class="QTreeWidget" name="trDidReadSecDst">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -792,7 +820,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </column>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_7">
+       <widget class="QTreeWidget" name="trDidReadSecSrc">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -803,7 +831,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <column>
          <property name="text">
-          <string notr="true">Avaliable Security level</string>
+          <string notr="true">Availiable Security level</string>
          </property>
         </column>
        </widget>
@@ -812,20 +840,20 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_10">
          <item>
-          <widget class="QPushButton" name="pushButton_9">
+          <widget class="QPushButton" name="btnDidReadSecAdd">
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_10">
+          <widget class="QPushButton" name="btnDidReadSecDel">
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -838,7 +866,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Session</string>
        </attribute>
-       <widget class="QTreeWidget" name="treeWidget_8">
+       <widget class="QTreeWidget" name="trDidReadSesDst">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -858,20 +886,20 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_11">
          <item>
-          <widget class="QPushButton" name="pushButton_11">
+          <widget class="QPushButton" name="btnDidReadSesAdd">
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_12">
+          <widget class="QPushButton" name="btnDidReadSesDel">
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -879,7 +907,7 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_9">
+       <widget class="QTreeWidget" name="trDidReadSesSrc">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -890,7 +918,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <column>
          <property name="text">
-          <string notr="true">Avaliable Session</string>
+          <string notr="true">Availiable Session</string>
          </property>
         </column>
        </widget>
@@ -945,7 +973,7 @@ p, li { white-space: pre-wrap; }
        </item>
       </layout>
      </widget>
-     <widget class="QTabWidget" name="tabWidget_4">
+     <widget class="QTabWidget" name="tabWidget_2">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -961,7 +989,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Security level</string>
        </attribute>
-       <widget class="QTreeWidget" name="treeWidget_10">
+       <widget class="QTreeWidget" name="trDidWriteSecDst">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -976,7 +1004,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </column>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_11">
+       <widget class="QTreeWidget" name="trDidWriteSecSrc">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -987,7 +1015,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <column>
          <property name="text">
-          <string notr="true">Avaliable Security level</string>
+          <string notr="true">Availiable Security level</string>
          </property>
         </column>
        </widget>
@@ -996,20 +1024,20 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_12">
          <item>
-          <widget class="QPushButton" name="pushButton_13">
+          <widget class="QPushButton" name="btnDidWriteSecAdd">
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_14">
+          <widget class="QPushButton" name="btnDidWriteSecDel">
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -1022,7 +1050,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Session</string>
        </attribute>
-       <widget class="QTreeWidget" name="treeWidget_12">
+       <widget class="QTreeWidget" name="trDidWriteSesDst">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -1042,20 +1070,20 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_13">
          <item>
-          <widget class="QPushButton" name="pushButton_15">
+          <widget class="QPushButton" name="btnDidWriteSesAdd">
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_16">
+          <widget class="QPushButton" name="btnDidWriteSesDel">
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -1063,7 +1091,7 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_13">
+       <widget class="QTreeWidget" name="trDidWriteSesSrc">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -1074,7 +1102,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <column>
          <property name="text">
-          <string notr="true">Avaliable Session</string>
+          <string notr="true">Availiable Session</string>
          </property>
         </column>
        </widget>
@@ -1866,7 +1894,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
@@ -1912,7 +1940,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
