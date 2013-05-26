@@ -329,6 +329,139 @@ class DcmProtocol():
             obj = DcmConnection('')
             obj.parse(nd2);
             self.ConnectionList.append(obj)
+class DcmRequestService():
+        def __init__(self, name):
+            self.name = name;
+            self.start = 'NULL';    # StartProtocol callback 
+            self.stop  = 'NULL';    # StopProtocol callback
+        def save(self, root):
+            nd = ET.Element('DcmRequestService');
+            nd.attrib['name'] = str(self.name);
+            nd.attrib['start'] = str(self.start);
+            nd.attrib['stop'] = str(self.stop);
+            root.append(nd);
+        def parse(self, nd):
+            self.name = nd.attrib['name'];
+            self.start = nd.attrib['start'];
+            self.stop = nd.attrib['stop'];
+class DcmSecurityLevel():
+    def __init__(self, name):
+        self.name = name;
+        self.level = 0;
+        self.recordSize = 1;
+        self.seedSize = 1;
+        self.keySize = 1;
+        self.getSeedCbk = 'NULL';
+        self.compKeyCbk = 'NULL';
+    def save(self, root):
+        nd = ET.Element('DcmSecurityLevel');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['level'] = str(self.level);
+        nd.attrib['recordSize'] = str(self.recordSize);
+        nd.attrib['seedSize'] = str(self.seedSize);
+        nd.attrib['keySize'] = str(self.keySize);
+        nd.attrib['getSeedCbk'] = str(self.getSeedCbk);
+        nd.attrib['compKeyCbk'] = str(self.compKeyCbk);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = str(nd.attrib['name']);
+        self.level = int(nd.attrib['level']);
+        self.recordSize = int(nd.attrib['recordSize']);
+        self.seedSize = int(nd.attrib['seedSize']);
+        self.keySize = int(nd.attrib['keySize']);
+        self.getSeedCbk = str(nd.attrib['getSeedCbk']);
+        self.compKeyCbk = str(nd.attrib['compKeyCbk']);
+class DcmService():
+    def __init__(self, name):
+        self.name = name;
+        self.serviceId = '';
+        self.subfuncAvail = False;
+        self.securityRefList = [];
+        self.sessionRefList = [];
+    def save(self, root):
+        nd = ET.Element('DcmService');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['serviceId'] = str(self.serviceId);
+        nd.attrib['subfuncAvail'] = str(self.subfuncAvail);
+        snd = ET.Element('sessionRefList')
+        for ses in self.sessionRefList:
+            nd2 = ET.Element('SessionRef')
+            nd2.attrib['value'] = str(ses);
+            snd.append(nd2);
+        nd.append(snd);
+        snd = ET.Element('securityRefList')
+        for sec in self.securityRefList:
+            nd2 = ET.Element('SecurityRef')
+            nd2.attrib['value'] = str(sec);
+            snd.append(nd2);
+        nd.append(snd);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        self.serviceId = nd.attrib['serviceId'];
+        self.subfuncAvail = bool(nd.attrib['subfuncAvail']);
+        for nd1 in nd.find('sessionRefList'):
+            self.sessionRefList.append(nd1.attrib['value']);
+        for nd1 in nd.find('securityRefList'):
+            self.securityRefList.append(nd1.attrib['value']);
+class DcmServiceTable():
+    def __init__(self, name):
+        self.name = name;
+        self.serviceList = [];
+    def save(self, root):
+        nd = ET.Element('DcmServiceTable');
+        nd.attrib['name'] = str(self.name);
+        nd2 = ET.Element('DcmServiceList');
+        for obj in self.serviceList:
+            obj.save(nd2);
+        nd.append(nd2);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        
+        for nd2 in nd.find('DcmServiceList'):
+            obj = DcmService('');
+            obj.parse(nd2);
+            self.serviceList.append(obj);
+class DcmSessionControl():
+    def __init__(self, name):
+        self.name = name;
+        self.GetSesChgPermission = 'NULL'
+    def save(self, root):
+        nd = ET.Element('DcmServiceTable');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['GetSesChgPermission'] = str(self.GetSesChgPermission);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        self.GetSesChgPermission = nd.attrib['GetSesChgPermission'];
+class DcmSession():
+    def __init__(self, name):
+        self.name = name;
+    def save(self, root):
+        nd = ET.Element('DcmServiceTable');
+        nd.attrib['name'] = str(self.name);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+class DcmTiming():
+    def __init__(self, name):
+        self.name = name;
+        self.P2ServerMax = 0; #ms
+        self.P2ServerMin = 0; 
+        self.S3Server = 0;
+    def save(self, root):
+        nd = ET.Element('DcmServiceTable');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['P2ServerMax'] = str(self.P2ServerMax);
+        nd.attrib['P2ServerMin'] = str(self.P2ServerMin);
+        nd.attrib['S3Server'] = str(self.S3Server);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        self.P2ServerMax = int(nd.attrib['P2ServerMax']);
+        self.P2ServerMin = int(nd.attrib['P2ServerMin']);
+        self.S3Server = int(nd.attrib['S3Server']);
 class gainos_tk_dcm_obj():
     def __init__(self):
         self.general = DcmGeneral();
@@ -336,6 +469,13 @@ class gainos_tk_dcm_obj():
         self.didInfoList = [];
         self.didList = [];
         self.protocolList = [];
+        self.requestServiceList = [];
+        self.securityLevelList = [];
+        self.serviceTableList = [];
+        self.sessionControlList = [];
+        self.sessionList = [];
+        self.timingList = [];
+        
     def save(self, root):
         self.general.save(root);
         
@@ -356,6 +496,36 @@ class gainos_tk_dcm_obj():
         
         nd = ET.Element('DcmProtocolList');
         for obj in self.protocolList:
+            obj.save(nd);
+        root.append(nd);
+        
+        nd = ET.Element('DcmRequestServiceList');
+        for obj in self.requestServiceList:
+            obj.save(nd);
+        root.append(nd);
+        
+        nd = ET.Element('DcmSecurityLevelList');
+        for obj in self.securityLevelList:
+            obj.save(nd);
+        root.append(nd);
+        
+        nd = ET.Element('DcmServiceTableList');
+        for obj in self.serviceTableList:
+            obj.save(nd);
+        root.append(nd);
+        
+        nd = ET.Element('DcmSessionControlList');
+        for obj in self.sessionControlList:
+            obj.save(nd);
+        root.append(nd);
+        
+        nd = ET.Element('DcmSessionList');
+        for obj in self.sessionList:
+            obj.save(nd);
+        root.append(nd);
+        
+        nd = ET.Element('DcmTimingList');
+        for obj in self.timingList:
             obj.save(nd);
         root.append(nd);
         
@@ -381,6 +551,36 @@ class gainos_tk_dcm_obj():
             obj = DcmProtocol('');
             obj.parse(nd);
             self.protocolList.append(obj);
+
+        for nd in root.find('DcmRequestServiceList'):
+            obj = DcmRequestService('');
+            obj.parse(nd);
+            self.requestServiceList.append(obj);
+
+        for nd in root.find('DcmSecurityLevelList'):
+            obj = DcmSecurityLevel('');
+            obj.parse(nd);
+            self.securityLevelList.append(obj);
+
+        for nd in root.find('DcmServiceTableList'):
+            obj = DcmServiceTable('');
+            obj.parse(nd);
+            self.serviceTableList.append(obj);
+
+        for nd in root.find('DcmSessionControlList'):
+            obj = DcmSessionControl('');
+            obj.parse(nd);
+            self.sessionControlList.append(obj);
+
+        for nd in root.find('DcmSessionList'):
+            obj = DcmSession('');
+            obj.parse(nd);
+            self.sessionList.append(obj);
+
+        for nd in root.find('DcmTimingList'):
+            obj = DcmTiming('');
+            obj.parse(nd);
+            self.timingList.append(obj);
         
 class gainos_tk_dcm_cfg():
     def __init__(self, chip=None):

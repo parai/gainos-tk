@@ -49,12 +49,12 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.btn4.setDisabled(True);
     def disableAllTab(self):
         """禁止所有的Tab页"""
-        for i in  range(0, 22):
+        for i in  range(0, 23):
             self.tblDcmCfg.setTabEnabled(i, False);
     
     def enableTab(self, index):
         """使能xIndex指向的Tab页"""
-        for i in  range(0, 22):
+        for i in  range(0, 23):
             if(i==index):
                 self.tblDcmCfg.setTabEnabled(i, True);
                 self.tblDcmCfg.setCurrentIndex(i);
@@ -91,13 +91,29 @@ class cd_dcm(QDialog, Ui_cd_dcm):
                 item2=QTreeWidgetItem(item,QStringList(obj2.name));
                 for obj3 in obj2.RxChannelList+obj2.TxChannelList:
                     item3=QTreeWidgetItem(item2,QStringList(obj3.name));
+    def reloadTreeServiceTable(self):
+        tree=self.trDcm.topLevelItem(9);
+        for index in range(0, tree.childCount()):
+            temp=tree.takeChild(0);
+            del temp;
+        for obj in self.cfg.serviceTableList:
+            item=QTreeWidgetItem(tree,QStringList(obj.name));
+            for obj2 in obj.serviceList:
+                item2=QTreeWidgetItem(item,QStringList(obj2.name));
     def reloadGui(self):
-        self.reloadTreeGui(0, self.cfg.bufferList); # -- 0  Buffers
-        self.reloadTreeDidInfo();                   # -- 1  Did Infos
-        self.reloadTreeGui(2, self.cfg.didList);    # -- 2  DIDs
-                                                    # -- 3  Memory
-        self.reloadTreeProtocol();                  # -- 4  Protocols
-
+        self.reloadTreeGui(0, self.cfg.bufferList);         # -- 0  Buffers
+        self.reloadTreeDidInfo();                           # -- 1  Did Infos
+        self.reloadTreeGui(2, self.cfg.didList);            # -- 2  DIDs
+        # -- 3  Memory
+        self.reloadTreeProtocol();                          # -- 4  Protocols
+        self.reloadTreeGui(5, self.cfg.requestServiceList); # -- 5  Request Services
+        # -- 6  Routine Infos
+        # -- 7  Routines
+        self.reloadTreeGui(8, self.cfg.securityLevelList);  # -- 8  Security Levels
+        self.reloadTreeServiceTable();                      # -- 9  Service Tables
+        self.reloadTreeGui(10, self.cfg.sessionControlList); # -- 10 Session Controls
+        self.reloadTreeGui(11, self.cfg.sessionList);        # -- 11 Sessions
+        self.reloadTreeGui(12, self.cfg.timingList); # -- 12 Timings
     def initGui(self):
         self.initGeneral();
         self.initTab();
@@ -135,23 +151,45 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn3.setDisabled(True);
             self.btn4.setDisabled(True);
         elif(trname=='Request Services'):
-            self.initButton(); # disable all button
-        elif(trname=='Service Tables'):
-            self.initButton(); # disable all button
+            self.btn1.setText('Add Request Service');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         elif(trname=='Routine Infos'):
             self.initButton(); # disable all button
         elif(trname=='Routines'):
             self.initButton(); # disable all button
         elif(trname=='Security Levels'):
-            self.initButton(); # disable all button
+            self.btn1.setText('Add Security Level');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         elif(trname=='Service Tables'):
-            self.initButton(); # disable all button
-        elif(trname=='Seeion Controls'):
-            self.initButton(); # disable all button
+            self.btn1.setText('Add Service Table');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
+        elif(trname=='Session Controls'):
+            self.btn1.setText('Add Session Control');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         elif(trname=='Sessions'):
-            self.initButton(); # disable all button
+            self.btn1.setText('Add Session');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         elif(trname=='Timings'):
-            self.initButton(); # disable all button
+            self.btn1.setText('Add Timing');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         #-------------------------------  二级 -------------------------------------------------
         elif(self.curtree.parent().text(0) == 'Buffers'):
             self.btn1.setText('Del Buffer');
@@ -181,6 +219,43 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn2.setDisabled(False);
             self.btn3.setDisabled(True);
             self.btn4.setDisabled(True);
+        elif(self.curtree.parent().text(0) == 'Request Services'):
+            self.btn1.setText('Del Request Service');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
+        elif(self.curtree.parent().text(0) == 'Security Levels'):
+            self.btn1.setText('Del Security Level');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
+        elif(self.curtree.parent().text(0) == 'Service Tables'):
+            self.btn1.setText('Del Service Table');
+            self.btn1.setDisabled(False);
+            self.btn2.setText('Add Service');
+            self.btn2.setDisabled(False);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
+        elif(self.curtree.parent().text(0) == 'Session Controls'):
+            self.btn1.setText('Del Session Control');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
+        elif(self.curtree.parent().text(0) == 'Sessions'):
+            self.btn1.setText('Del Session');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
+        elif(self.curtree.parent().text(0) == 'Timings'):
+            self.btn1.setText('Del Timing');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         #-------------------------------  三级 -------------------------------------------------
         elif(self.curtree.parent().parent().text(0) == 'Did Infos'):
             self.btn1.setText('Del Access');
@@ -195,6 +270,12 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn2.setDisabled(False);
             self.btn3.setText('Add Tx Channel');
             self.btn3.setDisabled(False);
+            self.btn4.setDisabled(True);
+        elif(self.curtree.parent().parent().text(0) == 'Service Tables'):
+            self.btn1.setText('Del Service');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
             self.btn4.setDisabled(True);
         #-------------------------------- 四级 -------------------
         elif(self.curtree.parent().parent().parent().text(0) == 'Protocols'):
@@ -299,6 +380,50 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.refreshRxProtocolTab(gcfindObj(connection.RxChannelList, name));
         elif(gcfindObj(connection.TxChannelList, name)):
             self.refreshTxProtocolTab(gcfindObj(connection.TxChannelList, name));
+    def refreshRequestServiceTab(self, name):
+        self.curobj = gcfindObj(self.cfg.requestServiceList, name);
+        self.leRequestServiceName.setText(self.curobj.name);
+        self.leRequestServiceStart.setText(self.curobj.start);
+        self.leRequestServiceStop.setText(self.curobj.stop);
+        self.enableTab(10);
+    
+    def refreshSecurityLevelTab(self, name):
+        self.curobj = gcfindObj(self.cfg.securityLevelList, name);
+        self.leSecurityLevelName.setText(name);
+        self.spbxSecurityLevel.setValue(self.curobj.level);
+        self.spbxSecurityLevelRecordSize.setValue(self.curobj.recordSize);
+        self.spbxSecurityLevelSeedSize.setValue(self.curobj.seedSize);
+        self.spbxSecurityLevelKeySize.setValue(self.curobj.keySize);
+        self.leSecurityLevelGetSeedCbk.setText(self.curobj.getSeedCbk);
+        self.leSecurityLevelCopmKeyCbk.setText(self.curobj.compKeyCbk);
+        self.enableTab(17);
+    def refreshServiceTableTab(self, name):
+        self.curobj = gcfindObj(self.cfg.serviceTableList, name)
+        self.leServiceTableName.setText(name);
+        self.enableTab(18);
+    def refreshServiceTab(self, name):
+        p = gcfindObj(self.cfg.serviceTableList, self.curtree.parent().text(0));
+        self.curobj = gcfindObj(p.serviceList, name);
+        self.leServiceName.setText(name);
+        self.cmbxServiceID.setCurrentIndex(self.cmbxServiceID.findText(self.curobj.serviceId));
+        self.cbxSubfuncAvail.setChecked(self.curobj.subfuncAvail);
+        self.enableTab(19)
+    def refreshSessionControlTab(self, name):
+        self.curobj = gcfindObj(self.cfg.sessionControlList, name);
+        self.leSessionControlName.setText(name);
+        self.leGetSesChgPermission.setText(self.curobj.GetSesChgPermission);
+        self.enableTab(20);
+    def refreshSessionTab(self, name):
+        self.curobj = gcfindObj(self.cfg.sessionList, name);
+        self.leSessionName.setText(name);
+        self.enableTab(21);
+    def refreshTimingTab(self, name):
+        self.curobj = gcfindObj(self.cfg.timingList, name);
+        self.leTimingName.setText(name);
+        self.spbxP2ServerMax.setValue(self.curobj.P2ServerMax);
+        self.spbxP2ServerMin.setValue(self.curobj.P2ServerMin);
+        self.spbxS3Server.setValue(self.curobj.S3Server);
+        self.enableTab(22);
     def refreshTab(self):
         if(self.curtree.parent() == None):
             self.disableAllTab();
@@ -306,6 +431,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             return;
         trname = self.curtree.parent().text(0);
         objname= self.curtree.text(0);
+        #------------------------ 一级 ----------------------------------------
         if(trname == 'Buffers'):
             self.refreshBufferTab(objname);
         elif(trname == 'Did Infos'):
@@ -314,10 +440,26 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.refreshDIDTab(objname);
         elif(trname == 'Protocols'):
             self.refreshProtocolTab(objname);
+        elif(trname == 'Request Services'):
+            self.refreshRequestServiceTab(objname);
+        elif(trname == 'Security Levels'):
+            self.refreshSecurityLevelTab(objname);
+        elif(trname == 'Service Tables'):
+            self.refreshServiceTableTab(objname);
+        elif(trname == 'Session Controls'):
+            self.refreshSessionControlTab(objname);
+        elif(trname == 'Sessions'):
+            self.refreshSessionTab(objname);
+        elif(trname == 'Timings'):
+            self.refreshTimingTab(objname);
+        # ----------------------------- 二级 -----------------------
         elif(self.curtree.parent().parent().text(0) == 'Did Infos'):
             self.refreshDidAccessTab(objname);
         elif(self.curtree.parent().parent().text(0) == 'Protocols'):
             self.refreshConnectionTab(objname);
+        elif(self.curtree.parent().parent().text(0) == 'Service Tables'):
+            self.refreshServiceTab(objname);
+        # ---------------------------- 三级 -----------------------------------
         elif(self.curtree.parent().parent().parent().text(0) == 'Protocols'):
             self.refreshChannelTab(objname);
     @pyqtSignature("QTreeWidgetItem*, int")
@@ -360,6 +502,21 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             p.ConnectionList.remove(self.curobj);
         elif(text == 'Del Channel'):
             self.delProtocolChannel();
+        elif(text == 'Del Request Service'):
+            self.cfg.requestServiceList.remove(self.curobj);
+        elif(text == 'Del Security Level'):
+            self.cfg.securityLevelList.remove(self.curobj);
+        elif(text == 'Del Service Table'):
+            self.cfg.serviceTableList.remove(self.curobj);
+        elif(text == 'Del Service'):
+            p = gcfindObj(self.cfg.serviceTableList, self.curtree.parent().text(0));
+            p.serviceList.remove(self.curobj);
+        elif(text == 'Del Session Control'):
+            self.cfg.sessionControlList.remove(self.curobj);
+        elif(text == 'Del Session'):
+            self.cfg.sessionList.remove(self.curobj);
+        elif(text == 'Del Timing'):
+            self.cfg.timingList.remove(self.curobj);
         #delete the tree, reselect a tree item
         parent = self.curtree.parent();
         index = parent.indexOfChild(self.curtree);
@@ -452,6 +609,62 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         obj = DcmTxChannel(name);
         self.curobj.TxChannelList.append(obj);
         self.curtree.setExpanded(True);
+    def addRequestService(self):
+        id = len(self.cfg.requestServiceList);
+        name=QString('vRequestService%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmRequestService(name);
+        self.cfg.requestServiceList.append(obj);
+        self.curtree.setExpanded(True);
+    def addSecurityLevel(self):
+        id = len(self.cfg.securityLevelList);
+        name=QString('vSecurityLevel%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmSecurityLevel(name);
+        self.cfg.securityLevelList.append(obj);
+        self.curtree.setExpanded(True);
+    def addServiceTable(self):
+        id = len(self.cfg.serviceTableList);
+        name=QString('vServiceTable%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmServiceTable(name);
+        self.cfg.serviceTableList.append(obj);
+        self.curtree.setExpanded(True);
+    def addService(self):
+        id = len(self.curobj.serviceList);
+        name=QString('vService%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmService(name);
+        self.curobj.serviceList.append(obj);
+        self.curtree.setExpanded(True);
+    def addSessionControl(self):
+        id = len(self.cfg.sessionControlList);
+        name=QString('vSessionControl%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmSessionControl(name);
+        self.cfg.sessionControlList.append(obj);
+        self.curtree.setExpanded(True);
+    def addSession(self):
+        id = len(self.cfg.sessionList);
+        name=QString('vSession%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmSession(name);
+        self.cfg.sessionList.append(obj);
+        self.curtree.setExpanded(True);
+    def addTiming(self):
+        id = len(self.cfg.timingList);
+        name=QString('vTiming%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmTiming(name);
+        self.cfg.timingList.append(obj);
+        self.curtree.setExpanded(True);
 # ========================== Button ================        
     @pyqtSignature("")
     def on_btn1_clicked(self):
@@ -464,6 +677,18 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.addDID();
         elif(text == 'Add Protocol'):
             self.addProtocol();
+        elif(text == 'Add Request Service'):
+            self.addRequestService();
+        elif(text == 'Add Security Level'):
+            self.addSecurityLevel();
+        elif(text == 'Add Service Table'):
+            self.addServiceTable();
+        elif(text == 'Add Session Control'):
+            self.addSessionControl();
+        elif(text == 'Add Session'):
+            self.addSession();
+        elif(text == 'Add Timing'):
+            self.addTiming();
         elif(text[:3] == 'Del'):
             self.delObj(text);
         self.fileInd(False);
@@ -476,6 +701,8 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.addConnection();
         elif(text=='Add Rx Channel'):
             self.addRxChannel();
+        elif(text == 'Add Service'):
+            self.addService();
         self.fileInd(False);
     @pyqtSignature("")
     def on_btn3_clicked(self):
@@ -728,4 +955,144 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         if(self.curobj!=None):
             if(self.curobj.TxPdu!=p0):
                 self.curobj.TxPdu=p0;
+                self.fileInd(False);
+#======================= Request Service ==========================
+    @pyqtSignature("QString")
+    def on_leRequestServiceName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leRequestServiceStart_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.start!=p0):
+                self.curobj.start=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leRequestServiceStop_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.stop!=p0):
+                self.curobj.stop=p0;
+                self.fileInd(False);
+# ================================= Security Level ==============================
+    @pyqtSignature("QString")
+    def on_leSecurityLevelName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxSecurityLevel_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.level!=p0):
+                self.curobj.level=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxSecurityLevelRecordSize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.recordSize!=p0):
+                self.curobj.recordSize=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxSecurityLevelSeedSize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.seedSize!=p0):
+                self.curobj.seedSize=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxSecurityLevelKeySize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.keySize!=p0):
+                self.curobj.keySize=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leSecurityLevelGetSeedCbk_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.getSeedCbk!=p0):
+                self.curobj.getSeedCbk=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leSecurityLevelCopmKeyCbk_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.compKeyCbk!=p0):
+                self.curobj.compKeyCbk=p0;
+                self.fileInd(False);
+# ================================= Service Table ==============================
+    @pyqtSignature("QString")
+    def on_leServiceTableName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+#================================= Service =====================
+    @pyqtSignature("QString")
+    def on_leServiceName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxServiceID_activated(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.serviceId!=p0):
+                self.curobj.serviceId=p0;
+                self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxSubfuncAvail_clicked(self, checked):
+        if(self.curobj!=None):
+            if(self.curobj.subfuncAvail!=checked):
+                self.curobj.subfuncAvail=checked
+                self.fileInd(False);
+#====================== session control ================
+    @pyqtSignature("QString")
+    def on_leSessionControlName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leGetSesChgPermission_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.GetSesChgPermission!=p0):
+                self.curobj.GetSesChgPermission=p0;
+                self.fileInd(False);
+#====================== session =======================
+    @pyqtSignature("QString")
+    def on_leSessionName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+#====================== Timing ===========================
+    @pyqtSignature("QString")
+    def on_leTimingName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxP2ServerMax_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.P2ServerMax!=p0):
+                self.curobj.P2ServerMax=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxP2ServerMin_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.P2ServerMin!=p0):
+                self.curobj.P2ServerMin=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxS3Server_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.S3Server!=p0):
+                self.curobj.S3Server=p0;
                 self.fileInd(False);

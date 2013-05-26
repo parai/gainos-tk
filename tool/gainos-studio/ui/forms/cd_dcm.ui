@@ -385,7 +385,7 @@ p, li { white-space: pre-wrap; }
     </item>
     <item>
      <property name="text">
-      <string>Seeion Controls</string>
+      <string>Session Controls</string>
      </property>
     </item>
     <item>
@@ -409,7 +409,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>22</number>
     </property>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -1749,7 +1749,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_22"/>
+          <widget class="QLineEdit" name="leRequestServiceName"/>
          </item>
         </layout>
        </item>
@@ -1763,7 +1763,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_23"/>
+          <widget class="QLineEdit" name="leRequestServiceStart"/>
          </item>
         </layout>
        </item>
@@ -1777,7 +1777,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_24"/>
+          <widget class="QLineEdit" name="leRequestServiceStop"/>
          </item>
         </layout>
        </item>
@@ -2200,7 +2200,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_31"/>
+          <widget class="QLineEdit" name="leSecurityLevelName"/>
          </item>
         </layout>
        </item>
@@ -2214,7 +2214,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_16"/>
+          <widget class="QSpinBox" name="spbxSecurityLevel"/>
          </item>
         </layout>
        </item>
@@ -2228,7 +2228,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_18"/>
+          <widget class="QSpinBox" name="spbxSecurityLevelRecordSize"/>
          </item>
         </layout>
        </item>
@@ -2242,7 +2242,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_17"/>
+          <widget class="QSpinBox" name="spbxSecurityLevelSeedSize"/>
          </item>
         </layout>
        </item>
@@ -2256,7 +2256,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_19"/>
+          <widget class="QSpinBox" name="spbxSecurityLevelKeySize"/>
          </item>
         </layout>
        </item>
@@ -2270,7 +2270,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_32"/>
+          <widget class="QLineEdit" name="leSecurityLevelGetSeedCbk"/>
          </item>
         </layout>
        </item>
@@ -2284,7 +2284,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_33"/>
+          <widget class="QLineEdit" name="leSecurityLevelCopmKeyCbk"/>
          </item>
         </layout>
        </item>
@@ -2313,7 +2313,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_34"/>
+        <widget class="QLineEdit" name="leServiceTableName"/>
        </item>
       </layout>
      </widget>
@@ -2332,7 +2332,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_35">
        <attribute name="title">
@@ -2477,7 +2477,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_35"/>
+          <widget class="QLineEdit" name="leServiceName"/>
          </item>
         </layout>
        </item>
@@ -2491,10 +2491,86 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_20">
+          <widget class="QComboBox" name="cmbxServiceID">
+           <property name="minimumSize">
+            <size>
+             <width>400</width>
+             <height>0</height>
+            </size>
+           </property>
            <item>
             <property name="text">
-             <string>ECUReset</string>
+             <string>SID_DIAGNOSTIC_SESSION_CONTROL</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_ECU_RESET</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_CLEAR_DIAGNOSTIC_INFORMATION</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_READ_DTC_INFORMATION</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_READ_DATA_BY_IDENTIFIER</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_READ_SCALING_DATA_BY_IDENTIFIER</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_SECURITY_ACCESS</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_READ_DATA_BY_PERIODIC_IDENTIFIER</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_DYNAMICALLY_DEFINE_DATA_IDENTIFIER</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_WRITE_DATA_BY_IDENTIFIER</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_INPUT_OUTPUT_CONTROL_BY_IDENTIFIER</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_ROUTINE_CONTROL</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_TESTER_PRESENT</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_CONTROL_DTC_SETTING</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SID_NEGATIVE_RESPONSE</string>
             </property>
            </item>
           </widget>
@@ -2502,7 +2578,7 @@ p, li { white-space: pre-wrap; }
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_14">
+        <widget class="QCheckBox" name="cbxSubfuncAvail">
          <property name="text">
           <string>Sub Function Available</string>
          </property>
@@ -2535,7 +2611,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_36"/>
+          <widget class="QLineEdit" name="leSessionControlName"/>
          </item>
         </layout>
        </item>
@@ -2554,9 +2630,36 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_37"/>
+          <widget class="QLineEdit" name="leGetSesChgPermission"/>
          </item>
         </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_39">
+     <attribute name="title">
+      <string>Session</string>
+     </attribute>
+     <widget class="QWidget" name="layoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>461</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_80">
+       <item>
+        <widget class="QLabel" name="label_74">
+         <property name="text">
+          <string>Name:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="leSessionName"/>
        </item>
       </layout>
      </widget>
@@ -2585,7 +2688,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_38"/>
+          <widget class="QLineEdit" name="leTimingName"/>
          </item>
         </layout>
        </item>
@@ -2599,7 +2702,11 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_20"/>
+          <widget class="QSpinBox" name="spbxP2ServerMax">
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -2613,7 +2720,11 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_21"/>
+          <widget class="QSpinBox" name="spbxP2ServerMin">
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -2627,7 +2738,11 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_22"/>
+          <widget class="QSpinBox" name="spbxS3Server">
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
