@@ -409,7 +409,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="currentIndex">
-     <number>13</number>
+     <number>22</number>
     </property>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -2366,7 +2366,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Security level</string>
        </attribute>
-       <widget class="QTreeWidget" name="treeWidget_18">
+       <widget class="QTreeWidget" name="trServiceSecDst">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -2381,7 +2381,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </column>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_19">
+       <widget class="QTreeWidget" name="trServiceSecSrc">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -2401,20 +2401,20 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_28">
          <item>
-          <widget class="QPushButton" name="pushButton_21">
+          <widget class="QPushButton" name="btnServiceSecAdd">
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_22">
+          <widget class="QPushButton" name="btnServiceSecDel">
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -2432,20 +2432,20 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>280</x>
           <y>70</y>
-          <width>77</width>
+          <width>41</width>
           <height>62</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_29">
          <item>
-          <widget class="QPushButton" name="pushButton_23">
+          <widget class="QPushButton" name="btnServiceSesAdd">
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_24">
+          <widget class="QPushButton" name="btnServiceSesDel">
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -2453,7 +2453,7 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_20">
+       <widget class="QTreeWidget" name="trServiceSesDst">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -2468,7 +2468,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </column>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_21">
+       <widget class="QTreeWidget" name="trServiceSesSrc">
         <property name="geometry">
          <rect>
           <x>330</x>

@@ -383,6 +383,12 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.cmbxTxBufferID.addItem(obj.name);
         self.cmbxRxBufferID.setCurrentIndex(self.cmbxRxBufferID.findText(self.curobj.RxBufferID));
         self.cmbxTxBufferID.setCurrentIndex(self.cmbxTxBufferID.findText(self.curobj.TxBufferID));
+        self.cmbxTimeLimit.clear();
+        self.cmbxServiceTable.clear();
+        for obj in self.cfg.serviceTableList:
+            self.cmbxServiceTable.addItem(obj.name);
+        for obj in self.cfg.timingList:
+            self.cmbxTimeLimit.addItem(obj.name);
         self.cmbxTimeLimit.setCurrentIndex(self.cmbxTimeLimit.findText(self.curobj.TimeLimit));
         self.cmbxServiceTable.setCurrentIndex(self.cmbxServiceTable.findText(self.curobj.ServiceTable));
         self.enableTab(6);
@@ -442,6 +448,8 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.leServiceName.setText(name);
         self.cmbxServiceID.setCurrentIndex(self.cmbxServiceID.findText(self.curobj.serviceId));
         self.cbxSubfuncAvail.setChecked(self.curobj.subfuncAvail);
+        self.refreshTreeCtrl(self.trServiceSecSrc, self.trServiceSecDst, self.cfg.securityLevelList, self.curobj.securityRefList);
+        self.refreshTreeCtrl(self.trServiceSesSrc, self.trServiceSesDst, self.cfg.sessionList, self.curobj.sessionRefList);
         self.enableTab(19)
     def refreshSessionControlTab(self, name):
         self.curobj = gcfindObj(self.cfg.sessionControlList, name);
@@ -1155,6 +1163,30 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             if(self.curobj.subfuncAvail!=checked):
                 self.curobj.subfuncAvail=checked
                 self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnServiceSecAdd_clicked(self):
+        if(self.trServiceSecSrc.currentItem()):
+            self.curobj.securityRefList.append(self.trServiceSecSrc.currentItem().text(0));
+            self.moveTreeItem(self.trServiceSecSrc, self.trServiceSecDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnServiceSecDel_clicked(self):
+        if(self.trServiceSecDst.currentItem()):
+            self.curobj.securityRefList.remove(self.trServiceSecDst.currentItem().text(0));
+            self.moveTreeItem(self.trServiceSecDst, self.trServiceSecSrc);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnServiceSesAdd_clicked(self):
+        if(self.trServiceSesSrc.currentItem()):
+            self.curobj.sessionRefList.append(self.trServiceSesSrc.currentItem().text(0));
+            self.moveTreeItem(self.trServiceSesSrc, self.trServiceSesDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnServiceSesDel_clicked(self):
+        if(self.trServiceSesDst.currentItem()):
+            self.curobj.sessionRefList.remove(self.trServiceSesDst.currentItem().text(0));
+            self.moveTreeItem(self.trServiceSesDst, self.trServiceSesSrc);
+            self.fileInd(False);
 #====================== session control ================
     @pyqtSignature("QString")
     def on_leSessionControlName_textChanged(self, p0):

@@ -611,5 +611,103 @@ class gainos_tk_dcm_cfg():
         self.cfg.parse(root);
 
     def gen(self, path):
-        return;
-  
+        self.codeGenH(path);
+        self.codeGenC(path);
+    
+    def codeGenH(self, path):
+        fp = open(path+'/Dcm_Cfg.h', 'w');
+        fp.write(gcGainOS_TkHead());
+        fp.write('#ifndef DCM_CFG_H_\n#define DCM_CFG_H_\n\n');
+        #-------------------------------------------------------
+        fp.write('#define DCM_VERSION_INFO_API              %s\n'%(gSTD_ON(self.cfg.general.VersionInfoApi)))
+        fp.write('#define DCM_DEV_ERROR_DETECT              %s\n'%(gSTD_ON(self.cfg.general.DevErrorDetection)))
+        fp.write('#define DCM_RESPOND_ALL_REQUEST           %s  // Activate/Deactivate response on SID 0x40-0x7f and 0xc0-0xff.\n'%(gSTD_ON(self.cfg.general.RespondAllRequest)))
+        fp.write('#define DCM_REQUEST_INDICATION_ENABLED    STD_ON  // Activate/Deactivate indication request mechanism.\n');
+        fp.write('#define DCM_PAGEDBUFFER_ENABLED           STD_OFF	// Enable/disable page buffer mechanism (currently only disabled supported)\n\n')
+        fp.write('#define DCM_DSL_BUFFER_LIST_LENGTH		%s\n'%(len(self.cfg.bufferList)));
+        lengthRx = lengthTx =0;
+        for protocol in self.cfg.protocolList:
+            for connection in protocol.ConnectionList:
+                lengthRx += len(connection.RxChannelList);
+                lengthTx += len(connection.TxChannelList);
+        fp.write('#define DCM_DSL_TX_PDU_ID_LIST_LENGTH		%s\n'%(lengthTx));
+        fp.write('#define DCM_DSL_RX_PDU_ID_LIST_LENGTH		%s\n\n'%(lengthRx));
+        fp.write('#define DCM_MAIN_FUNCTION_PERIOD_TIME_MS	%s\n\n'%(self.cfg.general.MainFunctionPeriod));
+        fp.write('#define DCM_LIMITNUMBER_PERIODDATA		%s  //MaxNumberofSimultaneousPeriodictransmissions\n'%(self.cfg.general.MaxNumberofSimultaneousPeriodictransmissions));
+        fp.write('#define DCM_MAX_DDDSOURCE_NUMBER			%s  //MaxSourcesforOneDynamicIdentifier\n'%(self.cfg.general.MaxSourcesforOneDynamicIdentifier));
+        fp.write('#define DCM_MAX_DDD_NUMBER				%s  //MaxNegativeResponse\n\n'%(self.cfg.general.MaxNegativeResponse));
+        fp.write('#define DCM_PERIODICTRANSMIT_SLOW			%s\n'%(self.cfg.general.PeriodicTransmissionSlow));
+        fp.write('#define DCM_PERIODICTRANSMIT_MEDIUM		%s\n'%(self.cfg.general.PeriodicTransmissionMedium));
+        fp.write('#define DCM_PERIODICTRANSMIT_FAST			%s\n\n'%(self.cfg.general.PeriodicTransmissionFast));
+        id = 0;
+        for protocol in self.cfg.protocolList:
+            for connection in protocol.ConnectionList:
+                for rx in connection.RxChannelList:
+                    fp.write('#define DCM_%s %s\n'%(rx.RxPdu,id));
+                    id += 1;
+        fp.write('\n')
+        id = 0;
+        for protocol in self.cfg.protocolList:
+            for connection in protocol.ConnectionList:
+                for tx in connection.TxChannelList:
+                    fp.write('#define DCM_%s %s\n'%(tx.TxPdu,id));
+                    id += 1;
+        #-------------------------------------------------------
+        fp.write('#endif /*DCM_CFG_H_*/\n\n')
+        fp.close();
+    def codeGenC(self, path):
+        fp = open(path+'/Dcm_LCfg.c', 'w');
+        fp.write(gcGainOS_TkHead());
+        #------------------------------------------------------------------
+        fp.write("""#include "Std_Types.h"
+#include "Dcm.h"
+#if defined(USE_PDUR)
+#include "PduR.h"
+#endif\n\n""");
+        fp.write('#define DCM_SECURITY_EOL_INDEX %s\n'%(len(self.cfg.securityLevelList)));
+        fp.write('#define DCM_SESSION_EOL_INDEX %s\n'%(len(self.cfg.sessionList)));
+        fp.write('#define DCM_DID_LIST_EOL_INDEX %s\n\n'%(len(self.cfg.didList)));
+        for sec in self.cfg.securityLevelList:
+            if(sec.getSeedCbk != 'NULL'):
+                fp.write('extern Std_ReturnType %s (uint8 *securityAccessDataRecord, uint8 *seed, Dcm_NegativeResponseCodeType *errorCode);\n'%(sec.getSeedCbk));
+            if(sec.compKeyCbk != 'NULL'):
+                fp.write('extern Std_ReturnType %s (uint8 *key);\n'%(sec.compKeyCbk));
+        for req in self.cfg.requestServiceList:
+            if(req.start != 'NULL'):
+                fp.write('extern Std_ReturnType %s (Dcm_ProtocolType protocolID);\n'%(req.start))
+            if(req.stop != 'NULL'):
+                fp.write('extern Std_ReturnType %s (Dcm_ProtocolType protocolID);\n\n'%(req.stop))
+        # -=-=-==------- Security Level
+        if(len(self.cfg.securityLevelList)):
+            str = 'const Dcm_DspSecurityRowType DspSecurityList[] = {\n'
+            for sec in self.cfg.securityLevelList:
+                str += '\t{ // %s\n'%(sec.name);
+                str += '\t\t/* DspSecurityLevel = */ %s,\n'%(sec.level);
+                str += '\t\t/* DspSecurityDelayTimeOnBoot = */ 0,/* Value is not configurable */\n';
+                str += '\t\t/* DspSecurityNumAttDelay = */ 0, 	/* Value is not configurable */\n';
+                str += '\t\t/* DspSecurityDelayTime = */ 0, 	/* Value is not configurable */\n';
+                str += '\t\t/* DspSecurityNumAttLock = */ 0, 	/* Value is not configurable */\n';
+                str += '\t\t/* DspSecurityADRSize = */ %s,\n'%(sec.recordSize);
+                str += '\t\t/* DspSecuritySeedSize = */ %s,\n'%(sec.seedSize);
+                str += '\t\t/* DspSecurityKeySize = */ %s,\n'%(sec.keySize);
+                str += '\t\t/* GetSeed = */ %s,\n'%(sec.getSeedCbk);
+                str += '\t\t/* CompareKey = */ %s,\n'%(sec.compKeyCbk);
+                str += '\t\t/* Arc_EOL = */ FALSE,\n';
+                str += '\t},\n';
+            str += '\t{ // %s\n'%('Dummy For EOL');
+            str += '\t\t/* DspSecurityLevel = */ %s,\n'%('0xBD');
+            str += '\t\t/* DspSecurityDelayTimeOnBoot = */ 0,/* Value is not configurable */\n';
+            str += '\t\t/* DspSecurityNumAttDelay = */ 0, 	/* Value is not configurable */\n';
+            str += '\t\t/* DspSecurityDelayTime = */ 0, 	/* Value is not configurable */\n';
+            str += '\t\t/* DspSecurityNumAttLock = */ 0, 	/* Value is not configurable */\n';
+            str += '\t\t/* DspSecurityADRSize = */ %s,\n'%('0xBD');
+            str += '\t\t/* DspSecuritySeedSize = */ %s,\n'%('0xBD');
+            str += '\t\t/* DspSecurityKeySize = */ %s,\n'%('0xBD');
+            str += '\t\t/* GetSeed = */ %s,\n'%('NULL');
+            str += '\t\t/* CompareKey = */ %s,\n'%('NULL');
+            str += '\t\t/* Arc_EOL = */ TRUE,\n';
+            str += '\t}\n';
+            str += '};\n\n'
+            fp.write(str);
+        #------------------------------------------------------------------
+        fp.close();
