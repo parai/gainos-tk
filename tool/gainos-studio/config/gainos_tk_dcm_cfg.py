@@ -857,7 +857,7 @@ class gainos_tk_dcm_cfg():
         str = 'const Dcm_DspDidType DspDidList[] = { \n';
         for did in self.cfg.didList:
             str += '\t{ // %s,\n'%(did.name);
-            str += '\t\t/* DspDidUsePort = */ %s,\n'%(TRUE(did.usePort));
+            str += '\t\t/* DspDidUsePort = */ %s,/* Value is not configurable */\n'%(TRUE(did.usePort));
             str += '\t\t/* DspDidIdentifier = */ %s,\n'%(did.id);
             str += '\t\t/* DspDidInfoRef = */ &DspDidInfoList[%s], //%s\n'%(gcfindIndex(self.cfg.didInfoList, did.didInfoRef), did.didInfoRef);
             str += '\t\t/* DspDidRef = */ NULL, //%s\n'%('I cann\'t understand');
@@ -876,7 +876,7 @@ class gainos_tk_dcm_cfg():
             str += '\t\t/* Arc_EOL = */ %s\n'%('FALSE');
             str += '\t},\n'
         str += '\t{ // %s,\n'%('Dummy for EOL');
-        str += '\t\t/* DspDidUsePort = */ %s,\n'%('FALSE');
+        str += '\t\t/* DspDidUsePort = */ %s,/* Value is not configurable */\n'%('FALSE');
         str += '\t\t/* DspDidIdentifier = */ %s,\n'%('0xDB');
         str += '\t\t/* DspDidInfoRef = */ NULL,\n';
         str += '\t\t/* DspDidRef = */ NULL, //%s\n'%('I cann\'t understand');
@@ -896,5 +896,75 @@ class gainos_tk_dcm_cfg():
         str += '\t}\n'
         str += '};\n\n'
         fp.write(str);
+        #---------------------- Routines -------
+        fp.write("""/************************************************************************
+ *							Routine control								*
+ ************************************************************************/\n\n""");
+        #--------------------- Memory ------------------------------------
+        fp.write("""/************************************************************************
+ *							Memory Info             					*
+ ************************************************************************/\n\n""")
+        #---------------------- DSP
+        fp.write("""const Dcm_DspType Dsp = {
+    /* DspMaxDidToRead = */ 0x99,//????
+    /* DspDid = */ DspDidList,
+    /* DspDidInfo = */ DspDidInfoList,
+    /* DspEcuReset = */ NULL,
+    /* DspPid = */ NULL,
+    /* DspReadDTC = */ NULL,
+    /* DspRequestControl = */ NULL,
+    /* DspRoutine = */ NULL,//DspRoutineList,???
+    /* DspRoutineInfo = */ NULL,//DspRoutineInfoList,???
+    /* DspSecurity = */ &DspSecurity,
+    /* DspSession = */ &DspSession,
+    /* DspTestResultByObdmid = */ NULL,
+    /* DspVehInfo = */ NULL
+};\n\n""");
+        # ------------------------------- DSD
+        fp.write("""/************************************************************************
+ *									DSD									*
+ ************************************************************************/\n\n""");
+        for sertbl in self.cfg.serviceTableList:
+            str = 'const Dcm_DsdServiceType %s_serviceList[] = {\n'%(sertbl.name);
+            for ser in sertbl.serviceList:
+                str += '\t{ // %s\n'%(ser.name);
+                str += '\t\t /* DsdSidTabServiceId =*/ %s,\n'%(ser.serviceId);
+                str += '\t\t /* DsdSidTabSubfuncAvail =*/ %s,\n'%(TRUE(ser.subfuncAvail));
+                str += '\t\t /* DsdSidTabSecurityLevelRef =*/ %s_%s_SecurityList,\n'%(sertbl.name, ser.name);
+                str += '\t\t /* DsdSidTabSessionLevelRef =*/ %s_%s_SessionList,\n'%(sertbl.name, ser.name);
+                str += '\t\t /* Arc_EOL = */ FALSE\n'
+                str += '\t},\n';
+            str += '\t{ // %s\n'%('Dummy For EOL');
+            str += '\t\t /* DsdSidTabServiceId =*/ %s,\n'%('0xDB');
+            str += '\t\t /* DsdSidTabSubfuncAvail =*/ %s,\n'%('FALSE');
+            str += '\t\t /* DsdSidTabSecurityLevelRef =*/ NULL,\n';
+            str += '\t\t /* DsdSidTabSessionLevelRef =*/ NULL,\n';
+            str += '\t\t /* Arc_EOL = */ TRUE\n'
+            str += '\t}\n';
+            str += '};\n\n'
+            fp.write(str);
+        str = 'const Dcm_DsdServiceTableType DsdServiceTable[] = {	\n';
+        id = 0;
+        for sertbl in self.cfg.serviceTableList:
+            str += '\t{ // %s\n'%(sertbl.name);
+            str += '\t\t /* DsdSidTabId = */ %s,\n'%(id);
+            str += '\t\t /* DsdService = */ %s_serviceList,\n'%(sertbl.name);
+            str += '\t\t /* Arc_EOL = */ FALSE\n'
+            str += '\t},\n'
+            id += 1;
+        str += '\t{ // %s\n'%('Dummy For EOL ');
+        str += '\t\t /* DsdSidTabId = */ %s,\n'%('0xDB');
+        str += '\t\t /* DsdService = */ NULL,\n'
+        str += '\t\t /* Arc_EOL = */ TRUE\n'
+        str += '\t}\n'
+        str += '};\n\n'
+        fp.write(str);
+        fp.write("""const Dcm_DsdType Dsd = {
+    /* DsdServiceTable = */ DsdServiceTable
+};\n\n""");
+        #----------------------- DSL
+        fp.write("""/************************************************************************
+ *									DSL									*
+ ************************************************************************/\n\n""")
         #------------------------------------------------------------------
         fp.close();
