@@ -409,7 +409,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="currentIndex">
-     <number>22</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -584,6 +584,12 @@ p, li { white-space: pre-wrap; }
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
           <widget class="QPushButton" name="btnDidCtrlSecAdd">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
@@ -591,6 +597,12 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="btnDidCtrlSecDel">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -630,6 +642,12 @@ p, li { white-space: pre-wrap; }
         <layout class="QVBoxLayout" name="verticalLayout_8">
          <item>
           <widget class="QPushButton" name="btnDidCtrlSesAdd">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
@@ -637,6 +655,12 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="btnDidCtrlSesDel">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -847,6 +871,12 @@ p, li { white-space: pre-wrap; }
         <layout class="QVBoxLayout" name="verticalLayout_10">
          <item>
           <widget class="QPushButton" name="btnDidReadSecAdd">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
@@ -854,6 +884,12 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="btnDidReadSecDel">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -893,6 +929,12 @@ p, li { white-space: pre-wrap; }
         <layout class="QVBoxLayout" name="verticalLayout_11">
          <item>
           <widget class="QPushButton" name="btnDidReadSesAdd">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
@@ -900,6 +942,12 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="btnDidReadSesDel">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -1031,6 +1079,12 @@ p, li { white-space: pre-wrap; }
         <layout class="QVBoxLayout" name="verticalLayout_12">
          <item>
           <widget class="QPushButton" name="btnDidWriteSecAdd">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
@@ -1038,6 +1092,12 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="btnDidWriteSecDel">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -1077,6 +1137,12 @@ p, li { white-space: pre-wrap; }
         <layout class="QVBoxLayout" name="verticalLayout_13">
          <item>
           <widget class="QPushButton" name="btnDidWriteSesAdd">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
@@ -1084,6 +1150,12 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="btnDidWriteSesDel">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -1901,6 +1973,12 @@ p, li { white-space: pre-wrap; }
         <layout class="QVBoxLayout" name="verticalLayout_21">
          <item>
           <widget class="QPushButton" name="pushButton_17">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
@@ -1908,6 +1986,12 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_18">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -1947,6 +2031,12 @@ p, li { white-space: pre-wrap; }
         <layout class="QVBoxLayout" name="verticalLayout_22">
          <item>
           <widget class="QPushButton" name="pushButton_19">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
@@ -1954,6 +2044,12 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_20">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -2408,6 +2504,12 @@ p, li { white-space: pre-wrap; }
         <layout class="QVBoxLayout" name="verticalLayout_28">
          <item>
           <widget class="QPushButton" name="btnServiceSecAdd">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
@@ -2415,6 +2517,12 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="btnServiceSecDel">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -2439,6 +2547,12 @@ p, li { white-space: pre-wrap; }
         <layout class="QVBoxLayout" name="verticalLayout_29">
          <item>
           <widget class="QPushButton" name="btnServiceSesAdd">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&lt;&lt;</string>
            </property>
@@ -2446,6 +2560,12 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="btnServiceSesDel">
+           <property name="maximumSize">
+            <size>
+             <width>39</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>&gt;&gt;</string>
            </property>
@@ -2669,25 +2789,83 @@ p, li { white-space: pre-wrap; }
      <attribute name="title">
       <string>Session</string>
      </attribute>
-     <widget class="QWidget" name="layoutWidget_3">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>20</x>
         <y>20</y>
-        <width>461</width>
-        <height>27</height>
+        <width>501</width>
+        <height>128</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_80">
+      <layout class="QVBoxLayout" name="verticalLayout_32">
        <item>
-        <widget class="QLabel" name="label_74">
-         <property name="text">
-          <string>Name:</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_80">
+         <item>
+          <widget class="QLabel" name="label_74">
+           <property name="text">
+            <string>Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leSessionName"/>
+         </item>
+        </layout>
        </item>
        <item>
-        <widget class="QLineEdit" name="leSessionName"/>
+        <layout class="QHBoxLayout" name="horizontalLayout_84">
+         <item>
+          <widget class="QLabel" name="label_78">
+           <property name="text">
+            <string>Level:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spbxSessionLevel">
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_85">
+         <item>
+          <widget class="QLabel" name="label_79">
+           <property name="text">
+            <string>P2ServerMax(ms):</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spbxSessionP2ServerMax">
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_86">
+         <item>
+          <widget class="QLabel" name="label_80">
+           <property name="text">
+            <string>P2StartServerMax(ms):</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spbxSessionP2StartServerMax">
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

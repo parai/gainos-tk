@@ -201,11 +201,20 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn1.setText('Del Did Info');
             self.btn1.setDisabled(False);
             self.btn2.setText('Add Control Access')
-            self.btn2.setDisabled(False);
+            if(len(self.curobj.ControlAccessList) == 0):
+                self.btn2.setDisabled(False);
+            else:
+                self.btn2.setDisabled(True);
             self.btn3.setText('Add Read Access')
-            self.btn3.setDisabled(False);
+            if(len(self.curobj.ReadAccessList) == 0):
+                self.btn3.setDisabled(False);
+            else:
+                self.btn3.setDisabled(True);
             self.btn4.setText('Add Write Access')
-            self.btn4.setDisabled(False);
+            if(len(self.curobj.WriteAccessList) == 0):
+                self.btn4.setDisabled(False);
+            else:
+                self.btn4.setDisabled(True);
         elif(self.curtree.parent().text(0) == 'DIDs'):
             self.btn1.setText('Del DID');
             self.btn1.setDisabled(False);
@@ -459,6 +468,9 @@ class cd_dcm(QDialog, Ui_cd_dcm):
     def refreshSessionTab(self, name):
         self.curobj = gcfindObj(self.cfg.sessionList, name);
         self.leSessionName.setText(name);
+        self.spbxSessionLevel.setValue(self.curobj.level);
+        self.spbxSessionP2ServerMax.setValue(self.curobj.P2ServerMax);
+        self.spbxSessionP2StartServerMax.setValue(self.curobj.P2StarServerMax);
         self.enableTab(21);
     def refreshTimingTab(self, name):
         self.curobj = gcfindObj(self.cfg.timingList, name);
@@ -508,8 +520,8 @@ class cd_dcm(QDialog, Ui_cd_dcm):
     @pyqtSignature("QTreeWidgetItem*, int")
     def on_trDcm_itemClicked(self, item, column):
         self.curtree = item;
-        self.refreshButton();
         self.refreshTab();
+        self.refreshButton();
 # ========================== Del Object ============  
     def delDidAccess(self):
         #find parent
@@ -740,6 +752,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         text=self.btn2.text();
         if(text=='Add Control Access'):
             self.addDidInfoControlAccess();
+            self.btn2.setDisabled(True);
         elif(text=='Add Connection'):
             self.addConnection();
         elif(text=='Add Rx Channel'):
@@ -752,6 +765,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         text=self.btn3.text();
         if(text=='Add Read Access'):
             self.addDidInfoReadAccess();
+            self.btn3.setDisabled(True);
         elif(text=='Add Tx Channel'):
             self.addTxChannel();
         self.fileInd(False);
@@ -760,6 +774,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         text=self.btn4.text();
         if(text=='Add Write Access'):
             self.addDidInfoWriteAccess();
+            self.btn4.setDisabled(True);
         self.fileInd(False);
 # ========================= General =====================================
     @pyqtSignature("bool")
@@ -1208,6 +1223,24 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             if(self.curobj.name!=p0):
                 self.curobj.name=p0;
                 self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxSessionLevel_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.level!=p0):
+                self.curobj.level=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxSessionP2ServerMax_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.P2ServerMax!=p0):
+                self.curobj.P2ServerMax=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxSessionP2StartServerMax_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.P2StarServerMax!=p0):
+                self.curobj.P2StarServerMax=p0;
                 self.fileInd(False);
 #====================== Timing ===========================
     @pyqtSignature("QString")

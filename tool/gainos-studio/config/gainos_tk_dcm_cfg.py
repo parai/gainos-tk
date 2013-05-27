@@ -438,12 +438,21 @@ class DcmSessionControl():
 class DcmSession():
     def __init__(self, name):
         self.name = name;
+        self.level = 0;
+        self.P2ServerMax = 10; #ms
+        self.P2StarServerMax = 10; #ms
     def save(self, root):
         nd = ET.Element('DcmServiceTable');
         nd.attrib['name'] = str(self.name);
+        nd.attrib['level'] = str(self.level);
+        nd.attrib['P2ServerMax'] = str(self.P2ServerMax);
+        nd.attrib['P2StarServerMax'] = str(self.P2StarServerMax);
         root.append(nd);
     def parse(self, nd):
         self.name = nd.attrib['name'];
+        self.level = int(nd.attrib['level']);
+        self.P2ServerMax = int(nd.attrib['P2ServerMax']);
+        self.P2StarServerMax = int(nd.attrib['P2StarServerMax']);
 class DcmTiming():
     def __init__(self, name):
         self.name = name;
@@ -717,20 +726,30 @@ class gainos_tk_dcm_cfg():
             str = 'const Dcm_DspSessionRowType DspSessionList[] = {\n';
             for ses in self.cfg.sessionList:
                 str +='\t{ //%s\n'%(ses.name);
-                str +='\t\t/* DspSessionLevel = */ %s,\n'%('???');
-                str +='\t\t/* DspSessionP2ServerMax = */ %s,\n'%('???');
-                str +='\t\t/* DspSessionP2StarServerMax = */ %s,\n'%('???');
+                str +='\t\t/* DspSessionLevel = */ %s,\n'%(ses.level);
+                str +='\t\t/* DspSessionP2ServerMax = */ %s,\n'%(ses.P2ServerMax);
+                str +='\t\t/* DspSessionP2StarServerMax = */ %s,\n'%(ses.P2StarServerMax);
                 str +='\t\t/* Arc_EOL = */ %s\n'%('FALSE');
                 str +='\t},\n';
             str +='\t{ //%s\n'%('Dummy Session For EOL');
-            str +='\t\t/* DspSessionLevel = */ %s,\n'%('???');
-            str +='\t\t/* DspSessionP2ServerMax = */ %s,\n'%('???');
-            str +='\t\t/* DspSessionP2StarServerMax = */ %s,\n'%('???');
+            str +='\t\t/* DspSessionLevel = */ %s,\n'%('0xBD');
+            str +='\t\t/* DspSessionP2ServerMax = */ %s,\n'%('0xBD');
+            str +='\t\t/* DspSessionP2StarServerMax = */ %s,\n'%('0xBD');
             str +='\t\t/* Arc_EOL = */ %s\n'%('TRUE');
             str +='\t},\n';
             str += '};\n\n';
             fp.write(str);
+            fp.write("""const Dcm_DspSessionType DspSession = {
+    /* DspSessionRow = */ DspSessionList,
+};\n\n""")
         #----------------- Service Table ---------------
+        for sertbl in self.cfg.serviceTableList:
+            for ser in sertbl.serviceList:
+                str = 'const Dcm_DspSecurityRowType *%s_%s_SecurityList[] = {\n'%(sertbl.name, ser.name);
+                for sec in ser.securityRefList:
+                    str += '\t&DspSecurityList[%s],//%s\n'%(gcfindIndex(self.cfg.securityLevelList, sec), sec);
+                str += '\t&DspSecurityList[DCM_SECURITY_EOL_INDEX]\n};\n'
+                fp.write(str);
         for sertbl in self.cfg.serviceTableList:
             for ser in sertbl.serviceList:
                 str = 'const Dcm_DspSessionRowType *%s_%s_SessionList[] = {\n'%(sertbl.name, ser.name);
@@ -738,5 +757,144 @@ class gainos_tk_dcm_cfg():
                     str += '\t&DspSessionList[%s],//%s\n'%(gcfindIndex(self.cfg.sessionList, ses), ses);
                 str += '\t&DspSessionList[DCM_SESSION_EOL_INDEX]\n};\n'
                 fp.write(str);
+        fp.write('\n')
+        #----------------- DID INFOs ----------------
+        for didInfo in self.cfg.didInfoList:
+            #-------------- read access
+            for read in didInfo.ReadAccessList:
+                str1 = str2 = 'NULL';
+                if(len(read.sessionRefList)):
+                    str1 = '%s_read_sessionRefList'%(didInfo.name);
+                    str = 'const Dcm_DspSessionRowType *%s_%s_sessionRefList[] = {\n'%(didInfo.name, 'read');
+                    for ses in read.sessionRefList:
+                        str += '\t&DspSessionList[%s],//%s\n'%(gcfindIndex(self.cfg.sessionList, ses), ses);
+                    str += '\t&DspSessionList[DCM_SESSION_EOL_INDEX]\n};\n'
+                    fp.write(str);
+                #----
+                if(len(read.securityRefList)):
+                    str2 = '%s_read_securityRefList'%(didInfo.name);
+                    str = 'const Dcm_DspSecurityRowType *%s_%s_securityRefList[] = {\n'%(didInfo.name, 'read');
+                    for sec in read.securityRefList:
+                        str += '\t&DspSecurityList[%s],//%s\n'%(gcfindIndex(self.cfg.securityLevelList, sec), sec);
+                    str += '\t&DspSecurityList[DCM_SECURITY_EOL_INDEX]\n};\n'
+                    fp.write(str);
+                fp.write("""const Dcm_DspDidReadType %s_didRead = {
+    /* DspDidReadSessionRef = */ %s,
+    /* DspDidReadSecurityLevelRef = */ %s
+};\n\n"""%(didInfo.name, str1, str2));
+            #----------- write access ------
+            for write in didInfo.WriteAccessList:
+                str1 = str2 = 'NULL';
+                if(len(write.sessionRefList)):
+                    str1 = '%s_write_sessionRefList'%(didInfo.name);
+                    str = 'const Dcm_DspSessionRowType *%s_%s_sessionRefList[] = {\n'%(didInfo.name, 'write');
+                    for ses in write.sessionRefList:
+                        str += '\t&DspSessionList[%s],//%s\n'%(gcfindIndex(self.cfg.sessionList, ses), ses);
+                    str += '\t&DspSessionList[DCM_SESSION_EOL_INDEX]\n};\n'
+                    fp.write(str);
+                #----
+                if(len(write.securityRefList)):
+                    str2 = '%s_write_securityRefList'%(didInfo.name);
+                    str = 'const Dcm_DspSecurityRowType *%s_%s_securityRefList[] = {\n'%(didInfo.name, 'write');
+                    for sec in write.securityRefList:
+                        str += '\t&DspSecurityList[%s],//%s\n'%(gcfindIndex(self.cfg.securityLevelList, sec), sec);
+                    str += '\t&DspSecurityList[DCM_SECURITY_EOL_INDEX]\n};\n'
+                    fp.write(str);
+                fp.write("""const Dcm_DspDidWriteType %s_didWrite = {
+    /* DspDidReadSessionRef = */ %s,
+    /* DspDidReadSecurityLevelRef = */ %s
+};\n\n"""%(didInfo.name, str1, str2));
+            #----------- Control access -----------------
+            for ctrl in didInfo.ControlAccessList:
+                str1 = str2 = 'NULL';
+                if(len(ctrl.sessionRefList)):
+                    str1 = '%s_control_sessionRefList'%(didInfo.name);
+                    str = 'const Dcm_DspSessionRowType *%s_%s_sessionRefList[] = {\n'%(didInfo.name, 'control');
+                    for ses in ctrl.sessionRefList:
+                        str += '\t&DspSessionList[%s],//%s\n'%(gcfindIndex(self.cfg.sessionList, ses), ses);
+                    str += '\t&DspSessionList[DCM_SESSION_EOL_INDEX]\n};\n'
+                    fp.write(str);
+                #----
+                if(len(ctrl.securityRefList)):
+                    str2 = '%s_control_securityRefList'%(didInfo.name);
+                    str = 'const Dcm_DspSecurityRowType *%s_%s_securityRefList[] = {\n'%(didInfo.name, 'control');
+                    for sec in ctrl.securityRefList:
+                        str += '\t&DspSecurityList[%s],//%s\n'%(gcfindIndex(self.cfg.securityLevelList, sec), sec);
+                    str += '\t&DspSecurityList[DCM_SECURITY_EOL_INDEX]\n};\n'
+                    fp.write(str);
+                fp.write("""const Dcm_DspDidControlType %s_didControl = {
+    /* DspDidReadSessionRef = */ %s,
+    /* DspDidReadSecurityLevelRef = */ %s,
+    /* DspDidFreezeCurrentState = */ NULL,
+    /* DspDidResetToDefault = */ NULL,
+    /* DspDidReturnControlToEcu = */ NULL,
+    /* DspDidShortTermAdjustment = */ NULL
+};\n\n"""%(didInfo.name, str1, str2));
+        str = 'const Dcm_DspDidInfoType DspDidInfoList[] = {\n';
+        for didInfo in self.cfg.didInfoList:
+            str += '\t{ // %s\n'%(didInfo.name);
+            str += '\t\t /* DspDidDynamicllyDefined = */ %s,\n'%(TRUE(didInfo.DynamicllyDefined));
+            str += '\t\t /* DspDidFixedLength = */ %s,\n'%(TRUE(didInfo.FixedLength));
+            str += '\t\t /* DspDidScalingInfoSize = */ %s,\n'%(didInfo.ScalingInfoSize);
+            str += '\t\t{ // DspDidAccess\n';
+            if(len(didInfo.ReadAccessList)>0):
+                str += '\t\t\t /* DspDidRead */ %s_didRead,\n'%(didInfo.name);
+            else:
+                str += '\t\t\t /* DspDidRead */ NULL,\n';
+            if(len(didInfo.WriteAccessList)>0):
+                str += '\t\t\t /* DspDidWrite */ %s_didWrite,\n'%(didInfo.name);
+            else:
+                str += '\t\t\t /* DspDidWrite */ NULL,\n';
+            if(len(didInfo.ControlAccessList)>0):
+                str += '\t\t\t /* DspDidControl */ %s_didControl,\n'%(didInfo.name);
+            else:
+                str += '\t\t\t /* DspDidControl */ NULL,\n';
+            str += '\t\t}\n';
+            str += '\t}, \n';
+        str += '};\n\n'
+        fp.write(str);
+        #------------------ DIDs ----------
+        str = 'const Dcm_DspDidType DspDidList[] = { \n';
+        for did in self.cfg.didList:
+            str += '\t{ // %s,\n'%(did.name);
+            str += '\t\t/* DspDidUsePort = */ %s,\n'%(TRUE(did.usePort));
+            str += '\t\t/* DspDidIdentifier = */ %s,\n'%(did.id);
+            str += '\t\t/* DspDidInfoRef = */ &DspDidInfoList[%s], //%s\n'%(gcfindIndex(self.cfg.didInfoList, did.didInfoRef), did.didInfoRef);
+            str += '\t\t/* DspDidRef = */ NULL, //%s\n'%('I cann\'t understand');
+            str += '\t\t/* DspDidSize = */ %s,\n'%(did.size);
+            str += """		/* DspDidReadDataLengthFnc = */ NULL,
+        /* DspDidConditionCheckReadFnc = */ NULL,
+        /* DspDidReadDataFnc = */ NULL,
+        /* DspDidConditionCheckWriteFnc = */ NULL,
+        /* DspDidWriteDataFnc = */ NULL,
+        /* DspDidGetScalingInfoFnc = */ NULL,
+        /* DspDidFreezeCurrentStateFnc = */ NULL,	
+        /* DspDidResetToDefaultFnc = */ NULL,
+        /* DspDidReturnControlToEcuFnc = */ NULL,
+        /* DspDidShortTermAdjustmentFnc = */ NULL,
+        /* DspDidControlRecordSize = */ NULL,\n""";
+            str += '\t\t/* Arc_EOL = */ %s\n'%('FALSE');
+            str += '\t},\n'
+        str += '\t{ // %s,\n'%('Dummy for EOL');
+        str += '\t\t/* DspDidUsePort = */ %s,\n'%('FALSE');
+        str += '\t\t/* DspDidIdentifier = */ %s,\n'%('0xDB');
+        str += '\t\t/* DspDidInfoRef = */ NULL,\n';
+        str += '\t\t/* DspDidRef = */ NULL, //%s\n'%('I cann\'t understand');
+        str += '\t\t/* DspDidSize = */ %s,\n'%('0xDB');
+        str += """		/* DspDidReadDataLengthFnc = */ NULL,
+        /* DspDidConditionCheckReadFnc = */ NULL,
+        /* DspDidReadDataFnc = */ NULL,
+        /* DspDidConditionCheckWriteFnc = */ NULL,
+        /* DspDidWriteDataFnc = */ NULL,
+        /* DspDidGetScalingInfoFnc = */ NULL,
+        /* DspDidFreezeCurrentStateFnc = */ NULL,	
+        /* DspDidResetToDefaultFnc = */ NULL,
+        /* DspDidReturnControlToEcuFnc = */ NULL,
+        /* DspDidShortTermAdjustmentFnc = */ NULL,
+        /* DspDidControlRecordSize = */ NULL,\n""";
+        str += '\t\t/* Arc_EOL = */ %s\n'%('TRUE');
+        str += '\t}\n'
+        str += '};\n\n'
+        fp.write(str);
         #------------------------------------------------------------------
         fp.close();
