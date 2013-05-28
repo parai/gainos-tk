@@ -120,7 +120,7 @@ static void changeDiagnosticSession(Dcm_DslRunTimeProtocolParametersType *runtim
 
 	default:
 		DET_REPORTERROR(MODULE_ID_DCM, 0, DCM_CHANGE_DIAGNOSTIC_SESSION_ID, DCM_E_PARAM);
-		DEBUG(DEBUG_MEDIUM, "New session invalid");
+		DEBUG_PRINT0(DEBUG_MEDIUM, "New session invalid");
 		break;
 	}
 }
@@ -433,7 +433,7 @@ void DslMain(void) {
 			}
 			switch (runtime->externalTxBufferStatus) { // #### TX buffer state. ####
 			case NOT_IN_USE:
-				//DEBUG( DEBUG_MEDIUM, "state NOT_IN_USE!\n");
+				//DEBUG_PRINT0( DEBUG_MEDIUM, "state NOT_IN_USE!\n");
 				break;
 			case PROVIDED_TO_DSD: {
 				DEBUG_PRINT1( DEBUG_MEDIUM, "debug_count=%d\n", debug_count);
@@ -495,10 +495,10 @@ void DslMain(void) {
 				}
 				break;
 			case DCM_TRANSMIT_SIGNALED:
-				//DEBUG( DEBUG_MEDIUM, "state DSD_PENDING_RESPONSE_SIGNALED!\n");
+				//DEBUG_PRINT0( DEBUG_MEDIUM, "state DSD_PENDING_RESPONSE_SIGNALED!\n");
 				break;
 			case PROVIDED_TO_PDUR: // The valid data is being transmitted by TP-layer.
-				//DEBUG( DEBUG_MEDIUM, "state DSD_PENDING_RESPONSE_SIGNALED!\n");
+				//DEBUG_PRINT0( DEBUG_MEDIUM, "state DSD_PENDING_RESPONSE_SIGNALED!\n");
 				break;
 			default:
 				break;

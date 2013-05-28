@@ -278,7 +278,10 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn2.setText('Add Rx Channel');
             self.btn2.setDisabled(False);
             self.btn3.setText('Add Tx Channel');
-            self.btn3.setDisabled(False);
+            if(len(self.curobj.TxChannelList) > 0):
+                self.btn3.setDisabled(True);
+            else:
+                self.btn3.setDisabled(False);
             self.btn4.setDisabled(True);
         elif(self.curtree.parent().parent().text(0) == 'Service Tables'):
             self.btn1.setText('Del Service');
@@ -768,6 +771,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn3.setDisabled(True);
         elif(text=='Add Tx Channel'):
             self.addTxChannel();
+            self.btn3.setDisabled(True);
         self.fileInd(False);
     @pyqtSignature("")
     def on_btn4_clicked(self):

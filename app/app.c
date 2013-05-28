@@ -5,30 +5,25 @@
  */
 #include <stdio.h>
 #include "Os.h"
-
+extern void DcmEx1Init(void);
 TASK(vTaskInit)
 {
 	StatusType ercd;
 	(void)SetRelAlarm(ID_vAlarmReceiver,50,200);
 	(void)SetRelAlarm(ID_vAlarmSender,100,200);
-	(void)SetRelAlarm(ID_vAlarmMainFunction,150,200);
+	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
 	
-	(void)ActivateTask(ID_vTaskSender);
-	(void)ActivateTask(ID_vTaskReceiver);
-	(void)ActivateTask(ID_vTaskMainFunction);
+	DcmEx1Init();
     /* Add your task special code here, but Don't delete this Task declaration.*/
     (void)printf("vTaskInit is running.\r\n");
 
     (void)TerminateTask();
 }
-
+extern void DcmEx1Sender(void);
 TASK(vTaskSender)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    (void)printf("vTaskSender is running.\r\n");
-    (void)GetResource(RES_SCHEDULER);
-    (void)SetEvent(ID_vTaskReceiver,0x01);
-    (void)ReleaseResource(RES_SCHEDULER);
+    DcmEx1Sender();
     (void)TerminateTask();
 }
 
@@ -40,11 +35,12 @@ TASK(vTaskReceiver)
     (void)ClearEvent(0x01);
     (void)TerminateTask();
 }
-
+extern void DcmEx1MainFunction(void);
 TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    (void)printf("vTaskMainFunction is running.\r\n");
+    //(void)printf("vTaskMainFunction is running.\r\n");
+    DcmEx1MainFunction();
     (void)TerminateTask();
 }
 
@@ -53,10 +49,7 @@ TASK(vTaskIdle)
     /* Add your task special code here, but Don't delete this Task declaration.*/
 	for(;;)
 	{
-		printf("vTaskIdle is running.\r\n");
-		SleepTask(200);
 	}
-    (void)ChainTask(ID_vTaskIdle);
     (void)TerminateTask();
 }
 
