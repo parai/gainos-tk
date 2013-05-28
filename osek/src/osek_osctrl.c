@@ -114,6 +114,7 @@ void ShutdownOS( StatusType xError )
 
 #if defined(cfgOSEK_STD_ISR_PROCESS)
 /* For Arm Cortex M3, terrible. So I move them to portableS.S */
+/* For others, define cfgOSEK_STD_ISR_PROCESS in your compiler pre-processor */
 void EnterISR(void)
 {
     knl_taskindp++;/* Enter Task Independedt Part */

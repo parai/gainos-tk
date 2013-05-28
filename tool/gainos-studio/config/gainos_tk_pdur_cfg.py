@@ -212,6 +212,7 @@ class gainos_tk_pdur_cfg():
     def codeGenH(self, path):
         file=path+'/PduR_Cfg.h';
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write('#if !(((PDUR_SW_MAJOR_VERSION == 2) && (PDUR_SW_MINOR_VERSION == 0)) )\n'
                 '#error PduR: Configuration file expected BSW module version to be 2.0.*\n'
                 '#endif\n\n'
@@ -327,6 +328,7 @@ class gainos_tk_pdur_cfg():
     def codeGenPbCfgH(self, path):
         file=path+'/PduR_PbCfg.h';
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write("""
 #ifndef PDUR_PB_CFG_H_H
 #define PDUR_PB_CFG_H_H
@@ -372,6 +374,7 @@ extern const PduR_PBConfigType PduR_Config;\n""");
     def codeGenPbCfgC(self, path):
         file=path+'/PduR_PbCfg.c';
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write("""#include "PduR.h"
 
 #if PDUR_CANIF_SUPPORT == STD_ON

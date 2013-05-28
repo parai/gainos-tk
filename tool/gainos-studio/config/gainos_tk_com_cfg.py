@@ -398,6 +398,7 @@ class gainos_tk_com_cfg():
     def codeGenPbCfgH(self, path):
         file=path+'/Com_PbCfg.h';
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write('#if !(((COM_SW_MAJOR_VERSION == 1) && (COM_SW_MINOR_VERSION == 2)) )\n'
                 '#error Com: Configuration file expected BSW module version to be 1.2.*\n'
                 '#endif\n\n'
@@ -446,6 +447,7 @@ class gainos_tk_com_cfg():
     def codeGenPbCfgC(self, path):
         file=path+'/Com_PbCfg.c';
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write('#include "Com.h"\n'
                 '#include "Com_Internal.h"\n'
                 '//#include <stdlib.h>\n'

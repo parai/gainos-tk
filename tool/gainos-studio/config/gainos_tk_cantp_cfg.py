@@ -181,6 +181,7 @@ class gainos_tk_cantp_cfg():
     def codeGenH(self, path):
         file=path+'/CanTp_Cfg.h';
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write('#ifndef CANTP_CFG_H_\n#define CANTP_CFG_H_\n\n');
         fp.write('#include "CanTp_Types.h"\n\n');
         fp.write('#define CANTP_MAIN_FUNCTION_PERIOD_TIME_MS	%s  /* ms */\n'
@@ -216,6 +217,7 @@ class gainos_tk_cantp_cfg():
         if os.path.isfile(file) and File_BakeUp_On_Gen:
             self.backup(file);
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write('#include "CanTp.h"\n'
                 '#if defined(USE_CANIF)\n'
                 '#include "CanIf.h"\n'

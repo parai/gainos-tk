@@ -688,6 +688,9 @@ class gainos_tk_dcm_cfg():
                 fp.write('extern Std_ReturnType %s (Dcm_ProtocolType protocolID);\n'%(req.start))
             if(req.stop != 'NULL'):
                 fp.write('extern Std_ReturnType %s (Dcm_ProtocolType protocolID);\n\n'%(req.stop))
+        for sesc in self.cfg.sessionControlList:
+            if(sesc.GetSesChgPermission != 'NULL'):
+                fp.write('extern Std_ReturnType %s(Dcm_SesCtrlType sesCtrlTypeActive, Dcm_SesCtrlType sesCtrlTypeNew);\n'%(sesc.GetSesChgPermission));
         # -=-=-==------- Security Level
         if(len(self.cfg.securityLevelList)):
             str = 'const Dcm_DspSecurityRowType DspSecurityList[] = {\n'

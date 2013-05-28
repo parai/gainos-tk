@@ -254,6 +254,7 @@ class gainos_tk_canif_cfg():
         if os.path.isfile(file) and File_BakeUp_On_Gen:
             self.backup(file);
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write('#ifndef CANIF_CFG_H_\n#define CANIF_CFG_H_\n\n#include "Can.h"\n\n');
         fp.write('#define CANIF_VERSION_INFO_API   %s\n'%(gSTD_ON(self.cfg.General.VersionInfoApi)));
         fp.write('#define CANIF_DEV_ERROR_DETECT   %s\n'%(gSTD_ON(self.cfg.General.DevErrorDetection)));
@@ -305,6 +306,7 @@ class gainos_tk_canif_cfg():
         if os.path.isfile(file) and File_BakeUp_On_Gen:
             self.backup(file);
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write('#include "CanIf.h"\n');
         fp.write('#if defined(USE_CANTP)\n');
         fp.write('#include "CanTp.h"\n');

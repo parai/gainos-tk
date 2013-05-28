@@ -189,6 +189,7 @@ class gainos_tk_mscan_cfg():
     def codeGenH(self, path):
         file=path+'/Can_Cfg.h';
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write('#ifndef CAN_CFG_H_\n#define CAN_CFG_H_\n\n');
         fp.write('/* ################ Can General ################ */\n');
         fp.write('#define CAN_DEV_ERROR_DETECT %s\n'%(
@@ -223,6 +224,7 @@ class gainos_tk_mscan_cfg():
     def codeGenC(self, path):
         file=path+'/Can_PBcfg.c';
         fp=open(file, 'w');
+        fp.write(gcGainOS_TkHead());
         fp.write('#include "Can.h"\n#include "Can_Cfg.h"\n\n');
         mask=''
         for obj in self.cfg.CanFilterMaskList:
