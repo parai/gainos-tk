@@ -8,6 +8,8 @@
 //Signal init values.
 const uint8 vCom_IPdu1_TX_Signal0_InitValue[3] ={0x00, 0x00,0x00,};
 const uint8 vCom_IPdu1_Signal0_InitValue[3] ={0x00, 0x00,0x00,};
+const uint8 vCom_IPdu0_TX_Signal0_InitValue = 0x00;
+const uint8 vCom_IPdu0_RX_Signal0_InitValue = 0x00;
 
 //Group signal definitions
 #if(COM_N_GROUP_SIGNALS > 0)
@@ -21,6 +23,9 @@ const ComGroupSignal_type ComGroupSignal[] = {
 uint8 vCom_IPdu1_TX_IPduBuffer[8];
 uint8 vCom_IPdu1_RX_IPduBuffer[8];
 uint8 vCom_IPdu1_RX_IPduDeferredRxBuffer[8];
+uint8 vCom_IPdu0_TX_IPduBuffer[8];
+uint8 vCom_IPdu0_RX_IPduBuffer[8];
+uint8 vCom_IPdu0_RX_IPduDeferredRxBuffer[8];
 
 //Signal definitions
 const ComSignal_type ComSignal[] = {
@@ -66,6 +71,50 @@ const ComSignal_type ComSignal[] = {
 		/* .ComGroupSignal = */ NULL,
 		/* .Com_Arc_ShadowBuffer = */ NULL,
 		/* .ComIPduHandleId = */ vCom_IPdu1_RX,
+		/* .Com_Arc_EOL = */ FALSE
+	},
+	{
+		/* .ComBitPosition = */ 0,
+		/* .ComBitSize = */ 8,
+		/* .ComErrorNotification = */ NULL,
+		/* .ComFirstTimeoutFactor = */ 10,
+		/* .ComHandleId = */ vCom_IPdu0_TX_Signal0,
+		/* .ComNotification = */ NULL,
+		/* .ComRxDataTimeoutAction = */ COM_TIMEOUT_DATA_ACTION_NONE,
+		/* .ComSignalEndianess = */ COM_BIG_ENDIAN,
+		/* .ComSignalInitValue = */ &vCom_IPdu0_TX_Signal0_InitValue,
+		/* .ComSignalType = */ UINT8,
+		/* .ComTimeoutFactor = */ 10,
+		/* .ComTimeoutNotification = */ NULL,
+		/* .ComTransferProperty = */ TRIGGERED,
+		/* .ComUpdateBitPosition = */ 0,
+		/* .ComSignalArcUseUpdateBit = */ FALSE,
+		/* .Com_Arc_IsSignalGroup = */ FALSE,
+		/* .ComGroupSignal = */ NULL,
+		/* .Com_Arc_ShadowBuffer = */ NULL,
+		/* .ComIPduHandleId = */ vCom_IPdu0_TX,
+		/* .Com_Arc_EOL = */ FALSE
+	},
+	{
+		/* .ComBitPosition = */ 0,
+		/* .ComBitSize = */ 8,
+		/* .ComErrorNotification = */ NULL,
+		/* .ComFirstTimeoutFactor = */ 10,
+		/* .ComHandleId = */ vCom_IPdu0_RX_Signal0,
+		/* .ComNotification = */ NULL,
+		/* .ComRxDataTimeoutAction = */ COM_TIMEOUT_DATA_ACTION_NONE,
+		/* .ComSignalEndianess = */ COM_BIG_ENDIAN,
+		/* .ComSignalInitValue = */ &vCom_IPdu0_RX_Signal0_InitValue,
+		/* .ComSignalType = */ UINT8,
+		/* .ComTimeoutFactor = */ 10,
+		/* .ComTimeoutNotification = */ NULL,
+		/* .ComTransferProperty = */ TRIGGERED,
+		/* .ComUpdateBitPosition = */ 0,
+		/* .ComSignalArcUseUpdateBit = */ FALSE,
+		/* .Com_Arc_IsSignalGroup = */ FALSE,
+		/* .ComGroupSignal = */ NULL,
+		/* .Com_Arc_ShadowBuffer = */ NULL,
+		/* .ComIPduHandleId = */ vCom_IPdu0_RX,
 		/* .Com_Arc_EOL = */ TRUE
 	},
 };
@@ -85,6 +134,14 @@ const ComSignal_type * const vCom_IPdu1_TX_SignalRefs[] = {
 };
 const ComSignal_type * const vCom_IPdu1_RX_SignalRefs[] = {
 	&ComSignal[ vCom_IPdu1_Signal0 ],
+	NULL
+};
+const ComSignal_type * const vCom_IPdu0_TX_SignalRefs[] = {
+	&ComSignal[ vCom_IPdu0_TX_Signal0 ],
+	NULL
+};
+const ComSignal_type * const vCom_IPdu0_RX_SignalRefs[] = {
+	&ComSignal[ vCom_IPdu0_RX_Signal0 ],
 	NULL
 };
 //I-PDU definitions
@@ -137,6 +194,54 @@ const ComIPdu_type ComIPdu[] = {
 		/* .ComIPduDynSignalRef = */ NULL,
 		/* .Com_Arc_EOL = */ FALSE,
 	},
+	{// vCom_IPdu0_TX
+		/* .ComIPduCallout = */ NULL,
+		/* .ArcIPduOutgoingId = */ PDUR_TX_vEcuC_Pdu_0,
+		/* .ComIPduSignalProcessing = */ DEFERRED,
+		/* .ComIPduSize = */ 8,
+		/* .ComIPduDirection = */ SEND,
+		/* .ComIPduGroupRef = */ vCom_IPduGrp0,
+		{/* .ComTxIPdu = */
+			/* .ComTxIPduMinimumDelayFactor = */ 1,
+			/* .ComTxIPduUnusedAreasDefault = */ 0,
+			{/* .ComTxModeTrue = */
+				/* .ComTxModeMode =  */ PERIODIC,
+				/* .ComTxModeNumberOfRepetitions =  */ 0,
+				/* .ComTxModeRepetitionPeriodFactor =  */ 10,
+				/* .ComTxModeTimeOffsetFactor =  */ 20,
+				/* .ComTxModeTimePeriodFactor =  */ 10,
+			},
+		},
+		/* .ComIPduDataPtr = */ vCom_IPdu0_TX_IPduBuffer,
+		/* .ComIPduDeferredDataPtr = */ NULL,
+		/* .ComIPduGroupRef = */ vCom_IPdu0_TX_SignalRefs,
+		/* .ComIPduDynSignalRef = */ NULL,
+		/* .Com_Arc_EOL = */ FALSE,
+	},
+	{// vCom_IPdu0_RX
+		/* .ComIPduCallout = */ NULL,
+		/* .ArcIPduOutgoingId = */ PDUR_RX_vEcuC_Pdu_0,
+		/* .ComIPduSignalProcessing = */ DEFERRED,
+		/* .ComIPduSize = */ 8,
+		/* .ComIPduDirection = */ RECEIVE,
+		/* .ComIPduGroupRef = */ vCom_IPduGrp0,
+		{/* .ComTxIPdu = */
+			/* .ComTxIPduMinimumDelayFactor = */ 1,
+			/* .ComTxIPduUnusedAreasDefault = */ 0,
+			{/* .ComTxModeTrue = */
+				/* .ComTxModeMode =  */ PERIODIC,
+				/* .ComTxModeNumberOfRepetitions =  */ 0,
+				/* .ComTxModeRepetitionPeriodFactor =  */ 10,
+				/* .ComTxModeTimeOffsetFactor =  */ 20,
+				/* .ComTxModeTimePeriodFactor =  */ 10,
+			},
+		},
+		/* .ComIPduDataPtr = */ vCom_IPdu0_RX_IPduBuffer,
+		/* .ComIPduDeferredDataPtr = */ vCom_IPdu0_RX_IPduDeferredRxBuffer,
+		/* .ComIPduGroupRef = */ vCom_IPdu0_RX_SignalRefs,
+		/* .ComIPduDynSignalRef = */ NULL,
+		/* .Com_Arc_EOL = */ FALSE,
+	},
 };
 
 const Com_ConfigType ComConfiguration = {
@@ -170,6 +275,24 @@ Com_Arc_IPdu_type Com_Arc_IPdu[] = {
 		},
 		/* .Com_Arc_IpduStarted = */ 0
 	},
+	{ // vCom_IPdu0_TX
+		{/* .Com_Arc_TxIPduTimers = */
+			/* .ComTxIPduNumberOfRepetitionsLeft = */ 0,
+			/* .ComTxModeRepetitionPeriodTimer = */ 0,
+			/* .ComTxIPduMinimumDelayTimer = */ 0,
+			/* .ComTxModeTimePeriodTimer = */ 0
+		},
+		/* .Com_Arc_IpduStarted = */ 0
+	},
+	{ // vCom_IPdu0_RX
+		{/* .Com_Arc_TxIPduTimers = */
+			/* .ComTxIPduNumberOfRepetitionsLeft = */ 0,
+			/* .ComTxModeRepetitionPeriodTimer = */ 0,
+			/* .ComTxIPduMinimumDelayTimer = */ 0,
+			/* .ComTxModeTimePeriodTimer = */ 0
+		},
+		/* .Com_Arc_IpduStarted = */ 0
+	},
 };
 
 Com_Arc_Signal_type Com_Arc_Signal[] = {
@@ -178,6 +301,14 @@ Com_Arc_Signal_type Com_Arc_Signal[] = {
 		/* .ComSignalUpdated = */ 0,
 	},
 	{ // vCom_IPdu1_Signal0
+		/* .Com_Arc_DeadlineCounter = */ 0,
+		/* .ComSignalUpdated = */ 0,
+	},
+	{ // vCom_IPdu0_TX_Signal0
+		/* .Com_Arc_DeadlineCounter = */ 0,
+		/* .ComSignalUpdated = */ 0,
+	},
+	{ // vCom_IPdu0_RX_Signal0
 		/* .Com_Arc_DeadlineCounter = */ 0,
 		/* .ComSignalUpdated = */ 0,
 	},

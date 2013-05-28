@@ -407,7 +407,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.cmbxRxAddrType.setCurrentIndex(self.cmbxRxAddrType.findText(obj.RxAddrType));
         self.cmbxRxPdu.clear();
         for pdu in self.depinfo[0].cfg.pduList:
-            self.cmbxRxPdu.addItem(pdu.name+'_Rx');
+            self.cmbxRxPdu.addItem('RX_'+pdu.name);
         self.cmbxRxPdu.setCurrentIndex(self.cmbxRxPdu.findText(obj.RxPdu));
         self.enableTab(7);
     def refreshConnectionTab(self, name):
@@ -420,7 +420,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.leTxProtocolName.setText(obj.name);
         self.cmbxTxPdu.clear();
         for pdu in self.depinfo[0].cfg.pduList:
-            self.cmbxTxPdu.addItem(pdu.name+'_Tx');
+            self.cmbxTxPdu.addItem('TX_'+pdu.name);
         self.cmbxTxPdu.setCurrentIndex(self.cmbxTxPdu.findText(obj.TxPdu));
         self.enableTab(9);
     def refreshChannelTab(self, name):

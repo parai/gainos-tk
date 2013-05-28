@@ -26,10 +26,12 @@ void CanIf_User_ErrorNotification(uint8 Controller,Can_Arc_ErrorType Error){}
 // Contains the mapping from CanIf-specific Channels to Can Controllers
 const Can_ControllerIdType CanIf_Arc_ChannelToControllerMap[CANIF_CHANNEL_CNT] = {
 	CAN_CTRL_1,	/* vCanIf_Channel_1 */
+	CAN_CTRL_0,	/* vCanIf_Channel_0 */
 };
 
 const uint8 CanIf_Arc_ChannelDefaultConfIndex[CANIF_CHANNEL_CNT] = {
 	vCanIf_Channel_1_CONFIG_0,
+	vCanIf_Channel_0_CONFIG_0,
 };
 
 // Container that gets slamed into CanIf_InitController()
@@ -42,6 +44,12 @@ const CanIf_ControllerConfigType CanIfControllerConfig[] = {
 		/*CanIfControllerIdRef =*/ vCanIf_Channel_1,
 		/*CanIfDriverNameRef =*/ "FLEXCAN",  // Not used
 		/*CanIfInitControllerRef =*/ &Can_ControllerCfgData[INDEX_OF_CAN_CTRL_1],
+	},
+	{
+		/*WakeupSupport =*/ CANIF_WAKEUP_SUPPORT_NO_WAKEUP,
+		/*CanIfControllerIdRef =*/ vCanIf_Channel_0,
+		/*CanIfDriverNameRef =*/ "FLEXCAN",  // Not used
+		/*CanIfInitControllerRef =*/ &Can_ControllerCfgData[INDEX_OF_CAN_CTRL_0],
 	},
 };
 
@@ -77,12 +85,39 @@ const CanIf_HrhConfigType CanIfHrhConfigData_vCanIf_Channel_1[]=
 	},
 };
 
+const CanIf_HthConfigType CanIfHthConfigData_vCanIf_Channel_0[]=
+{
+	{
+		/*CanIfHthType =*/ CAN_ARC_HANDLE_TYPE_BASIC,
+		/*CanIfCanControllerIdRef =*/ vCanIf_Channel_0,
+		/*CanIfHthIdSymRef =*/ CAN_CTRL_0_vCanHth,
+		/*CanIf_Arc_EOL =*/ TRUE
+	},
+};
+
+const CanIf_HrhConfigType CanIfHrhConfigData_vCanIf_Channel_0[]=
+{
+	{
+		/*CanIfHrhType =*/ CAN_ARC_HANDLE_TYPE_BASIC,
+		/*CanIfSoftwareFilterHrh =*/ FALSE,
+		/*CanIfCanControllerIdRef =*/ vCanIf_Channel_0,
+		/*CanIfHrhIdSymRef =*/ CAN_CTRL_0_vCanHrh,
+		/*CanIf_Arc_EOL =*/ TRUE
+	},
+};
+
 const CanIf_InitHohConfigType CanIfHohConfigData[] =
 {
 	{
 		/*CanConfigSet =*/ &Can_ConfigSetData,
 		/*CanIfHrhConfig =*/ CanIfHrhConfigData_vCanIf_Channel_1,
 		/*CanIfHthConfig =*/ CanIfHthConfigData_vCanIf_Channel_1,
+		/*CanIf_Arc_EOL =*/ FALSE
+	},
+	{
+		/*CanConfigSet =*/ &Can_ConfigSetData,
+		/*CanIfHrhConfig =*/ CanIfHrhConfigData_vCanIf_Channel_0,
+		/*CanIfHthConfig =*/ CanIfHthConfigData_vCanIf_Channel_0,
 		/*CanIf_Arc_EOL =*/ TRUE
 	},
 };
@@ -100,6 +135,19 @@ const CanIf_TxPduConfigType CanIfTxPduConfigData[] =
 		/*CanIfTxPduIdCanIdType =*/ CANIF_CAN_ID_TYPE_11,
 		/*CanIfUserTxConfirmation =*/ PduR_CanIfTxConfirmation,
 		/*CanIfCanTxPduHthRef =*/ &CanIfHthConfigData_vCanIf_Channel_1[0],
+		/*PduIdRef =*/ NULL
+	},
+	{
+		/*CanIfTxPduId =*/ CANIF_TX_vEcuC_Pdu_0,
+		/*CanIfCanTxPduIdCanId =*/ 0,
+		/*CanIfCanTxPduIdDlc =*/ 8,
+		/*CanIfCanTxPduType =*/ CANIF_PDU_TYPE_STATIC,
+#if ( CANIF_READTXPDU_NOTIFY_STATUS_API == STD_ON )
+		/*CanIfReadTxPduNotifyStatus =*/ FALSE, 
+#endif
+		/*CanIfTxPduIdCanIdType =*/ CANIF_CAN_ID_TYPE_11,
+		/*CanIfUserTxConfirmation =*/ NULL,
+		/*CanIfCanTxPduHthRef =*/ &CanIfHthConfigData_vCanIf_Channel_0[0],
 		/*PduIdRef =*/ NULL
 	},
 };
@@ -124,6 +172,24 @@ const CanIf_RxPduConfigType CanIfRxPduConfigData[] =
 		/*CanIfSoftwareFilterType =*/ CANIF_SOFTFILTER_TYPE_MASK,
 		/*CanIfCanRxPduCanIdMask =*/ 0x7FF
 	},
+	{
+		/*CanIfCanRxPduId =*/ PDUR_RX_vEcuC_Pdu_0,
+		/*CanIfCanRxPduCanId =*/ 0,
+		/*CanIfCanRxPduDlc =*/ 8,
+#if ( CANIF_CANPDUID_READDATA_API == STD_ON )
+		/*CanIfReadRxPduData =*/ TRUE,
+#endif
+#if ( CANIF_READTXPDU_NOTIFY_STATUS_API == STD_ON )
+		/*CanIfReadRxPduNotifyStatus =*/ TRUE, 
+#endif
+		/*CanIfRxPduIdCanIdType =*/ CANIF_CAN_ID_TYPE_11,
+		/*CanIfRxUserType =*/ CANIF_USER_TYPE_CAN_PDUR,
+		/*CanIfUserRxIndication =*/ NULL,
+		/*CanIfCanRxPduHrhRef =*/ &CanIfHrhConfigData_vCanIf_Channel_0[0],
+		/*PduIdRef =*/ NULL,
+		/*CanIfSoftwareFilterType =*/ CANIF_SOFTFILTER_TYPE_MASK,
+		/*CanIfCanRxPduCanIdMask =*/ 0x7FF
+	},
 };
 
 // This container contains the init parameters of the CAN
@@ -131,8 +197,8 @@ const CanIf_RxPduConfigType CanIfRxPduConfigData[] =
 const CanIf_InitConfigType CanIfInitConfig =
 {
 	/*CanIfConfigSet =*/ 0, // Not used 
-	/*CanIfNumberOfCanRxPduIds =*/ 1,
-	/*CanIfNumberOfCanTXPduIds =*/ 1,
+	/*CanIfNumberOfCanRxPduIds =*/ 2,
+	/*CanIfNumberOfCanTXPduIds =*/ 2,
 	/*CanIfNumberOfDynamicCanTXPduIds =*/ 0, // Not used
 	// Containers
 	/*CanIfHohConfigPtr =*/ CanIfHohConfigData,

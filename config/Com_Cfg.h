@@ -20,8 +20,8 @@
 
 #define COM_DEV_ERROR_DETECT STD_OFF
 
-#define COM_N_IPDUS 2
-#define COM_N_SIGNALS 2
+#define COM_N_IPDUS 4
+#define COM_N_SIGNALS 4
 #define COM_N_GROUP_SIGNALS 0
 
 #define ComConfigurationTimeBase 0

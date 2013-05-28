@@ -661,6 +661,7 @@ class gainos_tk_dcm_cfg():
                 for tx in connection.TxChannelList:
                     fp.write('#define DCM_%s %s\n'%(tx.TxPdu,id));
                     id += 1;
+        fp.write('\n\n#define USE_PDUR\n\n')
         #-------------------------------------------------------
         fp.write('#endif /*DCM_CFG_H_*/\n\n')
         fp.close();
@@ -670,6 +671,7 @@ class gainos_tk_dcm_cfg():
         #------------------------------------------------------------------
         fp.write("""#include "Std_Types.h"
 #include "Dcm.h"
+#include "Dcm_Internal.h"
 #if defined(USE_PDUR)
 #include "PduR.h"
 #endif\n\n""");
@@ -838,15 +840,15 @@ class gainos_tk_dcm_cfg():
             str += '\t\t /* DspDidScalingInfoSize = */ %s,\n'%(didInfo.ScalingInfoSize);
             str += '\t\t{ // DspDidAccess\n';
             if(len(didInfo.ReadAccessList)>0):
-                str += '\t\t\t /* DspDidRead */ %s_didRead,\n'%(didInfo.name);
+                str += '\t\t\t /* DspDidRead */ &%s_didRead,\n'%(didInfo.name);
             else:
                 str += '\t\t\t /* DspDidRead */ NULL,\n';
             if(len(didInfo.WriteAccessList)>0):
-                str += '\t\t\t /* DspDidWrite */ %s_didWrite,\n'%(didInfo.name);
+                str += '\t\t\t /* DspDidWrite */ &%s_didWrite,\n'%(didInfo.name);
             else:
                 str += '\t\t\t /* DspDidWrite */ NULL,\n';
             if(len(didInfo.ControlAccessList)>0):
-                str += '\t\t\t /* DspDidControl */ %s_didControl,\n'%(didInfo.name);
+                str += '\t\t\t /* DspDidControl */ &%s_didControl,\n'%(didInfo.name);
             else:
                 str += '\t\t\t /* DspDidControl */ NULL,\n';
             str += '\t\t}\n';
@@ -966,5 +968,234 @@ class gainos_tk_dcm_cfg():
         fp.write("""/************************************************************************
  *									DSL									*
  ************************************************************************/\n\n""")
+        #--------------- buffer 
+        str = 'const Dcm_DslBufferType DcmDslBufferList[DCM_DSL_BUFFER_LIST_LENGTH] = {\n'
+        id = 0;
+        for buf in self.cfg.bufferList:
+            fp.write("""uint8 %s[%s];
+Dcm_DslBufferRuntimeType rxBufferParams_%s =
+{
+	/* status = */ NOT_IN_USE
+};\n"""%(buf.name, buf.size, buf.name));
+            str += '\t{ // %s\n'%(buf.name);
+            str += '\t\t/* DslBufferID = */ %s,//? I am not that clear.\n'%(id);
+            str += '\t\t/* DslBufferSize = */ %s,/* ?Value is not configurable */\n'%(buf.size);
+            str += '\t\t{ /* pduInfo */\n';
+            str += '\t\t\t/* SduDataPtr = */ %s,\n'%(buf.name);
+            str += '\t\t\t/* SduLength = */ %s,\n'%(buf.size);
+            str += '\t\t},\n'
+            str += '\t\t/* externalBufferRuntimeData = */ &rxBufferParams_%s\n'%(buf.name);
+            str += '\t},\n';
+        str += '};\n\n'
+        fp.write(str);
+        #----------------- Request Service
+        str = 'const Dcm_DslCallbackDCMRequestServiceType DCMRequestServiceList[] = {\n'
+        for reqser in self.cfg.requestServiceList:
+            str += '\t{ // %s\n'%(reqser.name);
+            str += '\t\t/* StartProtocol = */ %s,\n'%(reqser.start);
+            str += '\t\t/* StopProtocol = */ %s,\n'%(reqser.stop);
+            str += '\t\t/* Arc_EOL = */ FALSE'
+            str += '\t},\n'
+        str += '\t{ // %s\n'%('Dummy For EOL');
+        str += '\t\t/* StartProtocol = */ %s,\n'%('NULL');
+        str += '\t\t/* StopProtocol = */ %s,\n'%('NULL');
+        str += '\t\t/* Arc_EOL = */ TRUE'
+        str += '\t}\n'
+        str += '};\n\n';
+        fp.write(str);
+        #--------------------- Protocol
+        fp.write('extern const Dcm_DslMainConnectionType DslMainConnectionList[];\n\n');
+        #here I am confused witn Main Connection and Connection.
+        #So I assume the first configured one was main connection.
+        str = 'const Dcm_DslProtocolRxType DcmDslProtocolRxList[] = {\n';
+        for pro in self.cfg.protocolList:
+            for con in pro.ConnectionList:
+                for rx in con.RxChannelList:
+                    str += '\t{// %s->%s->%s\n'%(pro.name, con.name, rx.name);
+                    # here why always "&DslMainConnectionList[0]",??,I don't understand
+                    str += '\t\t/* DslMainConnectionParent = */ &DslMainConnectionList[0],\n';
+                    str += '\t\t/* DslProtocolAddrType = */ %s,\n'%(rx.RxAddrType);
+                    str += '\t\t/* DcmDslProtocolRxPduId = */ PDUR_%s,\n'%(rx.RxPdu);
+                    str += '\t\t/* DcmDslProtocolRxTesterSourceAddr_v4 = */ 0,		/* Value is not configurable */\n'
+                    str += '\t\t/* DcmDslProtocolRxChannelId_v4 = */ 0,				/* Value is not configurable */\n'
+                    str += '\t\t/* Arc_EOL = */ FALSE\n'
+                    str += '\t},\n'
+        str += '\t{// Dummy for EOL\n'
+        str += '\t\t/* DslMainConnectionParent = */ NULL,\n';
+        str += '\t\t/* DslProtocolAddrType = */ 0xDB,\n';
+        str += '\t\t/* DcmDslProtocolRxPduId = */ 0xDB,\n';
+        str += '\t\t/* DcmDslProtocolRxTesterSourceAddr_v4 = */ 0,		/* Value is not configurable */\n'
+        str += '\t\t/* DcmDslProtocolRxChannelId_v4 = */ 0,				/* Value is not configurable */\n'
+        str += '\t\t/* Arc_EOL = */ TRUE\n'
+        str += '\t}\n'
+        str += '};\n\n'
+        fp.write(str);
+        #---tx
+        str = 'const Dcm_DslProtocolTxType DcmDslProtocolTxList[] = {\n';
+        for pro in self.cfg.protocolList:
+            for con in pro.ConnectionList:
+                for tx in con.TxChannelList:
+                    str += '\t{// %s->%s->%s\n'%(pro.name, con.name, tx.name);
+                    # here why always "&DslMainConnectionList[0]",??,I don't understand
+                    str += '\t\t/* DslMainConnectionParent = */ &DslMainConnectionList[0],\n';
+                    str += '\t\t/* DcmDslProtocolTxPduId = */ PDUR_%s,\n'%(tx.TxPdu);
+                    str += '\t\t/* Arc_EOL = */ FALSE\n'
+                    str += '\t},\n'
+        str += '\t{// Dummy for EOL\n'
+        str += '\t\t/* DslMainConnectionParent = */ NULL,\n';
+        str += '\t\t/* DcmDslProtocolTxPduId = */ 0xDB,\n';
+        str += '\t\t/* Arc_EOL = */ TRUE\n'
+        str += '\t}\n'
+        str += '};\n\n'
+        fp.write(str);
+        #--- 
+        fp.write('extern const Dcm_DslConnectionType DslConnectionList[];\n\n');
+        str = 'const Dcm_DslMainConnectionType DslMainConnectionList[] = {\n'
+        cid = tid =0; # help me to record the index for connection and transmit Pdu ID
+        for pro in self.cfg.protocolList:
+            for con in pro.ConnectionList:
+                str += '\t{//%s->%s\n'%(pro.name, con.name);
+                str += '\t\t/* DslConnectionParent = */ &DslConnectionList[%s],\n'%(cid);
+                cid += len(pro.ConnectionList);#calculate the next cid.
+                str += '\t\t/* DslPeriodicTransmissionConRef = */ NULL,		/* Value is not configurable */\n'
+                str += '\t\t/* DslROEConnectionRef = */ NULL,				/* Value is not configurable */\n'
+                str += '\t\t/* DslProtocolRx = */ NULL,						/* Value is not configurable */\n'
+                str += '\t\t/* DslProtocolTx = */ &DcmDslProtocolTxList[%s],\n'%(tid);
+                for con2 in pro.ConnectionList:
+                    tid += len(con2.TxChannelList) #calculate the next tid
+                str += '\t},\n'
+                break;#just process the first one<Main>
+        str += '};\n\n'
+        fp.write(str);
+        #-----------
+        fp.write('extern const Dcm_DslProtocolRowType DslProtocolRowList[];\n\n')
+        pid = cid =0;
+        str = 'const Dcm_DslConnectionType DslConnectionList[] = {\n'
+        for pro in self.cfg.protocolList:
+            for con in pro.ConnectionList:
+                str += '\t{//%s->%s\n'%(pro.name, con.name);
+                str += '\t\t/* DslProtocolRow = */ &DslProtocolRowList[%s],\n'%(pid);
+                str += '\t\t/* DslMainConnection = */ &DslMainConnectionList[%s],\n'%(cid);
+                str += '\t\t/* DslPeriodicTransmission = */ NULL,	/* Value is not configurable */\n'
+                str += '\t\t/* DslResponseOnEvent = */ NULL,	/* Value is not configurable */\n'
+                str += '\t\t/* Arc_EOL = */ %s\n'%('FALSE');
+                str += '\t},\n'
+            pid += 1;
+            cid += 1;
+        str += '\t{//Dummy For EOL\n'
+        str += '\t\t/* DslProtocolRow = */ NULL,\n'
+        str += '\t\t/* DslMainConnection = */ NULL,\n'
+        str += '\t\t/* DslPeriodicTransmission = */ NULL,\n'
+        str += '\t\t/* DslResponseOnEvent = */ NULL,\n'
+        str += '\t\t/* Arc_EOL = */ %s\n'%('TRUE');
+        str += '\t}\n'
+        str += '};\n\n'
+        fp.write(str);
+        # now I am really very confused by the relation between Connection and Main Connection, ???
+        #----------------
+        fp.write('extern const Dcm_DslProtocolTimingRowType ProtocolTimingList[];\n\n');
+        fp.write('Dcm_DslRunTimeProtocolParametersType dcmDslRuntimeVariables[%s];\n'%(len(self.cfg.protocolList)))
+        str = 'const Dcm_DslProtocolRowType DslProtocolRowList[]= {\n'
+        id = 0;
+        for pro in self.cfg.protocolList:
+            str += '\t{//%s\n'%(pro.name)
+            str += '\t\t/* DslProtocolID = */ %s,\n'%(pro.ProtocolId)
+            str += '\t\t/* DslProtocolIsParallelExecutab = */ FALSE, // not supported\n'
+            str += '\t\t/* DslProtocolPreemptTimeout = */ 0,	// not supported\n'
+            str += '\t\t/* DslProtocolPriority = */ 0,	// not supported\n'
+            str += '\t\t/* DslProtocolTransType = */ %s,\n'%(pro.TransType)
+            str += '\t\t/* DslProtocolRxBufferID = */ &DcmDslBufferList[%s],//%s\n'%(gcfindIndex(self.cfg.bufferList, pro.RxBufferID), pro.RxBufferID)
+            str += '\t\t/* DslProtocolTxBufferID = */ &DcmDslBufferList[%s],//%s\n'%(gcfindIndex(self.cfg.bufferList, pro.TxBufferID), pro.TxBufferID)
+            str += '\t\t/* DslProtocolSIDTable = */ &DsdServiceTable[%s],//%s\n'%(gcfindIndex(self.cfg.serviceTableList, pro.ServiceTable), pro.ServiceTable)
+            str += '\t\t/* DslProtocolTimeLimit = */ &ProtocolTimingList[%s],//%s\n'%(gcfindIndex(self.cfg.timingList, pro.TimeLimit), pro.TimeLimit)
+            str += '\t\t/* DslConnection = */ %s,\n'%('DslConnectionList')
+            str += '\t\t/* DslRunTimeProtocolParameters = */ &dcmDslRuntimeVariables[%s],\n'%(id)
+            str += '\t\t/* Arc_EOL = */ %s\n'%('FALSE')
+            str += '\t},\n'
+            id += 1;
+        str += '\t{//%s\n'%('Dummy for EOL')
+        str += '\t\t/* DslProtocolID = */ %s,\n'%('0xDB')
+        str += '\t\t/* DslProtocolIsParallelExecutab = */ FALSE, // not supported\n'
+        str += '\t\t/* DslProtocolPreemptTimeout = */ 0,	// not supported\n'
+        str += '\t\t/* DslProtocolPriority = */ 0,	// not supported\n'
+        str += '\t\t/* DslProtocolTransType = */ %s,\n'%('0xDB')
+        str += '\t\t/* DslProtocolRxBufferID = */ NULL,\n'
+        str += '\t\t/* DslProtocolTxBufferID = */ NULL,\n'
+        str += '\t\t/* DslProtocolSIDTable = */ NULL,\n'
+        str += '\t\t/* DslProtocolTimeLimit = */ NULL,\n'
+        str += '\t\t/* DslConnection = */ %s,\n'%('NULL')
+        str += '\t\t/* DslRunTimeProtocolParameters = */ NULL,\n'
+        str += '\t\t/* Arc_EOL = */ %s\n'%('TRUE')
+        str += '\t}\n'
+        str += '};\n\n'
+        fp.write(str);
+        fp.write("""const Dcm_DslProtocolType DslProtocol = {
+    /* DslProtocolRxGlobalList = */ DcmDslProtocolRxList,
+    /* DslProtocolTxGlobalList = */ DcmDslProtocolTxList,
+    /* DslProtocolRowList = */ DslProtocolRowList
+};\n\n""")
+        str = 'const Dcm_DslProtocolTimingRowType ProtocolTimingList[] = {\n'
+        for tim in self.cfg.timingList:
+            str += '\t{//%s\n'%(tim.name);
+            str += '\t\t/* TimStrP2ServerMax = */ %s,\n'%(tim.P2ServerMax)
+            str += '\t\t/* TimStrP2ServerMin = */ %s,\n'%(tim.P2ServerMin)
+            str += '\t\t/* TimStrP2StarServerMax = */ 0,		/* Value is not configurable */\n'
+            str += '\t\t/* TimStrP2StarServerMin = */ 0,		/* Value is not configurable */\n'
+            str += '\t\t/* TimStrS3Server = */ %s,\n'%(tim.S3Server)
+            str += '\t\t/* Arc_EOL = */ FALSE\n'
+            str +='\t},\n'
+        str += '\t{//%s\n'%('Dummy For EOL');
+        str += '\t\t/* TimStrP2ServerMax = */ %s,\n'%('0')
+        str += '\t\t/* TimStrP2ServerMin = */ %s,\n'%('0')
+        str += '\t\t/* TimStrP2StarServerMax = */ 0,		/* Value is not configurable */\n'
+        str += '\t\t/* TimStrP2StarServerMin = */ 0,		/* Value is not configurable */\n'
+        str += '\t\t/* TimStrS3Server = */ %s,\n'%('0')
+        str += '\t\t/* Arc_EOL = */ TRUE\n'
+        str +='\t},\n'
+        str += '};\n\n'
+        fp.write(str);
+        fp.write("""const Dcm_DslProtocolTimingType ProtocolTiming = {
+    /* DslProtocolTimingRow = */ ProtocolTimingList
+};\n\n""")
+        #--------------
+        str = 'const Dcm_DslSessionControlType SessionControlList[] = {\n'
+        for ses in self.cfg.sessionControlList:
+            str += '\t{//%s\n'%(ses.name)
+            str += '\t\t /* GetSesChgPermission = */ %s,\n'%(ses.GetSesChgPermission)
+            str += '\t\t /* ChangeIndication = */ NULL,\n'
+            str += '\t\t /* ConfirmationRespPend = */ NULL,\n'
+            str += '\t\t /* Arc_EOL = */ FALSE\n'
+            str += '\t},\n'
+        str += '\t{//%s\n'%('Dummy For EOL')
+        str += '\t\t /* GetSesChgPermission = */ %s,\n'%('NULL')
+        str += '\t\t /* ChangeIndication = */ NULL,\n'
+        str += '\t\t /* ConfirmationRespPend = */ NULL,\n'
+        str += '\t\t /* Arc_EOL = */ TRUE\n'
+        str += '\t}\n'
+        str += '};\n\n'
+        fp.write(str);
+        # also I am not sure, so ... ??????
+        fp.write("""const Dcm_DslDiagRespType DiagResp = {
+    /* DslDiagRespForceRespPendEn = */ %s,
+    /* DslDiagRespMaxNumRespPend = */ %s
+};\n"""%(TRUE(self.cfg.general.ResponsePending), self.cfg.general.MaxNegativeResponse));
+
+        fp.write("""
+const Dcm_DslType Dsl = {
+    /* DslBuffer = */ DcmDslBufferList,
+    /* DslCallbackDCMRequestService = */ DCMRequestServiceList,
+    /* DslDiagResp = */ &DiagResp,
+    /* DslProtocol = */ &DslProtocol,
+    /* DslProtocolTiming = */ &ProtocolTiming,
+    /* DslServiceRequestIndication = */ NULL,
+    /* DslSessionControl = */ SessionControlList
+};
+
+const Dcm_ConfigType DCM_Config = {
+    /* Dsp = */ &Dsp,
+    /* Dsd = */ &Dsd,
+    /* Dsl = */ &Dsl
+};
+""");
         #------------------------------------------------------------------
         fp.close();
