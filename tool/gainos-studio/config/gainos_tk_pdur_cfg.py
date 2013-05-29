@@ -34,7 +34,7 @@ class PduRGeneral():
         self.J1939TpUsed = False;
 
     def save(self, root):
-        nd = ET.Element('General');
+        nd = ET.Element('PduRGeneral');
         nd.attrib['DevErrorDetection'] = str(self.DevErrorDetection);
         nd.attrib['VersionInfoAPI'] = str(self.VersionInfoAPI);
         nd.attrib['ZeroCostOperation'] = str(self.ZeroCostOperation);
@@ -52,8 +52,6 @@ class PduRGeneral():
         root.append(nd);
     
     def parse(self, node):
-        if(node == None):
-            return;
         self.DevErrorDetection = bool(node.attrib['DevErrorDetection']);
         self.VersionInfoAPI = bool(node.attrib['VersionInfoAPI']);
         self.ZeroCostOperation = bool(node.attrib['ZeroCostOperation']);

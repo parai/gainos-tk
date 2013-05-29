@@ -100,6 +100,15 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             item=QTreeWidgetItem(tree,QStringList(obj.name));
             for obj2 in obj.serviceList:
                 item2=QTreeWidgetItem(item,QStringList(obj2.name));
+    def reloadTreeRoutineInfoTable(self):
+        tree=self.trDcm.topLevelItem(6);
+        for index in range(0, tree.childCount()):
+            temp=tree.takeChild(0);
+            del temp;
+        for obj in self.cfg.routineInfoList:
+            item=QTreeWidgetItem(tree,QStringList(obj.name));
+            for obj2 in obj.AuthorizationList+obj.StartList+obj.StopList+obj.RequestList:
+                item2=QTreeWidgetItem(item,QStringList(obj2.name));
     def reloadGui(self):
         self.reloadTreeGui(0, self.cfg.bufferList);         # -- 0  Buffers
         self.reloadTreeDidInfo();                           # -- 1  Did Infos
@@ -107,8 +116,8 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         # -- 3  Memory
         self.reloadTreeProtocol();                          # -- 4  Protocols
         self.reloadTreeGui(5, self.cfg.requestServiceList); # -- 5  Request Services
-        # -- 6  Routine Infos
-        # -- 7  Routines
+        self.reloadTreeRoutineInfoTable();                  # -- 6  Routine Infos
+        self.reloadTreeGui(7, self.cfg.routineList);        # -- 7  Routines
         self.reloadTreeGui(8, self.cfg.securityLevelList);  # -- 8  Security Levels
         self.reloadTreeServiceTable();                      # -- 9  Service Tables
         self.reloadTreeGui(10, self.cfg.sessionControlList); # -- 10 Session Controls
@@ -157,9 +166,17 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn3.setDisabled(True);
             self.btn4.setDisabled(True);
         elif(trname=='Routine Infos'):
-            self.initButton(); # disable all button
+            self.btn1.setText('Add Routine Info');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         elif(trname=='Routines'):
-            self.initButton(); # disable all button
+            self.btn1.setText('Add Routine');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         elif(trname=='Security Levels'):
             self.btn1.setText('Add Security Level');
             self.btn1.setDisabled(False);
@@ -265,6 +282,26 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn2.setDisabled(True);
             self.btn3.setDisabled(True);
             self.btn4.setDisabled(True);
+        elif(self.curtree.parent().text(0) == 'Routine Infos'):
+            self.btn1.setText('Del Routine Info');
+            self.btn1.setDisabled(False);
+            self.btn2.setText('Add Routine Stop');
+            if(len(self.curobj.StopList) > 0):
+                self.btn2.setDisabled(True);
+            else:
+                self.btn2.setDisabled(False);
+            self.btn3.setText('Add Routine Request');
+            if(len(self.curobj.RequestList) > 0):
+                self.btn3.setDisabled(True);
+            else:
+                self.btn3.setDisabled(False);
+            self.btn4.setDisabled(True);
+        elif(self.curtree.parent().text(0) == 'Routines'):
+            self.btn1.setText('Del Routine');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         #-------------------------------  三级 -------------------------------------------------
         elif(self.curtree.parent().parent().text(0) == 'Did Infos'):
             self.btn1.setText('Del Access');
@@ -286,6 +323,15 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         elif(self.curtree.parent().parent().text(0) == 'Service Tables'):
             self.btn1.setText('Del Service');
             self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
+        elif(self.curtree.parent().parent().text(0) == 'Routine Infos'):
+            self.btn1.setText('Del %s'%(self.curtree.text(0)));
+            if( self.curtree.text(0) != 'RoutineAuthorization' and self.curtree.text(0) != 'RoutineStart'):
+                self.btn1.setDisabled(False);
+            else:
+                self.btn1.setDisabled(True);
             self.btn2.setDisabled(True);
             self.btn3.setDisabled(True);
             self.btn4.setDisabled(True);
@@ -482,6 +528,52 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.spbxP2ServerMin.setValue(self.curobj.P2ServerMin);
         self.spbxS3Server.setValue(self.curobj.S3Server);
         self.enableTab(22);
+    def refreshRoutineInfoTab(self, name):
+        self.curobj =gcfindObj(self.cfg.routineInfoList, name)
+        self.leRoutineInfoName.setText(name);
+        self.enableTab(11)
+    def refreshRoutineAuthorizationTab(self, obj):
+        self.curobj = obj;
+        self.refreshTreeCtrl(self.trRtnAuthSecSrc, self.trRtnAuthSecDst, self.cfg.securityLevelList, self.curobj.securityRefList);
+        self.refreshTreeCtrl(self.trRtnAuthSesSrc, self.trRtnAuthSesDst, self.cfg.sessionControlList, self.curobj.sessionRefList);
+        self.enableTab(12)
+    def refreshRoutineStartTab(self, obj):
+        self.curobj = obj;
+        self.spbxRtnStartReqSize.setValue(obj.DspStartRoutineCtrlOptRecSize)
+        self.spbxRtnStartResSize.setValue(obj.DspStartRoutineStsOptRecSize)
+        self.enableTab(14)
+    def refreshRoutineStopTab(self, obj):
+        self.curobj = obj;
+        self.spbxRtnStopReqSize.setValue(obj.DspStopRoutineCtrlOptRecSize)
+        self.spbxRtnStopResSize.setValue(obj.DspStopRoutineStsOptRecSize)
+        self.enableTab(15);
+    def refreshRoutineRequestTab(self, obj):
+        self.curobj = obj;
+        self.spbxRtnReqResSize.setValue(obj.DspReqResRtnCtrlOptRecSize);
+        self.enableTab(13)
+    def refreshRoutineInfoSubTab(self, name):
+        obj = gcfindObj(self.cfg.routineInfoList, self.curtree.parent().text(0));
+        if(gcfindObj(obj.AuthorizationList, name)):
+            self.refreshRoutineAuthorizationTab(gcfindObj(obj.AuthorizationList, name))
+        elif(gcfindObj(obj.StartList, name)):
+            self.refreshRoutineStartTab(gcfindObj(obj.StartList, name))
+        elif(gcfindObj(obj.StopList, name)):
+            self.refreshRoutineStopTab(gcfindObj(obj.StopList, name))
+        elif(gcfindObj(obj.RequestList, name)):
+            self.refreshRoutineRequestTab(gcfindObj(obj.RequestList, name))
+    def refreshRoutineTab(self, name):
+        self.curobj = gcfindObj(self.cfg.routineList, name);
+        self.leRoutineName.setText(name);
+        self.leRoutineId.setText(self.curobj.DspRoutineIdentifier);
+        self.cbxRoutineUsePort.setChecked(self.curobj.DspRoutineUsePort)
+        self.cmbxRtnInfoRef.clear();
+        for rtninfo in self.cfg.routineInfoList:
+            self.cmbxRtnInfoRef.addItem(rtninfo.name);
+        self.cmbxRtnInfoRef.setCurrentIndex(self.cmbxRtnInfoRef.findText(self.curobj.DspRoutineInfoRef))
+        self.leRtnStartFnc.setText(self.curobj.DspStartRoutineFnc);
+        self.leRtnStopFnc.setText(self.curobj.DspStopRoutineFnc);
+        self.leRtnReqRslFnc.setText(self.curobj.DspRequestResultRoutineFnc);
+        self.enableTab(16)
     def refreshTab(self):
         if(self.curtree.parent() == None):
             self.disableAllTab();
@@ -510,6 +602,10 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.refreshSessionTab(objname);
         elif(trname == 'Timings'):
             self.refreshTimingTab(objname);
+        elif(trname == 'Routine Infos'):
+            self.refreshRoutineInfoTab(objname);
+        elif(trname == 'Routines'):
+            self.refreshRoutineTab(objname);
         # ----------------------------- 二级 -----------------------
         elif(self.curtree.parent().parent().text(0) == 'Did Infos'):
             self.refreshDidAccessTab(objname);
@@ -517,6 +613,8 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.refreshConnectionTab(objname);
         elif(self.curtree.parent().parent().text(0) == 'Service Tables'):
             self.refreshServiceTab(objname);
+        elif(self.curtree.parent().parent().text(0) == 'Routine Infos'):
+            self.refreshRoutineInfoSubTab(objname);
         # ---------------------------- 三级 -----------------------------------
         elif(self.curtree.parent().parent().parent().text(0) == 'Protocols'):
             self.refreshChannelTab(objname);
@@ -575,6 +673,20 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.cfg.sessionList.remove(self.curobj);
         elif(text == 'Del Timing'):
             self.cfg.timingList.remove(self.curobj);
+        elif(text == 'Del Routine Info'):
+            self.cfg.routineInfoList.remove(self.curobj);
+        elif(text == 'Del RoutineStop'):
+            obj = gcfindObj(self.cfg.routineInfoList, self.curtree.parent().text(0))
+            obj.StopList.remove(self.curobj)
+            if(len(obj.StopList) >0 ):
+                print "Serious Error!"
+        elif(text == 'Del RoutineRequest'):
+            obj = gcfindObj(self.cfg.routineInfoList, self.curtree.parent().text(0))
+            obj.RequestList.remove(self.curobj)
+            if(len(obj.RequestList) >0 ):
+                print "Serious Error!"
+        elif(text == 'Del Routine'):
+            self.cfg.routineList.remove(self.curobj);
         #delete the tree, reselect a tree item
         parent = self.curtree.parent();
         index = parent.indexOfChild(self.curtree);
@@ -647,8 +759,12 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         id = len(self.curobj.ConnectionList);
         name=QString('vConnection%s'%(id));
         item=QTreeWidgetItem(self.curtree,QStringList(name));
+        QTreeWidgetItem(item,QStringList('vRxChannel0'));
+        QTreeWidgetItem(item,QStringList('vTxChannel0'));
         self.curtree.addChild(item);
         obj = DcmConnection(name);
+        obj.RxChannelList.append(DcmRxChannel('vRxChannel0'))
+        obj.TxChannelList.append(DcmTxChannel('vTxChannel0'))
         self.curobj.ConnectionList.append(obj);
         self.curtree.setExpanded(True);
     def addRxChannel(self):
@@ -723,6 +839,40 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         obj = DcmTiming(name);
         self.cfg.timingList.append(obj);
         self.curtree.setExpanded(True);
+    def addRoutineInfo(self):
+        id = len(self.cfg.routineInfoList);
+        name=QString('vDcmRoutineInfo%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        QTreeWidgetItem(item,QStringList('RoutineAuthorization'));
+        QTreeWidgetItem(item,QStringList('RoutineStart'));
+        self.curtree.addChild(item);
+        obj = DcmRoutineInfo(name);
+        obj.AuthorizationList.append(DcmRoutineInfoAuthorization('RoutineAuthorization'))
+        obj.StartList.append(DcmRoutineInfoStart('RoutineStart'))
+        self.cfg.routineInfoList.append(obj);
+        self.curtree.setExpanded(True);
+    def addRoutineStop(self):
+        name=QString('RoutineStop');
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmRoutineInfoStop(name);
+        self.curobj.StopList.append(obj);
+        self.curtree.setExpanded(True);
+    def addRoutineRequest(self):
+        name=QString('RoutineRequest');
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmRoutineInfoRequest(name);
+        self.curobj.RequestList.append(obj);
+        self.curtree.setExpanded(True);
+    def addRoutine(self):
+        id = len(self.cfg.routineList);
+        name=QString('vRoutine%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmRoutine(name, id);
+        self.cfg.routineList.append(obj);
+        self.curtree.setExpanded(True);
 # ========================== Button ================        
     @pyqtSignature("")
     def on_btn1_clicked(self):
@@ -745,8 +895,12 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.addSessionControl();
         elif(text == 'Add Session'):
             self.addSession();
+        elif(text == 'Add Routine Info'):
+            self.addRoutineInfo();
         elif(text == 'Add Timing'):
             self.addTiming();
+        elif(text == 'Add Routine'):
+            self.addRoutine();
         elif(text[:3] == 'Del'):
             self.delObj(text);
         self.fileInd(False);
@@ -762,6 +916,9 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.addRxChannel();
         elif(text == 'Add Service'):
             self.addService();
+        elif(text == 'Add Routine Stop'):
+            self.addRoutineStop();
+            self.btn2.setDisabled(True);
         self.fileInd(False);
     @pyqtSignature("")
     def on_btn3_clicked(self):
@@ -771,6 +928,9 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn3.setDisabled(True);
         elif(text=='Add Tx Channel'):
             self.addTxChannel();
+            self.btn3.setDisabled(True);
+        elif(text == 'Add Routine Request'):
+            self.addRoutineRequest();
             self.btn3.setDisabled(True);
         self.fileInd(False);
     @pyqtSignature("")
@@ -1271,4 +1431,111 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         if(self.curobj!=None):
             if(self.curobj.S3Server!=p0):
                 self.curobj.S3Server=p0;
+                self.fileInd(False);
+#---------------------- Routine Info -------------------
+    @pyqtSignature("QString")
+    def on_leRoutineInfoName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    
+    @pyqtSignature("")
+    def on_btnRtnAuthSecAdd_clicked(self):
+        if(self.trRtnAuthSecSrc.currentItem()):
+            self.curobj.securityRefList.append(self.trRtnAuthSecSrc.currentItem().text(0));
+            self.moveTreeItem(self.trRtnAuthSecSrc, self.trRtnAuthSecDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnRtnAuthSecDel_clicked(self):
+        if(self.trRtnAuthSecDst.currentItem()):
+            self.curobj.securityRefList.remove(self.trRtnAuthSecDst.currentItem().text(0));
+            self.moveTreeItem(self.trRtnAuthSecDst, self.trRtnAuthSecSrc);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnRtnAuthSesAdd_clicked(self):
+        if(self.trRtnAuthSesSrc.currentItem()):
+            self.curobj.sessionRefList.append(self.trRtnAuthSesSrc.currentItem().text(0));
+            self.moveTreeItem(self.trRtnAuthSesSrc, self.trRtnAuthSesDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnRtnAuthSesDel_clicked(self):
+        if(self.trRtnAuthSesDst.currentItem()):
+            self.curobj.sessionRefList.remove(self.trRtnAuthSesDst.currentItem().text(0));
+            self.moveTreeItem(self.trRtnAuthSesDst, self.trRtnAuthSesSrc);
+            self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxRtnStartReqSize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspStartRoutineCtrlOptRecSize!=p0):
+                self.curobj.DspStartRoutineCtrlOptRecSize=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxRtnStartResSize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspStartRoutineStsOptRecSize!=p0):
+                self.curobj.DspStartRoutineStsOptRecSize=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxRtnStopReqSize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspStopRoutineCtrlOptRecSize!=p0):
+                self.curobj.DspStopRoutineCtrlOptRecSize=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxRtnStopResSize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspStopRoutineStsOptRecSize!=p0):
+                self.curobj.DspStopRoutineStsOptRecSize=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxRtnReqResSize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspReqResRtnCtrlOptRecSize!=p0):
+                self.curobj.DspReqResRtnCtrlOptRecSize=p0;
+                self.fileInd(False);
+#-------------------- Routine   ----------------
+    @pyqtSignature("QString")
+    def on_leRoutineName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leRoutineId_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspRoutineIdentifier!=p0):
+                self.curobj.DspRoutineIdentifier=p0;
+                self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxRoutineUsePort_clicked(self, checked):
+        if(self.curobj!=None):
+            if(self.curobj.DspRoutineUsePort!=checked):
+                self.curobj.DspRoutineUsePort=checked
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxRtnInfoRef_activated(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspRoutineInfoRef!=p0):
+                self.curobj.DspRoutineInfoRef=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leRtnStartFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspStartRoutineFnc!=p0):
+                self.curobj.DspStartRoutineFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leRtnStopFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspStopRoutineFnc!=p0):
+                self.curobj.DspStopRoutineFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leRtnReqRslFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspRequestResultRoutineFnc!=p0):
+                self.curobj.DspRequestResultRoutineFnc=p0;
                 self.fileInd(False);

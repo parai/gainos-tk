@@ -409,7 +409,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>12</number>
     </property>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -1906,7 +1906,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_25"/>
+        <widget class="QLineEdit" name="leRoutineInfoName"/>
        </item>
       </layout>
      </widget>
@@ -1915,7 +1915,7 @@ p, li { white-space: pre-wrap; }
      <attribute name="title">
       <string>Routine Authorization</string>
      </attribute>
-     <widget class="QTabWidget" name="tabWidget_6">
+     <widget class="QTabWidget" name="fgfgf">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -1931,7 +1931,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Security level</string>
        </attribute>
-       <widget class="QTreeWidget" name="treeWidget_14">
+       <widget class="QTreeWidget" name="trRtnAuthSecDst">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -1946,7 +1946,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </column>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_15">
+       <widget class="QTreeWidget" name="trRtnAuthSecSrc">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -1972,7 +1972,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_21">
          <item>
-          <widget class="QPushButton" name="pushButton_17">
+          <widget class="QPushButton" name="btnRtnAuthSecAdd">
            <property name="maximumSize">
             <size>
              <width>39</width>
@@ -1985,7 +1985,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_18">
+          <widget class="QPushButton" name="btnRtnAuthSecDel">
            <property name="maximumSize">
             <size>
              <width>39</width>
@@ -2004,7 +2004,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Session</string>
        </attribute>
-       <widget class="QTreeWidget" name="treeWidget_16">
+       <widget class="QTreeWidget" name="trRtnAuthSesDst">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -2030,7 +2030,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_22">
          <item>
-          <widget class="QPushButton" name="pushButton_19">
+          <widget class="QPushButton" name="btnRtnAuthSesAdd">
            <property name="maximumSize">
             <size>
              <width>39</width>
@@ -2043,7 +2043,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_20">
+          <widget class="QPushButton" name="btnRtnAuthSesDel">
            <property name="maximumSize">
             <size>
              <width>39</width>
@@ -2057,7 +2057,7 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QTreeWidget" name="treeWidget_17">
+       <widget class="QTreeWidget" name="trRtnAuthSesSrc">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -2097,7 +2097,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_11"/>
+        <widget class="QSpinBox" name="spbxRtnReqResSize"/>
        </item>
       </layout>
      </widget>
@@ -2126,7 +2126,11 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_12"/>
+          <widget class="QSpinBox" name="spbxRtnStartReqSize">
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -2140,7 +2144,11 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_13"/>
+          <widget class="QSpinBox" name="spbxRtnStartResSize">
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -2171,7 +2179,11 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_14"/>
+          <widget class="QSpinBox" name="spbxRtnStopReqSize">
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -2185,7 +2197,11 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_15"/>
+          <widget class="QSpinBox" name="spbxRtnStopResSize">
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -2216,7 +2232,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_26"/>
+          <widget class="QLineEdit" name="leRoutineName"/>
          </item>
         </layout>
        </item>
@@ -2230,7 +2246,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_27"/>
+          <widget class="QLineEdit" name="leRoutineId"/>
          </item>
         </layout>
        </item>
@@ -2244,7 +2260,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_19"/>
+          <widget class="QComboBox" name="cmbxRtnInfoRef"/>
          </item>
         </layout>
        </item>
@@ -2258,7 +2274,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_28"/>
+          <widget class="QLineEdit" name="leRtnReqRslFnc"/>
          </item>
         </layout>
        </item>
@@ -2272,7 +2288,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_29"/>
+          <widget class="QLineEdit" name="leRtnStartFnc"/>
          </item>
         </layout>
        </item>
@@ -2286,12 +2302,15 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_30"/>
+          <widget class="QLineEdit" name="leRtnStopFnc"/>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_13">
+        <widget class="QCheckBox" name="cbxRoutineUsePort">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Use Port</string>
          </property>

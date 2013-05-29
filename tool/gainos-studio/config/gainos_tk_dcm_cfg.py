@@ -471,6 +471,155 @@ class DcmTiming():
         self.P2ServerMax = int(nd.attrib['P2ServerMax']);
         self.P2ServerMin = int(nd.attrib['P2ServerMin']);
         self.S3Server = int(nd.attrib['S3Server']);
+class DcmRoutineInfoAuthorization():
+    def __init__(self, name):
+        self.name = name;
+        self.sessionRefList = []
+        self.securityRefList = []
+    def save(self, root):
+        nd = ET.Element('DcmRoutineInfoAuthorization');
+        nd.attrib['name'] = str(self.name);
+        snd = ET.Element('sessionRefList')
+        for ses in self.sessionRefList:
+            nd2 = ET.Element('SessionRef')
+            nd2.attrib['value'] = str(ses);
+            snd.append(nd2);
+        nd.append(snd);
+        snd = ET.Element('securityRefList')
+        for sec in self.securityRefList:
+            nd2 = ET.Element('SecurityRef')
+            nd2.attrib['value'] = str(sec);
+            snd.append(nd2);
+        nd.append(snd);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        for nd1 in nd.find('sessionRefList'):
+            self.sessionRefList.append(nd1.attrib['value']);
+        for nd1 in nd.find('securityRefList'):
+            self.securityRefList.append(nd1.attrib['value']);
+class DcmRoutineInfoStart():
+    def __init__(self, name):
+        self.name = name;  
+        self.DspStartRoutineCtrlOptRecSize = 5; # I am confused
+        self.DspStartRoutineStsOptRecSize = 5;
+    def save(self, root):
+        nd = ET.Element('DcmRoutineInfoStart');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['DspStartRoutineCtrlOptRecSize'] = str(self.DspStartRoutineCtrlOptRecSize);
+        nd.attrib['DspStartRoutineStsOptRecSize'] = str(self.DspStartRoutineStsOptRecSize);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        self.DspStartRoutineCtrlOptRecSize = int(nd.attrib['DspStartRoutineCtrlOptRecSize']);
+        self.DspStartRoutineStsOptRecSize = int(nd.attrib['DspStartRoutineStsOptRecSize']);
+class DcmRoutineInfoStop():
+    def __init__(self, name):
+        self.name = name;  
+        self.DspStopRoutineCtrlOptRecSize = 5;
+        self.DspStopRoutineStsOptRecSize = 5;
+    def save(self, root):
+        nd = ET.Element('DcmRoutineInfoStop');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['DspStopRoutineCtrlOptRecSize'] = str(self.DspStopRoutineCtrlOptRecSize);
+        nd.attrib['DspStopRoutineStsOptRecSize'] = str(self.DspStopRoutineStsOptRecSize);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        self.DspStopRoutineCtrlOptRecSize = int(nd.attrib['DspStopRoutineCtrlOptRecSize']);
+        self.DspStopRoutineStsOptRecSize = int(nd.attrib['DspStopRoutineStsOptRecSize']);
+class DcmRoutineInfoRequest():
+    def __init__(self, name):
+        self.name = name;  
+        self.DspReqResRtnCtrlOptRecSize = 5  # respones record size
+    def save(self, root):
+        nd = ET.Element('DcmService');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['DspReqResRtnCtrlOptRecSize'] = str(self.DspReqResRtnCtrlOptRecSize);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        self.DspReqResRtnCtrlOptRecSize = int(nd.attrib['DspReqResRtnCtrlOptRecSize']);
+class DcmRoutineInfo():
+    def __init__(self, name):
+        self.name = name;
+        self.AuthorizationList = [];#最多仅有一个元素
+        self.StartList = [];#最多仅有一个元素
+        self.StopList = [];#最多仅有一个元素
+        self.RequestList = [];#最多仅有一个元素
+    def save(self, root):
+        nd = ET.Element('DcmRoutineInfo');
+        nd.attrib['name'] = str(self.name);
+        nd2 = ET.Element('AuthorizationList');
+        for obj in self.AuthorizationList:
+            obj.save(nd2)
+        nd.append(nd2);
+        
+        nd2 = ET.Element('StartList');
+        for obj in self.StartList:
+            obj.save(nd2)
+        nd.append(nd2);
+        
+        nd2 = ET.Element('StopList');
+        for obj in self.StopList:
+            obj.save(nd2)
+        nd.append(nd2);
+        
+        nd2 = ET.Element('RequestList');
+        for obj in self.RequestList:
+            obj.save(nd2)
+        nd.append(nd2);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name']
+
+        for nd2 in nd.find('AuthorizationList'):
+            obj = DcmRoutineInfoAuthorization('');
+            obj.parse(nd2);
+            self.AuthorizationList.append(obj);
+        
+        for nd2 in nd.find('StartList'):
+            obj = DcmRoutineInfoStart('');
+            obj.parse(nd2);
+            self.StartList.append(obj);
+        
+        for nd2 in nd.find('StopList'):
+            obj = DcmRoutineInfoStop('');
+            obj.parse(nd2);
+            self.StopList.append(obj);
+        
+        for nd2 in nd.find('RequestList'):
+            obj = DcmRoutineInfoRequest('');
+            obj.parse(nd2);
+            self.RequestList.append(obj);
+            
+class DcmRoutine():
+    def __init__(self, name, id):
+        self.name = name;
+        self.DspRoutineUsePort = False;
+        self.DspRoutineIdentifier = '%s'%(hex(id));
+        self.DspRoutineInfoRef = ''
+        self.DspStartRoutineFnc =  'NULL'
+        self.DspStopRoutineFnc =  'NULL'
+        self.DspRequestResultRoutineFnc = 'NULL'
+    def save(self, root):
+        nd = ET.Element('DcmRoutineInfo');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['DspRoutineUsePort'] = str(self.DspRoutineUsePort);
+        nd.attrib['DspRoutineIdentifier'] = str(self.DspRoutineIdentifier);
+        nd.attrib['DspRoutineInfoRef'] = str(self.DspRoutineInfoRef);
+        nd.attrib['DspStartRoutineFnc'] = str(self.DspStartRoutineFnc);
+        nd.attrib['DspStopRoutineFnc'] = str(self.DspStopRoutineFnc);
+        nd.attrib['DspRequestResultRoutineFnc'] = str(self.DspRequestResultRoutineFnc);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name']
+        self.DspRoutineUsePort = bool(nd.attrib['DspRoutineUsePort'])
+        self.DspRoutineIdentifier = str(nd.attrib['DspRoutineIdentifier'])
+        self.DspRoutineInfoRef = str(nd.attrib['DspRoutineInfoRef'])
+        self.DspStartRoutineFnc = str(nd.attrib['DspStartRoutineFnc'])
+        self.DspStopRoutineFnc = str(nd.attrib['DspStopRoutineFnc'])
+        self.DspRequestResultRoutineFnc = str(nd.attrib['DspRequestResultRoutineFnc'])
 class gainos_tk_dcm_obj():
     def __init__(self):
         self.general = DcmGeneral();
@@ -484,6 +633,8 @@ class gainos_tk_dcm_obj():
         self.sessionControlList = [];
         self.sessionList = [];
         self.timingList = [];
+        self.routineInfoList = [];
+        self.routineList = [];
         
     def save(self, root):
         self.general.save(root);
@@ -538,6 +689,15 @@ class gainos_tk_dcm_obj():
             obj.save(nd);
         root.append(nd);
         
+        nd = ET.Element('DcmRoutineInfoList');
+        for obj in self.routineInfoList:
+            obj.save(nd);
+        root.append(nd);
+        
+        nd = ET.Element('DcmRoutineList');
+        for obj in self.routineList:
+            obj.save(nd);
+        root.append(nd);  
     def parse(self, root):
         self.general.parse(root.find("General"));
   
@@ -590,7 +750,17 @@ class gainos_tk_dcm_obj():
             obj = DcmTiming('');
             obj.parse(nd);
             self.timingList.append(obj);
-        
+
+        for nd in root.find('DcmRoutineInfoList'):
+            obj = DcmRoutineInfo('');
+            obj.parse(nd);
+            self.routineInfoList.append(obj);
+
+        for nd in root.find('DcmRoutineList'):
+            obj = DcmRoutine('', 0);
+            obj.parse(nd);
+            self.routineList.append(obj);
+            
 class gainos_tk_dcm_cfg():
     def __init__(self, chip=None):
         self.cfg = gainos_tk_dcm_obj();
@@ -905,6 +1075,75 @@ class gainos_tk_dcm_cfg():
         fp.write("""/************************************************************************
  *							Routine control								*
  ************************************************************************/\n\n""");
+        for rtninfo in self.cfg.routineInfoList:
+            for start in rtninfo.StartList:
+                fp.write("""const Dcm_DspStartRoutineType %s_start = {
+    /* DspStartRoutineCtrlOptRecSize = */ %s,
+    /* DspStartRoutineStsOptRecSize = */ %s
+};\n"""%(rtninfo.name, start.DspStartRoutineCtrlOptRecSize, start.DspStartRoutineStsOptRecSize));
+            for stop in rtninfo.StopList:
+                fp.write("""const Dcm_DspRoutineStopType %s_stop = {
+    /* DspStopRoutineCtrlOptRecSize = */ %s,
+    /* DspStopRoutineStsOptRecSize = */ %s,
+};\n"""%(rtninfo.name,stop.DspStopRoutineCtrlOptRecSize, stop.DspStopRoutineStsOptRecSize))
+            for auth in rtninfo.AuthorizationList:
+                str = 'const Dcm_DspSessionRowType *%s_sessionRefList[] = {\n'%(rtninfo.name)
+                for ses in auth.sessionRefList:
+                    str += '\t&DspSessionList[%s],//%s\n'%(gcfindIndex(self.cfg.sessionControlList, ses), ses)
+                str += '\t&DspSessionList[DCM_SESSION_EOL_INDEX]\n'
+                str +='};\n'
+                fp.write(str);
+                str = 'const Dcm_DspSecurityRowType *%s_securityRefList[] = {\n'%(rtninfo.name)
+                for sec in auth.securityRefList:
+                    str += '\t&DspSecurityList[%s],//%s\n'%(gcfindIndex(self.cfg.securityLevelList, sec), sec)
+                str += '\t&DspSecurityList[DCM_SECURITY_EOL_INDEX]\n'
+                str +='};\n'
+                fp.write(str);
+            for req in rtninfo.RequestList:
+                fp.write("""const Dcm_DspRoutineRequestResType %s_request = {
+    /* DspReqResRtnCtrlOptRecSize = */ %s
+};\n"""%(rtninfo.name, req.DspReqResRtnCtrlOptRecSize))
+        str = 'const Dcm_DspRoutineInfoType DspRoutineInfoList[] = {\n'
+        for rtninfo in self.cfg.routineInfoList:
+            str += '\t{//%s\n'%(rtninfo.name);
+            str += '\t\t{//DspRoutineAuthorization\n'
+            str += '\t\t\t /* DspRoutineSessionRef = */ &%s_sessionRefList,\n'%(rtninfo.name)
+            str += '\t\t\t /* DspRoutineSecurityLevelRef = */ &%s_securityRefList,\n'%(rtninfo.name)
+            str += '\t\t},\n'
+            str += '\t\t /* DspStartRoutine = */ &%s_start,\n'%(rtninfo.name);
+            if(len(rtninfo.StopList) > 0):
+                str += '\t\t /* DspRoutineStop = */ &%s_stop,\n'%(rtninfo.name);
+            else:
+                str += '\t\t /* DspRoutineStop = */ NULL,\n'
+            if(len(rtninfo.RequestList) > 0):
+                str += '\t\t /* DspRoutineRequestRes = */ &%s_request,\n'%(rtninfo.name);
+            else:
+                str += '\t\t /* DspRoutineRequestRes = */ NULL\n'
+            str += '\t},\n'
+        str += '};\n\n'
+        fp.write(str);
+        str = 'const Dcm_DspRoutineType  DspRoutineList[] = {\n'
+        for rtn in self.cfg.routineList:
+            str += '\t{//%s\n'%(rtn.name);
+            str += '\t\t /* DspRoutineUsePort = */ %s,\n'%(TRUE(rtn.DspRoutineUsePort))
+            str += '\t\t /* DspRoutineIdentifier = */ %s,\n'%(rtn.DspRoutineIdentifier)
+            str += '\t\t /* DspRoutineInfoRef = */ &DspRoutineInfoList[%s],//%s\n'%(gcfindIndex(self.cfg.routineInfoList, rtn.DspRoutineInfoRef), rtn.DspRoutineInfoRef)
+            str += '\t\t /* DspStartRoutineFnc = */ %s,\n'%(rtn.DspStartRoutineFnc)
+            str += '\t\t /* DspStopRoutineFnc = */ %s,\n'%(rtn.DspStopRoutineFnc)
+            str += '\t\t /* DspRequestResultRoutineFnc = */ %s,\n'%(rtn.DspRequestResultRoutineFnc)
+            str += '\t\t /* Arc_EOL */ FALSE\n'
+            str += '\t},\n'
+        str += '\t{//%s\n'%('Dummy For EOL');
+        str += '\t\t /* DspRoutineUsePort = */ %s,\n'%('FALSE')
+        str += '\t\t /* DspRoutineIdentifier = */ %s,\n'%('0xDB')
+        str += '\t\t /* DspRoutineInfoRef = */ %s,\n'%('NULL')
+        str += '\t\t /* DspStartRoutineFnc = */ %s,\n'%('NULL')
+        str += '\t\t /* DspStopRoutineFnc = */ %s,\n'%('NULL')
+        str += '\t\t /* DspRequestResultRoutineFnc = */ %s,\n'%('NULL')
+        str += '\t\t /* Arc_EOL */ TRUE\n'
+        str += '\t}\n'
+        str += '};\n\n'
+        fp.write(str);
         #--------------------- Memory ------------------------------------
         fp.write("""/************************************************************************
  *							Memory Info             					*
@@ -918,8 +1157,8 @@ class gainos_tk_dcm_cfg():
     /* DspPid = */ NULL,
     /* DspReadDTC = */ NULL,
     /* DspRequestControl = */ NULL,
-    /* DspRoutine = */ NULL,//DspRoutineList,???
-    /* DspRoutineInfo = */ NULL,//DspRoutineInfoList,???
+    /* DspRoutine = */ DspRoutineList,
+    /* DspRoutineInfo = */ DspRoutineInfoList,
     /* DspSecurity = */ &DspSecurity,
     /* DspSession = */ &DspSession,
     /* DspTestResultByObdmid = */ NULL,
@@ -1011,18 +1250,19 @@ Dcm_DslBufferRuntimeType rxBufferParams_%s =
         #here I am confused witn Main Connection and Connection.
         #So I assume the first configured one was main connection.
         str = 'const Dcm_DslProtocolRxType DcmDslProtocolRxList[] = {\n';
+        cid = 0;
         for pro in self.cfg.protocolList:
             for con in pro.ConnectionList:
                 for rx in con.RxChannelList:
                     str += '\t{// %s->%s->%s\n'%(pro.name, con.name, rx.name);
-                    # here why always "&DslMainConnectionList[0]",??,I don't understand
-                    str += '\t\t/* DslMainConnectionParent = */ &DslMainConnectionList[0],\n';
+                    str += '\t\t/* DslMainConnectionParent = */ &DslMainConnectionList[%s],\n'%(cid);
                     str += '\t\t/* DslProtocolAddrType = */ %s,\n'%(rx.RxAddrType);
                     str += '\t\t/* DcmDslProtocolRxPduId = */ PDUR_%s,\n'%(rx.RxPdu);
                     str += '\t\t/* DcmDslProtocolRxTesterSourceAddr_v4 = */ 0,		/* Value is not configurable */\n'
                     str += '\t\t/* DcmDslProtocolRxChannelId_v4 = */ 0,				/* Value is not configurable */\n'
                     str += '\t\t/* Arc_EOL = */ FALSE\n'
                     str += '\t},\n'
+            cid += 1;
         str += '\t{// Dummy for EOL\n'
         str += '\t\t/* DslMainConnectionParent = */ NULL,\n';
         str += '\t\t/* DslProtocolAddrType = */ 0xDB,\n';
@@ -1035,15 +1275,16 @@ Dcm_DslBufferRuntimeType rxBufferParams_%s =
         fp.write(str);
         #---tx
         str = 'const Dcm_DslProtocolTxType DcmDslProtocolTxList[] = {\n';
+        cid = 0;
         for pro in self.cfg.protocolList:
             for con in pro.ConnectionList:
                 for tx in con.TxChannelList:
                     str += '\t{// %s->%s->%s\n'%(pro.name, con.name, tx.name);
-                    # here why always "&DslMainConnectionList[0]",??,I don't understand
-                    str += '\t\t/* DslMainConnectionParent = */ &DslMainConnectionList[0],\n';
+                    str += '\t\t/* DslMainConnectionParent = */ &DslMainConnectionList[%s],\n'%(cid);
                     str += '\t\t/* DcmDslProtocolTxPduId = */ PDUR_%s,\n'%(tx.TxPdu);
                     str += '\t\t/* Arc_EOL = */ FALSE\n'
                     str += '\t},\n'
+            cid += 1;
         str += '\t{// Dummy for EOL\n'
         str += '\t\t/* DslMainConnectionParent = */ NULL,\n';
         str += '\t\t/* DcmDslProtocolTxPduId = */ 0xDB,\n';
@@ -1059,15 +1300,14 @@ Dcm_DslBufferRuntimeType rxBufferParams_%s =
             for con in pro.ConnectionList:
                 str += '\t{//%s->%s\n'%(pro.name, con.name);
                 str += '\t\t/* DslConnectionParent = */ &DslConnectionList[%s],\n'%(cid);
-                cid += len(pro.ConnectionList);#calculate the next cid.
                 str += '\t\t/* DslPeriodicTransmissionConRef = */ NULL,		/* Value is not configurable */\n'
                 str += '\t\t/* DslROEConnectionRef = */ NULL,				/* Value is not configurable */\n'
                 str += '\t\t/* DslProtocolRx = */ NULL,						/* Value is not configurable */\n'
                 str += '\t\t/* DslProtocolTx = */ &DcmDslProtocolTxList[%s],\n'%(tid);
-                for con2 in pro.ConnectionList:
-                    tid += len(con2.TxChannelList) #calculate the next tid
+                # 实际上 TxChannelList的长度永远应该为 1
+                tid += len(con.TxChannelList) #calculate the next tid
                 str += '\t},\n'
-                break;#just process the first one<Main>
+                cid += 1;
         str += '};\n\n'
         fp.write(str);
         #-----------
@@ -1083,8 +1323,9 @@ Dcm_DslBufferRuntimeType rxBufferParams_%s =
                 str += '\t\t/* DslResponseOnEvent = */ NULL,	/* Value is not configurable */\n'
                 str += '\t\t/* Arc_EOL = */ %s\n'%('FALSE');
                 str += '\t},\n'
+                cid += 1;
             pid += 1;
-            cid += 1;
+            
         str += '\t{//Dummy For EOL\n'
         str += '\t\t/* DslProtocolRow = */ NULL,\n'
         str += '\t\t/* DslMainConnection = */ NULL,\n'
