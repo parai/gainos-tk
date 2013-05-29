@@ -1228,6 +1228,7 @@ Dcm_DslBufferRuntimeType rxBufferParams_%s =
             str += '\t\t},\n'
             str += '\t\t/* externalBufferRuntimeData = */ &rxBufferParams_%s\n'%(buf.name);
             str += '\t},\n';
+            id += 1;
         str += '};\n\n'
         fp.write(str);
         #----------------- Request Service
