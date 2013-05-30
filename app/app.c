@@ -15,7 +15,7 @@ TASK(vTaskInit)
 	
 	DcmEx1Init();
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    (void)printf("vTaskInit is running.\r\n");
+    (void)printf("vTaskInit is running.\r\r\n");
 
     (void)TerminateTask();
 }
@@ -30,7 +30,7 @@ TASK(vTaskSender)
 TASK(vTaskReceiver)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    (void)printf("vTaskReceiver is running.\r\n");
+    (void)printf("vTaskReceiver is running.\r\r\n");
     (void)WaitEvent(0x01);
     (void)ClearEvent(0x01);
     (void)TerminateTask();
@@ -39,7 +39,7 @@ extern void DcmEx1MainFunction(void);
 TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    //(void)printf("vTaskMainFunction is running.\r\n");
+    //(void)printf("vTaskMainFunction is running.\r\r\n");
     DcmEx1MainFunction();
     (void)TerminateTask();
 }

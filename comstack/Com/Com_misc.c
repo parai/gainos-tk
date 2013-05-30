@@ -540,7 +540,7 @@ void Com_RxProcessSignals(const ComIPdu_type *IPdu,Com_Arc_IPdu_type *Arc_IPdu) 
 			}
 
 		} else {
-			DEBUG_PRINT2(DEBUG_LOW, "Com_RxIndication: Ignored signal %d of I-PD %d since its update bit was not set\n", comSignal->ComHandleId, i);//ComRxPduId);
+			DEBUG_PRINT2(DEBUG_LOW, "Com_RxIndication: Ignored signal %d of I-PD %d since its update bit was not set\r\n", comSignal->ComHandleId, i);//ComRxPduId);
 		}
 	}
 }

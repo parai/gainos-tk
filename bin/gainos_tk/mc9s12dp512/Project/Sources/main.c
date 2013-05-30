@@ -41,6 +41,6 @@ static void SystemClockInit(void)
 void main(void) {
     SystemClockInit();
     Sci_Init();
-    (void)printf("\r\nStart OS.\r\n");
+    (void)printf("\r\r\nStart OS.\r\r\n");
     StartOS(OSDEFAULTAPPMODE);
 }

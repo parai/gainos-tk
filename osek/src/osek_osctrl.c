@@ -104,7 +104,7 @@ void ShutdownOS( StatusType xError )
 #endif
 /* OS425: If ShutdownOS() is called and ShutdownHook() returns then the operating
    system shall disable all interrupts and enter an endless loop. */
-	/* tm_printf("Shut down OS because of error %d.\r\n",xError); */
+	/* tm_printf("Shut down OS because of error %d.\r\r\n",xError); */
 	for ( ; ; )
     {
         /* Dead lopp here */

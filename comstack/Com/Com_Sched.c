@@ -45,7 +45,7 @@
 
 void Com_MainFunctionRx(void) {	
 	uint16 pduId;
-	//DEBUG_PRINT0(DEBUG_MEDIUM, "Com_MainFunctionRx() excecuting\n");
+	//DEBUG_PRINT0(DEBUG_MEDIUM, "Com_MainFunctionRx() excecuting\r\n");
 #if 0 	
 	for (pduId = 0; !ComConfig->ComIPdu[pduId].Com_Arc_EOL; pduId++) {
 #else
@@ -114,7 +114,7 @@ void Com_MainFunctionTx(void) {
 	uint16 i;
 	const ComIPdu_type *IPdu;
 
-	//DEBUG_PRINT0(DEBUG_MEDIUM, "Com_MainFunctionTx() excecuting\n");
+	//DEBUG_PRINT0(DEBUG_MEDIUM, "Com_MainFunctionTx() excecuting\r\n");
 	// Decrease timers.
 	
 #if 0

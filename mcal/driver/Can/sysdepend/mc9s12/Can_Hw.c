@@ -840,31 +840,3 @@ interrupt ISR_Vcan3wkup void Can_3_WakeIsr( void  ) {	Can_Hw_WakeIsr(CAN_CTRL_3)
 interrupt ISR_Vcan4wkup void Can_4_WakeIsr( void  ) {	Can_Hw_WakeIsr(CAN_CTRL_4); }
 
 #pragma CODE_SEG DEFAULT
-#if 0
-#include <tm/tmonitor.h>
-#include <tm/tm_printf.h>
-void CanIf_TxConfirmation( PduIdType canTxPduId )
-{
-
-}
-void CanIf_RxIndication( uint8 Hrh, Can_IdType CanId, uint8 CanDlc, const uint8 *CanSduPtr )
-{
-    tm_printf("Hrh = %d,CanId = %d:\r\n",(int)Hrh,(int)CanId);
-    while(CanDlc > 0)
-    {
-        tm_putchar(*CanSduPtr++);
-        CanDlc--;
-    } 
-    tm_putstring("\r\n");    
-}
-
-void CanIf_ControllerBusOff( uint8 Controller )
-{
-}
-
-/* ArcCore extensions */
-void CanIf_Arc_Error( uint8 Controller, Can_Arc_ErrorType Error )
-{
-}
-#endif
-

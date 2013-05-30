@@ -66,7 +66,7 @@ void Com_Init(const Com_ConfigType *config ) {
 	const ComSignal_type *Signal;
 	const ComGroupSignal_type *GroupSignal;
 	
-	DEBUG_PRINT0(DEBUG_LOW, "--Initialization of COM--\n");
+	DEBUG_PRINT0(DEBUG_LOW, "--Initialization of COM--\r\n");
 
 	ComConfig = config;
 
@@ -180,10 +180,10 @@ void Com_Init(const Com_ConfigType *config ) {
 
 	// An error occurred.
 	if (failure) {
-		DEBUG_PRINT0(DEBUG_LOW, "--Initialization of COM failed--\n");
+		DEBUG_PRINT0(DEBUG_LOW, "--Initialization of COM failed--\r\n");
 		//DET_REPORTERROR(COM_MODULE_ID, COM_INSTANCE_ID, 0x01, COM_E_INVALID_FILTER_CONFIGURATION);
 	} else {
-		DEBUG_PRINT0(DEBUG_LOW, "--Initialization of COM completed--\n");
+		DEBUG_PRINT0(DEBUG_LOW, "--Initialization of COM completed--\r\n");
 	}
 }
 

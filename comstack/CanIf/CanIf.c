@@ -130,39 +130,6 @@ static CanIf_Arc_ChannelIdType CanIf_Arc_FindHrhChannel( Can_Arc_HRHType hrh )
 // Global config
 CanIf_GlobalType CanIf_Global;
 
-
-
-#if 0  /* for debug */
-#include <tm/tmonitor.h>
-#include <tm/tm_printf.h>
-void PduR_CanIfRxIndication(PduIdType CanRxPduId,const PduInfoType* PduInfoPtr) 
-{
-    int len = PduInfoPtr->SduLength;
-    char* ptr= PduInfoPtr-> SduDataPtr;
-    tm_printf("CanRxPduId = %d:\r\n",(int)CanRxPduId);
-    
-    while(len > 0)
-    {
-        tm_putchar(*ptr++);
-        len--;
-    } 
-    tm_putstring("\r\n"); 
-}
-void CanIf_UserRxIndication(uint8 channel, PduIdType pduId, const uint8 *sduPtr,
-                           uint8 dlc, Can_IdType canId)
-{
-    int len = dlc;
-    char* ptr= sduPtr;
-    tm_printf("channel=%d,pduId=%d,canId=%d.\r\n",(int)channel,(int)pduId,(int)canId);      
-    while(len > 0)
-    {
-        tm_putchar(*ptr++);
-        len--;
-    } 
-    tm_putstring("\r\n");
-}
-#endif
-
 void CanIf_Init(const CanIf_ConfigType *ConfigPtr)
 {
     uint8 i;

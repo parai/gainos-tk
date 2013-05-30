@@ -28,7 +28,7 @@
 #include <stdio.h>
 void Det_ReportError(uint16 ModuleId, uint8 InstanceId, uint8 ApiId, uint8 ErrorId)
 {
-	printf("Det Error: ModuleId=%d, InstanceId=%d, ApiId=%d, ErrorId=%d\n", \
+	printf("Det Error: ModuleId=%d, InstanceId=%d, ApiId=%d, ErrorId=%d\r\n", \
 			ModuleId, InstanceId, ApiId, ErrorId);
 }
 
