@@ -23,6 +23,9 @@
 #include "knl_timer.h"
 
 LOCAL 	UB	knl_tmp_stack[cfgTMP_STACK_SZ];
+
+//#define tk_ppage $30  //for MX9S12DP512
+#define tk_ppage $15  //for MX9S12XEP100
 /*
  *    Function Name : disint
  *    Description   : Disable external interrupt,CPSR interrupt flag is in  disabled status.
@@ -71,7 +74,7 @@ EXPORT void knl_activate_r(void)
 EXPORT void knl_dispatch_r(void)
 {
     asm   pula
-    asm   staa	$30	      /* restore PPAGE */
+    asm   staa	tk_ppage	      /* restore PPAGE */
     asm   puld;
     asm   std   knl_taskmode  /* restore knl_taskmode */
     asm   rti;   
@@ -118,7 +121,7 @@ interrupt 4 void knl_dispatch_entry(void)
     knl_dispatch_disabled=1;    /* Dispatch disable */ 
     asm   ldd   knl_taskmode  
     asm   pshd;                 /* save knl_taskmode */
-    asm   ldaa	$30		        
+    asm   ldaa	tk_ppage		        
 	asm   psha                  /* save ppage */
 	asm   ldx  knl_ctxtsk;
 	asm   sts  SP_OFFSET,x;            /* save 'ssp' to TCB */
