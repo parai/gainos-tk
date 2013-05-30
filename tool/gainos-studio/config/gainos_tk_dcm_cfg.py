@@ -219,9 +219,20 @@ class DcmDID():
         self.id = id;
         self.size = 64;
         self.didInfoRef = '';
-        self.didRef = ''; #I cann't understand 
+        #---------- TODO: add Did Reference List
+        self.didRef = ''; #not supported by tool,but implemented by arccore 
         self.usePort = False; #for interaction with RTE, not supported now.
-        #------ so callback info not configured ...
+        self.DspDidReadDataLengthFnc = '%s_ReadDataLength_Cbk'%(name)
+        self.DspDidConditionCheckReadFnc = '%s_ConditionCheckRead_Cbk'%(name)
+        self.DspDidReadDataFnc = '%s_ReadData_Cbk'%(name)
+        self.DspDidConditionCheckWriteFnc = '%s_ConditionCheckWrite_Cbk'%(name)
+        self.DspDidWriteDataFnc = '%s_WriteData_Cbk'%(name)
+        self.DspDidGetScalingInfoFnc = '%s_GetScalingInfo_Cbk'%(name)
+        self.DspDidFreezeCurrentStateFnc = 'NULL'
+        self.DspDidResetToDefaultFnc = 'NULL'
+        self.DspDidReturnControlToEcuFnc = 'NULL'
+        self.DspDidShortTermAdjustmentFnc = 'NULL'
+        self.DspDidControlRecordSize = 'NULL'
     def save(self, root):
         nd = ET.Element('DcmDID');
         nd.attrib['name'] = str(self.name);
@@ -229,6 +240,17 @@ class DcmDID():
         nd.attrib['size'] = str(self.size);
         nd.attrib['didInfoRef'] = str(self.didInfoRef);
         nd.attrib['usePort'] = str(self.usePort);
+        nd.attrib['DspDidReadDataLengthFnc'] = str(self.DspDidReadDataLengthFnc);
+        nd.attrib['DspDidConditionCheckReadFnc'] = str(self.DspDidConditionCheckReadFnc);
+        nd.attrib['DspDidReadDataFnc'] = str(self.DspDidReadDataFnc);
+        nd.attrib['DspDidConditionCheckWriteFnc'] = str(self.DspDidConditionCheckWriteFnc);
+        nd.attrib['DspDidWriteDataFnc'] = str(self.DspDidWriteDataFnc);
+        nd.attrib['DspDidGetScalingInfoFnc'] = str(self.DspDidGetScalingInfoFnc);
+        nd.attrib['DspDidFreezeCurrentStateFnc'] = str(self.DspDidFreezeCurrentStateFnc);
+        nd.attrib['DspDidResetToDefaultFnc'] = str(self.DspDidResetToDefaultFnc);
+        nd.attrib['DspDidReturnControlToEcuFnc'] = str(self.DspDidReturnControlToEcuFnc);
+        nd.attrib['DspDidShortTermAdjustmentFnc'] = str(self.DspDidShortTermAdjustmentFnc);
+        nd.attrib['DspDidControlRecordSize'] = str(self.DspDidControlRecordSize);
         root.append(nd);
     def parse(self, nd):
         self.name = nd.attrib['name'];
@@ -236,6 +258,17 @@ class DcmDID():
         self.size = int(nd.attrib['size']);
         self.didInfoRef = str(nd.attrib['didInfoRef']);
         self.usePort = bool(nd.attrib['usePort']);
+        self.DspDidReadDataLengthFnc = str(nd.attrib['DspDidReadDataLengthFnc']);
+        self.DspDidConditionCheckReadFnc = str(nd.attrib['DspDidConditionCheckReadFnc']);
+        self.DspDidReadDataFnc = str(nd.attrib['DspDidReadDataFnc']);
+        self.DspDidConditionCheckWriteFnc = str(nd.attrib['DspDidConditionCheckWriteFnc']);
+        self.DspDidWriteDataFnc = str(nd.attrib['DspDidWriteDataFnc']);
+        self.DspDidGetScalingInfoFnc = str(nd.attrib['DspDidGetScalingInfoFnc']);
+        self.DspDidFreezeCurrentStateFnc = str(nd.attrib['DspDidFreezeCurrentStateFnc']);
+        self.DspDidResetToDefaultFnc = str(nd.attrib['DspDidResetToDefaultFnc']);
+        self.DspDidReturnControlToEcuFnc = str(nd.attrib['DspDidReturnControlToEcuFnc']);
+        self.DspDidShortTermAdjustmentFnc = str(nd.attrib['DspDidShortTermAdjustmentFnc']);
+        self.DspDidControlRecordSize = str(nd.attrib['DspDidControlRecordSize']);
 class DcmRxChannel():
     def __init__(self, name):
         self.name = name;
@@ -848,6 +881,28 @@ class gainos_tk_dcm_cfg():
         fp.write('#define DCM_SECURITY_EOL_INDEX %s\n'%(len(self.cfg.securityLevelList)));
         fp.write('#define DCM_SESSION_EOL_INDEX %s\n'%(len(self.cfg.sessionList)));
         fp.write('#define DCM_DID_LIST_EOL_INDEX %s\n\n'%(len(self.cfg.didList)));
+        for did in self.cfg.didList:
+            if(did.DspDidReadDataLengthFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint16 *didLength);\n'%(did.DspDidReadDataLengthFnc))
+            if(did.DspDidConditionCheckReadFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(Dcm_NegativeResponseCodeType *errorCode);\n'%(did.DspDidConditionCheckReadFnc))
+            if(did.DspDidReadDataFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *data);\n'%(did.DspDidReadDataFnc))
+            if(did.DspDidConditionCheckWriteFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(Dcm_NegativeResponseCodeType *errorCode);\n'%(did.DspDidConditionCheckWriteFnc))
+            if(did.DspDidWriteDataFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *data, uint16 dataLength, Dcm_NegativeResponseCodeType *errorCode);\n'%(did.DspDidWriteDataFnc))
+            if(did.DspDidGetScalingInfoFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *scalingInfo, Dcm_NegativeResponseCodeType *errorCode);\n'%(did.DspDidGetScalingInfoFnc))
+            if(did.DspDidFreezeCurrentStateFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *controlOptionRecord, uint8 *controlEnableMaskRecord, uint8 *controlStatusRecord, Dcm_NegativeResponseCodeType *errorCode);\n'%(did.DspDidFreezeCurrentStateFnc))
+            if(did.DspDidResetToDefaultFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *controlOptionRecord, uint8 *controlEnableMaskRecord, uint8 *controlStatusRecord, Dcm_NegativeResponseCodeType *errorCode);\n'%(did.DspDidResetToDefaultFnc))
+            if(did.DspDidReturnControlToEcuFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *controlOptionRecord, uint8 *controlEnableMaskRecord, uint8 *controlStatusRecord, Dcm_NegativeResponseCodeType *errorCode);\n'%(did.DspDidReturnControlToEcuFnc))
+            if(did.DspDidShortTermAdjustmentFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *controlOptionRecord, uint8 *controlEnableMaskRecord, uint8 *controlStatusRecord, Dcm_NegativeResponseCodeType *errorCode);\n'%(did.DspDidShortTermAdjustmentFnc))
+        fp.write('/* --------------------------------------------------------- */\n\n')
         for sec in self.cfg.securityLevelList:
             if(sec.getSeedCbk != 'NULL'):
                 fp.write('extern Std_ReturnType %s (uint8 *securityAccessDataRecord, uint8 *seed, Dcm_NegativeResponseCodeType *errorCode);\n'%(sec.getSeedCbk));
@@ -1037,17 +1092,18 @@ class gainos_tk_dcm_cfg():
             str += '\t\t/* DspDidInfoRef = */ &DspDidInfoList[%s], //%s\n'%(gcfindIndex(self.cfg.didInfoList, did.didInfoRef), did.didInfoRef);
             str += '\t\t/* DspDidRef = */ NULL, //%s\n'%('I cann\'t understand');
             str += '\t\t/* DspDidSize = */ %s,\n'%(did.size);
-            str += """		/* DspDidReadDataLengthFnc = */ NULL,
-        /* DspDidConditionCheckReadFnc = */ NULL,
-        /* DspDidReadDataFnc = */ NULL,
-        /* DspDidConditionCheckWriteFnc = */ NULL,
-        /* DspDidWriteDataFnc = */ NULL,
-        /* DspDidGetScalingInfoFnc = */ NULL,
-        /* DspDidFreezeCurrentStateFnc = */ NULL,	
-        /* DspDidResetToDefaultFnc = */ NULL,
-        /* DspDidReturnControlToEcuFnc = */ NULL,
-        /* DspDidShortTermAdjustmentFnc = */ NULL,
-        /* DspDidControlRecordSize = */ NULL,\n""";
+            str += '\t\t/* /* DspDidReadDataLengthFnc = */ %s,\n'%(did.DspDidReadDataLengthFnc);
+            str += '\t\t/* /* DspDidConditionCheckReadFnc = */ %s,\n'%(did.DspDidConditionCheckReadFnc);
+            str += '\t\t/* /* DspDidReadDataFnc = */ %s,\n'%(did.DspDidReadDataFnc);
+            str += '\t\t/* /* DspDidConditionCheckWriteFnc = */ %s,\n'%(did.DspDidConditionCheckWriteFnc);
+            str += '\t\t/* /* DspDidWriteDataFnc = */ %s,\n'%(did.DspDidWriteDataFnc);
+            str += '\t\t/* /* DspDidGetScalingInfoFnc = */ %s,\n'%(did.DspDidGetScalingInfoFnc);
+            str += '\t\t/* /* DspDidFreezeCurrentStateFnc = */ %s,\n'%(did.DspDidFreezeCurrentStateFnc);
+            str += '\t\t/* /* DspDidResetToDefaultFnc = */ %s,\n'%(did.DspDidResetToDefaultFnc);
+            str += '\t\t/* /* DspDidReturnControlToEcuFnc = */ %s,\n'%(did.DspDidReturnControlToEcuFnc);
+            str += '\t\t/* /* DspDidShortTermAdjustmentFnc = */ %s,\n'%(did.DspDidShortTermAdjustmentFnc);
+            #TODO: ?? what does DspDidControlRecordSize means
+            str += '\t\t/* /* DspDidControlRecordSize = */ NULL,\n';
             str += '\t\t/* Arc_EOL = */ %s\n'%('FALSE');
             str += '\t},\n'
         str += '\t{ // %s,\n'%('Dummy for EOL');

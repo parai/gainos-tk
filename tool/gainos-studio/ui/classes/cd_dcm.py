@@ -424,10 +424,19 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         for obj in self.cfg.didInfoList:
             self.cmbxDidInfoRef.addItem(obj.name);
         self.cmbxDidInfoRef.setCurrentIndex(self.cmbxDidInfoRef.findText(self.curobj.didInfoRef));
-        #---------- I donn't understand so just disable them
+        #---------- TODO: add Did Reference List
         self.cmbxDidRef.setDisabled(True);
-        self.cbxUsePort.setChecked(self.curobj.usePort);
-        self.cbxUsePort.setDisabled(True);# -- the others disabled by Qt Creater
+        self.leDspDidReadDataLengthFnc.setText(self.curobj.DspDidReadDataLengthFnc)
+        self.leDspDidConditionCheckReadFnc.setText(self.curobj.DspDidConditionCheckReadFnc)
+        self.leDspDidReadDataFnc.setText(self.curobj.DspDidReadDataFnc)
+        self.leDspDidConditionCheckWriteFnc.setText(self.curobj.DspDidConditionCheckWriteFnc)
+        self.leDspDidWriteDataFnc.setText(self.curobj.DspDidWriteDataFnc)
+        self.leDspDidGetScalingInfoFnc.setText(self.curobj.DspDidGetScalingInfoFnc)
+        self.leDspDidFreezeCurrentStateFnc.setText(self.curobj.DspDidFreezeCurrentStateFnc)
+        self.leDspDidResetToDefaultFnc.setText(self.curobj.DspDidResetToDefaultFnc)
+        self.leDspDidReturnControlToEcuFnc.setText(self.curobj.DspDidReturnControlToEcuFnc)
+        self.leDspDidShortTermAdjustmentFnc.setText(self.curobj.DspDidShortTermAdjustmentFnc)
+        #self.leDspDidControlRecordSize.setText(self.curobj.DspDidControlRecordSize)
         self.enableTab(5);
     def refreshProtocolTab(self, name):
         self.curobj = gcfindObj(self.cfg.protocolList, name);
@@ -1165,6 +1174,66 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         if(self.curobj!=None):
             if(self.curobj.didInfoRef!=p0):
                 self.curobj.didInfoRef=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leDspDidReadDataLengthFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidReadDataLengthFnc!=p0):
+                self.curobj.DspDidReadDataLengthFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leDspDidConditionCheckReadFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidConditionCheckReadFnc!=p0):
+                self.curobj.DspDidConditionCheckReadFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leDspDidReadDataFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidReadDataFnc!=p0):
+                self.curobj.DspDidReadDataFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leDspDidConditionCheckWriteFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidConditionCheckWriteFnc!=p0):
+                self.curobj.DspDidConditionCheckWriteFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leDspDidWriteDataFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidWriteDataFnc!=p0):
+                self.curobj.DspDidWriteDataFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leDspDidGetScalingInfoFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidGetScalingInfoFnc!=p0):
+                self.curobj.DspDidGetScalingInfoFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leDspDidFreezeCurrentStateFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidFreezeCurrentStateFnc!=p0):
+                self.curobj.DspDidFreezeCurrentStateFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leDspDidResetToDefaultFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidResetToDefaultFnc!=p0):
+                self.curobj.DspDidResetToDefaultFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leDspDidReturnControlToEcuFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidReturnControlToEcuFnc!=p0):
+                self.curobj.DspDidReturnControlToEcuFnc=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leDspDidShortTermAdjustmentFnc_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidShortTermAdjustmentFnc!=p0):
+                self.curobj.DspDidShortTermAdjustmentFnc=p0;
                 self.fileInd(False);
 # ==================== Protocol ===========================================
     @pyqtSignature("QString")

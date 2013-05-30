@@ -42,6 +42,45 @@ Std_ReturnType vSessionControl_1_GetSesChgPer(Dcm_SesCtrlType sesCtrlTypeActive,
                                             Dcm_SesCtrlType sesCtrlTypeNew)
 {
 }
+
+Std_ReturnType vDid_0_ReadDataLength_Cbk(uint16 *didLength)
+{
+}
+Std_ReturnType vDid_0_ConditionCheckRead_Cbk(Dcm_NegativeResponseCodeType *errorCode){
+
+}
+Std_ReturnType vDid_0_ReadData_Cbk(uint8 *data){
+
+}
+Std_ReturnType vDid_0_ConditionCheckWrite_Cbk(Dcm_NegativeResponseCodeType *errorCode){
+
+}
+Std_ReturnType vDid_0_WriteData_Cbk(uint8 *data, uint16 dataLength, 
+                            Dcm_NegativeResponseCodeType *errorCode){
+}
+Std_ReturnType vDid_0_GetScalingInfo_Cbk(uint8 *scalingInfo, 
+                            Dcm_NegativeResponseCodeType *errorCode){
+}
+Std_ReturnType vDid_1_ReadDataLength_Cbk(uint16 *didLength){
+
+}
+Std_ReturnType vDid_1_ConditionCheckRead_Cbk(Dcm_NegativeResponseCodeType *errorCode){
+
+}
+Std_ReturnType vDid_1_ReadData_Cbk(uint8 *data){
+
+}
+Std_ReturnType vDid_1_ConditionCheckWrite_Cbk(Dcm_NegativeResponseCodeType *errorCode){
+
+}
+Std_ReturnType vDid_1_WriteData_Cbk(uint8 *data, uint16 dataLength, 
+                Dcm_NegativeResponseCodeType *errorCode){
+                
+}
+Std_ReturnType vDid_1_GetScalingInfo_Cbk(uint8 *scalingInfo, 
+                Dcm_NegativeResponseCodeType *errorCode){
+
+}
 /* Dcm Example Initialise Routine.
  * 初始化Can、CanIf、PduR和DCM ，
  * 需要使用“dcm_ex1.arxml”生成其相应配置文件。*/
