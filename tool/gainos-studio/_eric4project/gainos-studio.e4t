@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-4.2.dtd">
 <!-- eric4 tasks file for project gainos-studio -->
-<!-- Saved: 2013-06-01, 09:25:50 -->
+<!-- Saved: 2013-06-01, 13:23:16 -->
 <Tasks version="4.2">
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
@@ -123,7 +123,7 @@
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: add Did Reference List</Summary>
     <Description></Description>
-    <Created>2013-06-01, 09:04:09</Created>
+    <Created>2013-06-01, 13:06:19</Created>
     <Resource>
       <Filename>ui/classes/cd_dcm.py</Filename>
       <Linenumber>427</Linenumber>
@@ -132,7 +132,7 @@
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: add Did Reference List</Summary>
     <Description></Description>
-    <Created>2013-06-01, 09:25:20</Created>
+    <Created>2013-06-01, 13:20:18</Created>
     <Resource>
       <Filename>config/gainos_tk_dcm_cfg.py</Filename>
       <Linenumber>222</Linenumber>
@@ -141,7 +141,7 @@
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: ?? what does DspDidControlRecordSize means</Summary>
     <Description></Description>
-    <Created>2013-06-01, 09:25:20</Created>
+    <Created>2013-06-01, 13:20:18</Created>
     <Resource>
       <Filename>config/gainos_tk_dcm_cfg.py</Filename>
       <Linenumber>1110</Linenumber>

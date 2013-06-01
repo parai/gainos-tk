@@ -24,7 +24,6 @@ TASK(vTaskSender)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     DcmEx1Sender();
-    SetEvent(ID_vTaskReceiver,0x01);
     (void)TerminateTask();
 }
 
@@ -32,8 +31,6 @@ TASK(vTaskReceiver)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     (void)printf("vTaskReceiver is running.\r\n");
-    (void)WaitEvent(0x01);
-    (void)ClearEvent(0x01);
     (void)TerminateTask();
 }
 extern void DcmEx1MainFunction(void);

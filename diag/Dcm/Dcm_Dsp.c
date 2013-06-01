@@ -190,22 +190,22 @@ void DspUdsEcuReset(const PduInfoType *pduRxData, PduIdType txPduId, PduInfoType
 
 		switch (reqResetType)
 		{
-		case 0x01:	// Hard reset
-			// TODO: Ask application for permission (Dcm373) (Dcm375) (Dcm377)
+            case 0x01:	// Hard reset
+                // TODO: Ask application for permission (Dcm373) (Dcm375) (Dcm377)
 
-			// Schedule the reset
-			dspUdsEcuResetData.resetPending = TRUE;
-			dspUdsEcuResetData.resetPduId = txPduId;
+                // Schedule the reset
+                dspUdsEcuResetData.resetPending = TRUE;
+                dspUdsEcuResetData.resetPduId = txPduId;
 
-			// Create positive response
-			pduTxData->SduDataPtr[1] = reqResetType;
-			pduTxData->SduLength = 2;
-			DsdDspProcessingDone(DCM_E_POSITIVERESPONSE);
-			break;
+                // Create positive response
+                pduTxData->SduDataPtr[1] = reqResetType;
+                pduTxData->SduLength = 2;
+                DsdDspProcessingDone(DCM_E_POSITIVERESPONSE);
+                break;
 
-		default:
-			DsdDspProcessingDone(DCM_E_SUBFUNCTIONNOTSUPPORTED);
-			break;
+            default:
+                DsdDspProcessingDone(DCM_E_SUBFUNCTIONNOTSUPPORTED);
+                break;
 		}
 	}
 	else {
@@ -228,15 +228,15 @@ void DspUdsClearDiagnosticInformation(const PduInfoType *pduRxData, PduInfoType 
 
 		switch (result)
 		{
-		case DEM_CLEAR_OK:
-			// Create positive response
-			pduTxData->SduLength = 1;
-			DsdDspProcessingDone(DCM_E_POSITIVERESPONSE);
-			break;
+            case DEM_CLEAR_OK:
+                // Create positive response
+                pduTxData->SduLength = 1;
+                DsdDspProcessingDone(DCM_E_POSITIVERESPONSE);
+                break;
 
-		default:
-			DsdDspProcessingDone(DCM_E_REQUESTOUTOFRANGE);
-			break;
+            default:
+                DsdDspProcessingDone(DCM_E_REQUESTOUTOFRANGE);
+                break;
 		}
 	}
 	else {
@@ -263,25 +263,25 @@ static Dcm_NegativeResponseCodeType udsReadDtcInfoSub_0x01_0x07_0x11_0x12(const 
 	// Setup the DTC filter
 	switch (pduRxData->SduDataPtr[1]) 	/** @req DCM293 */
 	{
-	case 0x01:	// reportNumberOfDTCByStatusMask
-		setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
-		break;
+        case 0x01:	// reportNumberOfDTCByStatusMask
+            setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
+            break;
 
-	case 0x07:	// reportNumberOfDTCBySeverityMaskRecord
-		setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[3], DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_YES, pduRxData->SduDataPtr[2], DEM_FILTER_FOR_FDC_NO);
-		break;
+        case 0x07:	// reportNumberOfDTCBySeverityMaskRecord
+            setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[3], DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_YES, pduRxData->SduDataPtr[2], DEM_FILTER_FOR_FDC_NO);
+            break;
 
-	case 0x11:	// reportNumberOfMirrorMemoryDTCByStatusMask
-		setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_MIRROR_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
-		break;
+        case 0x11:	// reportNumberOfMirrorMemoryDTCByStatusMask
+            setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_MIRROR_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
+            break;
 
-	case 0x12:	// reportNumberOfEmissionRelatedOBDDTCByStatusMask
-		setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_EMISSION_REL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
-		break;
+        case 0x12:	// reportNumberOfEmissionRelatedOBDDTCByStatusMask
+            setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_EMISSION_REL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
+            break;
 
-	default:
-		setDtcFilterResult = DEM_WRONG_FILTER;
-		break;
+        default:
+            setDtcFilterResult = DEM_WRONG_FILTER;
+            break;
 	}
 
 	if (setDtcFilterResult == DEM_FILTER_ACCEPTED) {
@@ -344,29 +344,29 @@ static Dcm_NegativeResponseCodeType udsReadDtcInfoSub_0x02_0x0A_0x0F_0x13_0x15(c
 	// Setup the DTC filter
 	switch (pduRxData->SduDataPtr[1]) 	/** @req DCM378 */
 	{
-	case 0x02:	// reportDTCByStatusMask
-		setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
-		break;
+        case 0x02:	// reportDTCByStatusMask
+            setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
+            break;
 
-	case 0x0A:	// reportSupportedDTC
-		setDtcFilterResult = Dem_SetDTCFilter(DEM_DTC_STATUS_MASK_ALL, DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
-		break;
+        case 0x0A:	// reportSupportedDTC
+            setDtcFilterResult = Dem_SetDTCFilter(DEM_DTC_STATUS_MASK_ALL, DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
+            break;
 
-	case 0x0F:	// reportMirrorMemoryDTCByStatusMask
-		setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_MIRROR_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
-		break;
+        case 0x0F:	// reportMirrorMemoryDTCByStatusMask
+            setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_MIRROR_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
+            break;
 
-	case 0x13:	// reportEmissionRelatedOBDDTCByStatusMask
-		setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_EMISSION_REL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
-		break;
+        case 0x13:	// reportEmissionRelatedOBDDTCByStatusMask
+            setDtcFilterResult = Dem_SetDTCFilter(pduRxData->SduDataPtr[2], DEM_DTC_KIND_EMISSION_REL_DTCS, DEM_DTC_ORIGIN_PRIMARY_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
+            break;
 
-	case 0x15:	// reportDTCWithPermanentStatus
-		setDtcFilterResult = Dem_SetDTCFilter(DEM_DTC_STATUS_MASK_ALL, DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_PERMANENT_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
-		break;
+        case 0x15:	// reportDTCWithPermanentStatus
+            setDtcFilterResult = Dem_SetDTCFilter(DEM_DTC_STATUS_MASK_ALL, DEM_DTC_KIND_ALL_DTCS, DEM_DTC_ORIGIN_PERMANENT_MEMORY, DEM_FILTER_WITH_SEVERITY_NO, VALUE_IS_NOT_USED, DEM_FILTER_FOR_FDC_NO);
+            break;
 
-	default:
-		setDtcFilterResult = DEM_WRONG_FILTER;
-		break;
+        default:
+            setDtcFilterResult = DEM_WRONG_FILTER;
+            break;
 	}
 
 	if (setDtcFilterResult == DEM_FILTER_ACCEPTED) {
@@ -450,37 +450,37 @@ static Dcm_NegativeResponseCodeType udsReadDtcInfoSub_0x06_0x10(const PduInfoTyp
 	// Switch on sub function
 	switch (pduRxData->SduDataPtr[1]) 	/** @req DCM378 */
 	{
-	case 0x06:	// reportDTCExtendedDataRecordByDTCNumber
-		dtcOrigin = DEM_DTC_ORIGIN_PRIMARY_MEMORY;
-		break;
+        case 0x06:	// reportDTCExtendedDataRecordByDTCNumber
+            dtcOrigin = DEM_DTC_ORIGIN_PRIMARY_MEMORY;
+            break;
 
-	case 0x10:	// reportMirrorMemoryDTCExtendedDataRecordByDTCNumber
-		dtcOrigin = DEM_DTC_ORIGIN_MIRROR_MEMORY;
-		break;
+        case 0x10:	// reportMirrorMemoryDTCExtendedDataRecordByDTCNumber
+            dtcOrigin = DEM_DTC_ORIGIN_MIRROR_MEMORY;
+            break;
 
-	default:
-		responseCode = DCM_E_SUBFUNCTIONNOTSUPPORTED;
-		dtcOrigin = 0;
-		break;
+        default:
+            responseCode = DCM_E_SUBFUNCTIONNOTSUPPORTED;
+            dtcOrigin = 0;
+            break;
 	}
 
 	// Switch on record number
 	switch (pduRxData->SduDataPtr[5])
 	{
-	case 0xFF:	// Report all Extended Data Records for a particular DTC
-		startRecNum = 0x00;
-		endRecNum = 0xEF;
-		break;
+        case 0xFF:	// Report all Extended Data Records for a particular DTC
+            startRecNum = 0x00;
+            endRecNum = 0xEF;
+            break;
 
-	case 0xFE:	// Report all OBD Extended Data Records for a particular DTC
-		startRecNum = 0x90;
-		endRecNum = 0xEF;
-		break;
+        case 0xFE:	// Report all OBD Extended Data Records for a particular DTC
+            startRecNum = 0x90;
+            endRecNum = 0xEF;
+            break;
 
-	default:	// Report one specific Extended Data Records for a particular DTC
-		startRecNum = pduRxData->SduDataPtr[5];
-		endRecNum = startRecNum;
-		break;
+        default:	// Report one specific Extended Data Records for a particular DTC
+            startRecNum = pduRxData->SduDataPtr[5];
+            endRecNum = startRecNum;
+            break;
 	}
 
 	if (responseCode == DCM_E_POSITIVERESPONSE) {
@@ -607,61 +607,61 @@ void DspUdsReadDtcInformation(const PduInfoType *pduRxData, PduInfoType *pduTxDa
 		if (pduRxData->SduLength == sduLength[subFunctionNumber]) {
 			switch (subFunctionNumber)
 			{
-			case 0x01:	// reportNumberOfDTCByStatusMask
-			case 0x07:	// reportNumberOfDTCBySeverityMaskRecord
-			case 0x11:	// reportNumberOfMirrorMemoryDTCByStatusMask
-			case 0x12:	// reportNumberOfEmissionRelatedOBDDTCByStatusMask
-				responseCode = udsReadDtcInfoSub_0x01_0x07_0x11_0x12(pduRxData, pduTxData);
-				break;
+                case 0x01:	// reportNumberOfDTCByStatusMask
+                case 0x07:	// reportNumberOfDTCBySeverityMaskRecord
+                case 0x11:	// reportNumberOfMirrorMemoryDTCByStatusMask
+                case 0x12:	// reportNumberOfEmissionRelatedOBDDTCByStatusMask
+                    responseCode = udsReadDtcInfoSub_0x01_0x07_0x11_0x12(pduRxData, pduTxData);
+                    break;
 
-			case 0x02:	// reportDTCByStatusMask
-			case 0x0A:	// reportSupportedDTC
-			case 0x0F:	// reportMirrorMemoryDTCByStatusMask
-			case 0x13:	// reportEmissionRelatedOBDDTCByStatusMask
-			case 0x15:	// reportDTCWithPermanentStatus
-				responseCode = udsReadDtcInfoSub_0x02_0x0A_0x0F_0x13_0x15(pduRxData, pduTxData);
-				break;
+                case 0x02:	// reportDTCByStatusMask
+                case 0x0A:	// reportSupportedDTC
+                case 0x0F:	// reportMirrorMemoryDTCByStatusMask
+                case 0x13:	// reportEmissionRelatedOBDDTCByStatusMask
+                case 0x15:	// reportDTCWithPermanentStatus
+                    responseCode = udsReadDtcInfoSub_0x02_0x0A_0x0F_0x13_0x15(pduRxData, pduTxData);
+                    break;
 
-			case 0x08:	// reportDTCBySeverityMaskRecord
-				responseCode = udsReadDtcInfoSub_0x08(pduRxData, pduTxData);
-				break;
+                case 0x08:	// reportDTCBySeverityMaskRecord
+                    responseCode = udsReadDtcInfoSub_0x08(pduRxData, pduTxData);
+                    break;
 
-			case 0x09:	// reportSeverityInformationOfDTC
-				responseCode = udsReadDtcInfoSub_0x09(pduRxData, pduTxData);
-				break;
+                case 0x09:	// reportSeverityInformationOfDTC
+                    responseCode = udsReadDtcInfoSub_0x09(pduRxData, pduTxData);
+                    break;
 
-			case 0x06:	// reportDTCExtendedDataRecordByDTCNumber
-			case 0x10:	// reportMirrorMemoryDTCExtendedDataRecordByDTCNumber
-				responseCode = udsReadDtcInfoSub_0x06_0x10(pduRxData, pduTxData);
-				break;
+                case 0x06:	// reportDTCExtendedDataRecordByDTCNumber
+                case 0x10:	// reportMirrorMemoryDTCExtendedDataRecordByDTCNumber
+                    responseCode = udsReadDtcInfoSub_0x06_0x10(pduRxData, pduTxData);
+                    break;
 
-			case 0x03:	// reportDTCSnapshotIdentidication
-				responseCode = udsReadDtcInfoSub_0x03(pduRxData, pduTxData);
-				break;
+                case 0x03:	// reportDTCSnapshotIdentidication
+                    responseCode = udsReadDtcInfoSub_0x03(pduRxData, pduTxData);
+                    break;
 
-			case 0x04:	// reportDTCSnapshotByDtcNumber
-				responseCode = udsReadDtcInfoSub_0x04(pduRxData, pduTxData);
-				break;
+                case 0x04:	// reportDTCSnapshotByDtcNumber
+                    responseCode = udsReadDtcInfoSub_0x04(pduRxData, pduTxData);
+                    break;
 
-			case 0x05:	// reportDTCSnapshotRecordNumber
-				responseCode = udsReadDtcInfoSub_0x05(pduRxData, pduTxData);
-				break;
+                case 0x05:	// reportDTCSnapshotRecordNumber
+                    responseCode = udsReadDtcInfoSub_0x05(pduRxData, pduTxData);
+                    break;
 
-			case 0x0B:	// reportFirstTestFailedDTC
-			case 0x0C:	// reportFirstConfirmedDTC
-			case 0x0D:	// reportMostRecentTestFailedDTC
-			case 0x0E:	// reportMostRecentConfirmedDTC
-				responseCode = udsReadDtcInfoSub_0x0B_0x0C_0x0D_0x0E(pduRxData, pduTxData);
-				break;
+                case 0x0B:	// reportFirstTestFailedDTC
+                case 0x0C:	// reportFirstConfirmedDTC
+                case 0x0D:	// reportMostRecentTestFailedDTC
+                case 0x0E:	// reportMostRecentConfirmedDTC
+                    responseCode = udsReadDtcInfoSub_0x0B_0x0C_0x0D_0x0E(pduRxData, pduTxData);
+                    break;
 
-			case 0x14:	// reportDTCFaultDetectionCounter
-				responseCode = udsReadDtcInfoSub_0x14(pduRxData, pduTxData);
-				break;
+                case 0x14:	// reportDTCFaultDetectionCounter
+                    responseCode = udsReadDtcInfoSub_0x14(pduRxData, pduTxData);
+                    break;
 
-			default:
-				// Unknown sub function
-				responseCode = DCM_E_REQUESTOUTOFRANGE;
-				break;
+                default:
+                    // Unknown sub function
+                    responseCode = DCM_E_REQUESTOUTOFRANGE;
+                    break;
 			}
 		}
 		else {
@@ -955,12 +955,15 @@ void DspUdsWriteDataByIdentifier(const PduInfoType *pduRxData, PduInfoType *pduT
 
 void DspUdsSecurityAccess(const PduInfoType *pduRxData, PduInfoType *pduTxData)
 {
-	/** @req DCM252 */
+/** @req DCM252 */
 	Dcm_NegativeResponseCodeType responseCode = DCM_E_POSITIVERESPONSE;
 
 	// Check sub function range (0x01 to 0x42)
 	if ((pduRxData->SduDataPtr[1] >= 0x01) && (pduRxData->SduDataPtr[1] <= 0x42)) {
 		boolean isRequestSeed = pduRxData->SduDataPtr[1] & 0x01u;
+		//parai,bug here,how can get both requestedSecurityLevel for sub function 0x01 and 0x02
+		//and the level allowed is bit[5:1] from(0 to 31),infact the code should be moved to 
+		//RequestSeed part
 		Dcm_SecLevelType requestedSecurityLevel = (pduRxData->SduDataPtr[1]-1)/2;
 		Dcm_NegativeResponseCodeType getSeedErrorCode;
 
@@ -1025,7 +1028,8 @@ void DspUdsSecurityAccess(const PduInfoType *pduRxData, PduInfoType *pduTxData)
 			// sendKey message
 			if (dspUdsSecurityAccesData.reqInProgress) {
 				if (pduRxData->SduLength == (2 + dspUdsSecurityAccesData.reqSecLevelRef->DspSecurityKeySize)) {	/** @req DCM321.SendKey */
-					if (requestedSecurityLevel == dspUdsSecurityAccesData.reqSecLevel) {
+					//parai, as the bug above
+					//if (requestedSecurityLevel == dspUdsSecurityAccesData.reqSecLevel) {
 						if (dspUdsSecurityAccesData.reqSecLevelRef->CompareKey != NULL) {
 							Std_ReturnType compareKeyResult;
 							compareKeyResult = dspUdsSecurityAccesData.reqSecLevelRef->CompareKey(&pduRxData->SduDataPtr[2]); /** @req DCM324.SendKey */
@@ -1043,10 +1047,10 @@ void DspUdsSecurityAccess(const PduInfoType *pduRxData, PduInfoType *pduTxData)
 						} else {
 							responseCode = DCM_E_CONDITIONSNOTCORRECT;
 						}
-					}
-					else {
-						responseCode = DCM_E_CONDITIONSNOTCORRECT;
-					}
+					//}
+					//else {
+					//	responseCode = DCM_E_CONDITIONSNOTCORRECT;
+					//}
 				}
 				else {
 					// Length not ok
@@ -1181,21 +1185,21 @@ void DspUdsRoutineControl(const PduInfoType *pduRxData, PduInfoType *pduTxData)
 				if (DspCheckSessionLevel(routinePtr->DspRoutineInfoRef->DspRoutineAuthorization.DspRoutineSessionRef)) {
 					if (DspCheckSecurityLevel(routinePtr->DspRoutineInfoRef->DspRoutineAuthorization.DspRoutineSecurityLevelRef)) {
 						switch (subFunctionNumber) {
-						case 0x01:	// startRoutine
-							responseCode = startRoutine(routinePtr, pduRxData, pduTxData);
-							break;
+                            case 0x01:	// startRoutine
+                                responseCode = startRoutine(routinePtr, pduRxData, pduTxData);
+                                break;
 
-						case 0x02:	// stopRoutine
-							responseCode = stopRoutine(routinePtr, pduRxData, pduTxData);
-							break;
+                            case 0x02:	// stopRoutine
+                                responseCode = stopRoutine(routinePtr, pduRxData, pduTxData);
+                                break;
 
-						case 0x03:	// requestRoutineResults
-							responseCode =  requestRoutineResults(routinePtr, pduTxData);
-							break;
+                            case 0x03:	// requestRoutineResults
+                                responseCode =  requestRoutineResults(routinePtr, pduTxData);
+                                break;
 
-						default:	// This shall never happen
-							responseCode = DCM_E_SUBFUNCTIONNOTSUPPORTED;
-							break;
+                            default:	// This shall never happen
+                                responseCode = DCM_E_SUBFUNCTIONNOTSUPPORTED;
+                                break;
 						}
 					}
 					else {	// Not allowed in current security level
@@ -1236,17 +1240,17 @@ void DspUdsTesterPresent(const PduInfoType *pduRxData, PduInfoType *pduTxData)
 	if (pduRxData->SduLength == 2) {
 		switch (pduRxData->SduDataPtr[1])
 		{
-		case ZERO_SUB_FUNCTION:
-			DslResetSessionTimeoutTimer();
-			// Create positive response
-			pduTxData->SduDataPtr[1] = ZERO_SUB_FUNCTION;
-			pduTxData->SduLength = 2;
-			DsdDspProcessingDone(DCM_E_POSITIVERESPONSE);
-			break;
+            case ZERO_SUB_FUNCTION:
+                DslResetSessionTimeoutTimer();
+                // Create positive response
+                pduTxData->SduDataPtr[1] = ZERO_SUB_FUNCTION;
+                pduTxData->SduLength = 2;
+                DsdDspProcessingDone(DCM_E_POSITIVERESPONSE);
+                break;
 
-		default:
-			DsdDspProcessingDone(DCM_E_SUBFUNCTIONNOTSUPPORTED);
-			break;
+            default:
+                DsdDspProcessingDone(DCM_E_SUBFUNCTIONNOTSUPPORTED);
+                break;
 		}
 	}
 	else {
@@ -1264,33 +1268,33 @@ void DspUdsControlDtcSetting(const PduInfoType *pduRxData, PduInfoType *pduTxDat
 	if (pduRxData->SduLength == 2) {
 		switch (pduRxData->SduDataPtr[1])
 		{
-		case 0x01:	// ON
-			resultCode = Dem_EnableDTCStorage(DEM_DTC_GROUP_ALL_DTCS, DEM_DTC_KIND_ALL_DTCS);		/** @req DCM304 */
-			if (resultCode == DEM_CONTROL_DTC_STORAGE_OK) {
-				pduTxData->SduDataPtr[1] = 0x01;
-				pduTxData->SduLength = 2;
-				DsdDspProcessingDone(DCM_E_POSITIVERESPONSE);
-			}
-			else {
-				DsdDspProcessingDone(DCM_E_REQUESTOUTOFRANGE);
-			}
-			break;
+            case 0x01:	// ON
+                resultCode = Dem_EnableDTCStorage(DEM_DTC_GROUP_ALL_DTCS, DEM_DTC_KIND_ALL_DTCS);		/** @req DCM304 */
+                if (resultCode == DEM_CONTROL_DTC_STORAGE_OK) {
+                    pduTxData->SduDataPtr[1] = 0x01;
+                    pduTxData->SduLength = 2;
+                    DsdDspProcessingDone(DCM_E_POSITIVERESPONSE);
+                }
+                else {
+                    DsdDspProcessingDone(DCM_E_REQUESTOUTOFRANGE);
+                }
+                break;
 
-		case 0x02:	// OFF
-			resultCode = Dem_DisableDTCStorage(DEM_DTC_GROUP_ALL_DTCS, DEM_DTC_KIND_ALL_DTCS);		/** @req DCM406 */
-			if (resultCode == DEM_CONTROL_DTC_STORAGE_OK) {
-				pduTxData->SduDataPtr[1] = 0x02;
-				pduTxData->SduLength = 2;
-				DsdDspProcessingDone(DCM_E_POSITIVERESPONSE);
-			}
-			else {
-				DsdDspProcessingDone(DCM_E_REQUESTOUTOFRANGE);
-			}
-			break;
+            case 0x02:	// OFF
+                resultCode = Dem_DisableDTCStorage(DEM_DTC_GROUP_ALL_DTCS, DEM_DTC_KIND_ALL_DTCS);		/** @req DCM406 */
+                if (resultCode == DEM_CONTROL_DTC_STORAGE_OK) {
+                    pduTxData->SduDataPtr[1] = 0x02;
+                    pduTxData->SduLength = 2;
+                    DsdDspProcessingDone(DCM_E_POSITIVERESPONSE);
+                }
+                else {
+                    DsdDspProcessingDone(DCM_E_REQUESTOUTOFRANGE);
+                }
+                break;
 
-		default:
-			DsdDspProcessingDone(DCM_E_SUBFUNCTIONNOTSUPPORTED);
-			break;
+            default:
+                DsdDspProcessingDone(DCM_E_SUBFUNCTIONNOTSUPPORTED);
+                break;
 		}
 	}
 	else {

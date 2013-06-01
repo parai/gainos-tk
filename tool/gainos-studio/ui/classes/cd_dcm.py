@@ -372,7 +372,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         for obj in lsSrc:
             if(gcfindStr(lsDst, obj.name) == None):
                 item=QTreeWidgetItem(trSrc,QStringList(obj.name));
-        #print lsDst
+        print lsDst
     def refreshBufferTab(self, name):
         self.curobj=gcfindObj(self.cfg.bufferList, name);
         self.leBufferName.setText(name);
@@ -545,7 +545,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
     def refreshRoutineAuthorizationTab(self, obj):
         self.curobj = obj;
         self.refreshTreeCtrl(self.trRtnAuthSecSrc, self.trRtnAuthSecDst, self.cfg.securityLevelList, self.curobj.securityRefList);
-        self.refreshTreeCtrl(self.trRtnAuthSesSrc, self.trRtnAuthSesDst, self.cfg.sessionControlList, self.curobj.sessionRefList);
+        self.refreshTreeCtrl(self.trRtnAuthSesSrc, self.trRtnAuthSesDst, self.cfg.sessionList, self.curobj.sessionRefList);
         self.enableTab(12)
     def refreshRoutineStartTab(self, obj):
         self.curobj = obj;

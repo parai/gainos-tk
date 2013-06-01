@@ -384,7 +384,7 @@ class DcmSecurityLevel():
     def __init__(self, name):
         self.name = name;
         self.level = 0;
-        self.recordSize = 1;
+        self.recordSize = 0;    #must be ZERO
         self.seedSize = 1;
         self.keySize = 1;
         self.getSeedCbk = 'NULL';
@@ -474,7 +474,7 @@ class DcmSessionControl():
 class DcmSession():
     def __init__(self, name):
         self.name = name;
-        self.level = 0;
+        self.level = 1; #default session
         self.P2ServerMax = 10; #ms
         self.P2StarServerMax = 10; #ms
     def save(self, root):
@@ -1150,7 +1150,7 @@ class gainos_tk_dcm_cfg():
             for auth in rtninfo.AuthorizationList:
                 str = 'const Dcm_DspSessionRowType *%s_sessionRefList[] = {\n'%(rtninfo.name)
                 for ses in auth.sessionRefList:
-                    str += '\t&DspSessionList[%s],//%s\n'%(gcfindIndex(self.cfg.sessionControlList, ses), ses)
+                    str += '\t&DspSessionList[%s],//%s\n'%(gcfindIndex(self.cfg.sessionList, ses), ses)
                 str += '\t&DspSessionList[DCM_SESSION_EOL_INDEX]\n'
                 str +='};\n'
                 fp.write(str);
