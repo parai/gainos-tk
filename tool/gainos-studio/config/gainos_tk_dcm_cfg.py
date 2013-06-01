@@ -1089,13 +1089,19 @@ class gainos_tk_dcm_cfg():
         str += '};\n\n'
         fp.write(str);
         #------------------ DIDs ----------
+        fp.write('extern const Dcm_DspDidType DspDidList[];\n');
+        for did in self.cfg.didList:
+            fp.write("""const Dcm_DspDidType* %s_dididRefList[] =
+{
+    &DspDidList[DCM_DID_LIST_EOL_INDEX]  //add did ref by hand please,If you need it
+};\n"""%(did.name));
         str = 'const Dcm_DspDidType DspDidList[] = { \n';
         for did in self.cfg.didList:
             str += '\t{ // %s,\n'%(did.name);
             str += '\t\t/* DspDidUsePort = */ %s,/* Value is not configurable */\n'%(TRUE(did.usePort));
             str += '\t\t/* DspDidIdentifier = */ %s,\n'%(did.id);
             str += '\t\t/* DspDidInfoRef = */ &DspDidInfoList[%s], //%s\n'%(gcfindIndex(self.cfg.didInfoList, did.didInfoRef), did.didInfoRef);
-            str += '\t\t/* DspDidRef = */ NULL, //%s\n'%('I cann\'t understand');
+            str += '\t\t/* DspDidRef = */ %s_dididRefList,\n'%(did.name);
             str += '\t\t/* DspDidSize = */ %s,\n'%(did.size);
             str += '\t\t/* /* DspDidReadDataLengthFnc = */ %s,\n'%(did.DspDidReadDataLengthFnc);
             str += '\t\t/* /* DspDidConditionCheckReadFnc = */ %s,\n'%(did.DspDidConditionCheckReadFnc);

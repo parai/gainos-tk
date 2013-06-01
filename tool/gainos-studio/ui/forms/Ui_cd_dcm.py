@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_dcm.ui'
 #
-# Created: Sat Jun 01 12:57:52 2013
+# Created: Sat Jun 01 15:54:14 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -1401,7 +1401,7 @@ class Ui_cd_dcm(object):
 
         self.retranslateUi(cd_dcm)
         self.tabWidget.setCurrentIndex(0)
-        self.tblDcmCfg.setCurrentIndex(21)
+        self.tblDcmCfg.setCurrentIndex(5)
         self.table.setCurrentIndex(0)
         self.tabWidget_3.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
@@ -1521,6 +1521,11 @@ class Ui_cd_dcm(object):
         self.label_10.setText(QtGui.QApplication.translate("cd_dcm", "Size(bit):", None, QtGui.QApplication.UnicodeUTF8))
         self.label_17.setText(QtGui.QApplication.translate("cd_dcm", "Did Info:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_18.setText(QtGui.QApplication.translate("cd_dcm", "Did References:", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxDidRef.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">If you want DID reference,please rewrite the configuration file by hand.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget_5.setTabText(self.tabWidget_5.indexOf(self.tab_17), QtGui.QApplication.translate("cd_dcm", "General Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxUsePort.setText(QtGui.QApplication.translate("cd_dcm", "Use Rte Ports", None, QtGui.QApplication.UnicodeUTF8))
         self.label_19.setText(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"

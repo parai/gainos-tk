@@ -372,7 +372,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         for obj in lsSrc:
             if(gcfindStr(lsDst, obj.name) == None):
                 item=QTreeWidgetItem(trSrc,QStringList(obj.name));
-        print lsDst
+        #print lsDst
     def refreshBufferTab(self, name):
         self.curobj=gcfindObj(self.cfg.bufferList, name);
         self.leBufferName.setText(name);
