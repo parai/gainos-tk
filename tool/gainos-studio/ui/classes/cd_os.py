@@ -76,7 +76,7 @@ class cd_os(QDialog, Ui_cd_os):
     def initGeneral(self):
         self.spbxMaxIpl.setDisabled(True);
         self.cmbxSchedPolicy.setDisabled(True);
-        self.cmbxOSConfCls.setDisabled(True);
+        #self.cmbxOSConfCls.setDisabled(True);
         self.cmbxOSConfCls.setCurrentIndex(self.cmbxOSConfCls.findText(self.cfg.general.os_class));
         self.cmbxStatus.setCurrentIndex(self.cmbxStatus.findText(self.cfg.general.status));
         self.spbxMaxPrio.setValue(self.cfg.general.max_pri);
@@ -524,6 +524,11 @@ class cd_os(QDialog, Ui_cd_os):
     def on_cmbxStatus_activated(self, p0):
         if self.cfg.general.status != p0:
             self.cfg.general.status = p0;
+            self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxOSConfCls_activated(self, p0):
+        if self.cfg.general.os_class != p0:
+            self.cfg.general.os_class = p0;
             self.fileInd(False);
     @pyqtSignature("bool")
     def on_cbxTkExtend_clicked(self, p0):

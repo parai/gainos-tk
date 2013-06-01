@@ -64,11 +64,13 @@ StatusType ActivateTask ( TaskType TaskID )
 	if (TS_DORMANT == state) {
         knl_make_active(tcb);
 	} else {
+	    #if((cfgOS_CONFORMANCE_CLASS == ECC2) || (cfgOS_CONFORMANCE_CLASS == BCC2))
 	    if(tcb->actcnt < knl_gtsk_table[TaskID].maxact)
 	    {
 	        tcb->actcnt += 1;
 	    }
 	    else
+	    #endif
 	    {
 	    	ercd = E_OS_LIMIT;
 		}
@@ -123,12 +125,13 @@ StatusType TerminateTask ( void )
 
 	knl_ctxtsk->state = TS_DORMANT;
 	knl_search_schedtsk();
+	#if((cfgOS_CONFORMANCE_CLASS == ECC2) || (cfgOS_CONFORMANCE_CLASS == BCC2))
 	if(knl_ctxtsk->actcnt > 0)
 	{
 	    knl_ctxtsk->actcnt -= 1;
 	    knl_make_active(knl_ctxtsk);
 	}
-
+    #endif
 	knl_force_dispatch();
 	/* No return */
 
@@ -205,11 +208,13 @@ StatusType ChainTask ( TaskType TaskID )
       	tcb = &knl_tcb_table[TaskID];
         state = (TSTAT)tcb->state;
     	if (TS_DORMANT != state) {
+    	    #if((cfgOS_CONFORMANCE_CLASS == ECC2) || (cfgOS_CONFORMANCE_CLASS == BCC2))
     	    if(tcb->actcnt < knl_gtsk_table[TaskID].maxact)
     	    {
     	        tcb->actcnt += 1;
     	    }
     	    else
+    	    #endif
     	    {
     	    	ercd = E_OS_LIMIT;
     	    	goto Error_Exit;
@@ -218,12 +223,13 @@ StatusType ChainTask ( TaskType TaskID )
     	
     	knl_ctxtsk->state = TS_DORMANT;
     	knl_search_schedtsk();
+    	#if((cfgOS_CONFORMANCE_CLASS == ECC2) || (cfgOS_CONFORMANCE_CLASS == BCC2))
     	if(knl_ctxtsk->actcnt > 0)
     	{
     	    knl_ctxtsk->actcnt -= 1;
     	    knl_make_active(knl_ctxtsk);
     	}
-        
+        #endif
         if (TS_DORMANT == state) {
             knl_make_active(tcb);
     	}
@@ -271,6 +277,8 @@ StatusType Schedule ( void )
     StatusType ercd = E_NOT_OK;
 	OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL);
 	OS_CHECK_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
+	//As Internal Resource was not supported,So in fact this API only has effect on
+	//Non-preemtable Task.
 	BEGIN_CRITICAL_SECTION;
     knl_reschedule();
 	END_CRITICAL_SECTION;

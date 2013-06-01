@@ -49,7 +49,9 @@ EXPORT void knl_reschedule( void )
 	TCB	*toptsk;
 
 	toptsk = knl_ready_queue_top(&knl_ready_queue);
-	if ( knl_schedtsk != toptsk ) {
+	if ( knl_schedtsk != toptsk ){
+	    knl_ready_queue_delete(&knl_ready_queue, toptsk);
+	    knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);  
 		knl_schedtsk = toptsk;
 		knl_dispatch_request();
 	}

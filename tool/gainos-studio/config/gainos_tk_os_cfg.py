@@ -31,7 +31,7 @@ class General():
         self.chip = nd.attrib['chip'];
         self.max_ipl = int(nd.attrib['max_ipl']);
         self.max_pri = int(nd.attrib['max_pri']);
-        self.status = nd.attrib['status'];
+        self.os_class = nd.attrib['os_class'];
         self.status = nd.attrib['status'];
         self.sched_policy = nd.attrib['sched_policy'];
         self.tk_extend = bool(nd.attrib['tk_extend']);
@@ -251,6 +251,7 @@ class gainos_tk_os_cfg():
 #define _OSEK_CFG_H_
 /* =====================  MISC  ========================== */
 """);
+        fp.write('#define cfgOS_CONFORMANCE_CLASS %s\n'%(self.cfg.general.os_class))
         fp.write('#define cfgOS_STATUS_LEVEL OS_STATUS_%s\n'%(self.cfg.general.status));
         fp.write('#define cfgOS_TK_EXTEND %s\n'%(gSTD_ON(self.cfg.general.tk_extend)));
         fp.write('#define CHIP_%s\n'%(self.cfg.general.chip));

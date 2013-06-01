@@ -275,7 +275,7 @@ p, li { white-space: pre-wrap; }
      <attribute name="title">
       <string>Task</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>22</x>
@@ -1023,12 +1023,12 @@ p, li { white-space: pre-wrap; }
      <attribute name="title">
       <string>AppMode</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>20</x>
         <y>20</y>
-        <width>441</width>
+        <width>456</width>
         <height>27</height>
        </rect>
       </property>
