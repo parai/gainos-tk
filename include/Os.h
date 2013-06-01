@@ -30,14 +30,21 @@
 #define OS_STATUS_STANDARD 0
 #define OS_STATUS_EXTEND  1
 
-/* Attribute for task */
-/* Info About Conformance Class of Task, Refer <Task.k> */
-#define BCC1 0x00000001
-#define BCC2 0x00000002
-#define ECC1 0x00000004
-#define ECC2 0x00000008
+/* Info About Conformance Class of OS */
+#define BCC1 1
+#define BCC2 2
+#define ECC1 3
+#define ECC2 4
 
-#define AUTOSTART  0x00000010
+/* Attribute for task */
+// use the atr[3:0] to store the appmode for each task
+/* Default application mode, always a valid parameter to StartOS */
+#define APPMODEMASK      (0x0000000Fu)
+#define OSDEFAULTAPPMODE (0x00000001u)
+#define OSNONEAPPMODE    (0x00000000u)
+//Is Task Preemtable
+#define PREEMTABLE       (0x00000000u)
+#define NON_PREEMTABLE   (0x00000010u)      
 
 #define TMO_FEVR (TickType)(UINT_MAX)
 
@@ -63,8 +70,6 @@
 
 /*  Constant of data type ResourceType (see (osek)chapter 8, Resource management).*/
 #define RES_SCHEDULER 0
-/* Default application mode, always a valid parameter to StartOS */
-#define OSDEFAULTAPPMODE (0x01u)
 
 #define TASK(TaskName) void TaskMain##TaskName(void)
 #define ALARM(AlarmName)     \

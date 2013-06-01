@@ -367,16 +367,19 @@ class DcmRequestService():
             self.name = name;
             self.start = 'NULL';    # StartProtocol callback 
             self.stop  = 'NULL';    # StopProtocol callback
+            self.indication  = 'NULL';    # indication callback
         def save(self, root):
             nd = ET.Element('DcmRequestService');
             nd.attrib['name'] = str(self.name);
             nd.attrib['start'] = str(self.start);
             nd.attrib['stop'] = str(self.stop);
+            nd.attrib['indication'] = str(self.indication);
             root.append(nd);
         def parse(self, nd):
             self.name = nd.attrib['name'];
             self.start = nd.attrib['start'];
             self.stop = nd.attrib['stop'];
+            self.indication = nd.attrib['indication'];
 class DcmSecurityLevel():
     def __init__(self, name):
         self.name = name;
@@ -912,7 +915,9 @@ class gainos_tk_dcm_cfg():
             if(req.start != 'NULL'):
                 fp.write('extern Std_ReturnType %s (Dcm_ProtocolType protocolID);\n'%(req.start))
             if(req.stop != 'NULL'):
-                fp.write('extern Std_ReturnType %s (Dcm_ProtocolType protocolID);\n\n'%(req.stop))
+                fp.write('extern Std_ReturnType %s (Dcm_ProtocolType protocolID);\n'%(req.stop))
+            if(req.indication != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *requestData, uint16 dataSize);\n\n'%(req.indication));
         for sesc in self.cfg.sessionControlList:
             if(sesc.GetSesChgPermission != 'NULL'):
                 fp.write('extern Std_ReturnType %s(Dcm_SesCtrlType sesCtrlTypeActive, Dcm_SesCtrlType sesCtrlTypeNew);\n'%(sesc.GetSesChgPermission));
@@ -1293,12 +1298,25 @@ Dcm_DslBufferRuntimeType rxBufferParams_%s =
             str += '\t{ // %s\n'%(reqser.name);
             str += '\t\t/* StartProtocol = */ %s,\n'%(reqser.start);
             str += '\t\t/* StopProtocol = */ %s,\n'%(reqser.stop);
-            str += '\t\t/* Arc_EOL = */ FALSE'
+            str += '\t\t/* Arc_EOL = */ FALSE\n'
             str += '\t},\n'
         str += '\t{ // %s\n'%('Dummy For EOL');
         str += '\t\t/* StartProtocol = */ %s,\n'%('NULL');
         str += '\t\t/* StopProtocol = */ %s,\n'%('NULL');
-        str += '\t\t/* Arc_EOL = */ TRUE'
+        str += '\t\t/* Arc_EOL = */ TRUE\n'
+        str += '\t}\n'
+        str += '};\n\n';
+        fp.write(str);
+        str = 'const Dcm_DslServiceRequestIndicationType DCMServiceRequestIndicationList[] = {\n'
+        for reqser in self.cfg.requestServiceList:
+            if(reqser.indication != 'NULL'):
+                str += '\t{ // %s\n'%(reqser.name);
+                str += '\t\t/* Indication = */ %s,\n'%(reqser.indication);
+                str += '\t\t/* Arc_EOL = */ FALSE\n'
+                str += '\t},\n'
+        str += '\t{ // %s\n'%('Dummy For EOL');
+        str += '\t\t/* Indication = */ NULL,\n'
+        str += '\t\t/* Arc_EOL = */ TRUE\n'
         str += '\t}\n'
         str += '};\n\n';
         fp.write(str);
@@ -1488,7 +1506,7 @@ const Dcm_DslType Dsl = {
     /* DslDiagResp = */ &DiagResp,
     /* DslProtocol = */ &DslProtocol,
     /* DslProtocolTiming = */ &ProtocolTiming,
-    /* DslServiceRequestIndication = */ NULL,
+    /* DslServiceRequestIndication = */ DCMServiceRequestIndicationList,
     /* DslSessionControl = */ SessionControlList
 };
 

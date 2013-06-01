@@ -44,9 +44,10 @@
 /* |------------------+------------------------------------------------------| */
 /* | Conformance:     | BCC1, BCC2, ECC1, ECC2                               | */
 /* |------------------+------------------------------------------------------| */
-void StartOS ( AppModeType xAppMode )
+void StartOS ( AppModeType AppMode )
 {
     DISABLE_INTERRUPT;
+    knl_app_mode =  AppMode;
     knl_cntalm_init();
     knl_resource_init();
 	knl_task_init();

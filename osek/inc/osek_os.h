@@ -138,6 +138,7 @@ typedef struct task_control_block{
     FP          task;       /* Task Entry */
     VP          isstack;    /* Init Task Stack Top Pointer*/
     UINT		stksz;		/* User stack size (byte) */
+    ATR 	    tskatr;		/* Task attribute */
     //}}
     UINT        actcnt;     /* Task Activate Count */
 	PRI	        priority;	/* Current priority */

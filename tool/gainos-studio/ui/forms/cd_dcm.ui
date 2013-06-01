@@ -409,7 +409,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>11</number>
     </property>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -1832,55 +1832,81 @@ p, li { white-space: pre-wrap; }
      <attribute name="title">
       <string>Request Service</string>
      </attribute>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
         <x>20</x>
         <y>20</y>
         <width>561</width>
-        <height>95</height>
+        <height>130</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_20">
+      <layout class="QVBoxLayout" name="verticalLayout_33">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_48">
+        <layout class="QVBoxLayout" name="verticalLayout_20">
          <item>
-          <widget class="QLabel" name="label_42">
-           <property name="text">
-            <string>Name:</string>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="horizontalLayout_48">
+           <item>
+            <widget class="QLabel" name="label_42">
+             <property name="text">
+              <string>Name:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="leRequestServiceName"/>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QLineEdit" name="leRequestServiceName"/>
+          <layout class="QHBoxLayout" name="horizontalLayout_50">
+           <item>
+            <widget class="QLabel" name="label_44">
+             <property name="text">
+              <string>Start Protocol Callback:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="leRequestServiceStart"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_51">
+           <item>
+            <widget class="QLabel" name="label_45">
+             <property name="text">
+              <string>Stop Protocol Callback:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="leRequestServiceStop"/>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_50">
+        <layout class="QHBoxLayout" name="horizontalLayout_41">
          <item>
-          <widget class="QLabel" name="label_44">
+          <widget class="QLabel" name="label_75">
            <property name="text">
-            <string>Start Protocol Callback:</string>
+            <string>Indication Callback:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="leRequestServiceStart"/>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_51">
-         <item>
-          <widget class="QLabel" name="label_45">
-           <property name="text">
-            <string>Stop Protocol Callback:</string>
+          <widget class="QLineEdit" name="leRequestServiceIndication">
+           <property name="toolTip">
+            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ask for permission&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="leRequestServiceStop"/>
          </item>
         </layout>
        </item>

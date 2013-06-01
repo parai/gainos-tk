@@ -31,6 +31,7 @@ EXPORT RDYQUE	knl_ready_queue;
 EXPORT	INT	    knl_taskindp = 0;
 EXPORT	UINT	knl_taskmode;
 EXPORT TCB	    knl_tcb_table[cfgOSEK_TASK_NUM];
+EXPORT AppModeType knl_app_mode;
 
 /*
  * TCB Initialization
@@ -138,11 +139,12 @@ EXPORT void knl_task_init(void)
     for(i=0,tcb=knl_tcb_table; i < cfgOSEK_TASK_NUM; i++,tcb++)
     {
         tcb->tskid = i;
+        tcb->tskatr = knl_gtsk_table[i].tskatr;
         QueInit(&tcb->tskque);
         tcb->task = knl_gtsk_table[i].task; /* save task entry */
         tcb->isstack = knl_gtsk_table[i].isstack; /* save task stack buffer */
         tcb->stksz  = knl_gtsk_table[i].stksz;
-        if((knl_gtsk_table[i].tskatr) & AUTOSTART)
+        if((tcb->tskatr&APPMODEMASK) == knl_app_mode)
         { 
         	knl_make_active(tcb);
         }

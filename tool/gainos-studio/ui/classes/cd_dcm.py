@@ -493,6 +493,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.leRequestServiceName.setText(self.curobj.name);
         self.leRequestServiceStart.setText(self.curobj.start);
         self.leRequestServiceStop.setText(self.curobj.stop);
+        self.leRequestServiceIndication.setText(self.curobj.indication)
         self.enableTab(10);
     
     def refreshSecurityLevelTab(self, name):
@@ -1339,6 +1340,12 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             if(self.curobj.stop!=p0):
                 self.curobj.stop=p0;
                 self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_leRequestServiceIndication_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.indication!=p0):
+                self.curobj.indication=p0;
+                self.fileInd(False);            
 # ================================= Security Level ==============================
     @pyqtSignature("QString")
     def on_leSecurityLevelName_textChanged(self, p0):

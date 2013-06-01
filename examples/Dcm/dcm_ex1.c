@@ -6,17 +6,6 @@
 #include "PduR.h"
 #include <stdio.h>
 /* 通知回调函数 */
-Std_ReturnType vSecurityLevel_0_GetSeed (uint8 *securityAccessDataRecord, uint8 *seed, 
-                        Dcm_NegativeResponseCodeType *errorCode)
-{
-     printf("in vSecurityLevel_0_GetSeed().\r\n");
-    return E_OK;
-}
-Std_ReturnType vSecurityLevel_0_CompKey (uint8 *key)
-{
-    printf("in vSecurityLevel_0_CompKey().\r\n");
-    return E_OK;
-}
 Std_ReturnType vSecurityLevel_1_GetSeed (uint8 *securityAccessDataRecord, uint8 *seed, 
                         Dcm_NegativeResponseCodeType *errorCode)
 {
@@ -26,16 +15,6 @@ Std_ReturnType vSecurityLevel_1_GetSeed (uint8 *securityAccessDataRecord, uint8 
 Std_ReturnType vSecurityLevel_1_CompKey (uint8 *key)
 {
     printf("in vSecurityLevel_1_CompKey().\r\n");
-    return E_OK;
-}
-Std_ReturnType vRequestService_0_Start (Dcm_ProtocolType protocolID)
-{
-    printf("in vRequestService_0_Start().\r\n");
-    return E_OK;
-}
-Std_ReturnType vRequestService_0_Stop (Dcm_ProtocolType protocolID)
-{
-    printf("in vRequestService_0_Stop().\r\n");
     return E_OK;
 }
 
@@ -50,56 +29,35 @@ Std_ReturnType vRequestService_1_Stop (Dcm_ProtocolType protocolID)
     return E_OK;
 }
 
-Std_ReturnType vSessionControl_0_GetSesChgPer(Dcm_SesCtrlType sesCtrlTypeActive,
-                                             Dcm_SesCtrlType sesCtrlTypeNew)
-{
-    printf("in vSessionControl_0_GetSesChgPer().\r\n");
-    return E_OK;
-}
 Std_ReturnType vSessionControl_1_GetSesChgPer(Dcm_SesCtrlType sesCtrlTypeActive, 
                                             Dcm_SesCtrlType sesCtrlTypeNew)
 {
     printf("in vSessionControl_1_GetSesChgPer().\r\n");
     return E_OK;
 }
-
-Std_ReturnType vDid_0_ReadDataLength_Cbk(uint16 *didLength)
-{
-}
-Std_ReturnType vDid_0_ConditionCheckRead_Cbk(Dcm_NegativeResponseCodeType *errorCode){
-
-}
-Std_ReturnType vDid_0_ReadData_Cbk(uint8 *data){
-
-}
-Std_ReturnType vDid_0_ConditionCheckWrite_Cbk(Dcm_NegativeResponseCodeType *errorCode){
-
-}
-Std_ReturnType vDid_0_WriteData_Cbk(uint8 *data, uint16 dataLength, 
-                            Dcm_NegativeResponseCodeType *errorCode){
-}
-Std_ReturnType vDid_0_GetScalingInfo_Cbk(uint8 *scalingInfo, 
-                            Dcm_NegativeResponseCodeType *errorCode){
-}
 Std_ReturnType vDid_1_ReadDataLength_Cbk(uint16 *didLength){
-
+    return E_OK;
 }
 Std_ReturnType vDid_1_ConditionCheckRead_Cbk(Dcm_NegativeResponseCodeType *errorCode){
-
+    return E_OK;
 }
 Std_ReturnType vDid_1_ReadData_Cbk(uint8 *data){
 
 }
 Std_ReturnType vDid_1_ConditionCheckWrite_Cbk(Dcm_NegativeResponseCodeType *errorCode){
-
+    return E_OK;
 }
 Std_ReturnType vDid_1_WriteData_Cbk(uint8 *data, uint16 dataLength, 
                 Dcm_NegativeResponseCodeType *errorCode){
-                
+    return E_OK;               
 }
 Std_ReturnType vDid_1_GetScalingInfo_Cbk(uint8 *scalingInfo, 
                 Dcm_NegativeResponseCodeType *errorCode){
-
+    return E_OK;
+}
+Std_ReturnType vRequestService_1_Indication(uint8 *requestData, uint16 dataSize)
+{
+    return E_OK;
 }
 /* Dcm Example Initialise Routine.
  * 初始化Can、CanIf、PduR和DCM ，

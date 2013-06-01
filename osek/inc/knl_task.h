@@ -76,6 +76,7 @@ IMPORT TCB	knl_tcb_table[cfgOSEK_TASK_NUM];
 IMPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM];
 IMPORT	INT  	knl_taskindp;
 IMPORT	UINT	knl_taskmode;
+IMPORT  AppModeType knl_app_mode;
 
 /* ============================ FUNCTIONs    ====================================== */
 IMPORT void knl_task_init(void);
