@@ -447,9 +447,11 @@ void DcmEx1Sender(void)
 //============================= OS TASK ==============================
 extern void DcmEx1Init(void);
 #include "osek_os.h"
+extern CCB knl_ccb_table[];
 TASK(vTaskInit)
 {
 	StatusType ercd;
+	knl_ccb_table[0].curvalue = 60000 -1000;
 	(void)SetRelAlarm(ID_vAlarmReceiver,50,10);
 	(void)SetRelAlarm(ID_vAlarmSender,100,200);
 	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms

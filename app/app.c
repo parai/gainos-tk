@@ -7,13 +7,15 @@
 #include "Os.h"
 #include <stdio.h>
 
-
+#include "osek_os.h"
+extern CCB knl_ccb_table[];
 TASK(vTaskInit)
 {
+    knl_ccb_table[0].curvalue = 60000 - 1000;
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    (void)ActivateTask(ID_vTaskSender);
-    (void)ActivateTask(ID_vTaskReceiver);
-    (void)ActivateTask(ID_vTaskMainFunction);
+	(void)SetRelAlarm(ID_vAlarmReceiver,50,10);
+	(void)SetRelAlarm(ID_vAlarmSender,100,200);
+	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
     printf("vTaskInit is running.\r\n");
     (void)TerminateTask();
 }

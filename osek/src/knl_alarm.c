@@ -71,11 +71,11 @@ EXPORT void knl_alm_insert(ALMCB *almcb,CCB* ccb)
     if(almcb->time < ccb->curvalue)
     {   /* It's an overflowed alarm,search from previous */
         for ( q = ccb->almque.prev; q != &ccb->almque; q = q->prev ) {
-    		if ( ((almcb->time > ((ALMCB*)q)->time)) || (ccb->curvalue < ((ALMCB*)q)->time) ) {
+    		if ( ((almcb->time > ((ALMCB*)q)->time)) || (ccb->curvalue <= ((ALMCB*)q)->time) ) {
     			break;
     		}
 	    }
-	    q = ccb->almque.next;
+	    q = q->next;
     }
     else
     {
