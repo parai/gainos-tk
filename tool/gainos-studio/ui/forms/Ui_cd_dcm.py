@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_dcm.ui'
 #
-# Created: Sun Jun 02 12:03:53 2013
+# Created: Sun Jun 02 15:33:05 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -1401,12 +1401,12 @@ class Ui_cd_dcm(object):
 
         self.retranslateUi(cd_dcm)
         self.tabWidget.setCurrentIndex(0)
-        self.tblDcmCfg.setCurrentIndex(19)
+        self.tblDcmCfg.setCurrentIndex(17)
         self.table.setCurrentIndex(0)
         self.tabWidget_3.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
         self.tabWidget_5.setCurrentIndex(0)
-        self.fgfgf.setCurrentIndex(0)
+        self.fgfgf.setCurrentIndex(1)
         self.tabWidget_7.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(cd_dcm)
 
@@ -1479,7 +1479,7 @@ class Ui_cd_dcm(object):
         self.label_11.setText(QtGui.QApplication.translate("cd_dcm", "Name:", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxDidInfoFixedLength.setText(QtGui.QApplication.translate("cd_dcm", "Fixed length", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxDidInfoDynamicllyDefined.setText(QtGui.QApplication.translate("cd_dcm", "Dynamically defined", None, QtGui.QApplication.UnicodeUTF8))
-        self.cbxDidInfoScalingEnable.setText(QtGui.QApplication.translate("cd_dcm", "Scaling info size:", None, QtGui.QApplication.UnicodeUTF8))
+        self.cbxDidInfoScalingEnable.setText(QtGui.QApplication.translate("cd_dcm", "Scaling info size(byte):", None, QtGui.QApplication.UnicodeUTF8))
         self.tblDcmCfg.setTabText(self.tblDcmCfg.indexOf(self.tab_5), QtGui.QApplication.translate("cd_dcm", "Did Info", None, QtGui.QApplication.UnicodeUTF8))
         self.trDidCtrlSecDst.headerItem().setText(0, QtGui.QApplication.translate("cd_dcm", "Security level", None, QtGui.QApplication.UnicodeUTF8))
         self.btnDidCtrlSecAdd.setText(QtGui.QApplication.translate("cd_dcm", "<<", None, QtGui.QApplication.UnicodeUTF8))
@@ -1518,7 +1518,17 @@ class Ui_cd_dcm(object):
         self.tblDcmCfg.setTabText(self.tblDcmCfg.indexOf(self.tab_8), QtGui.QApplication.translate("cd_dcm", "Did Write", None, QtGui.QApplication.UnicodeUTF8))
         self.label_15.setText(QtGui.QApplication.translate("cd_dcm", "Name:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_16.setText(QtGui.QApplication.translate("cd_dcm", "Identifier:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_10.setText(QtGui.QApplication.translate("cd_dcm", "Size(bit):", None, QtGui.QApplication.UnicodeUTF8))
+        self.leDidId.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Note That:Id is 15 bits Only.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_10.setText(QtGui.QApplication.translate("cd_dcm", "Size(byte):", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxDidSize.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">only available when did is fixed length</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_17.setText(QtGui.QApplication.translate("cd_dcm", "Did Info:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_18.setText(QtGui.QApplication.translate("cd_dcm", "Did References:", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxDidRef.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -1644,6 +1654,11 @@ class Ui_cd_dcm(object):
         self.tblDcmCfg.setTabText(self.tblDcmCfg.indexOf(self.tab_30), QtGui.QApplication.translate("cd_dcm", "Routine Stop", None, QtGui.QApplication.UnicodeUTF8))
         self.label_52.setText(QtGui.QApplication.translate("cd_dcm", "Name:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_54.setText(QtGui.QApplication.translate("cd_dcm", "Identifier:", None, QtGui.QApplication.UnicodeUTF8))
+        self.leRoutineId.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Note That:Id is 15 bits Only.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_53.setText(QtGui.QApplication.translate("cd_dcm", "Routine Info:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_55.setText(QtGui.QApplication.translate("cd_dcm", "Request Result Callback:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_56.setText(QtGui.QApplication.translate("cd_dcm", "Start Routine Callback:", None, QtGui.QApplication.UnicodeUTF8))
@@ -1652,6 +1667,12 @@ class Ui_cd_dcm(object):
         self.tblDcmCfg.setTabText(self.tblDcmCfg.indexOf(self.tab_31), QtGui.QApplication.translate("cd_dcm", "Routine", None, QtGui.QApplication.UnicodeUTF8))
         self.label_58.setText(QtGui.QApplication.translate("cd_dcm", "Name:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_59.setText(QtGui.QApplication.translate("cd_dcm", "Level:", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxSecurityLevel.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">From 0 to 31.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">0 == Locked.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_61.setText(QtGui.QApplication.translate("cd_dcm", "Access Data Record Size:", None, QtGui.QApplication.UnicodeUTF8))
         self.spbxSecurityLevelRecordSize.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"

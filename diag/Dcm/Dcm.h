@@ -39,7 +39,7 @@
 #include "ComStack_Types.h"
 #include "Dcm_Cbk.h"
 
-#if (DCM_DEV_ERROR_DETECT == STD_ON)
+//#if (DCM_DEV_ERROR_DETECT == STD_ON)
 // Error codes produced by this module defined by Autosar
 #define DCM_E_INTERFACE_TIMEOUT				0x01
 #define DCM_E_INTERFACE_VALUE_OUT_OF_RANGE	0x02
@@ -74,7 +74,7 @@
 #define DCM_CHANGE_DIAGNOSTIC_SESSION_ID	0x88
 #define DCM_GLOBAL_ID						0xff
 
-#endif
+//#endif
 
 /*
  * Interfaces for BSW components (8.3.1)
