@@ -118,6 +118,29 @@ Std_ReturnType vRequestService_1_Indication(uint8 *requestData, uint16 dataSize)
 {
     return E_OK;
 }
+Std_ReturnType vRoutine_1_Start(uint8 *inBuffer, uint8 *outBuffer, 
+                            Dcm_NegativeResponseCodeType *errorCode)
+{
+    *errorCode = DCM_E_POSITIVERESPONSE;
+    outBuffer[0] = 0xBF;
+    printf("in  vRoutine_1_Start().\r\n[");
+    return E_OK;   
+}
+Std_ReturnType vRoutine_1_Stop(uint8 *inBuffer, uint8 *outBuffer, 
+                            Dcm_NegativeResponseCodeType *errorCode)
+{
+    *errorCode = DCM_E_POSITIVERESPONSE;
+    outBuffer[0] = 0xEF;
+    printf("in  vRoutine_1_Stop().\r\n[");
+    return E_OK; 
+}
+Std_ReturnType vRoutine_1_RequestResult(uint8 *outBuffer, Dcm_NegativeResponseCodeType *errorCode)
+{
+    *errorCode = DCM_E_POSITIVERESPONSE;
+    outBuffer[0] = 0xDB;
+    printf("in  vRoutine_1_RequestResult().\r\n[");
+    return E_OK; 
+}
 /* Dcm Example Initialise Routine.
  * 初始化Can、CanIf、PduR和DCM ，
  * 需要使用“dcm_ex1.arxml”生成其相应配置文件。*/
@@ -227,6 +250,37 @@ static void ex1WriteDataById(void)
     
     CanIf_Transmit(vCanIf_Channel_0, &pduinfo);
 }
+static void ex1RoutineControl(void)
+{
+    uint8  sduData[8];
+    static uint8 callcnt = 0;
+    PduInfoType pduinfo;
+    sduData[0] = ISO15765_TPCI_SF | 4;
+    sduData[1] = 0x31;
+    callcnt++;
+    switch(callcnt)
+    {
+        case 1:
+            sduData[2] = 0x01;  //start routine
+        break;
+        case 2:
+            sduData[2] = 0x02;  //stop routine
+        break;
+        case 3:
+            sduData[2] = 0x03;  //request routine result
+        break;
+        default:
+            callcnt = 3;
+            return;
+        break;
+    }
+    sduData[3] = 0x88;   //id = 0x8888;
+    sduData[4] = 0x88;
+    pduinfo.SduDataPtr = sduData;
+    pduinfo.SduLength = 5;
+    
+    CanIf_Transmit(vCanIf_Channel_0, &pduinfo);
+}
 // this is the Client reveiver
 void CanIf_UserRxIndication(uint8 channel, PduIdType pduId, const uint8 *sduPtr,
                            uint8 dlc, Can_IdType canId)
@@ -300,6 +354,9 @@ void DcmEx1Sender(void)
         case 5:
             ex1WriteDataById();
         break;
+        case 6:
+            ex1RoutineControl();
+        break;
         default:
             callcnt = 5;
         break;
@@ -341,15 +398,6 @@ TASK(vTaskMainFunction)
     /* Add your task special code here, but Don't delete this Task declaration.*/
     //(void)printf("vTaskMainFunction is running.\r\n");
     DcmEx1MainFunction();
-    (void)TerminateTask();
-}
-
-TASK(vTaskIdle)
-{
-    /* Add your task special code here, but Don't delete this Task declaration.*/
-	for(;;)
-	{
-	}
     (void)TerminateTask();
 }
 

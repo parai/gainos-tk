@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_dcm.ui'
 #
-# Created: Sat Jun 01 15:54:14 2013
+# Created: Sun Jun 02 12:03:53 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -1401,7 +1401,7 @@ class Ui_cd_dcm(object):
 
         self.retranslateUi(cd_dcm)
         self.tabWidget.setCurrentIndex(0)
-        self.tblDcmCfg.setCurrentIndex(5)
+        self.tblDcmCfg.setCurrentIndex(19)
         self.table.setCurrentIndex(0)
         self.tabWidget_3.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
@@ -1610,12 +1610,37 @@ class Ui_cd_dcm(object):
         self.fgfgf.setTabText(self.fgfgf.indexOf(self.tab_27), QtGui.QApplication.translate("cd_dcm", "Session", None, QtGui.QApplication.UnicodeUTF8))
         self.tblDcmCfg.setTabText(self.tblDcmCfg.indexOf(self.tab_25), QtGui.QApplication.translate("cd_dcm", "Routine Authorization", None, QtGui.QApplication.UnicodeUTF8))
         self.label_47.setText(QtGui.QApplication.translate("cd_dcm", "Record size of response:", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxRtnReqResSize.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This is the optional parameter size of sub function response</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblDcmCfg.setTabText(self.tblDcmCfg.indexOf(self.tab_28), QtGui.QApplication.translate("cd_dcm", "Routine Request", None, QtGui.QApplication.UnicodeUTF8))
         self.label_48.setText(QtGui.QApplication.translate("cd_dcm", "Record size of request:", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxRtnStartReqSize.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This is the optional parameter size of sub function request</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_49.setText(QtGui.QApplication.translate("cd_dcm", "Record size of response:", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxRtnStartResSize.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This is the optional parameter size of sub function response</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblDcmCfg.setTabText(self.tblDcmCfg.indexOf(self.tab_29), QtGui.QApplication.translate("cd_dcm", "Routine Start", None, QtGui.QApplication.UnicodeUTF8))
         self.label_50.setText(QtGui.QApplication.translate("cd_dcm", "Record size of request:", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxRtnStopReqSize.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This is the optional parameter size of sub function request</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_51.setText(QtGui.QApplication.translate("cd_dcm", "Record size of response:", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxRtnStopResSize.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This is the optional parameter size of sub function response</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblDcmCfg.setTabText(self.tblDcmCfg.indexOf(self.tab_30), QtGui.QApplication.translate("cd_dcm", "Routine Stop", None, QtGui.QApplication.UnicodeUTF8))
         self.label_52.setText(QtGui.QApplication.translate("cd_dcm", "Name:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_54.setText(QtGui.QApplication.translate("cd_dcm", "Identifier:", None, QtGui.QApplication.UnicodeUTF8))
@@ -1665,6 +1690,11 @@ class Ui_cd_dcm(object):
         self.cmbxServiceID.setItemText(12, QtGui.QApplication.translate("cd_dcm", "SID_TESTER_PRESENT", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxServiceID.setItemText(13, QtGui.QApplication.translate("cd_dcm", "SID_CONTROL_DTC_SETTING", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxServiceID.setItemText(14, QtGui.QApplication.translate("cd_dcm", "SID_NEGATIVE_RESPONSE", None, QtGui.QApplication.UnicodeUTF8))
+        self.cbxSubfuncAvail.setToolTip(QtGui.QApplication.translate("cd_dcm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Now,I am not that clear of the use of DsdSidTabSubfuncAvail.But I know if it is False,there will always a positive response.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxSubfuncAvail.setText(QtGui.QApplication.translate("cd_dcm", "Sub Function Available", None, QtGui.QApplication.UnicodeUTF8))
         self.tblDcmCfg.setTabText(self.tblDcmCfg.indexOf(self.tab_34), QtGui.QApplication.translate("cd_dcm", "Service", None, QtGui.QApplication.UnicodeUTF8))
         self.label_67.setText(QtGui.QApplication.translate("cd_dcm", "Name:", None, QtGui.QApplication.UnicodeUTF8))

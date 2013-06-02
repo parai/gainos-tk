@@ -537,8 +537,8 @@ class DcmRoutineInfoAuthorization():
 class DcmRoutineInfoStart():
     def __init__(self, name):
         self.name = name;  
-        self.DspStartRoutineCtrlOptRecSize = 5; # I am confused
-        self.DspStartRoutineStsOptRecSize = 5;
+        self.DspStartRoutineCtrlOptRecSize = 0; # Routine Option Parameter For Start
+        self.DspStartRoutineStsOptRecSize = 0;  # Routine Option Response Result For Start
     def save(self, root):
         nd = ET.Element('DcmRoutineInfoStart');
         nd.attrib['name'] = str(self.name);
@@ -552,8 +552,8 @@ class DcmRoutineInfoStart():
 class DcmRoutineInfoStop():
     def __init__(self, name):
         self.name = name;  
-        self.DspStopRoutineCtrlOptRecSize = 5;
-        self.DspStopRoutineStsOptRecSize = 5;
+        self.DspStopRoutineCtrlOptRecSize = 0;
+        self.DspStopRoutineStsOptRecSize = 0;
     def save(self, root):
         nd = ET.Element('DcmRoutineInfoStop');
         nd.attrib['name'] = str(self.name);
@@ -567,7 +567,7 @@ class DcmRoutineInfoStop():
 class DcmRoutineInfoRequest():
     def __init__(self, name):
         self.name = name;  
-        self.DspReqResRtnCtrlOptRecSize = 5  # respones record size
+        self.DspReqResRtnCtrlOptRecSize = 0  # respones record size
     def save(self, root):
         nd = ET.Element('DcmService');
         nd.attrib['name'] = str(self.name);
@@ -921,6 +921,13 @@ class gainos_tk_dcm_cfg():
         for sesc in self.cfg.sessionControlList:
             if(sesc.GetSesChgPermission != 'NULL'):
                 fp.write('extern Std_ReturnType %s(Dcm_SesCtrlType sesCtrlTypeActive, Dcm_SesCtrlType sesCtrlTypeNew);\n'%(sesc.GetSesChgPermission));
+        for rtn in self.cfg.routineList:
+            if(rtn.DspStartRoutineFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *inBuffer, uint8 *outBuffer, Dcm_NegativeResponseCodeType *errorCode);\n'%(rtn.DspStartRoutineFnc));
+            if(rtn.DspStopRoutineFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *inBuffer, uint8 *outBuffer, Dcm_NegativeResponseCodeType *errorCode);\n'%(rtn.DspStopRoutineFnc));
+            if(rtn.DspRequestResultRoutineFnc != 'NULL'):
+                fp.write('extern Std_ReturnType %s(uint8 *outBuffer, Dcm_NegativeResponseCodeType *errorCode);\n'%(rtn.DspRequestResultRoutineFnc));
         # -=-=-==------- Security Level
         if(len(self.cfg.securityLevelList)):
             str = 'const Dcm_DspSecurityRowType DspSecurityList[] = {\n'
