@@ -251,6 +251,10 @@ class gainos_tk_os_cfg():
 #define _OSEK_CFG_H_
 /* =====================  MISC  ========================== */
 """);
+        fp.write('#define FULL_PREEMPTIVE_SCHEDULE  0\n');
+        fp.write('#define MIXED_PREEMPTIVE_SCHEDULE 1\n');
+        fp.write('#define NONE_PREEMPTIVE_SCHEDULE  2\n');
+        fp.write('#define cfgOS_SCHEDULE_POLICY %s\n'%(self.cfg.general.sched_policy));
         fp.write('#define cfgOS_CONFORMANCE_CLASS %s\n'%(self.cfg.general.os_class))
         fp.write('#define cfgOS_STATUS_LEVEL OS_STATUS_%s\n'%(self.cfg.general.status));
         fp.write('#define cfgOS_TK_EXTEND %s\n'%(gSTD_ON(self.cfg.general.tk_extend)));
@@ -280,8 +284,10 @@ class gainos_tk_os_cfg():
         for obj in self.cfg.taskList:
             fp.write('#define ID_%s %s\n'%(obj.name,id))
             id+=1;
+        fp.write('#if !defined(MACROS_ONLY)\n')
         for obj in self.cfg.taskList:
             fp.write('IMPORT TASK(%s);\n'%(obj.name));
+        fp.write('#endif')
         #==================================== EVENT ================================
         fp.write('\n/* =====================  EVENT ========================== */\n')
         id = 0;
@@ -303,8 +309,11 @@ class gainos_tk_os_cfg():
         id = 0;
         for obj in self.cfg.alarmList:
             fp.write('#define ID_%s %s\n'%(obj.name,id));
-            fp.write('IMPORT ALARM(%s);\n'%(obj.name));
             id+=1;
+        fp.write('#if !defined(MACROS_ONLY)\n')
+        for obj in self.cfg.alarmList:
+            fp.write('IMPORT ALARM(%s);\n'%(obj.name));
+        fp.write('#endif')
         #=============================== RESOURCE ======================
         fp.write('\n/*  ====================  RESOURCE ======================= */\n');
         fp.write('#define cfgOSEK_RESOURCE_NUM %s\n'%(len(self.cfg.resourceList)));
@@ -336,15 +345,29 @@ class gainos_tk_os_cfg():
             stack += 'GenTaskStack(%s,%s);\n'%(tsk.name, tsk.stksz);
             gtsk += '\tGenTaskInfo(%s,%s,%s,'%(tsk.name, tsk.prio, tsk.stksz);
             gtsk += '%s'%(tsk.appmode);
-            if(tsk.preemtable):
+            if(self.cfg.general.sched_policy == 'MIXED_PREEMPTIVE_SCHEDULE'):
+                if(tsk.preemtable):
+                    gtsk += '|PREEMTABLE,'
+                else:
+                    gtsk += '|NON_PREEMTABLE,'
+            elif(self.cfg.general.sched_policy == 'FULL_PREEMPTIVE_SCHEDULE'):
                 gtsk += '|PREEMTABLE,'
-            else:
+            elif(self.cfg.general.sched_policy == 'NONE_PREEMPTIVE_SCHEDULE'):
                 gtsk += '|NON_PREEMTABLE,'
             if(len(tsk.eventList)>0):
                 gtsk += 'ID_%sEvent,'%(tsk.name);
             else:
                 gtsk += 'INVALID_EVENT,'
-            gtsk += '%s),\n'%(tsk.maxactcnt);
+            gtsk += '%s,'%(tsk.maxactcnt);
+            if(self.cfg.general.sched_policy == 'MIXED_PREEMPTIVE_SCHEDULE'):
+                if(tsk.preemtable):
+                    gtsk += '%s),\n'%(tsk.prio);
+                else:
+                    gtsk += '0),\n'
+            elif(self.cfg.general.sched_policy == 'FULL_PREEMPTIVE_SCHEDULE'):
+                gtsk += '%s),\n'%(tsk.prio);
+            elif(self.cfg.general.sched_policy == 'NONE_PREEMPTIVE_SCHEDULE'):
+                gtsk += '0),\n'
         gtsk += '};\n\n';
         fp.write(stack);
         fp.write(gtsk);

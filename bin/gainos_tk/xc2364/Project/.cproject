@@ -23,6 +23,7 @@
 							<tool id="com.tasking.c166.cc.abs.debug.1836912261" name="C/C++ Compiler" superClass="com.tasking.c166.cc.abs.debug">
 								<option id="com.tasking.c166.cc.pr36858.1522542053" name="workaround for PR36858" superClass="com.tasking.c166.cc.pr36858" value="true" valueType="string"/>
 								<option id="com.tasking.c166.cc.noTaskingSfr.891269572" name="Automatic inclusion of '.sfr' file" superClass="com.tasking.c166.cc.noTaskingSfr" value="false" valueType="boolean"/>
+								<option id="com.tasking.c166.cc.additionalOptions.1159123566" superClass="com.tasking.c166.cc.additionalOptions" value="-DcfgOSEK_STD_ISR_PROCESS" valueType="string"/>
 								<inputType id="com.tasking.c166.cppInputType.704305219" name="C++" superClass="com.tasking.c166.cppInputType"/>
 								<inputType id="com.tasking.c166.cpp.cInputType.1894273246" name="C" superClass="com.tasking.c166.cpp.cInputType"/>
 								<inputType id="com.tasking.c166.cc.msInputType.70785199" name="MS" superClass="com.tasking.c166.cc.msInputType"/>

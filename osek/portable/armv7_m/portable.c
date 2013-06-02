@@ -58,7 +58,14 @@ EXPORT void knl_start_hw_timer( void )
     while (1);
   }
 }
-
+EXPORT void knl_activate_rr(void)
+{
+	/* This is the most easiest Way to get Internal Resourse and
+     * to make a task non-preemtable I think */
+    knl_ctxtsk->priority = knl_ctxtsk->runpri;
+	ENABLE_INTERRUPT;
+    knl_ctxtsk->task();
+}
 EXPORT void knl_setup_context( TCB *tcb )
 {
     tcb->tskctxb.ssp = tcb->isstack;

@@ -51,7 +51,7 @@ EXPORT void knl_reschedule( void )
 	toptsk = knl_ready_queue_top(&knl_ready_queue);
 	if ( knl_schedtsk != toptsk ){
 	    knl_ready_queue_delete(&knl_ready_queue, toptsk);
-	    knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);  
+	    knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);
 		knl_schedtsk = toptsk;
 		knl_dispatch_request();
 	}
@@ -62,36 +62,30 @@ EXPORT void knl_reschedule( void )
  */
 EXPORT void knl_make_active( TCB *tcb )
 {
-	/* Initialize variables which should be reset at DORMANT state */
-    // remove it for C166(USP and SSP)
-	//tcb->state	= TS_DORMANT;
 	tcb->priority = knl_gtsk_table[tcb->tskid].itskpri;
 	#if(cfgOSEK_EVENTFLAG_NUM > 0)
     {
         ID flgid;
         flgid = knl_gtsk_table[tcb->tskid].flgid;
         if(flgid != INVALID_EVENT)
-        { 
+        {
             knl_flgcb_table[flgid].flgptn=NO_EVENT;
             knl_flgcb_table[flgid].waipth=NO_EVENT;
         }
     }
     #endif
-//	tcb->klockwait	= FALSE;
-//	tcb->klocked	= FALSE;
 
     QueInit(&tcb->resque);
 
 	/* Set context to start task */
 	knl_setup_context(tcb);
-	
+
 	knl_make_runnable(tcb);
 }
-
 /*
  * Set task to runnable state.
- *	Update the task state and insert in the ready queue. If necessary, 
- *	update 'knl_schedtsk' and request to start task dispatcher. 
+ *	Update the task state and insert in the ready queue. If necessary,
+ *	update 'knl_schedtsk' and request to start task dispatcher.
  */
 EXPORT void knl_make_runnable( TCB *tcb )
 {
@@ -100,12 +94,13 @@ EXPORT void knl_make_runnable( TCB *tcb )
 	{
 	    if(tcb->priority < knl_schedtsk->priority)
 	    {   /* tcb has higher priority */
-	        knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);       
+	        //TODO:How to implement Task (Non)Preemtable,Mean OS Schedule Policy
+            knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);
 	    }
 	    else
 	    {   /* tcb has lower priority */
 	        knl_ready_queue_insert(&knl_ready_queue, tcb);
-	        return;  
+	        return;
 	    }
 	}
 	knl_schedtsk = tcb;
@@ -113,7 +108,7 @@ EXPORT void knl_make_runnable( TCB *tcb )
 }
 
 /*
- * search the next high ready schedtsk 
+ * search the next high ready schedtsk
  * and then detach it from the ready queue, as it is able to run
  */
 EXPORT void knl_search_schedtsk(void)
@@ -122,7 +117,7 @@ EXPORT void knl_search_schedtsk(void)
     if(NULL != knl_schedtsk)
     {
         knl_ready_queue_delete(&knl_ready_queue, knl_schedtsk);
-    } 
+    }
 }
 
 EXPORT void knl_preempt(void)
@@ -146,8 +141,10 @@ EXPORT void knl_task_init(void)
         tcb->task = knl_gtsk_table[i].task; /* save task entry */
         tcb->isstack = knl_gtsk_table[i].isstack; /* save task stack buffer */
         tcb->stksz  = knl_gtsk_table[i].stksz;
+        tcb->runpri = knl_gtsk_table[i].runpri;
+        tcb->actcnt = 0;
         if((tcb->tskatr&APPMODEMASK) == knl_app_mode)
-        { 
+        {
         	knl_make_active(tcb);
         }
         else

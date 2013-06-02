@@ -47,29 +47,30 @@
 #define DeclareTask(TaskName)  TaskType TaskName
 #define GenTaskStack(TaskName,stksz)  static uint32 TaskStack##TaskName[stksz/4]
 /* Task Generate information */
-#define GenTaskInfo(TaskName,Priority,stksz,Attribute,flgid,maxact)             \
-    {                                                           \
-        /* tskatr */   Attribute,                               \
-        /* task */     TaskMain##TaskName,                      \
-        /* itskpri */Priority,                                \
-        /* sstksz */   stksz,             \
-        /* isstack */  &TaskStack##TaskName[stksz/4-1],               \
-        /* flgid */  flgid,                    \
-        /* maxact */  maxact        \
-    }                                                     
-                                  
-#define GenAlarmInfo(AlarmName,Owner)   \
-{                                       \
-    /* owner */ ID_##Owner,                              \
-    /* almhdr */ AlarmMain##AlarmName                \
-}
+#define GenTaskInfo(TaskName,Priority,stksz,Attribute,flgid,maxact,runpri) \
+    {                                                                   \
+        /* tskatr */   Attribute,                                       \
+            /* task */     TaskMain##TaskName,                          \
+            /* itskpri */Priority,                                      \
+            /* sstksz */   stksz,                                       \
+            /* isstack */  &TaskStack##TaskName[stksz/4-1],             \
+            /* flgid */  flgid,                                         \
+            /* maxact */  maxact,                                       \
+            /* runpri */ runpri                                         \
+            }
 
-#define GenAlarmBaseInfo(MaxAllowedValue,TicksPerBase,MinCycle)    \
-{                               \
-    MaxAllowedValue,            \
-    TicksPerBase,               \
-    MinCycle                    \
-}
+#define GenAlarmInfo(AlarmName,Owner)           \
+    {                                           \
+        /* owner */ ID_##Owner,                 \
+            /* almhdr */ AlarmMain##AlarmName   \
+            }
+
+#define GenAlarmBaseInfo(MaxAllowedValue,TicksPerBase,MinCycle) \
+    {                                                           \
+        MaxAllowedValue,                                        \
+            TicksPerBase,                                       \
+            MinCycle                                            \
+            }
 
 /* ============================ TYPEs FOR QUEUE   ========================================== */
 /*
@@ -84,7 +85,7 @@ typedef struct queue {
 /*
  * Internal expression of task state
  *	Can check with 'state & TS_WAIT' whether the task is in the wait state.
- *	Can check with 'state & TS_SUSPEND' whether the task is in the forced 
+ *	Can check with 'state & TS_SUSPEND' whether the task is in the forced
  *	wait state.
  */
 typedef enum {
@@ -128,43 +129,45 @@ typedef struct t_gtsk {
 	VP	    isstack;	/* User stack top pointer */
     ID      flgid;      /* Event Id occupied by task */
     UINT    maxact;     /* Task maxium activate count */
+    PRI     runpri;     /* Task priority When it Start To Running */
 } T_GTSK;
 
 typedef struct task_control_block{
     QUEUE	    tskque;		/* Task queue */
     CTXB     	tskctxb;	/* Task context block */
-    //{{    Yes, the three var help the os run fast by a more usage of RAM
+    //{{    Yes, the 6 var help the os run fast by a more usage of RAM
     TaskType    tskid;      /* Task ID */
     FP          task;       /* Task Entry */
     VP          isstack;    /* Init Task Stack Top Pointer*/
     UINT		stksz;		/* User stack size (byte) */
     ATR 	    tskatr;		/* Task attribute */
+    PRI         runpri;     /* Task priority When it Start To Running */
     //}}
     UINT        actcnt;     /* Task Activate Count */
 	PRI	        priority;	/* Current priority */
 //	BOOL	    klockwait:1;	/* TRUE at wait kernel lock */
-//	BOOL     	klocked:1;	    /* TRUE at hold kernel lock */	
+//	BOOL     	klocked:1;	    /* TRUE at hold kernel lock */
 	UB /*TSTAT*/	state;  	/* Task state (Int. expression) */
 #if(cfgOS_TK_EXTEND == STD_ON)
 	WSPEC *	        wspec;	  /* Wait specification */
 	StatusType *    wercd;    /* Wait error code set area */
 	ID	            wid;	  /* Wait object ID */
-	UINT	        wupcnt;   /* Number of wakeup requests queuing */	
+	UINT	        wupcnt;   /* Number of wakeup requests queuing */
 	TMEB	        wtmeb;	  /* Wait timer event block */
 #endif
-	QUEUE resque;	/* queue to hold resources */		 
+	QUEUE resque;	/* queue to hold resources */
 }TCB;
 
 /*
- * Definition of ready queue structure 
+ * Definition of ready queue structure
  *	In the ready queue, the task queue 'tskque' is provided per priority.
  *	The task TCB is registered onto queue with the applicable priority.
  *	For effective ready queue search, the bitmap area 'bitmap' is provided
  *	to indicate whether there are tasks in task queue per priority.
- *	
- *	Also, to search a task at the highest priority in the ready queue  
+ *
+ *	Also, to search a task at the highest priority in the ready queue
  *    	effectively, put the highest task priority in the 'top_priority' field.
- *	If the ready queue is empty, set the value in this field to NUM_PRI. 
+ *	If the ready queue is empty, set the value in this field to NUM_PRI.
  *	In this case, to return '0' with refering 'tskque[top_priority]',
  *      there is 'null' field which is always '0'.
  *

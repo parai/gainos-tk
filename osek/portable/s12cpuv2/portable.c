@@ -68,6 +68,9 @@ EXPORT void knl_start_hw_timer( void )
 }
 EXPORT void knl_activate_r(void)
 {
+    /* This is the most easiest Way to get Internal Resourse and
+     * to make a task non-preemtable I think */
+    knl_ctxtsk->priority = knl_ctxtsk->runpri;
     __asm CLI; // enable interrupt
     knl_ctxtsk->task();
 }

@@ -297,6 +297,9 @@ void knl_activate_r(void)
 	__mtcr( PCXI, 0 );
 	__isync();
 	knl_set_ipl(0);
+	/* This is the most easiest Way to get Internal Resourse and
+     * to make a task non-preemtable I think */
+    knl_ctxtsk->priority = knl_ctxtsk->runpri;
 	__enable();
 	{	//jump to task
 		UW task = (UW)knl_ctxtsk->task;

@@ -4,7 +4,6 @@
  * Email: parai@foxmail.com
  * URL: https://github.com/parai/gainos-tk  && http://hi.baidu.com/parai
  */
-#if 0
 #include "Os.h"
 #include <stdio.h>
 
@@ -12,6 +11,9 @@
 TASK(vTaskInit)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
+    (void)ActivateTask(ID_vTaskSender);
+    (void)ActivateTask(ID_vTaskReceiver);
+    (void)ActivateTask(ID_vTaskMainFunction);
     printf("vTaskInit is running.\r\n");
     (void)TerminateTask();
 }
@@ -34,6 +36,7 @@ TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskMainFunction is running.\r\n");
+    //(void)ActivateTask(ID_vTaskInit);
     (void)TerminateTask();
 }
 
@@ -52,4 +55,3 @@ ALARM(vAlarmMainFunction)
     /* Alarm Type: Task, you still can add your special code here.*/
     (void)ActivateTask(ID_vTaskMainFunction);
 }
-#endif

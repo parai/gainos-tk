@@ -28,6 +28,7 @@
 	.extern _knl_ctxtsk
 	.extern _knl_schedtsk
 	.extern	__icall : far
+	.extern _knl_activate_rr
 
 	cfgTMP_STACK_SZ .set  	1024	;system stack
 	cfgTMP_USTK_SZ  .set  	128		;user stack
@@ -182,12 +183,7 @@ l_dispatch2:
 knl_activate_r:
 	; restore user sp
 	movw r15,[r11+#USP_OFFSET]
-	BSET PSW_IEN
-	; knl_ctxtsk->task();
-	addw	r11,#TSK_OFFSET
-	movw	r9,[r11+]
-	movw	r10,[r11]
-	calls	__icall
+	jmp _knl_activate_rr
 ;}else
 ;{
 knl_dispatch_r:
