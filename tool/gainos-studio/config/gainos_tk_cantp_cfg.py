@@ -277,7 +277,7 @@ class gainos_tk_cantp_cfg():
             sduList+='\t\t{\n'
             sduList+='\t\t\t/* .configData.CanTpTxNSdu.CanTp_FcPduId = */ 0xDEAD,\n'
             sduList+='\t\t\t/* .configData.CanTpTxNSdu.CanIf_PduId = */ CANIF_%s,\n'%(obj.PduR_PduId);
-            sduList+='\t\t\t/* .configData.CanTpTxNSdu.PduR_PduId = */ PDUR_%s,\n'%(obj.PduR_PduId);
+            sduList+='\t\t\t/* .configData.CanTpTxNSdu.PduR_PduId = */ PDUR_ALT_%s,\n'%(obj.PduR_PduId); #ALT is for PDUR ZERO COST
             sduList+='\t\t\t/* .configData.CanTpTxNSdu.CanTpAddressingMode = */ %s,\n'%(obj.CanTpAddressingFormant);
             sduList+='\t\t\t/* .configData.CanTpRxNSdu.reserved_CanTpBs = */ 0xDB,\n'
             sduList+='\t\t\t/* .configData.CanTpTxNSdu.CanTpNas = */ %s,\n'%(obj.CanTpNas);

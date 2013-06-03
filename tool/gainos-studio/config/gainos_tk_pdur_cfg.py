@@ -334,37 +334,47 @@ class gainos_tk_pdur_cfg():
 #error PduR: Configuration file expected BSW module version to be 2.0.*
 #endif
 
-
-#if defined(USE_DCM)
 #include "Dcm.h"
-#endif
-#if defined(USE_COM)
 #include "Com.h"
-#endif
-#if defined(USE_CANIF)
 #include "CanIf.h"
-#endif
-#if defined(USE_CANTP)
 #include "CanTp.h"
-#endif
 
 extern const PduR_PBConfigType PduR_Config;\n""");
         ######################################
         fp.write('//  PduR Polite Defines.\n');
-        id=0;
-        rstr=tstr='';
-        for src in self.cfg.pduRoutingPathList:
-            if(src.SrcPduId[:3] == 'RX_'):
-                rstr+='#define PDUR_%s %s\n'%(src.SrcPduId,id);
-                rstr+='#define %s %s\n'%(src.name,id);
-            else:
-                tstr+='#define PDUR_%s %s\n'%(src.SrcPduId,id);
-                tstr+='#define %s %s\n'%(src.name,id);
-            id+=1;
-        fp.write('/* PduR Rx NSdu Id */\n');
-        fp.write(rstr);
-        fp.write('/* PduR Tx NSdu Id */\n');
-        fp.write(tstr);
+        if(self.cfg.General.ZeroCostOperation == False):
+            id=0;
+            rstr=tstr='';
+            for src in self.cfg.pduRoutingPathList:
+                if(src.SrcPduId[:3] == 'RX_'):
+                    rstr+='#define PDUR_%s %s\n'%(src.SrcPduId,id);
+                    #rstr+='#define PDUR_ALT_%s %s\n'%(src.SrcPduId,id);
+                    rstr+='#define %s %s\n'%(src.name,id);
+                else:
+                    tstr+='#define PDUR_%s %s\n'%(src.SrcPduId,id);
+                    tstr+='#define PDUR_ALT_%s %s\n'%(src.SrcPduId,id);
+                    tstr+='#define %s %s\n'%(src.name,id);
+                id+=1;
+            fp.write('/* PduR Rx NSdu Id */\n');
+            fp.write(rstr);
+            fp.write('/* PduR Tx NSdu Id */\n');
+            fp.write(tstr);
+        else:
+            #As Zero Cost
+            rstr=tstr='';
+            for src in self.cfg.pduRoutingPathList:
+                for dst in src.destPathList:
+                    if(src.SrcPduId[:3] == 'RX_'):
+                        rstr+='#define PDUR_%s %s_%s\n'%(src.SrcPduId,dst.DestModule.upper(),dst.DestPduId)
+                        #rstr+='#define PDUR_ALT_%s %s_%s\n'%(src.SrcPduId,src.SrcModule.upper(),src.SrcPduId)
+                    else:
+                        tstr+='#define PDUR_%s %s_%s\n'%(src.SrcPduId,dst.DestModule.upper(),dst.DestPduId)
+                        tstr+='#define PDUR_ALT_%s %s_%s\n'%(src.SrcPduId,src.SrcModule.upper(),src.SrcPduId)
+                    break;#only one dest support when zero cost
+            fp.write('/* PduR Rx NSdu Id */\n');
+            fp.write(rstr);
+            fp.write('/* PduR Tx NSdu Id */\n');
+            fp.write(tstr);
         #######################################
         fp.write('#endif /* PDUR_PB_CFG_H_H */\n\n')
         fp.close();
@@ -393,6 +403,7 @@ extern const PduR_PBConfigType PduR_Config;\n""");
 #if PDUR_J1939TP_SUPPORT == STD_ON
 #include "J1939Tp.h"
 #endif\n""")
+        fp.write('#if(PDUR_ZERO_COST_OPERATION == STD_OFF)\n');
         ###############################################
         str='const PduRTpBufferInfo_type PduRTpBuffers[] = {\n';
         fp.write('//Tp Buffers,not understand by parai\n');
@@ -463,6 +474,7 @@ extern const PduR_PBConfigType PduR_Config;\n""");
             str+='\t/* .TpRouteBuffers = */ NULL\n'
         str+='};\n\n'
         fp.write(str);
+        fp.write('#endif //(PDUR_ZERO_COST_OPERATION == STD_OFF)\n')
         ################################################
         fp.close();
             

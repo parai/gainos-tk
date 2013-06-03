@@ -506,7 +506,7 @@ class gainos_tk_canif_cfg():
     def getPduIdPrefix(self, pdu):
         if(pdu.type == 'txPdu'):
             if(pdu.confirmation == 'PduR_CanIfTxConfirmation'):
-                return 'PDUR';
+                return 'PDUR_ALT';#ALT is for PDUR ZERO COST
             elif(pdu.confirmation == 'CanTp_TxConfirmation'):
                 return 'CANTP';
         elif(pdu.type == 'rxPdu'):
