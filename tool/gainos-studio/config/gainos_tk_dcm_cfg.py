@@ -1205,8 +1205,8 @@ class gainos_tk_dcm_cfg():
         for rtninfo in self.cfg.routineInfoList:
             str += '\t{//%s\n'%(rtninfo.name);
             str += '\t\t{//DspRoutineAuthorization\n'
-            str += '\t\t\t /* DspRoutineSessionRef = */ &%s_sessionRefList,\n'%(rtninfo.name)
-            str += '\t\t\t /* DspRoutineSecurityLevelRef = */ &%s_securityRefList,\n'%(rtninfo.name)
+            str += '\t\t\t /* DspRoutineSessionRef = */ %s_sessionRefList,\n'%(rtninfo.name)
+            str += '\t\t\t /* DspRoutineSecurityLevelRef = */ %s_securityRefList,\n'%(rtninfo.name)
             str += '\t\t},\n'
             str += '\t\t /* DspStartRoutine = */ &%s_start,\n'%(rtninfo.name);
             if(len(rtninfo.StopList) > 0):

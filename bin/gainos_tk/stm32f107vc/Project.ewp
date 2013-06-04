@@ -314,6 +314,8 @@
           <state>$PROJ_DIR$\..\..\..\mcal\driver\Can\sysdepend\stm32f1</state>
           <state>$PROJ_DIR$\..\..\..\diag\Det</state>
           <state>$PROJ_DIR$\..\..\..\diag\Dem</state>
+          <state>$PROJ_DIR$\..\..\..\diag\Dcm</state>
+          <state>$PROJ_DIR$\..\..\..\memory\NvM</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -2105,6 +2107,27 @@
         <name>$PROJ_DIR$\..\..\..\config\Com_PbCfg.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\..\..\config\Dcm_Cfg.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\config\Dcm_LCfg.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\config\Dem_Cfg.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\config\Dem_IntErrId.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\config\Dem_IntEvtId.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\config\Dem_LCfg.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\config\NvM_Cfg.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\..\..\config\osek_cfg.c</name>
       </file>
       <file>
@@ -2122,6 +2145,42 @@
     </group>
     <group>
       <name>diag</name>
+      <group>
+        <name>Dcm</name>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Dcm.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Dcm.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Dcm_Callout_Stubs.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Dcm_Cbk.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Dcm_Dsd.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Dcm_Dsl.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Dcm_Dsp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Dcm_Internal.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Dcm_Lcfg.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Dcm_Types.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\diag\Dcm\Rte_Dcm.h</name>
+        </file>
+      </group>
       <group>
         <name>Dem</name>
         <file>
@@ -2196,6 +2255,24 @@
       </group>
     </group>
     <group>
+      <name>memory</name>
+      <group>
+        <name>NvM</name>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\memory\NvM\NvM.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\memory\NvM\NvM_Cbk.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\memory\NvM\NvM_ConfigTypes.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\memory\NvM\NvM_Types.h</name>
+        </file>
+      </group>
+    </group>
+    <group>
       <name>osek</name>
       <group>
         <name>inc</name>
@@ -2229,6 +2306,27 @@
         <file>
           <name>$PROJ_DIR$\..\..\..\osek\inc\osek_os.h</name>
         </file>
+      </group>
+      <group>
+        <name>portable</name>
+        <group>
+          <name>armv7_m</name>
+          <group>
+            <name>icc</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\icc\portableS.S</name>
+            </file>
+          </group>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portable.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portable.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portmacro.h</name>
+          </file>
+        </group>
       </group>
       <group>
         <name>src</name>
@@ -2271,27 +2369,6 @@
         <file>
           <name>$PROJ_DIR$\..\..\..\osek\src\osek_task.c</name>
         </file>
-      </group>
-      <group>
-        <name>portable</name>
-        <group>
-          <name>armv7_m</name>
-          <group>
-            <name>icc</name>
-            <file>
-              <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\icc\portableS.S</name>
-            </file>
-          </group>
-          <file>
-            <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portable.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portable.h</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\..\..\osek\portable\armv7_m\portmacro.h</name>
-          </file>
-        </group>
       </group>
     </group>
   </group>
