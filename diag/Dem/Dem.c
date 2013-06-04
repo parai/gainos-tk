@@ -50,7 +50,7 @@
 #include <string.h>
 #include "Dem.h"
 //#include "Fim.h"
-//#include "NvM.h"
+#include "NvM.h"
 //#include "SchM_Dem.h"
 //#include "MemMap.h"
 #include "Cpu.h"
@@ -209,9 +209,9 @@ HealingRecType         		priMemAgingBuffer[DEM_MAX_NUMBER_AGING_PRI_MEM];
 extern HealingRecType   		HealingMirrorBuffer[DEM_MAX_NUMBER_AGING_PRI_MEM];
 
 /* block in NVRam, use for freezeframe */
-//extern const NvM_BlockIdType FreezeFrameBlockId[DEM_MAX_NUMBER_FF_DATA_PRI_MEM];
+extern const NvM_BlockIdType FreezeFrameBlockId[DEM_MAX_NUMBER_FF_DATA_PRI_MEM];
 /* block in NVRam, use for aging */
-//extern const NvM_BlockIdType HealingBlockId;
+extern const NvM_BlockIdType HealingBlockId;
 
 
 /*
@@ -1685,10 +1685,11 @@ static void storeFreezeFrameDataPriMem(const Dem_EventParameterType *eventParam,
 static void storeFreezeFrameDataPerMem()
 {
 	imask_t state;
+	uint16 i;
 
 	Irq_Save(state);
 
-	for(uint16 i = 0; i < DEM_MAX_NUMBER_FF_DATA_PRI_MEM; i++){
+	for(i = 0; i < DEM_MAX_NUMBER_FF_DATA_PRI_MEM; i++){
 		if(memcmp(&priMemFreezeFrameBuffer[i], FreezeFrameMirrorBuffer[i], sizeof(FreezeFrameRecType))){
 			if( E_OK == writeNvmMirror(FreezeFrameBlockId[i], (uint8 *)FreezeFrameMirrorBuffer[i], (const uint8 *)&priMemFreezeFrameBuffer[i], sizeof(FreezeFrameRecType)) ) {
 				FFIsModified = FALSE;
@@ -2321,6 +2322,7 @@ void Dem_PreInit(void)
 {
 	/** @req DEM180 */
 	uint16 i, j;
+	uint16 index;
 
 	EventStatusRecType *eventStatusRecPtr;
 	const Dem_EventParameterType *eventIdParamList;
@@ -2346,7 +2348,7 @@ void Dem_PreInit(void)
 	}
 
 	// Insert all supported events into event status buffer
-	uint16 index = 0;
+	index = 0;
 	eventIdParamList = configSet->EventParameter;
 	while( !eventIdParamList[index].Arc_EOL ) {
 		// Find next free position in event status buffer
