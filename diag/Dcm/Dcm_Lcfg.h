@@ -34,6 +34,8 @@ typedef uint8 Dcm_ProtocolAddrTypeType;
 #define DCM_PROTOCOL_FUNCTIONAL_ADDR_TYPE	1
 #define DCM_PROTOCOL_PHYSICAL_ADDR_TYPE		2
 
+#define DCM_PROTOCAL_TP_MAX_LENGTH 0x1000
+
 /*
  * Callback function prototypes
  */
@@ -120,7 +122,7 @@ typedef struct {
 
 // 10.2.23
 typedef struct {
-	uint8 DspDidControlRecordSize;			// (1)
+	uint8 DspDidControlEnableMaskRecordSize;			// (1)
 	uint8 DspDidControlOptionRecordSize;	// (1)
 	uint8 DspDidControlStatusRecordSize;	// (1)
 } Dcm_DspDidControlRecordSizesType;
@@ -178,7 +180,7 @@ typedef struct Dcm_DspDidType {
 	Dcm_CallbackWriteDataFncType				DspDidWriteDataFnc;				// (0..1)	/** @req DCM670 */
 	Dcm_CallbackGetScalingInformationFncType	DspDidGetScalingInfoFnc;		// (0..1)	/** @req DCM676 */
 	Dcm_CallbackFreezeCurrentStateFncType		DspDidFreezeCurrentStateFnc;	// (0..1)	/** @req DCM674 */
-	Dcm_CallbackResetToDefaultFncType			DspDidResetToDeaultFnc;			// (0..1)	/** @req DCM673 */
+	Dcm_CallbackResetToDefaultFncType			DspDidResetToDefaultFnc;			// (0..1)	/** @req DCM673 */
 	Dcm_CallbackReturnControlToECUFncType		DspDidReturnControlToEcuFnc;	// (0..1)	/** @req DCM672 */
 	Dcm_CallbackShortTermAdjustmentFncType		DspDidShortTermAdjustmentFnc;	// (0..1)	/** @req DCM675 */
 	// Containers
@@ -304,6 +306,29 @@ typedef struct {
 
 // 10.2.21
 typedef struct {
+	uint32 MemoryAddressHigh;
+	uint32 MemoryAddressLow;
+	/*DcmDspMemoryRangeRuleRef * pRule;*/
+	const Dcm_DspSecurityRowType **pSecurityLevel;
+	boolean Arc_EOL;
+} Dcm_DspMemoryRangeInfo;
+
+typedef struct {
+      uint8 MemoryIdValue;
+     const Dcm_DspMemoryRangeInfo *pReadMemoryInfo;
+     const Dcm_DspMemoryRangeInfo *pWriteMemoryInfo;
+     boolean										Arc_EOL;
+} Dcm_DspMemoryIdInfo;
+
+
+typedef struct {
+	boolean								DcmDspUseMemoryId;
+	const Dcm_DspMemoryIdInfo			*DspMemoryIdInfo;
+	
+}Dcm_DspMemoryType;
+
+// 10.2.21
+typedef struct {
 	uint8								DspMaxDidToRead; // (0..1)	/** @req DCM638 */
 	// Containers
 	const Dcm_DspDidType				*DspDid;	// (0..*)
@@ -318,6 +343,7 @@ typedef struct {
 	const Dcm_DspSessionType			*DspSession;			// (1)
 	const Dcm_DspTestResultByObdmidType	*DspTestResultByObdmid;	// (0..*)
 	const Dcm_DspVehInfoType			*DspVehInfo;
+	const Dcm_DspMemoryType             *DspMemory;
 } Dcm_DspType;
 
 /*******
@@ -410,16 +436,16 @@ typedef struct {
 } Dcm_DslProtocolTimingType; /** @req DCM031 */
 
 // 10.2.15
-typedef struct {
-// TODO: Add this? (only needed for type2 periodic transmission configuration)
-    int to_make_compiler_happier;
-} Dcm_DslPeriodicTransmissionType;
+//typedef struct {
+//// TODO: Add this? (only needed for type2 periodic transmission configuration)
+//} Dcm_DslPeriodicTransmissionType;
+typedef uint8 Dcm_DslPeriodicTransmissionType;
 
 // 10.2.16
-typedef struct {
-// TODO: Add this? (only needed for type2 periodic transmission configuration)
-    int to_make_compiler_happier;
-} Dcm_DslResponseOnEventType;
+//typedef struct {
+//// TODO: Add this? (only needed for type2 periodic transmission configuration)
+//} Dcm_DslResponseOnEventType;
+typedef uint8 Dcm_DslResponseOnEventType;
 
 /* Makes it possible to cross-reference structures. */
 typedef struct Dcm_DslMainConnectionType_t Dcm_DslMainConnectionType;
@@ -529,9 +555,11 @@ typedef struct {
 	Dcm_DslLocalBufferType	localTxBuffer;
 	boolean					diagnosticActiveComM; //
 	uint16					S3ServerTimeoutCount;
+	boolean					S3ServerStarted;
 	uint8					responsePendingCount;
 	Dcm_SecLevelType		securityLevel;
 	Dcm_SesCtrlType			sessionControl;
+	Dcm_DslLocalBufferType      PeriodicTxBuffer;
 } Dcm_DslRunTimeProtocolParametersType;
 
 // 10.2.10

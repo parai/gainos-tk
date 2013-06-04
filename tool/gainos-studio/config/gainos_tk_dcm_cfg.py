@@ -850,7 +850,12 @@ class gainos_tk_dcm_cfg():
         fp.write('#define DCM_MAIN_FUNCTION_PERIOD_TIME_MS	%s\n\n'%(self.cfg.general.MainFunctionPeriod));
         fp.write('#define DCM_LIMITNUMBER_PERIODDATA		%s  //MaxNumberofSimultaneousPeriodictransmissions\n'%(self.cfg.general.MaxNumberofSimultaneousPeriodictransmissions));
         fp.write('#define DCM_MAX_DDDSOURCE_NUMBER			%s  //MaxSourcesforOneDynamicIdentifier\n'%(self.cfg.general.MaxSourcesforOneDynamicIdentifier));
-        fp.write('#define DCM_MAX_DDD_NUMBER				%s  //MaxNegativeResponse\n\n'%(self.cfg.general.MaxNegativeResponse));
+        num = 0;
+        for did in self.cfg.didList:
+            didinfo = gcfindObj(self.cfg.didInfoList, did.didInfoRef);
+            if(didinfo.DynamicllyDefined == True):
+                num += 1;
+        fp.write('#define DCM_MAX_DDD_NUMBER				%s  \n\n'%(num));
         fp.write('#define DCM_PERIODICTRANSMIT_SLOW			%s\n'%(self.cfg.general.PeriodicTransmissionSlow));
         fp.write('#define DCM_PERIODICTRANSMIT_MEDIUM		%s\n'%(self.cfg.general.PeriodicTransmissionMedium));
         fp.write('#define DCM_PERIODICTRANSMIT_FAST			%s\n\n'%(self.cfg.general.PeriodicTransmissionFast));
@@ -868,6 +873,25 @@ class gainos_tk_dcm_cfg():
                     fp.write('#define DCM_%s %s\n'%(tx.TxPdu,id));
                     id += 1;
         fp.write('\n\n#define USE_PDUR\n\n')
+        fp.write("""//do add/subtract by hand.please
+//#define USE_DEM
+#define DCM_USE_SERVICE_DIAGNOSTICSESSIONCONTROL
+#define DCM_USE_SERVICE_ECURESET
+//#define DCM_USE_SERVICE_CLEARDIAGNOSTICINFORMATION
+//#define DCM_USE_SERVICE_READDTCINFORMATION
+#define DCM_USE_SERVICE_READDATABYIDENTIFIER
+#define DCM_USE_SERVICE_READMEMORYBYADDRESS
+#define DCM_USE_SERVICE_WRITEMEMORYBYADDRESS
+#define DCM_USE_SERVICE_READSCALINGDATABYIDENTIFIER
+#define DCM_USE_SERVICE_SECURITYACCESS
+#define DCM_USE_SERVICE_WRITEDATABYIDENTIFIER
+#define DCM_USE_SERVICE_ROUTINECONTROL
+#define DCM_USE_SERVICE_TESTERPRESENT
+//#define DCM_USE_SERVICE_CONTROLDTCSETTING
+#define DCM_USE_SERVICE_READDATABYPERIODICIDENTIFIER
+#define DCM_USE_SERVICE_DYNAMICALLYDEFINEDATAIDENTIFIER
+#define DCM_USE_SERVICE_INPUTOUTPUTCONTROLBYIDENTIFIER
+""")
         #-------------------------------------------------------
         fp.write('#endif /*DCM_CFG_H_*/\n\n')
         fp.close();

@@ -37,12 +37,18 @@
 #include <string.h>
 #include "Dcm.h"
 #include "Dcm_Internal.h"
+#if defined(USE_DEM)
+#if defined(DCM_USE_SERVICE_CLEARDIAGNOSTICINFORMATION) || defined(DCM_USE_SERVICE_READDTCINFORMATION) || defined(DCM_USE_SERVICE_CONTROLDTCSETTING)
 #include "Dem.h"
+#endif
+#endif
+
 //#include "MemMap.h"
 //#include "SchM_Dcm.h"
 //#include "ComM_Dcm.h"
 #include "PduR_Dcm.h"
 #include "ComStack_Types.h"
+
 
 // State variable
 typedef enum

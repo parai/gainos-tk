@@ -5,7 +5,7 @@
  * DEM General
  */
 #define DEM_VERSION_INFO_API    			STD_ON		// Activate/Deactivate ver info API.
-#define DEM_DEV_ERROR_DETECT				STD_ON		// Activate/Deactivate Dev Error Detection and Notification.
+#define DEM_DEV_ERROR_DETECT				STD_OFF		// Activate/Deactivate Dev Error Detection and Notification.
 #define DEM_OBD_SUPPORT						STD_OFF
 #define DEM_PTO_SUPPORT						STD_OFF
 #define DEM_TYPE_OF_DTC_SUPPORTED			0x01		// ISO14229-1
@@ -42,4 +42,10 @@
 #define DEM_MAX_NUMBER_FF_DATA_PRI_MEM			5									// Max number of freeze frames to store in primary memory
 #define DEM_MAX_NUMBER_EXT_DATA_PRI_MEM			5									// Max number of extended data to store in primary memory
 
+#define DEM_MAX_NUMBER_AGING_PRI_MEM 1
+#define DEM_MAX_NR_OF_CLASSES_IN_FREEZEFRAME_DATA 1
+#define DEM_MAX_NR_OF_RECORDS_IN_FREEZEFRAME_DATA 1
+#define DEM_DID_IDENTIFIER_SIZE_OF_BYTES 1
+#define DEM_FREEZEFRAME_DEFAULT_VALUE 1
+#define DEM_MAX_TIMESTAMP_FOR_REARRANGEMENT 1
 #endif /*DEM_CFG_H_*/
