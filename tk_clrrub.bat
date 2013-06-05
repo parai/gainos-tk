@@ -82,6 +82,8 @@ del /s /q *.mapxml
 del /s /q *.mdf
 del /s /q *.elf
 del /s /q *.src
+REM delete CW cmd file
+del /s /q *.cmd
 
 echo Cleared successfully
 echo on

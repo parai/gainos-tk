@@ -42,6 +42,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.spbxPeriodicTransmissionMedium.setValue(self.cfg.general.PeriodicTransmissionMedium)
         self.spbxPeriodicTransmissionFast.setValue(self.cfg.general.PeriodicTransmissionFast)
         self.spbxMaxSourcesforOneDynamicIdentifier.setValue(self.cfg.general.MaxSourcesforOneDynamicIdentifier)
+        self.spbxDDDNr.setValue(self.cfg.general.DynamicIdentifierNr)
     def initButton(self):
         self.btn1.setDisabled(True);
         self.btn2.setDisabled(True);
@@ -1005,6 +1006,11 @@ class cd_dcm(QDialog, Ui_cd_dcm):
     def on_spbxMaxSourcesforOneDynamicIdentifier_valueChanged(self, p0):
         if self.cfg.general.MaxSourcesforOneDynamicIdentifier != p0:
             self.cfg.general.MaxSourcesforOneDynamicIdentifier = p0;
+            self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxDDDNr_valueChanged(self, p0):
+        if self.cfg.general.DynamicIdentifierNr != p0:
+            self.cfg.general.DynamicIdentifierNr = p0;
             self.fileInd(False);
 # ====================== Buffer ======================
     @pyqtSignature("QString")

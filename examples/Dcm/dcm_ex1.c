@@ -5,7 +5,7 @@
 #include "CanTp.h"
 #include "PduR.h"
 #include <stdio.h>
-/* é€šçŸ¥å›è°ƒå‡½æ•° */
+/* Í¨Öª»Øµ÷º¯Êı */
 Std_ReturnType vSecurityLevel_1_GetSeed (uint8 *securityAccessDataRecord, uint8 *seed, 
                         Dcm_NegativeResponseCodeType *errorCode)
 {
@@ -150,8 +150,8 @@ Std_ReturnType vRoutine_1_RequestResult(uint8 *outBuffer, Dcm_NegativeResponseCo
     return E_OK; 
 }
 /* Dcm Example Initialise Routine.
- * åˆå§‹åŒ–Canã€CanIfã€PduRå’ŒDCM ï¼Œ
- * éœ€è¦ä½¿ç”¨â€œdcm_ex1.arxmlâ€ç”Ÿæˆå…¶ç›¸åº”é…ç½®æ–‡ä»¶ã€‚*/
+ * ³õÊ¼»¯Can¡¢CanIf¡¢PduRºÍDCM £¬
+ * ĞèÒªÊ¹ÓÃ¡°dcm_ex1.arxml¡±Éú³ÉÆäÏàÓ¦ÅäÖÃÎÄ¼ş¡£*/
 void DcmEx1Init(void)
 {
     Can_Init(&Can_ConfigData); 
@@ -159,13 +159,13 @@ void DcmEx1Init(void)
     CanTp_Init();
     PduR_Init(&PduR_Config);
     Dcm_Init();
-    //å¯åŠ¨é…ç½®çš„ä¸¤ä¸ªCANé€šé“ CAN_CTRL_0 å’Œ CAN_CTRL_1
+    //Æô¶¯ÅäÖÃµÄÁ½¸öCANÍ¨µÀ CAN_CTRL_0 ºÍ CAN_CTRL_1
     CanIf_SetControllerMode(vCanIf_Channel_0,CANIF_CS_STARTED);
     CanIf_SetControllerMode(vCanIf_Channel_1,CANIF_CS_STARTED);
 }
 
 /* Dcm Example Main Function Routine.
- * è¿™ä¸ªAPIå¿…é¡»è¢«å‘¨æœŸæ€§çš„è°ƒç”¨ï¼Œå»ºè®®æ¯ 5ms ä¸€æ¬¡*/
+ * Õâ¸öAPI±ØĞë±»ÖÜÆÚĞÔµÄµ÷ÓÃ£¬½¨ÒéÃ¿ 5ms Ò»´Î*/
 void DcmEx1MainFunction(void)
 {
     CanTp_MainFunction();
@@ -482,8 +482,8 @@ void DcmEx1Sender(void)
 {
     
     static uint8 callcnt = 0;
-    /* æ‘†åœ¨æˆ‘é¢å‰çš„éš¾é¢˜ï¼Œæ²¡æœ‰ä¸“ä¸šçš„CANè°ƒè¯•è®¾å¤‡ï¼Œæˆ‘å°†å¦‚ä½•æµ‹è¯•DCM */
-    /* ä½¿ç”¨CanIfæ¥å‘é€SFï¼Œæ¨¡æ‹Ÿ Client */
+    /* °ÚÔÚÎÒÃæÇ°µÄÄÑÌâ£¬Ã»ÓĞ×¨ÒµµÄCANµ÷ÊÔÉè±¸£¬ÎÒ½«ÈçºÎ²âÊÔDCM */
+    /* Ê¹ÓÃCanIfÀ´·¢ËÍSF£¬Ä£Äâ Client */
     callcnt++; 
     switch(callcnt)
     {

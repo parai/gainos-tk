@@ -21,6 +21,7 @@ class DcmGeneral():
         self.PeriodicTransmissionMedium = 11;
         self.PeriodicTransmissionFast = 12;
         self.MaxSourcesforOneDynamicIdentifier = 10;
+        self.DynamicIdentifierNr = 10;
     def save(self, root):
         nd = ET.Element('General');
         nd.attrib['DevErrorDetection'] = str(self.DevErrorDetection);
@@ -34,6 +35,7 @@ class DcmGeneral():
         nd.attrib['PeriodicTransmissionMedium'] = str(self.PeriodicTransmissionMedium);
         nd.attrib['PeriodicTransmissionFast'] = str(self.PeriodicTransmissionFast);
         nd.attrib['MaxSourcesforOneDynamicIdentifier'] = str(self.MaxSourcesforOneDynamicIdentifier);
+        nd.attrib['DynamicIdentifierNr'] = str(self.DynamicIdentifierNr);
         root.append(nd); 
     def parse(self, nd):
         self.DevErrorDetection = bool(nd.attrib['DevErrorDetection']);
@@ -47,6 +49,7 @@ class DcmGeneral():
         self.PeriodicTransmissionMedium = int(nd.attrib['PeriodicTransmissionMedium']);
         self.PeriodicTransmissionFast = int(nd.attrib['PeriodicTransmissionFast']);
         self.MaxSourcesforOneDynamicIdentifier = int(nd.attrib['MaxSourcesforOneDynamicIdentifier']);
+        self.DynamicIdentifierNr = int(nd.attrib['DynamicIdentifierNr']);
 
 class DcmBuffer():
     def __init__(self, name):
@@ -850,12 +853,7 @@ class gainos_tk_dcm_cfg():
         fp.write('#define DCM_MAIN_FUNCTION_PERIOD_TIME_MS	%s\n\n'%(self.cfg.general.MainFunctionPeriod));
         fp.write('#define DCM_LIMITNUMBER_PERIODDATA		%s  //MaxNumberofSimultaneousPeriodictransmissions\n'%(self.cfg.general.MaxNumberofSimultaneousPeriodictransmissions));
         fp.write('#define DCM_MAX_DDDSOURCE_NUMBER			%s  //MaxSourcesforOneDynamicIdentifier\n'%(self.cfg.general.MaxSourcesforOneDynamicIdentifier));
-        num = 0;
-        for did in self.cfg.didList:
-            didinfo = gcfindObj(self.cfg.didInfoList, did.didInfoRef);
-            if(didinfo.DynamicllyDefined == True):
-                num += 1;
-        fp.write('#define DCM_MAX_DDD_NUMBER				%s  \n\n'%(num));
+        fp.write('#define DCM_MAX_DDD_NUMBER				%s  \n\n'%(self.cfg.general.DynamicIdentifierNr));
         fp.write('#define DCM_PERIODICTRANSMIT_SLOW			%s\n'%(self.cfg.general.PeriodicTransmissionSlow));
         fp.write('#define DCM_PERIODICTRANSMIT_MEDIUM		%s\n'%(self.cfg.general.PeriodicTransmissionMedium));
         fp.write('#define DCM_PERIODICTRANSMIT_FAST			%s\n\n'%(self.cfg.general.PeriodicTransmissionFast));
