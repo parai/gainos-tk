@@ -21,13 +21,13 @@
 #define INDEX_OF_CAN_CTRL_0 1
 
 typedef enum {
-	CAN_CTRL_1_vCanHth,
+	CAN_CTRL_4_vCanHth,
 	CAN_CTRL_0_vCanHth,
 	NUM_OF_HTHS
 } Can_Arc_HTHType;
 
 typedef enum {
-	CAN_CTRL_1_vCanHrh,
+	CAN_CTRL_4_vCanHrh,
 	CAN_CTRL_0_vCanHrh,
 	NUM_OF_HRHS
 } Can_Arc_HRHType;

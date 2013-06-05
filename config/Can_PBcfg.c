@@ -15,13 +15,13 @@ LOCAL const Can_FilterMaskType vCanFilterMask0=
 	CAN_IDAM_2_32BIT
 };
 
-LOCAL const Can_HardwareObjectType CAN_CTRL_1_HOHCfgData[]=
+LOCAL const Can_HardwareObjectType CAN_CTRL_4_HOHCfgData[]=
 {
 	{
 		CAN_ARC_HANDLE_TYPE_BASIC,
 		CAN_ID_TYPE_STANDARD,
 		0,
-		CAN_CTRL_1_vCanHrh,
+		CAN_CTRL_4_vCanHrh,
 		CAN_OBJECT_TYPE_RECEIVE,
 		&vCanFilterMask0,
 		0x00000000,/* mbMask */
@@ -31,7 +31,7 @@ LOCAL const Can_HardwareObjectType CAN_CTRL_1_HOHCfgData[]=
 		CAN_ARC_HANDLE_TYPE_BASIC,
 		CAN_ID_TYPE_STANDARD,
 		0,
-		CAN_CTRL_1_vCanHth,
+		CAN_CTRL_4_vCanHth,
 		CAN_OBJECT_TYPE_TRANSMIT,
 		&vCanFilterMask0,
 		0x00000000,/* mbMask */
@@ -66,7 +66,7 @@ LOCAL const Can_HardwareObjectType CAN_CTRL_0_HOHCfgData[]=
 EXPORT const Can_ControllerConfigType  Can_ControllerCfgData[]=
 {
 	{
-		CAN_CTRL_1,
+		CAN_CTRL_4,
 		CAN_PROCESS_TYPE_INTERRUPT,
 		CAN_PROCESS_TYPE_INTERRUPT,
 		CAN_PROCESS_TYPE_INTERRUPT,
@@ -75,7 +75,7 @@ EXPORT const Can_ControllerConfigType  Can_ControllerCfgData[]=
 		0, /* propseg(SJW) */
 		12, /* seg1 */
 		1, /* seg2 */
-		CAN_CTRL_1_HOHCfgData,
+		CAN_CTRL_4_HOHCfgData,
 		FALSE	/* LoopBack */
 	},
 	{

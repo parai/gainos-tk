@@ -681,7 +681,7 @@ void DslRxIndicationFromPduR(PduIdType dcmRxPduId, NotifResultType result) {
 						runtime->diagnosticResponseFromDsd.SduLength = protocolRow->DslProtocolTxBufferID->pduInfo.SduLength;
 						DEBUG_PRINT2( DEBUG_MEDIUM, "DsdDslDataIndication(DcmDslProtocolTxPduId=%d, dcmRxPduId=%d)\r\n", mainConnection->DslProtocolTx->DcmDslProtocolTxPduId, dcmRxPduId);
 						runtime->diagReqestRxPduId = dcmRxPduId;
-						DEBUG_PRINT1(DEBUG_MEDIUM,"\r\n\r\n runtime->diagnosticRequestFromTester.SduDataPtr[2]  %x\r\n\r\n ",runtime->diagnosticRequestFromTester.SduDataPtr[2]);
+						//DEBUG_PRINT1(DEBUG_MEDIUM,"\r\n\r\n runtime->diagnosticRequestFromTester.SduDataPtr[2]  %x\r\n\r\n ",runtime->diagnosticRequestFromTester.SduDataPtr[2]);
 						DsdDslDataIndication(  // qqq: We are inside a critical section.
 								&(runtime->diagnosticRequestFromTester),
 								protocolRow->DslProtocolSIDTable,	/** @req DCM035 */

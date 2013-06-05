@@ -32,7 +32,7 @@ void CanIf_User_ErrorNotification(uint8 Controller,Can_Arc_ErrorType Error){}
 
 // Contains the mapping from CanIf-specific Channels to Can Controllers
 const Can_ControllerIdType CanIf_Arc_ChannelToControllerMap[CANIF_CHANNEL_CNT] = {
-	CAN_CTRL_1,	/* vCanIf_Channel_1 */
+	CAN_CTRL_4,	/* vCanIf_Channel_1 */
 	CAN_CTRL_0,	/* vCanIf_Channel_0 */
 };
 
@@ -76,7 +76,7 @@ const CanIf_HthConfigType CanIfHthConfigData_vCanIf_Channel_1[]=
 	{
 		/*CanIfHthType =*/ CAN_ARC_HANDLE_TYPE_BASIC,
 		/*CanIfCanControllerIdRef =*/ vCanIf_Channel_1,
-		/*CanIfHthIdSymRef =*/ CAN_CTRL_1_vCanHth,
+		/*CanIfHthIdSymRef =*/ CAN_CTRL_4_vCanHth,
 		/*CanIf_Arc_EOL =*/ TRUE
 	},
 };
@@ -87,7 +87,7 @@ const CanIf_HrhConfigType CanIfHrhConfigData_vCanIf_Channel_1[]=
 		/*CanIfHrhType =*/ CAN_ARC_HANDLE_TYPE_BASIC,
 		/*CanIfSoftwareFilterHrh =*/ FALSE,
 		/*CanIfCanControllerIdRef =*/ vCanIf_Channel_1,
-		/*CanIfHrhIdSymRef =*/ CAN_CTRL_1_vCanHrh,
+		/*CanIfHrhIdSymRef =*/ CAN_CTRL_4_vCanHrh,
 		/*CanIf_Arc_EOL =*/ TRUE
 	},
 };

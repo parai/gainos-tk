@@ -229,7 +229,7 @@ const Dcm_DspDidControlType vDcmDidInfo_1_didControl = {
 
 const Dcm_DspDidInfoType DspDidInfoList[] = {
 	{ // vDcmDidInfo_1
-		 /* DspDidDynamicllyDefined = */ TRUE,
+		 /* DspDidDynamicllyDefined = */ FALSE,
 		 /* DspDidFixedLength = */ FALSE,
 		 /* DspDidScalingInfoSize = */ 1,
 		{ // DspDidAccess
