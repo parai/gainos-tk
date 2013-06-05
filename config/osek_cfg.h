@@ -45,8 +45,9 @@ IMPORT TASK(vTaskMainFunction);
 #endif
 /* =====================  EVENT ========================== */
 #define ID_vTaskReceiverEvent 0
+#define ID_vTaskSenderEvent 1
 #define vTaskReceiverCanRxEvent 0x1
-#define cfgOSEK_EVENTFLAG_NUM 1
+#define cfgOSEK_EVENTFLAG_NUM 2
 
 /* =====================  ALARM ========================== */
 #define cfgOSEK_COUNTER_NUM 1

@@ -369,7 +369,7 @@ const Dcm_DspType Dsp = {
 const Dcm_DsdServiceType vServiceTable_1_serviceList[] = {
 	{ // vService0_session_control
 		 /* DsdSidTabServiceId =*/ SID_DIAGNOSTIC_SESSION_CONTROL,
-		 /* DsdSidTabSubfuncAvail =*/ TRUE,
+		 /* DsdSidTabSubfuncAvail =*/ FALSE,
 		 /* DsdSidTabSecurityLevelRef =*/ vServiceTable_1_vService0_session_control_SecurityList,
 		 /* DsdSidTabSessionLevelRef =*/ vServiceTable_1_vService0_session_control_SessionList,
 		 /* Arc_EOL = */ FALSE
@@ -383,28 +383,28 @@ const Dcm_DsdServiceType vServiceTable_1_serviceList[] = {
 	},
 	{ // vService2_read_data_by_id
 		 /* DsdSidTabServiceId =*/ SID_READ_DATA_BY_IDENTIFIER,
-		 /* DsdSidTabSubfuncAvail =*/ TRUE,
+		 /* DsdSidTabSubfuncAvail =*/ FALSE,
 		 /* DsdSidTabSecurityLevelRef =*/ vServiceTable_1_vService2_read_data_by_id_SecurityList,
 		 /* DsdSidTabSessionLevelRef =*/ vServiceTable_1_vService2_read_data_by_id_SessionList,
 		 /* Arc_EOL = */ FALSE
 	},
 	{ // vService3_write_data_by_id
 		 /* DsdSidTabServiceId =*/ SID_WRITE_DATA_BY_IDENTIFIER,
-		 /* DsdSidTabSubfuncAvail =*/ TRUE,
+		 /* DsdSidTabSubfuncAvail =*/ FALSE,
 		 /* DsdSidTabSecurityLevelRef =*/ vServiceTable_1_vService3_write_data_by_id_SecurityList,
 		 /* DsdSidTabSessionLevelRef =*/ vServiceTable_1_vService3_write_data_by_id_SessionList,
 		 /* Arc_EOL = */ FALSE
 	},
 	{ // vService4_routine_control
 		 /* DsdSidTabServiceId =*/ SID_ROUTINE_CONTROL,
-		 /* DsdSidTabSubfuncAvail =*/ TRUE,
+		 /* DsdSidTabSubfuncAvail =*/ FALSE,
 		 /* DsdSidTabSecurityLevelRef =*/ vServiceTable_1_vService4_routine_control_SecurityList,
 		 /* DsdSidTabSessionLevelRef =*/ vServiceTable_1_vService4_routine_control_SessionList,
 		 /* Arc_EOL = */ FALSE
 	},
 	{ // vService5_read_scaling_data_by_id
 		 /* DsdSidTabServiceId =*/ SID_READ_SCALING_DATA_BY_IDENTIFIER,
-		 /* DsdSidTabSubfuncAvail =*/ TRUE,
+		 /* DsdSidTabSubfuncAvail =*/ FALSE,
 		 /* DsdSidTabSecurityLevelRef =*/ vServiceTable_1_vService5_read_scaling_data_by_id_SecurityList,
 		 /* DsdSidTabSessionLevelRef =*/ vServiceTable_1_vService5_read_scaling_data_by_id_SessionList,
 		 /* Arc_EOL = */ FALSE
@@ -418,6 +418,20 @@ const Dcm_DsdServiceType vServiceTable_1_serviceList[] = {
 	},
 	{ // vService7_ecu_reset
 		 /* DsdSidTabServiceId =*/ SID_ECU_RESET,
+		 /* DsdSidTabSubfuncAvail =*/ FALSE,
+		 /* DsdSidTabSecurityLevelRef =*/ vServiceTable_1_vService7_ecu_reset_SecurityList,
+		 /* DsdSidTabSessionLevelRef =*/ vServiceTable_1_vService7_ecu_reset_SessionList,
+		 /* Arc_EOL = */ FALSE
+	},
+	{ // vService8_dynamic_defined_dd
+		 /* DsdSidTabServiceId =*/ SID_DYNAMICALLY_DEFINE_DATA_IDENTIFIER,
+		 /* DsdSidTabSubfuncAvail =*/ FALSE,
+		 /* DsdSidTabSecurityLevelRef =*/ vServiceTable_1_vService7_ecu_reset_SecurityList,
+		 /* DsdSidTabSessionLevelRef =*/ vServiceTable_1_vService7_ecu_reset_SessionList,
+		 /* Arc_EOL = */ FALSE
+	},
+	{ // vService8_periodic_read
+		 /* DsdSidTabServiceId =*/ SID_READ_DATA_BY_PERIODIC_IDENTIFIER,
 		 /* DsdSidTabSubfuncAvail =*/ FALSE,
 		 /* DsdSidTabSecurityLevelRef =*/ vServiceTable_1_vService7_ecu_reset_SecurityList,
 		 /* DsdSidTabSessionLevelRef =*/ vServiceTable_1_vService7_ecu_reset_SessionList,

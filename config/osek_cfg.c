@@ -19,7 +19,7 @@ GenTaskStack(vTaskMainFunction,512);
 EXPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM]=
 {
 	GenTaskInfo(vTaskInit,10,256,OSDEFAULTAPPMODE|NON_PREEMTABLE,INVALID_EVENT,1,0),
-	GenTaskInfo(vTaskSender,6,512,OSNONEAPPMODE|PREEMTABLE,INVALID_EVENT,3,6),
+	GenTaskInfo(vTaskSender,6,512,OSNONEAPPMODE|PREEMTABLE,ID_vTaskSenderEvent,3,6),
 	GenTaskInfo(vTaskReceiver,6,512,OSNONEAPPMODE|PREEMTABLE,ID_vTaskReceiverEvent,4,6),
 	GenTaskInfo(vTaskMainFunction,4,512,OSNONEAPPMODE|PREEMTABLE,INVALID_EVENT,0,4),
 };
