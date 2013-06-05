@@ -5,7 +5,7 @@
 #include "CanTp.h"
 #include "PduR.h"
 #include <stdio.h>
-/* Í¨Öª»Øµ÷º¯Êı */
+/* é€šçŸ¥å›è°ƒå‡½æ•° */
 Std_ReturnType vSecurityLevel_1_GetSeed (uint8 *securityAccessDataRecord, uint8 *seed, 
                         Dcm_NegativeResponseCodeType *errorCode)
 {
@@ -150,8 +150,8 @@ Std_ReturnType vRoutine_1_RequestResult(uint8 *outBuffer, Dcm_NegativeResponseCo
     return E_OK; 
 }
 /* Dcm Example Initialise Routine.
- * ³õÊ¼»¯Can¡¢CanIf¡¢PduRºÍDCM £¬
- * ĞèÒªÊ¹ÓÃ¡°dcm_ex1.arxml¡±Éú³ÉÆäÏàÓ¦ÅäÖÃÎÄ¼ş¡£*/
+ * åˆå§‹åŒ–Canã€CanIfã€PduRå’ŒDCM ï¼Œ
+ * éœ€è¦ä½¿ç”¨â€œdcm_ex1.arxmlâ€ç”Ÿæˆå…¶ç›¸åº”é…ç½®æ–‡ä»¶ã€‚*/
 void DcmEx1Init(void)
 {
     Can_Init(&Can_ConfigData); 
@@ -159,13 +159,13 @@ void DcmEx1Init(void)
     CanTp_Init();
     PduR_Init(&PduR_Config);
     Dcm_Init();
-    //Æô¶¯ÅäÖÃµÄÁ½¸öCANÍ¨µÀ CAN_CTRL_0 ºÍ CAN_CTRL_1
+    //å¯åŠ¨é…ç½®çš„ä¸¤ä¸ªCANé€šé“ CAN_CTRL_0 å’Œ CAN_CTRL_1
     CanIf_SetControllerMode(vCanIf_Channel_0,CANIF_CS_STARTED);
     CanIf_SetControllerMode(vCanIf_Channel_1,CANIF_CS_STARTED);
 }
 
 /* Dcm Example Main Function Routine.
- * Õâ¸öAPI±ØĞë±»ÖÜÆÚĞÔµÄµ÷ÓÃ£¬½¨ÒéÃ¿ 5ms Ò»´Î*/
+ * è¿™ä¸ªAPIå¿…é¡»è¢«å‘¨æœŸæ€§çš„è°ƒç”¨ï¼Œå»ºè®®æ¯ 5ms ä¸€æ¬¡*/
 void DcmEx1MainFunction(void)
 {
     CanTp_MainFunction();
@@ -240,6 +240,19 @@ static void ex1ReadDatabyIdPeriod(uint16 id)
     sduData[0] = ISO15765_TPCI_SF | 3;
     sduData[1] = 0x2A;
     sduData[2] = DCM_PERIODICTRANSMIT_SLOWRATE_MODE;
+    sduData[3] = (uint8)(id)&0xFFU;
+    pduinfo.SduDataPtr = sduData;
+    pduinfo.SduLength = 4;
+    
+    CanIf_Transmit(vCanIf_Channel_0, &pduinfo);
+}
+static void ex1ReadDatabyIdPeriodStop(uint16 id)
+{
+    uint8  sduData[8];
+    PduInfoType pduinfo;
+    sduData[0] = ISO15765_TPCI_SF | 3;
+    sduData[1] = 0x2A;
+    sduData[2] = DCM_PERIODICTRANSMIT_STOPSENDING_MODE;
     sduData[3] = (uint8)(id)&0xFFU;
     pduinfo.SduDataPtr = sduData;
     pduinfo.SduLength = 4;
@@ -469,8 +482,8 @@ void DcmEx1Sender(void)
 {
     
     static uint8 callcnt = 0;
-    /* °ÚÔÚÎÒÃæÇ°µÄÄÑÌâ£¬Ã»ÓĞ×¨ÒµµÄCANµ÷ÊÔÉè±¸£¬ÎÒ½«ÈçºÎ²âÊÔDCM */
-    /* Ê¹ÓÃCanIfÀ´·¢ËÍSF£¬Ä£Äâ Client */
+    /* æ‘†åœ¨æˆ‘é¢å‰çš„éš¾é¢˜ï¼Œæ²¡æœ‰ä¸“ä¸šçš„CANè°ƒè¯•è®¾å¤‡ï¼Œæˆ‘å°†å¦‚ä½•æµ‹è¯•DCM */
+    /* ä½¿ç”¨CanIfæ¥å‘é€SFï¼Œæ¨¡æ‹Ÿ Client */
     callcnt++; 
     switch(callcnt)
     {
@@ -513,8 +526,12 @@ void DcmEx1Sender(void)
         break;
         case 13:
             ex1ReadDatabyIdPeriod(0xF201);
+        break;
+        case 14:
+            ex1ReadDatabyIdPeriodStop(0xF201);
+        break;
         default:
-            callcnt = 13;
+            callcnt = 14;
         break;
     }     
 }
