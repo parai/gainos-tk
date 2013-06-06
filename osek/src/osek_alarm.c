@@ -161,7 +161,7 @@ StatusType SetRelAlarm ( AlarmType AlarmID , TickType Increment ,TickType Cycle 
     max = knl_almbase_table[cntid].MaxAllowedValue;
     OS_CHECK_EXT((max > Increment),E_OS_VALUE);
     OS_CHECK_EXT((max > Cycle),E_OS_VALUE);
-    OS_CHECK_EXT(((knl_almbase_table[cntid].MinCycle < Cycle) || (0 == Cycle)),E_OS_VALUE);
+    OS_CHECK_EXT(((knl_almbase_table[cntid].MinCycle <= Cycle) || (0 == Cycle)),E_OS_VALUE);
     ccb = &knl_ccb_table[cntid];
     
     BEGIN_DISABLE_INTERRUPT;
