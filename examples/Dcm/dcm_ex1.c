@@ -118,9 +118,41 @@ Std_ReturnType vDid_1_GetScalingInfo_Cbk(uint8 *scalingInfo,
                 Dcm_NegativeResponseCodeType *errorCode){
     *errorCode = DCM_E_POSITIVERESPONSE;
     scalingInfo[0] = 0xEE;
-    printf("in  vDid_1_GetScalingInfo_Cbk().\r\n[");
+    printf("in  vDid_1_GetScalingInfo_Cbk().\r\n");
     return E_OK;
 }
+Std_ReturnType vDid_1_FreezeCurrentState_cbk(uint8 *controlOptionRecord, 
+        uint8 *controlEnableMaskRecord, uint8 *controlStatusRecord,
+        Dcm_NegativeResponseCodeType *errorCode)
+{
+    *errorCode = DCM_E_POSITIVERESPONSE;
+    printf("in  vDid_1_FreezeCurrentState_cbk().\r\n");
+    return E_OK;
+}
+Std_ReturnType vDid_1_ResetToDefault_Cbk(uint8 *controlOptionRecord, 
+        uint8 *controlEnableMaskRecord, uint8 *controlStatusRecord, 
+        Dcm_NegativeResponseCodeType *errorCode)
+{
+    *errorCode = DCM_E_POSITIVERESPONSE;
+    printf("in  vDid_1_ResetToDefault_Cbk().\r\n");
+    return E_OK;
+}        
+Std_ReturnType vDid_1_ReturnControl_Cbk(uint8 *controlOptionRecord, 
+        uint8 *controlEnableMaskRecord, uint8 *controlStatusRecord, 
+        Dcm_NegativeResponseCodeType *errorCode)
+{
+    *errorCode = DCM_E_POSITIVERESPONSE;
+    printf("in  vDid_1_ReturnControl_Cbk().\r\n");
+    return E_OK;
+}                
+Std_ReturnType vDid_1__ShortTermAdj_cbk(uint8 *controlOptionRecord, 
+        uint8 *controlEnableMaskRecord, uint8 *controlStatusRecord, 
+        Dcm_NegativeResponseCodeType *errorCode)
+{
+    *errorCode = DCM_E_POSITIVERESPONSE;
+    printf("in  vDid_1__ShortTermAdj_cbk().\r\n");
+    return E_OK;
+}        
 Std_ReturnType vRequestService_1_Indication(uint8 *requestData, uint16 dataSize)
 {
     printf("in  vRequestService_1_Indication().\r\n[");
@@ -408,10 +440,10 @@ void ex1DefineDDDByID(void)
     sduData[2] = 5;   //size
     pduinfo.SduDataPtr = sduData;
     pduinfo.SduLength = 3;
-    /* Send FF */
+    /* Send CF */
     CanIf_Transmit(vCanIf_Channel_0, &pduinfo);
 }
-void ex1ClearDefineDDDByID(void)
+static void ex1ClearDefineDDDByID(void)
 {
     uint8  sduData[8];
     PduInfoType pduinfo;
@@ -422,7 +454,21 @@ void ex1ClearDefineDDDByID(void)
     sduData[4] = 0x01;
     pduinfo.SduDataPtr = sduData;
     pduinfo.SduLength = 5;
-    /* Send FF */
+    /* Send SF */
+    CanIf_Transmit(vCanIf_Channel_0, &pduinfo);
+}
+static void ex1IoControl(void)
+{
+    uint8  sduData[8];
+    PduInfoType pduinfo;
+    sduData[0] = ISO15765_TPCI_SF | 4;
+    sduData[1] = 0x2F;
+    sduData[2] = 0x09; //Id
+    sduData[3] = 0x99; 
+    sduData[4] = 0x01; //option
+    pduinfo.SduDataPtr = sduData;
+    pduinfo.SduLength = 5;
+    /* Send SF */
     CanIf_Transmit(vCanIf_Channel_0, &pduinfo);
 }    
 // this is the Client reveiver
@@ -529,6 +575,9 @@ void DcmEx1Sender(void)
         break;
         case 14:
             ex1ReadDatabyIdPeriodStop(0xF201);
+        break;
+        case 15:
+            ex1IoControl();
         break;
         default:
             callcnt = 14;
