@@ -16,12 +16,14 @@ GenTaskStack(vTaskInit,256);
 GenTaskStack(vTaskSender,512);
 GenTaskStack(vTaskReceiver,512);
 GenTaskStack(vTaskMainFunction,512);
+GenTaskStack(vTaskIdle,512);
 EXPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM]=
 {
 	GenTaskInfo(vTaskInit,10,256,OSDEFAULTAPPMODE|NON_PREEMTABLE,INVALID_EVENT,1,0),
-	GenTaskInfo(vTaskSender,6,512,OSNONEAPPMODE|PREEMTABLE,INVALID_EVENT,3,6),
+	GenTaskInfo(vTaskSender,6,512,OSNONEAPPMODE|PREEMTABLE,ID_vTaskSenderEvent,3,6),
 	GenTaskInfo(vTaskReceiver,6,512,OSNONEAPPMODE|PREEMTABLE,ID_vTaskReceiverEvent,4,6),
 	GenTaskInfo(vTaskMainFunction,4,512,OSNONEAPPMODE|PREEMTABLE,INVALID_EVENT,0,4),
+	GenTaskInfo(vTaskIdle,10,512,OSNONEAPPMODE|PREEMTABLE,INVALID_EVENT,1,10)
 };
 
 EXPORT const AlarmBaseType knl_almbase_table[cfgOSEK_COUNTER_NUM]=

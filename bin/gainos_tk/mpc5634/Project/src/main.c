@@ -84,7 +84,7 @@ int main(void) {
   SystemClockInit();
   InitializeUART();
   printf("Start OS.\r\n");
-  StartOS(0);
+  StartOS(OSDEFAULTAPPMODE);
   for(;;);
 }
 

@@ -16,7 +16,7 @@
 #define cfgOS_CONFORMANCE_CLASS ECC2
 #define cfgOS_STATUS_LEVEL OS_STATUS_STANDARD
 #define cfgOS_TK_EXTEND STD_OFF
-#define CHIP_MC9S12
+#define CHIP_MPC56XX
 #if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
 #define OSC_FREQUENCY         8000000 /* HZ */
@@ -32,21 +32,24 @@
 /* App Mode */
 /* =====================  TASK  ========================== */
 #define cfgOSEK_MAX_PRIO 10
-#define cfgOSEK_TASK_NUM  4
+#define cfgOSEK_TASK_NUM  5
 #define ID_vTaskInit 0
 #define ID_vTaskSender 1
 #define ID_vTaskReceiver 2
 #define ID_vTaskMainFunction 3
+#define ID_vTaskIdle  4
 #if !defined(MACROS_ONLY)
 IMPORT TASK(vTaskInit);
 IMPORT TASK(vTaskSender);
 IMPORT TASK(vTaskReceiver);
 IMPORT TASK(vTaskMainFunction);
+IMPORT TASK(vTaskIdle);
 #endif
 /* =====================  EVENT ========================== */
 #define ID_vTaskReceiverEvent 0
+#define ID_vTaskSenderEvent 1
 #define vTaskReceiverCanRxEvent 0x1
-#define cfgOSEK_EVENTFLAG_NUM 1
+#define cfgOSEK_EVENTFLAG_NUM 2
 
 /* =====================  ALARM ========================== */
 #define cfgOSEK_COUNTER_NUM 1

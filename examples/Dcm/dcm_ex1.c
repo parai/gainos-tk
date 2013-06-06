@@ -239,7 +239,7 @@ static void ex1ReadDatabyIdPeriod(uint16 id)
     PduInfoType pduinfo;
     sduData[0] = ISO15765_TPCI_SF | 3;
     sduData[1] = 0x2A;
-    sduData[2] = DCM_PERIODICTRANSMIT_SLOWRATE_MODE;
+    sduData[2] = DCM_PERIODICTRANSMIT_FAST_MODE;
     sduData[3] = (uint8)(id)&0xFFU;
     pduinfo.SduDataPtr = sduData;
     pduinfo.SduLength = 4;
@@ -537,12 +537,9 @@ void DcmEx1Sender(void)
 }
 //============================= OS TASK ==============================
 extern void DcmEx1Init(void);
-#include "osek_os.h"
-extern CCB knl_ccb_table[];
 TASK(vTaskInit)
 {
 	StatusType ercd;
-	knl_ccb_table[0].curvalue = 60000 -1000;
 	(void)SetRelAlarm(ID_vAlarmReceiver,50,10);
 	(void)SetRelAlarm(ID_vAlarmSender,100,200);
 	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
@@ -550,14 +547,21 @@ TASK(vTaskInit)
 	DcmEx1Init();
     /* Add your task special code here, but Don't delete this Task declaration.*/
     (void)printf("vTaskInit is running.\r\n");
-
+    //(void)ActivateTask(ID_vTaskSender);
+    //(void)ActivateTask(ID_vTaskReceiver);
+    //(void)ActivateTask(ID_vTaskMainFunction);
     (void)TerminateTask();
 }
 extern void DcmEx1Sender(void);
 TASK(vTaskSender)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    DcmEx1Sender();
+    
+    //for(;;)
+    {
+        DcmEx1Sender();
+        //SleepTask(200);
+    }
     (void)TerminateTask();
 }
 extern void Dcm_Ex1Receiver(void);
@@ -565,7 +569,11 @@ TASK(vTaskReceiver)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     //(void)printf("vTaskReceiver is running.\r\n");
-    Dcm_Ex1Receiver();
+    //for(;;)
+    {
+        Dcm_Ex1Receiver();
+       // SleepTask(10);
+    }    
     (void)TerminateTask();
 }
 extern void DcmEx1MainFunction(void);
@@ -573,7 +581,11 @@ TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     //(void)printf("vTaskMainFunction is running.\r\n");
-    DcmEx1MainFunction();
+    //for(;;)
+    {
+        DcmEx1MainFunction();
+        //SleepTask(1);
+    }     
     (void)TerminateTask();
 }
 
