@@ -8,16 +8,6 @@
 #include <stdio.h>
 
 #include "osek_os.h"
-TASK(vTaskInit)
-{
-    /* Add your task special code here, but Don't delete this Task declaration.*/
-	(void)SetRelAlarm(ID_vAlarmReceiver,50,10);
-	(void)SetRelAlarm(ID_vAlarmSender,100,200);
-	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
-    printf("vTaskInit is running.\r\n");
-    (void)ActivateTask(ID_vTaskIdle);
-    (void)TerminateTask();
-}
 
 TASK(vTaskSender)
 {
@@ -40,14 +30,6 @@ TASK(vTaskMainFunction)
     //(void)ActivateTask(ID_vTaskInit);
     (void)TerminateTask();
 }
-TASK(vTaskIdle)
-{
-    /* Add your task special code here, but Don't delete this Task declaration.*/
-    rintf("vTaskIdle is running.\r\n");
-    //for(;;);
-    (void)TerminateTask();
-}
-
 ALARM(vAlarmSender)
 {
     /* Alarm Type: Task, you still can add your special code here.*/
@@ -62,4 +44,12 @@ ALARM(vAlarmMainFunction)
 {
     /* Alarm Type: Task, you still can add your special code here.*/
     (void)ActivateTask(ID_vTaskMainFunction);
+}
+
+void StartupHook(void)
+{
+    /* Add Code Here */
+    (void)SetRelAlarm(ID_vAlarmReceiver,50,10);
+	(void)SetRelAlarm(ID_vAlarmSender,100,200);
+	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
 }

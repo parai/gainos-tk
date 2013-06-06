@@ -83,6 +83,13 @@ class cd_os(QDialog, Ui_cd_os):
         self.cmbxStatus.setCurrentIndex(self.cmbxStatus.findText(self.cfg.general.status));
         self.spbxMaxPrio.setValue(self.cfg.general.max_pri);
         self.cbxTkExtend.setChecked(self.cfg.general.tk_extend);
+        self.cbxTskStkOverflowCheck.setChecked(self.cfg.general.os_stack_overflow_check);
+        self.cbxOsStartUpHook.setChecked(self.cfg.general.os_startup_hook);
+        self.cbxOsShutDownHook.setChecked(self.cfg.general.os_shutdown_hook);
+        self.cbxPreTaskHook.setChecked(self.cfg.general.os_pretask_hook);
+        self.cbxPostTaskHook.setChecked(self.cfg.general.os_post_task_hook);
+        self.cbxOsErrorHook.setChecked(self.cfg.general.os_error_hook);
+        self.spbxSystenStkSz.setValue(self.cfg.general.system_stack_size);
         
     def initGui(self):
         self.initButton();
@@ -545,6 +552,41 @@ class cd_os(QDialog, Ui_cd_os):
     def on_cbxTkExtend_clicked(self, p0):
         if(self.cfg.general.tk_extend != p0):
             self.cfg.general.tk_extend = p0;
+            self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxTskStkOverflowCheck_clicked(self, p0):
+        if(self.cfg.general.os_stack_overflow_check != p0):
+            self.cfg.general.os_stack_overflow_check = p0;
+            self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxOsStartUpHook_clicked(self, p0):
+        if(self.cfg.general.os_startup_hook != p0):
+            self.cfg.general.os_startup_hook = p0;
+            self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxOsShutDownHook_clicked(self, p0):
+        if(self.cfg.general.os_shutdown_hook != p0):
+            self.cfg.general.os_shutdown_hook = p0;
+            self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxPreTaskHook_clicked(self, p0):
+        if(self.cfg.general.os_pretask_hook != p0):
+            self.cfg.general.os_pretask_hook = p0;
+            self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxPostTaskHook_clicked(self, p0):
+        if(self.cfg.general.os_post_task_hook != p0):
+            self.cfg.general.os_post_task_hook = p0;
+            self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxOsErrorHook_clicked(self, p0):
+        if(self.cfg.general.os_error_hook != p0):
+            self.cfg.general.os_error_hook = p0;
+            self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxSystenStkSz_valueChanged(self, p0):
+        if self.cfg.general.system_stack_size != p0:
+            self.cfg.general.system_stack_size = p0;
             self.fileInd(False);
     #==================== APP MODE ========================================
     @pyqtSignature("QString")

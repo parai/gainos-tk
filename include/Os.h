@@ -164,4 +164,5 @@ void ShutdownHook ( StatusType xError);
 void StartupHook(void);
 void ErrorHook(StatusType xError);
 void PreTaskHook(void);
+void PostTaskHook(void);
 #endif

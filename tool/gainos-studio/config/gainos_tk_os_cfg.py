@@ -17,6 +17,13 @@ class General():
         self.status = 'STANDARD';
         self.sched_policy = 'FULL_PREEMPTIVE_SCHEDULE';
         self.tk_extend = False;
+        self.os_startup_hook = True;
+        self.os_shutdown_hook = False;
+        self.os_pretask_hook = False;
+        self.os_post_task_hook = False;
+        self.os_error_hook = False;
+        self.os_stack_overflow_check = False;
+        self.system_stack_size = 512;
     def save(self, root):
         nd = ET.Element('General');
         nd.attrib['chip'] = str(self.chip);
@@ -26,6 +33,13 @@ class General():
         nd.attrib['status'] = str(self.status);  
         nd.attrib['sched_policy'] = str(self.sched_policy);  
         nd.attrib['tk_extend'] = str(self.tk_extend);  
+        nd.attrib['os_startup_hook'] = str(self.os_startup_hook);  
+        nd.attrib['os_shutdown_hook'] = str(self.os_shutdown_hook);  
+        nd.attrib['os_pretask_hook'] = str(self.os_pretask_hook);  
+        nd.attrib['os_post_task_hook'] = str(self.os_post_task_hook);  
+        nd.attrib['os_error_hook'] = str(self.os_error_hook);  
+        nd.attrib['os_stack_overflow_check'] = str(self.os_stack_overflow_check);  
+        nd.attrib['system_stack_size'] = str(self.system_stack_size);  
         root.append(nd); 
     def parse(self, nd):
         self.chip = nd.attrib['chip'];
@@ -35,6 +49,13 @@ class General():
         self.status = nd.attrib['status'];
         self.sched_policy = nd.attrib['sched_policy'];
         self.tk_extend = bool(nd.attrib['tk_extend']);
+        self.os_startup_hook = bool(nd.attrib['os_startup_hook']);
+        self.os_shutdown_hook = bool(nd.attrib['os_shutdown_hook']);
+        self.os_pretask_hook = bool(nd.attrib['os_pretask_hook']);
+        self.os_post_task_hook = bool(nd.attrib['os_post_task_hook']);
+        self.os_error_hook = bool(nd.attrib['os_error_hook']);
+        self.os_stack_overflow_check = bool(nd.attrib['os_stack_overflow_check']);
+        self.system_stack_size = int(nd.attrib['system_stack_size']);
         
 class Resource():
     def __init__(self, name, ceilprio):
@@ -258,6 +279,7 @@ class gainos_tk_os_cfg():
         fp.write('#define cfgOS_CONFORMANCE_CLASS %s\n'%(self.cfg.general.os_class))
         fp.write('#define cfgOS_STATUS_LEVEL OS_STATUS_%s\n'%(self.cfg.general.status));
         fp.write('#define cfgOS_TK_EXTEND %s\n'%(gSTD_ON(self.cfg.general.tk_extend)));
+        fp.write('#define cfgOS_SYSTEM_STACK_SIZE %s\n'%(self.cfg.general.system_stack_size));
         fp.write('#define CHIP_%s\n'%(self.cfg.general.chip));
         fp.write("""#if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
@@ -322,11 +344,14 @@ class gainos_tk_os_cfg():
             fp.write('#define ID_%s %s\n'%(obj.name,id));
             id += 0;
         #=========================== End =========================
-        fp.write("""
-/*  ====================  HOOKs    ======================= */
-#define cfgOS_SHUT_DOWN_HOOK 0
-#define cfgOS_START_UP_HOOK  0
-#endif /* _OSEK_CFG_H_ */\n""");
+        fp.write('/*  ====================  HOOKs    ======================= */\n');
+        fp.write('#define cfgOS_STACK_USAGE_CHECK %s\n'%(gSTD_ON(self.cfg.general.os_stack_overflow_check)));
+        fp.write('#define cfgOS_SHUT_DOWN_HOOK %s\n'%(gSTD_ON(self.cfg.general.os_shutdown_hook)));
+        fp.write('#define cfgOS_START_UP_HOOK %s\n'%(gSTD_ON(self.cfg.general.os_startup_hook)));
+        fp.write('#define cfgOS_ERROR_HOOK %s\n'%(gSTD_ON(self.cfg.general.os_error_hook)));
+        fp.write('#define cfgOS_PRE_TASK_HOOK %s\n'%(gSTD_ON(self.cfg.general.os_pretask_hook)));
+        fp.write('#define cfgOS_POST_TASK_HOOK %s\n'%(gSTD_ON(self.cfg.general.os_post_task_hook)));
+        fp.write('#endif /* _OSEK_CFG_H_ */\n\n')
         fp.close();
     
     def genC(self, path):
@@ -425,3 +450,35 @@ ALARM(%s)
     /* Alarm Type: Event, you still can add your special code here.*/
     (void)SetEvent(ID_%s,%s);
 }"""%(obj.name, obj.task, obj.event));
+
+        if(self.cfg.general.os_startup_hook):
+            fp.write("""
+            
+void StartupHook(void)
+{
+    /* Add Code Here */
+}\n""")
+        if(self.cfg.general.os_shutdown_hook):
+            fp.write("""
+void ShutdownHook(StatusType Error)
+{
+    /* Add Code Here */
+}\n""")
+        if(self.cfg.general.os_pretask_hook):
+            fp.write("""
+void PreTaskHook(void)
+{
+    /* Add Code Here */
+}\n""")
+        if(self.cfg.general.os_post_task_hook):
+            fp.write("""
+void PostTaskHook(void)
+{
+    /* Add Code Here */
+}\n""")
+        if(self.cfg.general.os_error_hook):
+            fp.write("""
+void ErrorHook(StatusType Error)
+{
+    /* Add Code Here */
+}\n""")

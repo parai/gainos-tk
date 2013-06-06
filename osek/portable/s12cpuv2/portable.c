@@ -22,7 +22,7 @@
 #include "derivative.h"      /* derivative-specific definitions */
 #include "knl_timer.h"
 
-LOCAL 	UB	knl_tmp_stack[cfgTMP_STACK_SZ];
+LOCAL 	UB	knl_system_stack[cfgOS_SYSTEM_STACK_SIZE];
 
 //#define tk_ppage $30  //for MX9S12DP512
 #define tk_ppage $15  //for MX9S12XEP100
@@ -112,7 +112,7 @@ l_dispatch2:
 }
 void knl_force_dispatch(void)
 {
-    asm  lds #knl_tmp_stack:cfgTMP_STACK_SZ   /* Set temporal stack */
+    asm  lds #knl_system_stack:cfgOS_SYSTEM_STACK_SIZE   /* Set temporal stack */
     knl_dispatch_disabled=1;    /* Dispatch disable */ 
     knl_ctxtsk=(void *)0;
     asm sei; 

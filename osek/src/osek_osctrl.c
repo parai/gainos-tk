@@ -52,7 +52,7 @@ void StartOS ( AppModeType AppMode )
     knl_resource_init();
 	knl_task_init();
 
-#if(cfgOS_START_UP_HOOK == 1)
+#if(cfgOS_START_UP_HOOK == STD_ON)
 	StartupHook();			/* Call Start up hook */
 #endif
 #if(cfgOS_TK_EXTEND == STD_ON)
@@ -98,14 +98,13 @@ void StartOS ( AppModeType AppMode )
 /* |------------------+------------------------------------------------------------------| */
 /* | Conformance:     | BCC1, BCC2, ECC1, ECC2                                           | */
 /* |------------------+------------------------------------------------------------------| */
-void ShutdownOS( StatusType xError )
+void ShutdownOS( StatusType Error )
 {
-#if (cfgOS_SHUT_DOWN_HOOK == 1)
-	ShutdownHook(xError);
+#if (cfgOS_SHUT_DOWN_HOOK == STD_ON)
+	ShutdownHook(Error);
 #endif
 /* OS425: If ShutdownOS() is called and ShutdownHook() returns then the operating
    system shall disable all interrupts and enter an endless loop. */
-	/* tm_printf("Shut down OS because of error %d.\r\r\n",xError); */
 	for ( ; ; )
     {
         /* Dead lopp here */

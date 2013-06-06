@@ -20,8 +20,6 @@
  */
 #ifndef VPORT_MACRO_H_H
 #define VPORT_MACRO_H_H
-
-#define cfgTMP_STACK_SZ 512
 /*
  * CPU interrupt control
  *	'intsts' is the value of PRIMASK in CPU
