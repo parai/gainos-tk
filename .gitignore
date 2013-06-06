@@ -8,6 +8,7 @@ cscope.files
 *.pyc
 *.elf
 *.s19
+*.cmd
 
 # Libraries
 *.lib
