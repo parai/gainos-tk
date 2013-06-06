@@ -20,7 +20,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 12pt &quot;Monospace&quot;;</string>
+   <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTreeWidget" name="trModule">
@@ -38,6 +38,9 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
+    </property>
     <column>
      <property name="text">
       <string>Module</string>
@@ -53,14 +56,17 @@
       <height>221</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
+    </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>35</y>
       <width>113</width>
-      <height>146</height>
+      <height>161</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -114,7 +120,7 @@
      <x>0</x>
      <y>0</y>
      <width>255</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuGaInOS_Studio">

@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
+  </property>
   <widget class="QComboBox" name="cmbxSelect">
    <property name="geometry">
     <rect>
@@ -23,13 +26,13 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>80</x>
      <y>60</y>
      <width>158</width>
-     <height>25</height>
+     <height>29</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">

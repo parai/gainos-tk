@@ -13,12 +13,15 @@
   <property name="windowTitle">
    <string>EcuC Config</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
+  </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>90</y>
-     <width>781</width>
+     <width>791</width>
      <height>371</height>
     </rect>
    </property>
@@ -50,8 +53,8 @@
      <rect>
       <x>410</x>
       <y>20</y>
-      <width>351</width>
-      <height>141</height>
+      <width>381</width>
+      <height>161</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -66,8 +69,8 @@
        <rect>
         <x>10</x>
         <y>21</y>
-        <width>321</width>
-        <height>80</height>
+        <width>365</width>
+        <height>95</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -147,7 +150,7 @@
       <x>290</x>
       <y>50</y>
       <width>101</width>
-      <height>54</height>
+      <height>62</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">

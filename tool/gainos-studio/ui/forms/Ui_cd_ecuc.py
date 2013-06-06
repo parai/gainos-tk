@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_ecuc.ui'
 #
-# Created: Sat May 25 17:17:21 2013
+# Created: Thu Jun 06 20:42:16 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,20 +18,21 @@ class Ui_cd_ecuc(object):
     def setupUi(self, cd_ecuc):
         cd_ecuc.setObjectName(_fromUtf8("cd_ecuc"))
         cd_ecuc.resize(802, 471)
+        cd_ecuc.setStyleSheet(_fromUtf8("font: 12pt \"Consolas\";"))
         self.groupBox = QtGui.QGroupBox(cd_ecuc)
-        self.groupBox.setGeometry(QtCore.QRect(0, 90, 781, 371))
+        self.groupBox.setGeometry(QtCore.QRect(0, 90, 791, 371))
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.trEcucCfg = QtGui.QTreeWidget(self.groupBox)
         self.trEcucCfg.setGeometry(QtCore.QRect(20, 30, 256, 321))
         self.trEcucCfg.setObjectName(_fromUtf8("trEcucCfg"))
         item_0 = QtGui.QTreeWidgetItem(self.trEcucCfg)
         self.tabCfg = QtGui.QTabWidget(self.groupBox)
-        self.tabCfg.setGeometry(QtCore.QRect(410, 20, 351, 141))
+        self.tabCfg.setGeometry(QtCore.QRect(410, 20, 381, 161))
         self.tabCfg.setObjectName(_fromUtf8("tabCfg"))
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
         self.layoutWidget = QtGui.QWidget(self.tab)
-        self.layoutWidget.setGeometry(QtCore.QRect(10, 21, 321, 80))
+        self.layoutWidget.setGeometry(QtCore.QRect(10, 21, 365, 95))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.layoutWidget)
         self.verticalLayout_2.setMargin(0)
@@ -68,7 +69,7 @@ class Ui_cd_ecuc(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
         self.tabCfg.addTab(self.tab, _fromUtf8(""))
         self.layoutWidget1 = QtGui.QWidget(self.groupBox)
-        self.layoutWidget1.setGeometry(QtCore.QRect(290, 50, 101, 54))
+        self.layoutWidget1.setGeometry(QtCore.QRect(290, 50, 101, 62))
         self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
         self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget1)
         self.verticalLayout.setMargin(0)

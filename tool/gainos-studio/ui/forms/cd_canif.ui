@@ -213,6 +213,9 @@ p, li { white-space: pre-wrap; }
       <height>371</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
+    </property>
     <column>
      <property name="text">
       <string>Can</string>

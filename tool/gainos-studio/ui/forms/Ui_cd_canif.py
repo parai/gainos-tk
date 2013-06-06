@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_canif.ui'
 #
-# Created: Sat May 25 17:17:20 2013
+# Created: Thu Jun 06 20:42:15 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -91,6 +91,7 @@ class Ui_cd_canif(object):
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.trCanIfCfg = QtGui.QTreeWidget(self.groupBox_2)
         self.trCanIfCfg.setGeometry(QtCore.QRect(20, 30, 256, 371))
+        self.trCanIfCfg.setStyleSheet(_fromUtf8("font: 12pt \"Consolas\";"))
         self.trCanIfCfg.setObjectName(_fromUtf8("trCanIfCfg"))
         item_0 = QtGui.QTreeWidgetItem(self.trCanIfCfg)
         self.tabCfg = QtGui.QTabWidget(self.groupBox_2)

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_add.ui'
 #
-# Created: Sat May 25 17:17:19 2013
+# Created: Thu Jun 06 20:42:14 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,11 +18,12 @@ class Ui_cd_add(object):
     def setupUi(self, cd_add):
         cd_add.setObjectName(_fromUtf8("cd_add"))
         cd_add.resize(258, 410)
+        cd_add.setStyleSheet(_fromUtf8("font: 12pt \"Consolas\";"))
         self.trModule = QtGui.QTreeWidget(cd_add)
         self.trModule.setGeometry(QtCore.QRect(20, 20, 221, 341))
         self.trModule.setObjectName(_fromUtf8("trModule"))
         self.layoutWidget = QtGui.QWidget(cd_add)
-        self.layoutWidget.setGeometry(QtCore.QRect(40, 370, 158, 25))
+        self.layoutWidget.setGeometry(QtCore.QRect(40, 370, 158, 29))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setMargin(0)

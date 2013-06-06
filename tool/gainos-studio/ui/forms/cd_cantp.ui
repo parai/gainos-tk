@@ -6,19 +6,22 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>934</width>
-    <height>592</height>
+    <width>967</width>
+    <height>608</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Can Transport Protocal</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
+  </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
-     <width>911</width>
+     <y>0</y>
+     <width>951</width>
      <height>51</height>
     </rect>
    </property>
@@ -43,8 +46,8 @@
      <rect>
       <x>230</x>
       <y>20</y>
-      <width>334</width>
-      <height>22</height>
+      <width>397</width>
+      <height>27</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -85,9 +88,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>70</y>
-     <width>911</width>
-     <height>511</height>
+     <y>50</y>
+     <width>951</width>
+     <height>551</height>
     </rect>
    </property>
    <property name="maximumSize">
@@ -128,25 +131,25 @@
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>20</y>
-      <width>471</width>
-      <height>481</height>
+      <y>10</y>
+      <width>531</width>
+      <height>541</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
       <string>Rx Pdu</string>
      </attribute>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>21</x>
-        <y>21</y>
-        <width>426</width>
-        <height>422</height>
+        <x>10</x>
+        <y>10</y>
+        <width>492</width>
+        <height>497</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -553,9 +556,9 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>300</y>
-        <width>382</width>
-        <height>80</height>
+        <y>330</y>
+        <width>490</width>
+        <height>95</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -649,9 +652,9 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>200</y>
-        <width>368</width>
-        <height>80</height>
+        <y>220</y>
+        <width>422</width>
+        <height>95</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -735,8 +738,8 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>20</x>
         <y>20</y>
-        <width>424</width>
-        <height>164</height>
+        <width>481</width>
+        <height>194</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_6">

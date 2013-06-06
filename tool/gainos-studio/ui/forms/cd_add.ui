@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Add Autosar Component</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
+  </property>
   <widget class="QTreeWidget" name="trModule">
    <property name="geometry">
     <rect>
@@ -34,7 +37,7 @@
      <x>40</x>
      <y>370</y>
      <width>158</width>
-     <height>25</height>
+     <height>29</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">

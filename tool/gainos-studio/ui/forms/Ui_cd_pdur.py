@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_pdur.ui'
 #
-# Created: Sat May 25 17:17:22 2013
+# Created: Thu Jun 06 20:42:16 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,12 +18,14 @@ class Ui_cd_pdur(object):
     def setupUi(self, cd_pdur):
         cd_pdur.setObjectName(_fromUtf8("cd_pdur"))
         cd_pdur.resize(1086, 586)
+        cd_pdur.setStyleSheet(_fromUtf8("font: 12pt \"Consolas\";"))
         self.groupBox_2 = QtGui.QGroupBox(cd_pdur)
         self.groupBox_2.setGeometry(QtCore.QRect(10, 170, 1061, 411))
         self.groupBox_2.setMaximumSize(QtCore.QSize(16777214, 16777215))
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.trPduRCfg = QtGui.QTreeWidget(self.groupBox_2)
         self.trPduRCfg.setGeometry(QtCore.QRect(20, 30, 361, 371))
+        self.trPduRCfg.setStyleSheet(_fromUtf8("font: 10pt \"Consolas\";"))
         self.trPduRCfg.setObjectName(_fromUtf8("trPduRCfg"))
         item_0 = QtGui.QTreeWidgetItem(self.trPduRCfg)
         item_0 = QtGui.QTreeWidgetItem(self.trPduRCfg)
@@ -34,7 +36,7 @@ class Ui_cd_pdur(object):
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
         self.layoutWidget = QtGui.QWidget(self.tab)
-        self.layoutWidget.setGeometry(QtCore.QRect(10, 30, 461, 108))
+        self.layoutWidget.setGeometry(QtCore.QRect(10, 30, 461, 128))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
         self.verticalLayout_3 = QtGui.QVBoxLayout(self.layoutWidget)
         self.verticalLayout_3.setMargin(0)
@@ -87,7 +89,7 @@ class Ui_cd_pdur(object):
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName(_fromUtf8("tab_2"))
         self.layoutWidget1 = QtGui.QWidget(self.tab_2)
-        self.layoutWidget1.setGeometry(QtCore.QRect(10, 30, 461, 108))
+        self.layoutWidget1.setGeometry(QtCore.QRect(10, 30, 461, 128))
         self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
         self.verticalLayout_4 = QtGui.QVBoxLayout(self.layoutWidget1)
         self.verticalLayout_4.setMargin(0)
@@ -142,7 +144,7 @@ class Ui_cd_pdur(object):
         self.tab_3 = QtGui.QWidget()
         self.tab_3.setObjectName(_fromUtf8("tab_3"))
         self.layoutWidget2 = QtGui.QWidget(self.tab_3)
-        self.layoutWidget2.setGeometry(QtCore.QRect(11, 31, 461, 52))
+        self.layoutWidget2.setGeometry(QtCore.QRect(11, 31, 461, 62))
         self.layoutWidget2.setObjectName(_fromUtf8("layoutWidget2"))
         self.verticalLayout_5 = QtGui.QVBoxLayout(self.layoutWidget2)
         self.verticalLayout_5.setMargin(0)
@@ -167,7 +169,7 @@ class Ui_cd_pdur(object):
         self.verticalLayout_5.addLayout(self.horizontalLayout_11)
         self.tabCfg.addTab(self.tab_3, _fromUtf8(""))
         self.layoutWidget3 = QtGui.QWidget(self.groupBox_2)
-        self.layoutWidget3.setGeometry(QtCore.QRect(400, 55, 131, 54))
+        self.layoutWidget3.setGeometry(QtCore.QRect(390, 55, 154, 62))
         self.layoutWidget3.setObjectName(_fromUtf8("layoutWidget3"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.layoutWidget3)
         self.verticalLayout_2.setMargin(0)
@@ -182,7 +184,7 @@ class Ui_cd_pdur(object):
         self.groupBox.setGeometry(QtCore.QRect(10, 10, 441, 151))
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.layoutWidget4 = QtGui.QWidget(self.groupBox)
-        self.layoutWidget4.setGeometry(QtCore.QRect(20, 20, 211, 62))
+        self.layoutWidget4.setGeometry(QtCore.QRect(20, 20, 304, 83))
         self.layoutWidget4.setObjectName(_fromUtf8("layoutWidget4"))
         self.verticalLayout_10 = QtGui.QVBoxLayout(self.layoutWidget4)
         self.verticalLayout_10.setMargin(0)
@@ -197,7 +199,7 @@ class Ui_cd_pdur(object):
         self.cbxZeroCostEnable.setObjectName(_fromUtf8("cbxZeroCostEnable"))
         self.verticalLayout_10.addWidget(self.cbxZeroCostEnable)
         self.layoutWidget5 = QtGui.QWidget(self.groupBox)
-        self.layoutWidget5.setGeometry(QtCore.QRect(20, 90, 167, 52))
+        self.layoutWidget5.setGeometry(QtCore.QRect(20, 101, 220, 51))
         self.layoutWidget5.setObjectName(_fromUtf8("layoutWidget5"))
         self.verticalLayout_11 = QtGui.QVBoxLayout(self.layoutWidget5)
         self.verticalLayout_11.setMargin(0)
@@ -229,7 +231,7 @@ class Ui_cd_pdur(object):
         self.groupBox_3.setGeometry(QtCore.QRect(470, 10, 601, 151))
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
         self.layoutWidget6 = QtGui.QWidget(self.groupBox_3)
-        self.layoutWidget6.setGeometry(QtCore.QRect(20, 42, 221, 86))
+        self.layoutWidget6.setGeometry(QtCore.QRect(20, 42, 221, 114))
         self.layoutWidget6.setObjectName(_fromUtf8("layoutWidget6"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.layoutWidget6)
         self.horizontalLayout.setMargin(0)
