@@ -50,12 +50,12 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.btn4.setDisabled(True);
     def disableAllTab(self):
         """禁止所有的Tab页"""
-        for i in  range(0, 23):
+        for i in  range(0, 24):
             self.tblDcmCfg.setTabEnabled(i, False);
     
     def enableTab(self, index):
         """使能xIndex指向的Tab页"""
-        for i in  range(0, 23):
+        for i in  range(0, 24):
             if(i==index):
                 self.tblDcmCfg.setTabEnabled(i, True);
                 self.tblDcmCfg.setCurrentIndex(i);
@@ -73,7 +73,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         for obj in list:
             item=QTreeWidgetItem(tree,QStringList(obj.name));
     def reloadTreeDidInfo(self):
-        tree=self.trDcm.topLevelItem(1);
+        tree=self.trDcm.topLevelItem(2);
         for index in range(0, tree.childCount()):
             temp=tree.takeChild(0);
             del temp;
@@ -82,7 +82,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             for obj2 in obj.ControlAccessList+obj.ReadAccessList+obj.WriteAccessList:
                 item2 = QTreeWidgetItem(item,QStringList(obj2.name));
     def reloadTreeProtocol(self):
-        tree=self.trDcm.topLevelItem(4);
+        tree=self.trDcm.topLevelItem(5);
         for index in range(0, tree.childCount()):
             temp=tree.takeChild(0);
             del temp;
@@ -93,7 +93,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
                 for obj3 in obj2.RxChannelList+obj2.TxChannelList:
                     item3=QTreeWidgetItem(item2,QStringList(obj3.name));
     def reloadTreeServiceTable(self):
-        tree=self.trDcm.topLevelItem(9);
+        tree=self.trDcm.topLevelItem(10);
         for index in range(0, tree.childCount()):
             temp=tree.takeChild(0);
             del temp;
@@ -102,7 +102,7 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             for obj2 in obj.serviceList:
                 item2=QTreeWidgetItem(item,QStringList(obj2.name));
     def reloadTreeRoutineInfoTable(self):
-        tree=self.trDcm.topLevelItem(6);
+        tree=self.trDcm.topLevelItem(7);
         for index in range(0, tree.childCount()):
             temp=tree.takeChild(0);
             del temp;
@@ -112,18 +112,19 @@ class cd_dcm(QDialog, Ui_cd_dcm):
                 item2=QTreeWidgetItem(item,QStringList(obj2.name));
     def reloadGui(self):
         self.reloadTreeGui(0, self.cfg.bufferList);         # -- 0  Buffers
-        self.reloadTreeDidInfo();                           # -- 1  Did Infos
-        self.reloadTreeGui(2, self.cfg.didList);            # -- 2  DIDs
-        # -- 3  Memory
-        self.reloadTreeProtocol();                          # -- 4  Protocols
-        self.reloadTreeGui(5, self.cfg.requestServiceList); # -- 5  Request Services
-        self.reloadTreeRoutineInfoTable();                  # -- 6  Routine Infos
-        self.reloadTreeGui(7, self.cfg.routineList);        # -- 7  Routines
-        self.reloadTreeGui(8, self.cfg.securityLevelList);  # -- 8  Security Levels
-        self.reloadTreeServiceTable();                      # -- 9  Service Tables
-        self.reloadTreeGui(10, self.cfg.sessionControlList); # -- 10 Session Controls
-        self.reloadTreeGui(11, self.cfg.sessionList);        # -- 11 Sessions
-        self.reloadTreeGui(12, self.cfg.timingList); # -- 12 Timings
+        self.reloadTreeGui(1, self.cfg.didCtrlRecordList);  # -- 1  Did Control Record
+        self.reloadTreeDidInfo();                           # -- 2  Did Infos
+        self.reloadTreeGui(3, self.cfg.didList);            # -- 3  DIDs
+        # -- 4  Memory
+        self.reloadTreeProtocol();                          # -- 5  Protocols
+        self.reloadTreeGui(6, self.cfg.requestServiceList); # -- 6  Request Services
+        self.reloadTreeRoutineInfoTable();                  # -- 7  Routine Infos
+        self.reloadTreeGui(8, self.cfg.routineList);        # -- 8  Routines
+        self.reloadTreeGui(9, self.cfg.securityLevelList);  # -- 9  Security Levels
+        self.reloadTreeServiceTable();                      # -- 10  Service Tables
+        self.reloadTreeGui(11, self.cfg.sessionControlList); # -- 11 Session Controls
+        self.reloadTreeGui(12, self.cfg.sessionList);        # -- 12 Sessions
+        self.reloadTreeGui(13, self.cfg.timingList); # -- 13 Timings
     def initGui(self):
         self.initGeneral();
         self.initTab();
@@ -204,6 +205,12 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn4.setDisabled(True);
         elif(trname=='Timings'):
             self.btn1.setText('Add Timing');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
+        elif(trname=='Did Control Record'):
+            self.btn1.setText('Add Did Record');
             self.btn1.setDisabled(False);
             self.btn2.setDisabled(True);
             self.btn3.setDisabled(True);
@@ -303,6 +310,12 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.btn2.setDisabled(True);
             self.btn3.setDisabled(True);
             self.btn4.setDisabled(True);
+        elif(self.curtree.parent().text(0) == 'Did Control Record'):
+            self.btn1.setText('Del Did Record');
+            self.btn1.setDisabled(False);
+            self.btn2.setDisabled(True);
+            self.btn3.setDisabled(True);
+            self.btn4.setDisabled(True);
         #-------------------------------  三级 -------------------------------------------------
         elif(self.curtree.parent().parent().text(0) == 'Did Infos'):
             self.btn1.setText('Del Access');
@@ -394,6 +407,29 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.leDidControlName.setText(obj.name);
         self.refreshTreeCtrl(self.trDidCtrlSecSrc, self.trDidCtrlSecDst, self.cfg.securityLevelList, self.curobj.securityRefList);
         self.refreshTreeCtrl(self.trDidCtrlSesSrc, self.trDidCtrlSesDst, self.cfg.sessionList, self.curobj.sessionRefList);
+        self.cmbxDspDidFreezeCurrentState.clear();
+        self.cmbxDspDidResetToDefault.clear();
+        self.cmbxDspDidReturnControlToEcu.clear();
+        self.cmbxDspDidShortTermAdjustment.clear();
+        for obj in self.cfg.didCtrlRecordList:
+            self.cmbxDspDidFreezeCurrentState.addItem(obj.name);
+            self.cmbxDspDidResetToDefault.addItem(obj.name);
+            self.cmbxDspDidReturnControlToEcu.addItem(obj.name);
+            self.cmbxDspDidShortTermAdjustment.addItem(obj.name);
+        self.cbxDspDidFreezeCurrentState.setChecked(self.curobj.DspDidFreezeCurrentState);
+        self.cbxDspDidResetToDefault.setChecked(self.curobj.DspDidResetToDefault);
+        self.cbxDspDidReturnControlToEcu.setChecked(self.curobj.DspDidReturnControlToEcu);
+        self.cbxDspDidShortTermAdjustment.setChecked(self.curobj.DspDidShortTermAdjustment);
+        #关联控件
+        self.cmbxDspDidFreezeCurrentState.setDisabled(not self.curobj.DspDidFreezeCurrentState);
+        self.cmbxDspDidResetToDefault.setDisabled(not self.curobj.DspDidResetToDefault);
+        self.cmbxDspDidReturnControlToEcu.setDisabled(not self.curobj.DspDidReturnControlToEcu);
+        self.cmbxDspDidShortTermAdjustment.setDisabled(not self.curobj.DspDidShortTermAdjustment);
+        #设置控件值
+        self.cmbxDspDidFreezeCurrentState.setCurrentIndex(self.cmbxDspDidFreezeCurrentState.findText(self.curobj.DspDidFreezeCurrentStateRef));
+        self.cmbxDspDidResetToDefault.setCurrentIndex(self.cmbxDspDidResetToDefault.findText(self.curobj.DspDidResetToDefaultRef));
+        self.cmbxDspDidReturnControlToEcu.setCurrentIndex(self.cmbxDspDidReturnControlToEcu.findText(self.curobj.DspDidReturnControlToEcuRef));
+        self.cmbxDspDidShortTermAdjustment.setCurrentIndex(self.cmbxDspDidShortTermAdjustment.findText(self.curobj.DspDidShortTermAdjustmentRef));
         self.enableTab(2);
     def refreshDidReadTab(self, obj):
         self.curobj = obj;
@@ -585,6 +621,13 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         self.leRtnStopFnc.setText(self.curobj.DspStopRoutineFnc);
         self.leRtnReqRslFnc.setText(self.curobj.DspRequestResultRoutineFnc);
         self.enableTab(16)
+    def refreshDidCtrlRecordTab(self, name):
+        self.curobj = gcfindObj(self.cfg.didCtrlRecordList, name);
+        self.leDidCtrlRecordName.setText(name);
+        self.spbxDspDidControlEnableMaskRecordSize.setValue(self.curobj.DspDidControlEnableMaskRecordSize)
+        self.spbxDspDidControlOptionRecordSize.setValue(self.curobj.DspDidControlOptionRecordSize)
+        self.spbxDspDidControlStatusRecordSize.setValue(self.curobj.DspDidControlStatusRecordSize)
+        self.enableTab(23)
     def refreshTab(self):
         if(self.curtree.parent() == None):
             self.disableAllTab();
@@ -617,6 +660,8 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.refreshRoutineInfoTab(objname);
         elif(trname == 'Routines'):
             self.refreshRoutineTab(objname);
+        elif(trname == 'Did Control Record'):
+            self.refreshDidCtrlRecordTab(objname);
         # ----------------------------- 二级 -----------------------
         elif(self.curtree.parent().parent().text(0) == 'Did Infos'):
             self.refreshDidAccessTab(objname);
@@ -698,6 +743,8 @@ class cd_dcm(QDialog, Ui_cd_dcm):
                 print "Serious Error!"
         elif(text == 'Del Routine'):
             self.cfg.routineList.remove(self.curobj);
+        elif(text == 'Del Did Record'):
+            self.cfg.didCtrlRecordList.remove(self.curobj);
         #delete the tree, reselect a tree item
         parent = self.curtree.parent();
         index = parent.indexOfChild(self.curtree);
@@ -884,6 +931,14 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         obj = DcmRoutine(name, id);
         self.cfg.routineList.append(obj);
         self.curtree.setExpanded(True);
+    def addDidCtrlRecord(self):
+        id = len(self.cfg.didCtrlRecordList);
+        name=QString('vDidCtrlRecord%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj = DcmControlRecord(name);
+        self.cfg.didCtrlRecordList.append(obj);
+        self.curtree.setExpanded(True);
 # ========================== Button ================        
     @pyqtSignature("")
     def on_btn1_clicked(self):
@@ -912,6 +967,8 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.addTiming();
         elif(text == 'Add Routine'):
             self.addRoutine();
+        elif(text == 'Add Did Record'):
+            self.addDidCtrlRecord();
         elif(text[:3] == 'Del'):
             self.delObj(text);
         self.fileInd(False);
@@ -1092,6 +1149,66 @@ class cd_dcm(QDialog, Ui_cd_dcm):
             self.curobj.sessionRefList.remove(self.trDidCtrlSesDst.currentItem().text(0));
             self.moveTreeItem(self.trDidCtrlSesDst, self.trDidCtrlSesSrc);
             self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxDspDidFreezeCurrentState_clicked(self, checked):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidFreezeCurrentState!=checked):
+                self.curobj.DspDidFreezeCurrentState=checked;
+                self.cmbxDspDidFreezeCurrentState.setDisabled(not checked);
+                if(checked == False):
+                    self.curobj.DspDidFreezeCurrentStateRef = 'NULL'
+                self.fileInd(False);         
+    @pyqtSignature("bool")
+    def on_cbxDspDidResetToDefault_clicked(self, checked):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidResetToDefault!=checked):
+                self.curobj.DspDidResetToDefault=checked;
+                self.cmbxDspDidResetToDefault.setDisabled(not checked);
+                if(checked == False):
+                    self.curobj.DspDidResetToDefaultRef = 'NULL'
+                self.fileInd(False);  
+    @pyqtSignature("bool")
+    def on_cbxDspDidReturnControlToEcu_clicked(self, checked):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidReturnControlToEcu!=checked):
+                self.curobj.DspDidReturnControlToEcu=checked;
+                self.cmbxDspDidReturnControlToEcu.setDisabled(not checked);
+                if(checked == False):
+                    self.curobj.DspDidReturnControlToEcuRef = 'NULL'
+                self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxDspDidShortTermAdjustment_clicked(self, checked):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidShortTermAdjustment!=checked):
+                self.curobj.DspDidShortTermAdjustment=checked;
+                self.cmbxDspDidShortTermAdjustment.setDisabled(not checked);
+                if(checked == False):
+                    self.curobj.DspDidShortTermAdjustmentRef = 'NULL'
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxDspDidFreezeCurrentState_activated(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidFreezeCurrentStateRef!=p0):
+                self.curobj.DspDidFreezeCurrentStateRef=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxDspDidResetToDefault_activated(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidResetToDefaultRef!=p0):
+                self.curobj.DspDidResetToDefaultRef=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxDspDidReturnControlToEcu_activated(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidReturnControlToEcuRef!=p0):
+                self.curobj.DspDidReturnControlToEcuRef=p0;
+                self.fileInd(False);
+    @pyqtSignature("QString")
+    def on_cmbxDspDidShortTermAdjustment_activated(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidShortTermAdjustmentRef!=p0):
+                self.curobj.DspDidShortTermAdjustmentRef=p0;
+                self.fileInd(False);
 # ==================== Did Info Read Access =========================
     @pyqtSignature("QString")
     def on_leDidReadName_textChanged(self, p0):
@@ -1620,4 +1737,30 @@ class cd_dcm(QDialog, Ui_cd_dcm):
         if(self.curobj!=None):
             if(self.curobj.DspRequestResultRoutineFnc!=p0):
                 self.curobj.DspRequestResultRoutineFnc=p0;
+                self.fileInd(False);
+#--------------------------- DID Control Record Size
+    @pyqtSignature("QString")
+    def on_leDidCtrlRecordName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxDspDidControlEnableMaskRecordSize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidControlEnableMaskRecordSize!=p0):
+                self.curobj.DspDidControlEnableMaskRecordSize=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxDspDidControlOptionRecordSize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidControlOptionRecordSize!=p0):
+                self.curobj.DspDidControlOptionRecordSize=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxDspDidControlStatusRecordSize_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.DspDidControlStatusRecordSize!=p0):
+                self.curobj.DspDidControlStatusRecordSize=p0;
                 self.fileInd(False);

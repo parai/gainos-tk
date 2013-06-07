@@ -63,6 +63,24 @@ class DcmBuffer():
     def parse(self, nd):
         self.name = nd.attrib['name'];
         self.size = int(nd.attrib['size']);
+class DcmControlRecord():
+    def __init__(self, name):
+        self.name = name;
+        self.DspDidControlEnableMaskRecordSize = 0;
+        self.DspDidControlOptionRecordSize = 0;
+        self.DspDidControlStatusRecordSize = 0;
+    def save(self, root):
+        nd = ET.Element('DcmBuffer');
+        nd.attrib['name'] = str(self.name);
+        nd.attrib['DspDidControlEnableMaskRecordSize'] = str(self.DspDidControlEnableMaskRecordSize);
+        nd.attrib['DspDidControlOptionRecordSize'] = str(self.DspDidControlOptionRecordSize);
+        nd.attrib['DspDidControlStatusRecordSize'] = str(self.DspDidControlStatusRecordSize);
+        root.append(nd);
+    def parse(self, nd):
+        self.name = nd.attrib['name'];
+        self.DspDidControlEnableMaskRecordSize = int(nd.attrib['DspDidControlEnableMaskRecordSize']);
+        self.DspDidControlOptionRecordSize = int(nd.attrib['DspDidControlOptionRecordSize']);
+        self.DspDidControlStatusRecordSize = int(nd.attrib['DspDidControlStatusRecordSize']);
 class DcmDidInfoControlAccess():
     def __init__(self, name):
         self.name = name;
@@ -674,6 +692,7 @@ class gainos_tk_dcm_obj():
         self.timingList = [];
         self.routineInfoList = [];
         self.routineList = [];
+        self.didCtrlRecordList = [];#DcmControlRecord
         
     def save(self, root):
         self.general.save(root);
@@ -736,7 +755,12 @@ class gainos_tk_dcm_obj():
         nd = ET.Element('DcmRoutineList');
         for obj in self.routineList:
             obj.save(nd);
-        root.append(nd);  
+        root.append(nd); 
+       
+        nd = ET.Element('DcmControlRecordList');
+        for obj in self.didCtrlRecordList:
+            obj.save(nd);
+        root.append(nd);
     def parse(self, root):
         self.general.parse(root.find("General"));
   
@@ -799,6 +823,11 @@ class gainos_tk_dcm_obj():
             obj = DcmRoutine('', 0);
             obj.parse(nd);
             self.routineList.append(obj);
+
+        for nd in root.find('DcmControlRecordList'):
+            obj = DcmControlRecord('');
+            obj.parse(nd);
+            self.didCtrlRecordList.append(obj);
             
 class gainos_tk_dcm_cfg():
     def __init__(self, chip=None):
@@ -1022,6 +1051,13 @@ class gainos_tk_dcm_cfg():
                 str += '\t&DspSessionList[DCM_SESSION_EOL_INDEX]\n};\n'
                 fp.write(str);
         fp.write('\n')
+        #------------------DID Control Record
+        for rec in self.cfg.didCtrlRecordList:
+            fp.write('const Dcm_DspDidControlRecordSizesType %s = {\n'%(rec.name));
+            fp.write('\t/* DspDidControlEnableMaskRecordSize = */ %s,\n'%(rec.DspDidControlEnableMaskRecordSize))
+            fp.write('\t/* DspDidControlOptionRecordSize = */ %s,\n'%(rec.DspDidControlOptionRecordSize))
+            fp.write('\t/* DspDidControlStatusRecordSize = */ %s,\n'%(rec.DspDidControlStatusRecordSize))
+            fp.write('};\n')
         #----------------- DID INFOs ----------------
         for didInfo in self.cfg.didInfoList:
             #-------------- read access
@@ -1086,14 +1122,26 @@ class gainos_tk_dcm_cfg():
                         str += '\t&DspSecurityList[%s],//%s\n'%(gcfindIndex(self.cfg.securityLevelList, sec), sec);
                     str += '\t&DspSecurityList[DCM_SECURITY_EOL_INDEX]\n};\n'
                     fp.write(str);
+                str3 = ctrl.DspDidFreezeCurrentStateRef;
+                if(str3 != 'NULL'):
+                    str3 = '&'+str3;
+                str4 = ctrl.DspDidResetToDefaultRef;
+                if(str4 != 'NULL'):
+                    str4 = '&'+str4;
+                str5 = ctrl.DspDidReturnControlToEcuRef;
+                if(str5 != 'NULL'):
+                    str5 = '&'+str5;
+                str6 = ctrl.DspDidShortTermAdjustmentRef;
+                if(str6 != 'NULL'):
+                    str6 = '&'+str6;
                 fp.write("""const Dcm_DspDidControlType %s_didControl = {
     /* DspDidReadSessionRef = */ %s,
     /* DspDidReadSecurityLevelRef = */ %s,
-    /* DspDidFreezeCurrentState = */ NULL,
-    /* DspDidResetToDefault = */ NULL,
-    /* DspDidReturnControlToEcu = */ NULL,
-    /* DspDidShortTermAdjustment = */ NULL
-};\n\n"""%(didInfo.name, str1, str2));
+    /* DspDidFreezeCurrentState = */ %s,
+    /* DspDidResetToDefault = */ %s,
+    /* DspDidReturnControlToEcu = */ %s,
+    /* DspDidShortTermAdjustment = */ %s
+};\n\n"""%(didInfo.name, str1, str2, str3, str4, str5, str6));
         str = 'const Dcm_DspDidInfoType DspDidInfoList[] = {\n';
         for didInfo in self.cfg.didInfoList:
             str += '\t{ // %s\n'%(didInfo.name);
