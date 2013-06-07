@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project gainos-studio -->
-<!-- Saved: 2013-05-25, 11:09:08 -->
+<!-- Saved: 2013-06-07, 22:58:05 -->
 <!-- Copyright (C) 2013 parai, parai@foxmail.com -->
 <Project version="4.6">
   <Language>en</Language>
@@ -45,6 +45,8 @@
     <Source>config/gainos_tk_dcm_cfg.py</Source>
     <Source>ui/classes/cd_os.py</Source>
     <Source>ui/forms/Ui_cd_os.py</Source>
+    <Source>ui/forms/Ui_cd_j1939tp.py</Source>
+    <Source>ui/classes/cd_j1939tp.py</Source>
   </Sources>
   <Forms>
     <Form>ui/forms/gainos_studio.ui</Form>
@@ -58,6 +60,7 @@
     <Form>ui/forms/cd_pdur.ui</Form>
     <Form>ui/forms/cd_dcm.ui</Form>
     <Form>ui/forms/cd_os.ui</Form>
+    <Form>ui/forms/cd_j1939tp.ui</Form>
   </Forms>
   <Translations>
   </Translations>

@@ -33,6 +33,7 @@ from gainos_tk_cantp_cfg import gainos_tk_cantp_cfg
 from gainos_tk_pdur_cfg import gainos_tk_pdur_cfg
 from gainos_tk_com_cfg import gainos_tk_com_cfg
 from gainos_tk_dcm_cfg import gainos_tk_dcm_cfg
+from gainos_tk_j1939tp_cfg import gainos_tk_j1939tp_cfg
 #dictionary for MC9S12
 gainos_tk_mc9s12_dc ={
     'Adc':gainos_tk_default_cfgobj,   'Can':gainos_tk_mscan_cfg, 
@@ -45,7 +46,7 @@ gainos_tk_mc9s12_dc ={
     'Port':gainos_tk_default_cfgobj,  'PduR':gainos_tk_pdur_cfg,
     'Spi':gainos_tk_default_cfgobj,   'Wdg':gainos_tk_default_cfgobj,
     'WdgIf':gainos_tk_default_cfgobj, 'OS':gainos_tk_os_cfg, 
-    'Dcm':gainos_tk_dcm_cfg}
+    'Dcm':gainos_tk_dcm_cfg,           'J1939Tp':gainos_tk_j1939tp_cfg}
     
 #dictionary for STM32F1
 gainos_tk_stm32f1_dc ={
@@ -59,7 +60,7 @@ gainos_tk_stm32f1_dc ={
     'Port':gainos_tk_default_cfgobj,  'PduR':gainos_tk_pdur_cfg,
     'Spi':gainos_tk_default_cfgobj,   'Wdg':gainos_tk_default_cfgobj,
     'WdgIf':gainos_tk_default_cfgobj, 'OS':gainos_tk_os_cfg, 
-    'Dcm':gainos_tk_dcm_cfg }
+    'Dcm':gainos_tk_dcm_cfg,            'J1939Tp':gainos_tk_j1939tp_cfg}
  
 #dictionary for AT91SAM3S
 gainos_tk_at91sam3s_dc ={
@@ -73,7 +74,7 @@ gainos_tk_at91sam3s_dc ={
     'Port':gainos_tk_default_cfgobj,  'PduR':gainos_tk_default_cfgobj,
     'Spi':gainos_tk_default_cfgobj,   'Wdg':gainos_tk_default_cfgobj,
     'WdgIf':gainos_tk_default_cfgobj, 'OS':gainos_tk_os_cfg, 
-    'Dcm':gainos_tk_default_cfgobj } 
+    'Dcm':gainos_tk_default_cfgobj,   'J1939Tp':gainos_tk_default_cfgobj}
  
 #dictionary for MPC56XX
 gainos_tk_mpc56xx_dc ={
@@ -87,7 +88,7 @@ gainos_tk_mpc56xx_dc ={
     'Port':gainos_tk_default_cfgobj,  'PduR':gainos_tk_default_cfgobj,
     'Spi':gainos_tk_default_cfgobj,   'Wdg':gainos_tk_default_cfgobj,
     'WdgIf':gainos_tk_default_cfgobj, 'OS':gainos_tk_os_cfg, 
-    'Dcm':gainos_tk_default_cfgobj}   
+    'Dcm':gainos_tk_default_cfgobj,   'J1939Tp':gainos_tk_default_cfgobj} 
 
 #common dictionary
 gainos_tk_dc = {
