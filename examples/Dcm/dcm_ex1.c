@@ -587,16 +587,11 @@ void DcmEx1Sender(void)
 extern void DcmEx1Init(void);
 void StartupHook(void)
 {
-	StatusType ercd;
 	(void)SetRelAlarm(ID_vAlarmReceiver,50,10);
 	(void)SetRelAlarm(ID_vAlarmSender,100,200);
 	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
 	
 	DcmEx1Init();
-    //(void)ActivateTask(ID_vTaskSender);
-    //(void)ActivateTask(ID_vTaskReceiver);
-    //(void)ActivateTask(ID_vTaskMainFunction);
-    (void)TerminateTask();
 }
 extern void DcmEx1Sender(void);
 TASK(vTaskSender)
