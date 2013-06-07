@@ -262,13 +262,18 @@ const Dcm_DspSecurityRowType *vDcmDidInfo_1_control_securityRefList[] = {
 	&DspSecurityList[0],//vSecurityLevel_1
 	&DspSecurityList[DCM_SECURITY_EOL_INDEX]
 };
+const Dcm_DspDidControlRecordSizesType general_control_record={
+   /* DspDidControlEnableMaskRecordSize = */ 0,
+   /* DspDidControlOptionRecordSize = */ 0,
+   /* DspDidControlStatusRecordSize = */ 0 
+};
 const Dcm_DspDidControlType vDcmDidInfo_1_didControl = {
     /* DspDidReadSessionRef = */ vDcmDidInfo_1_control_sessionRefList,
     /* DspDidReadSecurityLevelRef = */ vDcmDidInfo_1_control_securityRefList,
-    /* DspDidFreezeCurrentState = */ NULL,
-    /* DspDidResetToDefault = */ NULL,
-    /* DspDidReturnControlToEcu = */ NULL,
-    /* DspDidShortTermAdjustment = */ NULL
+    /* DspDidFreezeCurrentState = */ &general_control_record,
+    /* DspDidResetToDefault = */ &general_control_record,
+    /* DspDidReturnControlToEcu = */ &general_control_record,
+    /* DspDidShortTermAdjustment = */ &general_control_record
 };
 
 const Dcm_DspDidInfoType DspDidInfoList[] = {

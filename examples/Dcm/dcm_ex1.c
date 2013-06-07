@@ -565,28 +565,27 @@ void DcmEx1Sender(void)
         break;
         case 11:
             ex1ReadDataById(0xF201u);
-            callcnt++;//skip case 12 test
         break;
         case 12:
-            ex1ClearDefineDDDByID();
-        break;
-        case 13:
             ex1ReadDatabyIdPeriod(0xF201);
         break;
-        case 14:
+        case 13:
             ex1ReadDatabyIdPeriodStop(0xF201);
+        break;
+        case 14:
+            ex1ClearDefineDDDByID();
         break;
         case 15:
             ex1IoControl();
         break;
         default:
-            callcnt = 14;
+            callcnt = 3;
         break;
     }     
 }
 //============================= OS TASK ==============================
 extern void DcmEx1Init(void);
-TASK(vTaskInit)
+void StartupHook(void)
 {
 	StatusType ercd;
 	(void)SetRelAlarm(ID_vAlarmReceiver,50,10);
@@ -594,8 +593,6 @@ TASK(vTaskInit)
 	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
 	
 	DcmEx1Init();
-    /* Add your task special code here, but Don't delete this Task declaration.*/
-    (void)printf("vTaskInit is running.\r\n");
     //(void)ActivateTask(ID_vTaskSender);
     //(void)ActivateTask(ID_vTaskReceiver);
     //(void)ActivateTask(ID_vTaskMainFunction);
