@@ -48,7 +48,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spbxMainFncPeriod"/>
+        <widget class="QSpinBox" name="spbxMainFncPeriod">
+         <property name="maximum">
+          <number>65535</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -62,7 +66,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spbxCfTmo"/>
+        <widget class="QSpinBox" name="spbxCfTmo">
+         <property name="maximum">
+          <number>65535</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -95,7 +103,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spbxPktBlk"/>
+        <widget class="QSpinBox" name="spbxPktBlk">
+         <property name="maximum">
+          <number>65535</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project gainos-studio -->
-<!-- Saved: 2013-06-07, 22:58:05 -->
+<!-- Saved: 2013-06-08, 22:00:15 -->
 <!-- Copyright (C) 2013 parai, parai@foxmail.com -->
 <Project version="4.6">
   <Language>en</Language>
@@ -47,6 +47,7 @@
     <Source>ui/forms/Ui_cd_os.py</Source>
     <Source>ui/forms/Ui_cd_j1939tp.py</Source>
     <Source>ui/classes/cd_j1939tp.py</Source>
+    <Source>config/gainos_tk_j1939tp_cfg.py</Source>
   </Sources>
   <Forms>
     <Form>ui/forms/gainos_studio.ui</Form>
