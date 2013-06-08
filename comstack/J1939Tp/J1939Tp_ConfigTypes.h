@@ -55,11 +55,11 @@ typedef uint32 J1939Tp_Internal_PgnType;
 typedef uint32 J1939Tp_Internal_DtPayloadSizeType;
 
 
-typedef struct J1939Tp_ChannelType_ J1939Tp_ChannelType;
-typedef struct J1939Tp_PgType_ J1939Tp_PgType;
+typedef struct J1939Tp_ChannelType_t J1939Tp_ChannelType;
+typedef struct J1939Tp_PgType_t J1939Tp_PgType;
 typedef uint32 J1939Tp_PgnType;
 
-struct J1939Tp_PgType_ {
+struct J1939Tp_PgType_t {
 	const boolean 					DynLength;
 	const J1939Tp_PgnType			Pgn;
 	const PduIdType 				DirectNPdu; /** only set when DynLength = true */
@@ -68,7 +68,7 @@ struct J1939Tp_PgType_ {
 };
 
 
-struct J1939Tp_ChannelType_ {
+struct J1939Tp_ChannelType_t {
 	const J1939Tp_ProtocolType 				Protocol;
 	const PduIdType 						DtNPdu;
 	const PduIdType 						CmNPdu;
