@@ -20,8 +20,8 @@
 #include "ComStack_Types.h"
 
 typedef enum {
-	J1939TP_PROTOCOL_BAM,
-	J1939TP_PROTOCOL_CMDT
+	J1939TP_PROTOCOL_BAM,   //Broadcast Announce Message
+	J1939TP_PROTOCOL_CMDT   //Connection Mode,Data Transfer Message (TP.DT) 
 } J1939Tp_ProtocolType;
 
 typedef enum {

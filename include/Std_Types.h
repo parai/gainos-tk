@@ -77,7 +77,7 @@
 #define MAX(_x,_y) (((_x) > (_y)) ? (_x) : (_y))
 #endif
 
-/* Values for StatusType */
+/* Values for Std_ReturnType */
 #define E_OK            (Std_ReturnType)0
 #define E_NOT_OK        (Std_ReturnType)1  
 
