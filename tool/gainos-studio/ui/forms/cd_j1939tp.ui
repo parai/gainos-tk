@@ -161,7 +161,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -201,7 +201,18 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="cmbxRxProType"/>
+          <widget class="QComboBox" name="cmbxRxProType">
+           <item>
+            <property name="text">
+             <string>J1939TP_PROTOCOL_BAM</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>J1939TP_PROTOCOL_CMDT</string>
+            </property>
+           </item>
+          </widget>
          </item>
         </layout>
        </item>
@@ -375,7 +386,18 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="cmbxTxProType"/>
+          <widget class="QComboBox" name="cmbxTxProType">
+           <item>
+            <property name="text">
+             <string>J1939TP_PROTOCOL_BAM</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>J1939TP_PROTOCOL_CMDT</string>
+            </property>
+           </item>
+          </widget>
          </item>
         </layout>
        </item>

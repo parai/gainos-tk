@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_j1939tp.ui'
 #
-# Created: Fri Jun 07 22:49:30 2013
+# Created: Sat Jun 08 23:13:10 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -34,6 +34,7 @@ class Ui_cd_j1939tp(object):
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.horizontalLayout_2.addWidget(self.label_2)
         self.spbxMainFncPeriod = QtGui.QSpinBox(self.layoutWidget)
+        self.spbxMainFncPeriod.setMaximum(65535)
         self.spbxMainFncPeriod.setObjectName(_fromUtf8("spbxMainFncPeriod"))
         self.horizontalLayout_2.addWidget(self.spbxMainFncPeriod)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -43,6 +44,7 @@ class Ui_cd_j1939tp(object):
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.horizontalLayout_3.addWidget(self.label_3)
         self.spbxCfTmo = QtGui.QSpinBox(self.layoutWidget)
+        self.spbxCfTmo.setMaximum(65535)
         self.spbxCfTmo.setObjectName(_fromUtf8("spbxCfTmo"))
         self.horizontalLayout_3.addWidget(self.spbxCfTmo)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
@@ -61,6 +63,7 @@ class Ui_cd_j1939tp(object):
         self.label.setObjectName(_fromUtf8("label"))
         self.horizontalLayout.addWidget(self.label)
         self.spbxPktBlk = QtGui.QSpinBox(self.layoutWidget1)
+        self.spbxPktBlk.setMaximum(65535)
         self.spbxPktBlk.setObjectName(_fromUtf8("spbxPktBlk"))
         self.horizontalLayout.addWidget(self.spbxPktBlk)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
@@ -99,6 +102,8 @@ class Ui_cd_j1939tp(object):
         self.horizontalLayout_5.addWidget(self.label_5)
         self.cmbxRxProType = QtGui.QComboBox(self.layoutWidget2)
         self.cmbxRxProType.setObjectName(_fromUtf8("cmbxRxProType"))
+        self.cmbxRxProType.addItem(_fromUtf8(""))
+        self.cmbxRxProType.addItem(_fromUtf8(""))
         self.horizontalLayout_5.addWidget(self.cmbxRxProType)
         self.verticalLayout_4.addLayout(self.horizontalLayout_5)
         self.horizontalLayout_6 = QtGui.QHBoxLayout()
@@ -204,6 +209,8 @@ class Ui_cd_j1939tp(object):
         self.horizontalLayout_14.addWidget(self.label_14)
         self.cmbxTxProType = QtGui.QComboBox(self.layoutWidget_7)
         self.cmbxTxProType.setObjectName(_fromUtf8("cmbxTxProType"))
+        self.cmbxTxProType.addItem(_fromUtf8(""))
+        self.cmbxTxProType.addItem(_fromUtf8(""))
         self.horizontalLayout_14.addWidget(self.cmbxTxProType)
         self.verticalLayout_6.addLayout(self.horizontalLayout_14)
         self.horizontalLayout_15 = QtGui.QHBoxLayout()
@@ -267,6 +274,8 @@ class Ui_cd_j1939tp(object):
         self.trJ1939Tp.setSortingEnabled(__sortingEnabled)
         self.label_4.setText(QtGui.QApplication.translate("cd_j1939tp", "Name:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("cd_j1939tp", "Protocol Type:", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxRxProType.setItemText(0, QtGui.QApplication.translate("cd_j1939tp", "J1939TP_PROTOCOL_BAM", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxRxProType.setItemText(1, QtGui.QApplication.translate("cd_j1939tp", "J1939TP_PROTOCOL_CMDT", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("cd_j1939tp", "CM N-PDU:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_7.setText(QtGui.QApplication.translate("cd_j1939tp", "DT N-PDU:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_8.setText(QtGui.QApplication.translate("cd_j1939tp", "Tx FC N-PDU:", None, QtGui.QApplication.UnicodeUTF8))
@@ -280,6 +289,8 @@ class Ui_cd_j1939tp(object):
         self.tabJ1939Tp.setTabText(self.tabJ1939Tp.indexOf(self.tab_2), QtGui.QApplication.translate("cd_j1939tp", "Parameter Group", None, QtGui.QApplication.UnicodeUTF8))
         self.label_11.setText(QtGui.QApplication.translate("cd_j1939tp", "Name:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_14.setText(QtGui.QApplication.translate("cd_j1939tp", "Protocol Type:", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxTxProType.setItemText(0, QtGui.QApplication.translate("cd_j1939tp", "J1939TP_PROTOCOL_BAM", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxTxProType.setItemText(1, QtGui.QApplication.translate("cd_j1939tp", "J1939TP_PROTOCOL_CMDT", None, QtGui.QApplication.UnicodeUTF8))
         self.label_15.setText(QtGui.QApplication.translate("cd_j1939tp", "CM N-PDU:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_16.setText(QtGui.QApplication.translate("cd_j1939tp", "DT N-PDU:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_17.setText(QtGui.QApplication.translate("cd_j1939tp", "Rx FC N-PDU:", None, QtGui.QApplication.UnicodeUTF8))

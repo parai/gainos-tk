@@ -36,6 +36,11 @@ class J1939TpGeneral():
 class J1939TpPgs():
     def __init__(self, name):
         self.name = name;
+        self.Pgn = '0x0';
+        self.EnDirectNPdu = False;
+        self.DirectNPdu = '';
+        self.NSdu = '';
+        self.DynLength = False;
     def save(self, root):
         nd = ET.Element('J1939TpPgs');
         nd.attrib['name'] = str(self.name);
@@ -49,15 +54,16 @@ class J1939TpChannel():
         self.DtNPdu = ''
         self.CmNPdu = ''
         self.FcNPdu = ''
-        self.Direction = ''
+        #self.Direction = '' #no need to care while configure
         self.PgsList = []
     def save(self, root):
         nd = ET.Element('J1939TpChannel');
         nd.attrib['name'] = str(self.name);
+        nd.attrib['Protocol'] = str(self.Protocol);
         nd.attrib['DtNPdu'] = str(self.DtNPdu);
         nd.attrib['CmNPdu'] = str(self.CmNPdu);
         nd.attrib['FcNPdu'] = str(self.FcNPdu);
-        nd.attrib['Direction'] = str(self.Direction);
+        #nd.attrib['Direction'] = str(self.Direction);
         nd2 = ET.Element('PgsList');
         for obj in self.PgsList:
             obj.save(nd2);
@@ -65,10 +71,11 @@ class J1939TpChannel():
         root.append(nd);
     def parse(self, nd):
         self.name = nd.attrib['name'];
+        self.Protocol = str(nd.attrib['Protocol']);
         self.DtNPdu = str(nd.attrib['DtNPdu']);
         self.CmNPdu = str(nd.attrib['CmNPdu']);
         self.FcNPdu = str(nd.attrib['FcNPdu']);
-        self.Direction = str(nd.attrib['Direction']);
+        #self.Direction = str(nd.attrib['Direction']);
         for nd2 in nd.find('PgsList'):
             obj = J1939TpPgs('');
             obj.parse(nd2);
@@ -108,7 +115,14 @@ class gainos_tk_j1939tp_cfg():
 
     def show(self, title, fileInd, module_list = None):
         from cd_j1939tp import cd_j1939tp
-        self.dlg  = cd_j1939tp(title, fileInd, self.cfg);
+        depinfo=[];
+        md=gcfindModule(module_list, 'EcuC');
+        if(md==None):
+            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                'Please Configure EcuC Firstly!').exec_();
+            return;
+        depinfo.append(md.obj);
+        self.dlg  = cd_j1939tp(title, fileInd, self.cfg, depinfo);
         self.dlg.setModal(False);
         self.dlg.show();
    

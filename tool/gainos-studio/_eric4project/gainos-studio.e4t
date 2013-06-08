@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-4.2.dtd">
 <!-- eric4 tasks file for project gainos-studio -->
-<!-- Saved: 2013-06-08, 22:00:15 -->
+<!-- Saved: 2013-06-08, 23:53:20 -->
 <Tasks version="4.2">
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
@@ -121,213 +121,6 @@
     </Resource>
   </Task>
   <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>29</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>37</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>45</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>53</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>61</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>69</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>77</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>85</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>93</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>101</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>109</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>117</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>125</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>133</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>141</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>149</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>157</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>165</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>173</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>181</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>189</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>197</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-07, 22:53:21</Created>
-    <Resource>
-      <Filename>ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>205</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: add Did Reference List</Summary>
     <Description></Description>
     <Created>2013-06-08, 20:53:53</Created>
@@ -348,7 +141,7 @@
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: add Did Reference List</Summary>
     <Description></Description>
-    <Created>2013-06-08, 21:38:47</Created>
+    <Created>2013-06-08, 23:32:10</Created>
     <Resource>
       <Filename>ui/classes/cd_dcm.py</Filename>
       <Linenumber>464</Linenumber>
@@ -357,154 +150,37 @@
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
+    <Created>2013-06-08, 23:53:00</Created>
     <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>107</Linenumber>
+      <Filename>ui/classes/cd_j1939tp.py</Filename>
+      <Linenumber>343</Linenumber>
     </Resource>
   </Task>
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
+    <Created>2013-06-08, 23:53:00</Created>
     <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>115</Linenumber>
+      <Filename>ui/classes/cd_j1939tp.py</Filename>
+      <Linenumber>351</Linenumber>
     </Resource>
   </Task>
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
+    <Created>2013-06-08, 23:53:00</Created>
     <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>123</Linenumber>
+      <Filename>ui/classes/cd_j1939tp.py</Filename>
+      <Linenumber>358</Linenumber>
     </Resource>
   </Task>
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
+    <Created>2013-06-08, 23:53:00</Created>
     <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>131</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>139</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>147</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>155</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>163</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>171</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>179</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>187</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>195</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>203</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>211</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>219</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>227</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 21:56:14</Created>
-    <Resource>
-      <Filename>F:/parai@foxmail.com/github/gainos-tk/tool/gainos-studio/ui/classes/cd_j1939tp.py</Filename>
-      <Linenumber>261</Linenumber>
+      <Filename>ui/classes/cd_j1939tp.py</Filename>
+      <Linenumber>366</Linenumber>
     </Resource>
   </Task>
 </Tasks>
