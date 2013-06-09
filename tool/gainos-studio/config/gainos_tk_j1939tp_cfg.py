@@ -143,5 +143,8 @@ class gainos_tk_j1939tp_cfg():
         self.cfg.parse(root);
 
     def gen(self, path):
-        return;
+        self.codeGenH(path);
+    def codeGenH(self,path):
+        fp = open(path+'/J1939Tp_Cfg.h','w');
+        fp.write(gcGainOS_TkHead());
   
