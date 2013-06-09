@@ -233,8 +233,8 @@ class gainos_tk_pdur_cfg():
         ###################################
         fp.write('// Zero cost operation mode\n');
         fp.write('#define PDUR_ZERO_COST_OPERATION %s\n'%(gSTD_ON(self.cfg.General.ZeroCostOperation)));
-        fp.write('#define PDUR_SINGLE_IF %s'%(self.cfg.General.SingleIf));
-        fp.write('#define PDUR_SINGLE_TP %s'%(self.cfg.General.SingleTp));
+        fp.write('#define PDUR_SINGLE_IF %s\n'%(self.cfg.General.SingleIf));
+        fp.write('#define PDUR_SINGLE_TP %s\n'%(self.cfg.General.SingleTp));
         #####################################
         fp.write('// Gateway operation\n'
             '#define PDUR_GATEWAY_OPERATION				STD_OFF\n'

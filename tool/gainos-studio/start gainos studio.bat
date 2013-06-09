@@ -8,5 +8,5 @@ echo =  Email:parai@foxmail.com                                 =
 echo =  URL:   https://github.com/parai/gainos-tk               =
 echo =         http://hi.baidu.com/parai                        =  
 echo ============================================================
-sleep 2s
-start python main.py --arxml ../../config/gainoscfg.arxml
+python main.py --arxml ../../config/gainoscfg.arxml
+pause

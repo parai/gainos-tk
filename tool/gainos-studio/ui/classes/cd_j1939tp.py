@@ -105,6 +105,11 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
             self.cmbxRxDtNpdu.addItem('TX_'+pdu.name);
             self.cmbxTxFcNpdu.addItem('RX_'+pdu.name);
             self.cmbxTxFcNpdu.addItem('TX_'+pdu.name);
+        if(self.curobj.Protocol == 'J1939TP_PROTOCOL_BAM'):
+            self.cmbxTxFcNpdu.clear();
+            self.cmbxTxFcNpdu.setDisabled(True);
+        else:
+            self.cmbxTxFcNpdu.setDisabled(False);
         self.cmbxRxProType.setCurrentIndex(self.cmbxRxProType.findText(self.curobj.Protocol))
         self.cmbxRxCmNpdu.setCurrentIndex(self.cmbxRxCmNpdu.findText(self.curobj.CmNPdu))
         self.cmbxRxDtNpdu.setCurrentIndex(self.cmbxRxDtNpdu.findText(self.curobj.DtNPdu))
@@ -124,6 +129,11 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
             self.cmbxTxDtNpdu.addItem('TX_'+pdu.name);
             self.cmbxRxFcNpdu.addItem('RX_'+pdu.name);
             self.cmbxRxFcNpdu.addItem('TX_'+pdu.name);
+        if(self.curobj.Protocol == 'J1939TP_PROTOCOL_BAM'):
+            self.cmbxRxFcNpdu.clear();
+            self.cmbxRxFcNpdu.setDisabled(True);
+        else:
+            self.cmbxRxFcNpdu.setDisabled(False);
         self.cmbxTxProType.setCurrentIndex(self.cmbxTxProType.findText(self.curobj.Protocol))
         self.cmbxTxCmNpdu.setCurrentIndex(self.cmbxTxCmNpdu.findText(self.curobj.CmNPdu))
         self.cmbxTxDtNpdu.setCurrentIndex(self.cmbxTxDtNpdu.findText(self.curobj.DtNPdu))
@@ -222,8 +232,8 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
         item=QTreeWidgetItem(self.curtree,QStringList(name));
         obj = J1939TpChannel(name);
         self.cfg.rxChannelList.append(obj);
-        obj.PgsList.append(J1939TpPgs('vPgs0'));
-        QTreeWidgetItem(item,QStringList('vPgs0'));
+        obj.PgsList.append(J1939TpPgs('vRxPg0'));
+        QTreeWidgetItem(item,QStringList('vRxPg0'));
         self.curtree.setExpanded(True);
     def addTxChannel(self):
         id = len(self.cfg.txChannelList);
@@ -231,13 +241,13 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
         item=QTreeWidgetItem(self.curtree,QStringList(name));
         obj = J1939TpChannel(name);
         self.cfg.txChannelList.append(obj);
-        obj.PgsList.append(J1939TpPgs('vPgs0'));
-        QTreeWidgetItem(item,QStringList('vPgs0'));
+        obj.PgsList.append(J1939TpPgs('vTxPg0'));
+        QTreeWidgetItem(item,QStringList('vTxPg0'));
         self.curtree.setExpanded(True);
     def addRxPgs(self):
         p = self.curobj;
         id = len(p.PgsList);
-        name=QString('vPgs%s'%(id));
+        name=QString('vRxPg%s'%(id));
         item=QTreeWidgetItem(self.curtree,QStringList(name));
         obj = J1939TpPgs(name);
         p.PgsList.append(obj);
@@ -245,7 +255,7 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
     def addTxPgs(self):
         p = self.curobj;
         id = len(p.PgsList);
-        name=QString('vPgs%s'%(id));
+        name=QString('vTxPg%s'%(id));
         item=QTreeWidgetItem(self.curtree,QStringList(name));
         obj = J1939TpPgs(name);
         p.PgsList.append(obj);
@@ -305,6 +315,7 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
         if(self.curobj!=None):
             if(self.curobj.Protocol != p0):
                 self.curobj.Protocol=p0;
+                self.on_trJ1939Tp_itemClicked(self.curtree,0);
                 self.fileInd(False);
     
     @pyqtSignature("QString")
@@ -341,6 +352,7 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
         if(self.curobj!=None):
             if(self.curobj.Protocol != p0):
                 self.curobj.Protocol=p0;
+                self.on_trJ1939Tp_itemClicked(self.curtree,0);
                 self.fileInd(False);
     
     @pyqtSignature("QString")

@@ -147,4 +147,55 @@ class gainos_tk_j1939tp_cfg():
     def codeGenH(self,path):
         fp = open(path+'/J1939Tp_Cfg.h','w');
         fp.write(gcGainOS_TkHead());
-  
+        fp.write("""#if !(((J1939TP_SW_MAJOR_VERSION == 1) && (J1939TP_SW_MINOR_VERSION == 0)) )
+#error J1939Tp: Configuration file expected BSW module version to be 1.0.*
+#endif
+
+#ifndef J1939TP_CFG_H
+#define J1939TP_CFG_H
+
+#include "J1939Tp.h\n\n""");
+        fp.write('#define J1939TP_DEV_ERROR_DETECT %s\n'%gSTD_ON((self.cfg.general.DevError)));
+        fp.write('#define J1939TP_PACKETS_PER_BLOCK     %s\n'%(self.cfg.general.PacketBlock))
+        fp.write('#define J1939TP_MAIN_FUNCTION_PERIOD  %s\n'%(self.cfg.general.MainFunctionPeriod))
+        fp.write('#define J1939TP_TX_CONF_TIMEOUT       %s\n'%(self.cfg.general.TxConfirmTimeout))
+        fp.write('\n');
+        fp.write('#define J1939TP_CHANNEL_COUNT       %s\n'%(len(self.cfg.rxChannelList+self.cfg.txChannelList)));
+        fp.write('#define J1939TP_TX_CHANNEL_COUNT    %s\n'%(len(self.cfg.txChannelList)));
+        fp.write('#define J1939TP_RX_CHANNEL_COUNT    %s\n'%(len(self.cfg.rxChannelList)));
+        fp.write('\n');
+        fp.write('#define J1939TP_RX_PDU_COUNT   /*? I don\'t understand */\n')
+        fp.write('\n');
+        txlen = rxlen = 0;
+        for chl in self.cfg.txChannelList:
+            txlen += len(chl.PgsList);
+        for chl in self.cfg.rxChannelList:
+            rxlen += len(chl.PgsList);
+        fp.write('#define J1939TP_PG_COUNT        %s\n'%(txlen + rxlen));
+        fp.write('#define J1939TP_TX_PG_COUNT     %s\n'%(txlen));
+        fp.write('#define J1939TP_RX_PG_COUNT     %s\n'%(rxlen));
+        fp.write('\n// Number of pgs for each channel \n');
+        for chl in self.cfg.rxChannelList + self.cfg.txChannelList:
+            fp.write('#define J1939TP_%s_PG_COUNT %s\n'%(chl.name.upper(),len(chl.PgsList)));
+        fp.write('\n// NSDU:s\n');
+        id = 0 
+        for chl in self.cfg.txChannelList+self.cfg.rxChannelList:
+            for pgs in chl.PgsList:
+                fp.write('#define J1939TP_%s %s\n'%(pgs.NSdu,id))
+                id += 1
+        fp.write('\n// PDU:s\n')
+        id = 0
+        for chl in self.cfg.txChannelList+self.cfg.rxChannelList:
+            #does the order matter ?
+            if(chl.Protocol == 'J1939TP_PROTOCOL_CMDT'):
+                fp.write('#define J1939TP_%s %s //FcNPdu\n'%(chl.FcNPdu,id));
+                id += 1
+            fp.write('#define J1939TP_%s %s //DtNPdu\n'%(chl.DtNPdu,id))
+            id += 1
+            for pgs in chl.PgsList:
+                if(pgs.EnDirectNPdu):
+                    fp.write('#define J1939TP_%s %s //DirectNPdu\n'%(pgs.DirectNPdu,id));
+                    id += 1
+            fp.write('#define J1939TP_%s %s //CmNPdu\n'%(chl.CmNPdu,id))
+            id += 1
+        fp.write('\n\n#endif /*J1939TP_CFG_H*/\n\n');
