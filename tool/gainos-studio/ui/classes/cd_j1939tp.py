@@ -135,6 +135,14 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
         self.curobj = gcfindObj(p.PgsList, name);
         self.leParmName.setText(name);
         self.lePgn.setText(self.curobj.Pgn);
+        self.cmbxParmNSdu.clear();
+        self.cmbxDrtNpdu.clear();
+        for pdu in self.depinfo[0].cfg.pduList:
+            # as Now I am not that clear about CM DT and FC, So add all..
+            self.cmbxParmNSdu.addItem('RX_'+pdu.name);
+            self.cmbxParmNSdu.addItem('TX_'+pdu.name);
+            self.cmbxDrtNpdu.addItem('RX_'+pdu.name);
+            self.cmbxDrtNpdu.addItem('TX_'+pdu.name);
         self.cmbxParmNSdu.setCurrentIndex(self.cmbxParmNSdu.findText(self.curobj.NSdu))
         self.cmbxDrtNpdu.setCurrentIndex(self.cmbxDrtNpdu.findText(self.curobj.DirectNPdu))
         self.cbxDynNPdu.setChecked(self.curobj.DynLength);
@@ -147,6 +155,14 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
         self.curobj = gcfindObj(p.PgsList, name);
         self.leParmName.setText(name);
         self.lePgn.setText(self.curobj.Pgn);
+        self.cmbxParmNSdu.clear();
+        self.cmbxDrtNpdu.clear();
+        for pdu in self.depinfo[0].cfg.pduList:
+            # as Now I am not that clear about CM DT and FC, So add all..
+            self.cmbxParmNSdu.addItem('RX_'+pdu.name);
+            self.cmbxParmNSdu.addItem('TX_'+pdu.name);
+            self.cmbxDrtNpdu.addItem('RX_'+pdu.name);
+            self.cmbxDrtNpdu.addItem('TX_'+pdu.name);
         self.cmbxParmNSdu.setCurrentIndex(self.cmbxParmNSdu.findText(self.curobj.NSdu))
         self.cmbxDrtNpdu.setCurrentIndex(self.cmbxDrtNpdu.findText(self.curobj.DirectNPdu))
         self.cbxDynNPdu.setChecked(self.curobj.DynLength);
@@ -180,6 +196,14 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
             self.cfg.rxChannelList.remove(self.curobj);
         elif(text == 'Del Tx Channel'):
             self.cfg.txChannelList.remove(self.curobj);
+        elif(text == 'Del Rx Pgs'):
+            pname = self.curtree.parent().text(0);
+            p = gcfindObj(self.cfg.rxChannelList,pname);
+            p.PgsList.remove(self.curobj);
+        elif(text == 'Del Tx Pgs'):
+            pname = self.curtree.parent().text(0);
+            p = gcfindObj(self.cfg.txChannelList,pname);
+            p.PgsList.remove(self.curobj);
         #delete the tree, reselect a tree item
         parent = self.curtree.parent();
         index = parent.indexOfChild(self.curtree);
@@ -210,6 +234,22 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
         obj.PgsList.append(J1939TpPgs('vPgs0'));
         QTreeWidgetItem(item,QStringList('vPgs0'));
         self.curtree.setExpanded(True);
+    def addRxPgs(self):
+        p = self.curobj;
+        id = len(p.PgsList);
+        name=QString('vPgs%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        obj = J1939TpPgs(name);
+        p.PgsList.append(obj);
+        self.curtree.setExpanded(True); 
+    def addTxPgs(self):
+        p = self.curobj;
+        id = len(p.PgsList);
+        name=QString('vPgs%s'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        obj = J1939TpPgs(name);
+        p.PgsList.append(obj);
+        self.curtree.setExpanded(True); 
 
     @pyqtSignature("")
     def on_btn1_clicked(self):
@@ -218,6 +258,10 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
             self.addRxChannel();
         elif(text == 'Add Tx Channel'):
             self.addTxChannel();
+        elif(text == 'Add Rx Pgs'):
+            self.addRxPgs();
+        elif(text == 'Add Tx Pgs'):
+            self.addTxPgs();    
         self.fileInd(False);
     
     @pyqtSignature("")
@@ -337,31 +381,29 @@ class cd_j1939tp(QDialog, Ui_cd_j1939tp):
     
     @pyqtSignature("QString")
     def on_cmbxParmNSdu_activated(self, p0):
-        """
-        Slot documentation goes here.
-        """
-        # TODO: not implemented yet
-        raise NotImplementedError
+        if(self.curobj!=None):
+            if(self.curobj.NSdu!=p0):
+                self.curobj.NSdu=p0;
+                self.fileInd(False);
     
-    @pyqtSignature("")
-    def on_cbxDynNPdu_clicked(self):
-        """
-        Slot documentation goes here.
-        """
-        # TODO: not implemented yet
-        raise NotImplementedError
-    @pyqtSignature("")
-    def on_cbxEnDrtNPdu_clicked(self):
-        """
-        Slot documentation goes here.
-        """
-        # TODO: not implemented yet
-        raise NotImplementedError
+    @pyqtSignature("bool")
+    def on_cbxDynNPdu_clicked(self,p0):
+        if(self.curobj!=None):
+            if(self.curobj.DynLength!=p0):
+                self.curobj.DynLength=p0;
+                self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxEnDrtNPdu_clicked(self,p0):
+        if(self.curobj!=None):
+            if(self.curobj.EnDirectNPdu!=p0):
+                self.curobj.EnDirectNPdu=p0;
+                self.cmbxDrtNpdu.setDisabled(not p0);
+                self.curobj.DirectNPdu = '';
+                self.fileInd(False);
     
     @pyqtSignature("QString")
     def on_cmbxDrtNpdu_activated(self, p0):
-        """
-        Slot documentation goes here.
-        """
-        # TODO: not implemented yet
-        raise NotImplementedError
+        if(self.curobj!=None):
+            if(self.curobj.DirectNPdu!=p0):
+                self.curobj.DirectNPdu=p0;
+                self.fileInd(False);

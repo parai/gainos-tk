@@ -40,13 +40,23 @@ class J1939TpPgs():
         self.EnDirectNPdu = False;
         self.DirectNPdu = '';
         self.NSdu = '';
-        self.DynLength = False;
+        self.DynLength = False;     #Dynamic NPdu ???
     def save(self, root):
         nd = ET.Element('J1939TpPgs');
         nd.attrib['name'] = str(self.name);
+        nd.attrib['Pgn'] = str(self.Pgn);
+        nd.attrib['EnDirectNPdu'] = str(self.EnDirectNPdu);
+        nd.attrib['DirectNPdu'] = str(self.DirectNPdu);
+        nd.attrib['NSdu'] = str(self.NSdu);
+        nd.attrib['DynLength'] = str(self.DynLength);
         root.append(nd);
     def parse(self, nd):
         self.name = nd.attrib['name'];
+        self.Pgn = str(nd.attrib['Pgn']);
+        self.EnDirectNPdu = bool(nd.attrib['EnDirectNPdu']);
+        self.DirectNPdu = str(nd.attrib['DirectNPdu']);
+        self.NSdu = str(nd.attrib['NSdu']);
+        self.DynLength = bool(nd.attrib['DynLength']);
 class J1939TpChannel():
     def __init__(self, name):
         self.name = name;
