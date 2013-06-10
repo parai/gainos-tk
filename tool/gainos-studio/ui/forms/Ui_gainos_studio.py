@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\gainos_studio.ui'
 #
-# Created: Thu Jun 06 23:42:35 2013
+# Created: Mon Jun 10 12:17:03 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!

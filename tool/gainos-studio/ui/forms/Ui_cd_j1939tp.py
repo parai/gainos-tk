@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_j1939tp.ui'
 #
-# Created: Sat Jun 08 23:13:10 2013
+# Created: Mon Jun 10 12:17:12 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -255,7 +255,7 @@ class Ui_cd_j1939tp(object):
         self.verticalLayout_3.addWidget(self.btn2)
 
         self.retranslateUi(cd_j1939tp)
-        self.tabJ1939Tp.setCurrentIndex(0)
+        self.tabJ1939Tp.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(cd_j1939tp)
 
     def retranslateUi(self, cd_j1939tp):

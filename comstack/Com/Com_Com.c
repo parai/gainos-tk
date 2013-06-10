@@ -220,7 +220,6 @@ Std_ReturnType Com_Internal_TriggerIPduSend(PduIdType ComTxPduId) {
 	IPdu = GET_IPdu(ComTxPduId);
 	Arc_IPdu = GET_ArcIPdu(ComTxPduId);
     Irq_Save(state);
-    /* ����Arccore�������ص�bug�����ദE_NOT_OK����֮ǰδ�ָ�imask*/
     if( isPduBufferLocked(ComTxPduId) ) {
         Irq_Restore(state);
     	return E_NOT_OK;

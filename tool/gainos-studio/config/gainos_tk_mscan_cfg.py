@@ -61,7 +61,7 @@ class CanHohMscan():
         self.name=name;
         self.hohType='CAN_ARC_HANDLE_TYPE_BASIC';
         self.idType ='CAN_ID_TYPE_STANDARD';
-        self.idValue =0;
+        self.idValue ='0x00';
         self.objType= 'CAN_OBJECT_TYPE_RECEIVE';
         self.filterMask = '';
         self.mbMask = '0x00000000';
@@ -80,7 +80,7 @@ class CanHohMscan():
         self.name = nd.attrib['name'];
         self.hohType = nd.attrib['hohType'];
         self.idType = nd.attrib['idType'];
-        self.idValue = int(nd.attrib['idValue']);
+        self.idValue = str(nd.attrib['idValue']);
         self.objType = nd.attrib['objType'];
         self.filterMask = nd.attrib['filterMask'];
         self.mbMask = nd.attrib['mbMask'];

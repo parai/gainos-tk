@@ -259,8 +259,8 @@ class cd_mscan(QDialog, Ui_cd_mscan):
                 self.curtree.setText(0, p0);
                 self.fileInd(False);
     
-    @pyqtSignature("int")
-    def on_spbxIdValue_valueChanged(self, p0):
+    @pyqtSignature("QString")
+    def on_leIdValue_textChanged(self, p0):
         if(self.curobj != None):
             if(self.curobj.idValue!=p0):
                 self.curobj.idValue=p0;
@@ -408,7 +408,7 @@ class cd_mscan(QDialog, Ui_cd_mscan):
                 index=i;
             self.cmbxFilterMask.addItem(mask.name);
         self.cmbxFilterMask.setCurrentIndex(index);
-        self.spbxIdValue.setValue(obj.idValue);
+        self.leIdValue.setText(obj.idValue);
         self.leMbMask.setText(obj.mbMask);
         self.enableTab(1);
 

@@ -139,7 +139,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -374,7 +374,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spbxIdValue"/>
+            <widget class="QLineEdit" name="leIdValue">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>

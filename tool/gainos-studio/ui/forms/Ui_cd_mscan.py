@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_mscan.ui'
 #
-# Created: Thu Jun 06 23:42:36 2013
+# Created: Mon Jun 10 14:10:48 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -179,9 +179,10 @@ class Ui_cd_mscan(object):
         self.label_27 = QtGui.QLabel(self.layoutWidget2)
         self.label_27.setObjectName(_fromUtf8("label_27"))
         self.horizontalLayout_30.addWidget(self.label_27)
-        self.spbxIdValue = QtGui.QSpinBox(self.layoutWidget2)
-        self.spbxIdValue.setObjectName(_fromUtf8("spbxIdValue"))
-        self.horizontalLayout_30.addWidget(self.spbxIdValue)
+        self.leIdValue = QtGui.QLineEdit(self.layoutWidget2)
+        self.leIdValue.setText(_fromUtf8(""))
+        self.leIdValue.setObjectName(_fromUtf8("leIdValue"))
+        self.horizontalLayout_30.addWidget(self.leIdValue)
         self.verticalLayout_5.addLayout(self.horizontalLayout_30)
         self.horizontalLayout_31 = QtGui.QHBoxLayout()
         self.horizontalLayout_31.setObjectName(_fromUtf8("horizontalLayout_31"))
@@ -440,7 +441,7 @@ class Ui_cd_mscan(object):
         self.verticalLayout_2.addWidget(self.btnDel)
 
         self.retranslateUi(cd_mscan)
-        self.tabCfg.setCurrentIndex(0)
+        self.tabCfg.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(cd_mscan)
 
     def retranslateUi(self, cd_mscan):

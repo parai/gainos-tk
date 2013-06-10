@@ -75,8 +75,6 @@ class cd_canif(QDialog, Ui_cd_canif):
         self.leRxPduName.setDisabled(True);
         self.leRxPduUserIndication.setDisabled(True);
         #初始化控件范围
-        self.spbxTxPduCanId.setRange(0, 0x1FFFFFFF);
-        self.spbxRxPduCanId.setRange(0, 0x1FFFFFFF);
         self.spbxTxPduDlc.setRange(0, 8);
         self.spbxRxPduDlc.setRange(0, 8);
         #禁止不被支持的控件
@@ -202,7 +200,7 @@ class cd_canif(QDialog, Ui_cd_canif):
         self.leRxPduName.setText(obj.name[3:]);
         self.leRxPduIdMask.setText(obj.canIdMask);
         self.cmbxRxPduCanType.setCurrentIndex(self.cmbxRxPduCanType.findText(obj.canType));
-        self.spbxRxPduCanId.setValue(obj.canId);
+        self.leRxPduCanId.setText(obj.canId);
         self.cmbxRxPduCanIdType.setCurrentIndex(self.cmbxRxPduCanIdType.findText(obj.canIdType));
         self.spbxRxPduDlc.setValue(obj.dlc);
         self.cmbxRxPduIndication.setCurrentIndex(self.cmbxRxPduIndication.findText(obj.indicationType));
@@ -216,7 +214,7 @@ class cd_canif(QDialog, Ui_cd_canif):
         self.curobj=obj;
         self.leTxPduName.setText(obj.name[3:]);
         self.cmbxTxPduCanType.setCurrentIndex(self.cmbxTxPduCanType.findText(obj.canType));
-        self.spbxTxPduCanId.setValue(obj.canId);
+        self.leTxPduCanId.setText(obj.canId);
         self.cmbxTxPduCanIdType.setCurrentIndex(self.cmbxTxPduCanIdType.findText(obj.canIdType));
         self.spbxTxPduDlc.setValue(obj.dlc);
         self.cmbxTxPduConfirmation.setCurrentIndex(self.cmbxTxPduConfirmation.findText(obj.confirmation));
@@ -478,8 +476,8 @@ class cd_canif(QDialog, Ui_cd_canif):
             self.curobj.canType=p0;
             self.fileInd(False);
     
-    @pyqtSignature("int")
-    def on_spbxTxPduCanId_valueChanged(self, p0):
+    @pyqtSignature("QString")
+    def on_leTxPduCanId_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.canId=p0;
             self.fileInd(False);
@@ -512,8 +510,8 @@ class cd_canif(QDialog, Ui_cd_canif):
             self.curobj.canType=p0;
             self.fileInd(False);
     
-    @pyqtSignature("int")
-    def on_spbxRxPduCanId_valueChanged(self, p0):
+    @pyqtSignature("QString")
+    def on_leRxPduCanId_textChanged(self, p0):
         if(self.curobj!=None):
             self.curobj.canId=p0;
             self.fileInd(False);

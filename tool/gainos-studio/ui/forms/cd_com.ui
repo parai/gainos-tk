@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1014</width>
+    <width>1009</width>
     <height>592</height>
    </rect>
   </property>
@@ -95,7 +95,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -132,7 +132,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>170</y>
+        <y>180</y>
         <width>431</width>
         <height>51</height>
        </rect>
@@ -178,7 +178,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>220</y>
+        <y>230</y>
         <width>431</width>
         <height>251</height>
        </rect>
@@ -190,9 +190,9 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>21</y>
+         <y>20</y>
          <width>391</width>
-         <height>227</height>
+         <height>221</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -458,8 +458,8 @@
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>470</y>
-        <width>291</width>
+        <y>490</y>
+        <width>421</width>
         <height>16</height>
        </rect>
       </property>
@@ -472,246 +472,13 @@
      <attribute name="title">
       <string>General Signal</string>
      </attribute>
-     <widget class="QGroupBox" name="groupBox_5">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>160</y>
-        <width>431</width>
-        <height>171</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Data Configuration</string>
-      </property>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>411</width>
-         <height>141</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_19">
-          <item>
-           <widget class="QLabel" name="label_18">
-            <property name="text">
-             <string>Position(bit):</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="spbxSignalPosition">
-            <property name="toolTip">
-             <string>Must be the times of eight.</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_20">
-          <item>
-           <widget class="QLabel" name="label_19">
-            <property name="text">
-             <string>Position(Signal LSB):</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="spbxSignalLSBPosition"/>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_21">
-          <item>
-           <widget class="QLabel" name="label_20">
-            <property name="text">
-             <string>Size(bits):</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="spbxSignalSize">
-            <property name="toolTip">
-             <string>Range 0 to 63.
-Range 0 to 4095 for uint8_n signal types</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_22">
-          <item>
-           <widget class="QLabel" name="label_21">
-            <property name="text">
-             <string>Initial value:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="leSignalInitValue">
-            <property name="toolTip">
-             <string>if type is UINT8_N or UNIT8_DYN,please in put init value with spac ' ' to spearete each other.</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_23">
-          <item>
-           <widget class="QCheckBox" name="cbxSignalUpdateBitPosition">
-            <property name="text">
-             <string>Update bit position:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="spbxSignalUpdateBitPosition"/>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_6">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>330</y>
-        <width>431</width>
-        <height>181</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Timeouts and Notifications</string>
-      </property>
-      <widget class="QWidget" name="layoutWidget_9">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>411</width>
-         <height>141</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_24">
-          <item>
-           <widget class="QLabel" name="label_22">
-            <property name="text">
-             <string>Timeout Factor:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="spbxSignalTimeoutFactor">
-            <property name="toolTip">
-             <string>uint in MainFunction Period</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_25">
-          <item>
-           <widget class="QLabel" name="label_23">
-            <property name="text">
-             <string>First timeout:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="spbxSignalFirstTimeout">
-            <property name="toolTip">
-             <string>uint in MainFunction Period</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_26">
-          <item>
-           <widget class="QLabel" name="label_24">
-            <property name="text">
-             <string>Timeout action:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="cmbxSignalTimeoutAction">
-            <property name="toolTip">
-             <string>For Tx signal,configure this has no meaning.</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>REPLACE</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>NONE</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_27">
-          <item>
-           <widget class="QLabel" name="label_25">
-            <property name="text">
-             <string>Notification(function):</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="leSignalNotification">
-            <property name="toolTip">
-             <string>input &quot;NULL&quot; to turn it off, if you want</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_28">
-          <item>
-           <widget class="QLabel" name="label_26">
-            <property name="text">
-             <string>Notification on timeout(function):</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="leSignalNotificationOnTimeout">
-            <property name="toolTip">
-             <string>input &quot;NULL&quot; to turn it off, if you want</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>0</y>
+        <y>10</y>
         <width>508</width>
-        <height>151</height>
+        <height>180</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -899,6 +666,237 @@ signal mapping:</string>
        </item>
       </layout>
      </widget>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>200</y>
+        <width>511</width>
+        <height>301</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_6">
+       <attribute name="title">
+        <string>Data Configuration</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>411</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_19">
+           <item>
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>Position(bit):</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spbxSignalPosition">
+             <property name="toolTip">
+              <string>Must be the times of eight.</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_20">
+           <item>
+            <widget class="QLabel" name="label_19">
+             <property name="text">
+              <string>Position(Signal LSB):</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spbxSignalLSBPosition"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_21">
+           <item>
+            <widget class="QLabel" name="label_20">
+             <property name="text">
+              <string>Size(bits):</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spbxSignalSize">
+             <property name="toolTip">
+              <string>Range 0 to 63.
+Range 0 to 4095 for uint8_n signal types</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_22">
+           <item>
+            <widget class="QLabel" name="label_21">
+             <property name="text">
+              <string>Initial value:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="leSignalInitValue">
+             <property name="toolTip">
+              <string>if type is UINT8_N or UNIT8_DYN,please in put init value with spac ' ' to spearete each other.</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_23">
+           <item>
+            <widget class="QCheckBox" name="cbxSignalUpdateBitPosition">
+             <property name="text">
+              <string>Update bit position:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spbxSignalUpdateBitPosition"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_7">
+       <attribute name="title">
+        <string>Timeouts and Notifications</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget_9">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>491</width>
+          <height>174</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_24">
+           <item>
+            <widget class="QLabel" name="label_22">
+             <property name="text">
+              <string>Timeout Factor:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spbxSignalTimeoutFactor">
+             <property name="toolTip">
+              <string>uint in MainFunction Period</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_25">
+           <item>
+            <widget class="QLabel" name="label_23">
+             <property name="text">
+              <string>First timeout:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spbxSignalFirstTimeout">
+             <property name="toolTip">
+              <string>uint in MainFunction Period</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_26">
+           <item>
+            <widget class="QLabel" name="label_24">
+             <property name="text">
+              <string>Timeout action:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cmbxSignalTimeoutAction">
+             <property name="toolTip">
+              <string>For Tx signal,configure this has no meaning.</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>REPLACE</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>NONE</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_27">
+           <item>
+            <widget class="QLabel" name="label_25">
+             <property name="text">
+              <string>Notification:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="leSignalNotification">
+             <property name="toolTip">
+              <string>input &quot;NULL&quot; to turn it off, if you want</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_28">
+           <item>
+            <widget class="QLabel" name="label_26">
+             <property name="text">
+              <string>Notification on 
+timeout(function):</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="leSignalNotificationOnTimeout">
+             <property name="toolTip">
+              <string>input &quot;NULL&quot; to turn it off, if you want</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -974,9 +972,9 @@ signal mapping:</string>
      <widget class="QGroupBox" name="groupBox_8">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>0</x>
         <y>280</y>
-        <width>431</width>
+        <width>531</width>
         <height>161</height>
        </rect>
       </property>
@@ -988,7 +986,7 @@ signal mapping:</string>
         <rect>
          <x>11</x>
          <y>21</y>
-         <width>411</width>
+         <width>511</width>
          <height>128</height>
         </rect>
        </property>

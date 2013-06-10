@@ -13,6 +13,7 @@
 #if (defined(USE_DET))
 #include "Det.h"
 #endif
+#include "Cpu.h"
 
 #include <assert.h>
 
@@ -594,12 +595,12 @@ Std_ReturnType J1939Tp_CancelReceiveRequest(PduIdType RxSduId) {
 
 /** @req J1939TP0096 */
 Std_ReturnType J1939Tp_Transmit(PduIdType TxSduId, const PduInfoType* TxInfoPtr) {
+	Std_ReturnType r = E_OK;
 	#if J1939TP_DEV_ERROR_DETECT
 	if (globalState.State == J1939TP_OFF) {
 		J1939Tp_Internal_ReportError(J1939TP_TRANSMIT_ID,J1939TP_E_UNINIT);
 	}
 	#endif
-	Std_ReturnType r = E_OK;
 	/** @req J1939TP0030 */
 	if (globalState.State == J1939TP_ON) {
 		J1939Tp_Internal_PgInfoType* PgInfo;

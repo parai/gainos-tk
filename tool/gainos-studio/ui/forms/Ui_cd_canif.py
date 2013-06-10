@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_canif.ui'
 #
-# Created: Thu Jun 06 23:42:36 2013
+# Created: Mon Jun 10 14:07:56 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -249,10 +249,10 @@ class Ui_cd_canif(object):
         self.label = QtGui.QLabel(self.layoutWidget5)
         self.label.setObjectName(_fromUtf8("label"))
         self.horizontalLayout_3.addWidget(self.label)
-        self.spbxTxPduCanId = QtGui.QSpinBox(self.layoutWidget5)
-        self.spbxTxPduCanId.setMinimumSize(QtCore.QSize(300, 0))
-        self.spbxTxPduCanId.setObjectName(_fromUtf8("spbxTxPduCanId"))
-        self.horizontalLayout_3.addWidget(self.spbxTxPduCanId)
+        self.leTxPduCanId = QtGui.QLineEdit(self.layoutWidget5)
+        self.leTxPduCanId.setText(_fromUtf8(""))
+        self.leTxPduCanId.setObjectName(_fromUtf8("leTxPduCanId"))
+        self.horizontalLayout_3.addWidget(self.leTxPduCanId)
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
         self.horizontalLayout_6 = QtGui.QHBoxLayout()
         self.horizontalLayout_6.setObjectName(_fromUtf8("horizontalLayout_6"))
@@ -284,6 +284,7 @@ class Ui_cd_canif(object):
         self.cmbxTxPduConfirmation = QtGui.QComboBox(self.layoutWidget5)
         self.cmbxTxPduConfirmation.setMinimumSize(QtCore.QSize(250, 0))
         self.cmbxTxPduConfirmation.setObjectName(_fromUtf8("cmbxTxPduConfirmation"))
+        self.cmbxTxPduConfirmation.addItem(_fromUtf8(""))
         self.cmbxTxPduConfirmation.addItem(_fromUtf8(""))
         self.cmbxTxPduConfirmation.addItem(_fromUtf8(""))
         self.cmbxTxPduConfirmation.addItem(_fromUtf8(""))
@@ -326,10 +327,10 @@ class Ui_cd_canif(object):
         self.label_3 = QtGui.QLabel(self.layoutWidget6)
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.horizontalLayout_10.addWidget(self.label_3)
-        self.spbxRxPduCanId = QtGui.QSpinBox(self.layoutWidget6)
-        self.spbxRxPduCanId.setMinimumSize(QtCore.QSize(300, 0))
-        self.spbxRxPduCanId.setObjectName(_fromUtf8("spbxRxPduCanId"))
-        self.horizontalLayout_10.addWidget(self.spbxRxPduCanId)
+        self.leRxPduCanId = QtGui.QLineEdit(self.layoutWidget6)
+        self.leRxPduCanId.setText(_fromUtf8(""))
+        self.leRxPduCanId.setObjectName(_fromUtf8("leRxPduCanId"))
+        self.horizontalLayout_10.addWidget(self.leRxPduCanId)
         self.verticalLayout_7.addLayout(self.horizontalLayout_10)
         self.horizontalLayout_11 = QtGui.QHBoxLayout()
         self.horizontalLayout_11.setObjectName(_fromUtf8("horizontalLayout_11"))
@@ -477,20 +478,21 @@ class Ui_cd_canif(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">this means nothing,so you have no need to configure it.Just make compatible with arccore.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_31.setText(QtGui.QApplication.translate("cd_canif", "Confirmation API:", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxTxPduConfirmation.setItemText(0, QtGui.QApplication.translate("cd_canif", "NULL", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxTxPduConfirmation.setItemText(1, QtGui.QApplication.translate("cd_canif", "PduR_CanIfTxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxTxPduConfirmation.setItemText(2, QtGui.QApplication.translate("cd_canif", "CanTp_TxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxTxPduConfirmation.setItemText(3, QtGui.QApplication.translate("cd_canif", "CanIf_UserTxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxTxPduConfirmation.setItemText(1, QtGui.QApplication.translate("cd_canif", "J1939Tp_TxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxTxPduConfirmation.setItemText(2, QtGui.QApplication.translate("cd_canif", "PduR_CanIfTxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxTxPduConfirmation.setItemText(3, QtGui.QApplication.translate("cd_canif", "CanTp_TxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxTxPduConfirmation.setItemText(4, QtGui.QApplication.translate("cd_canif", "CanIf_UserTxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
         self.tabCfg.setTabText(self.tabCfg.indexOf(self.tab_3), QtGui.QApplication.translate("cd_canif", "Tx Pdu", None, QtGui.QApplication.UnicodeUTF8))
         self.label_41.setText(QtGui.QApplication.translate("cd_canif", "Global Pdu:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_38.setText(QtGui.QApplication.translate("cd_canif", "Can Type:", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxRxPduCanType.setItemText(0, QtGui.QApplication.translate("cd_canif", "CANIF_PDU_TYPE_STATIC", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxRxPduCanType.setItemText(1, QtGui.QApplication.translate("cd_canif", "CANIF_PDU_TYPE_DYNAMIC", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("cd_canif", "Can Id:", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxRxPduCanId.setToolTip(QtGui.QApplication.translate("cd_canif", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        self.leRxPduCanId.setToolTip(QtGui.QApplication.translate("cd_canif", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Special CanId,If software filter mask on,only Can Frames with this CanId can be received.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">if software filter on,then only if &lt;the reveived Can Id&gt; &amp; Mask == &lt;Configured Can Id here&gt; &amp; Mask,Then the Pdu can be reveived(pass the filter) and a notification to upper layer can be generated.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_39.setText(QtGui.QApplication.translate("cd_canif", "Can Id Type:", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxRxPduCanIdType.setToolTip(QtGui.QApplication.translate("cd_canif", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"

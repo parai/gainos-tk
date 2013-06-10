@@ -48,7 +48,7 @@ class CanIfRxPdu():
         self.name=name;
         self.type='rxPdu'
         self.canType='CANIF_PDU_TYPE_STATIC';
-        self.canId=0;
+        self.canId='0x00';
         self.canIdMask='0x7FF';
         self.canIdType='CANIF_CAN_ID_TYPE_11';
         self.dlc=8;
@@ -71,7 +71,7 @@ class CanIfRxPdu():
         self.name = node.attrib['name'];
         self.type='rxPdu'
         self.canType=node.attrib['canType'];
-        self.canId=int(node.attrib['canId']);
+        self.canId=str(node.attrib['canId']);
         self.canIdMask=node.attrib['canIdMask'];
         self.canIdType=node.attrib['canIdType'];
         self.dlc=int(node.attrib['dlc']);
@@ -83,7 +83,7 @@ class CanIfTxPdu():
         self.name=name;
         self.type='txPdu'
         self.canType='CANIF_PDU_TYPE_STATIC';
-        self.canId=0;
+        self.canId='0x00';
         self.canIdType='CANIF_CAN_ID_TYPE_11';
         self.dlc=8;
         self.confirmation='NULL';
@@ -102,7 +102,7 @@ class CanIfTxPdu():
         self.name = node.attrib['name'];
         self.type='txPdu'
         self.canType=node.attrib['canType'];
-        self.canId=int(node.attrib['canId']);
+        self.canId=str(node.attrib['canId']);
         self.canIdType=node.attrib['canIdType'];
         self.dlc=int(node.attrib['dlc']);
         self.confirmation=node.attrib['confirmation'];
@@ -273,6 +273,7 @@ class gainos_tk_canif_cfg():
         fp.write(ns);
         fp.write('#define USE_PDUR\n');
         fp.write('#define USE_CANTP\n\n');
+        fp.write('#define USE_J1939TP\n\n');
         #TX PDU ID
         fp.write('/* Tx PduId For CanIF */\n')
         index=0;
