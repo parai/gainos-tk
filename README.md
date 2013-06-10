@@ -54,11 +54,18 @@ gainos-tk
 	+---+ arch               <--- 平台相关文件及基础板级支持包
 	+---+ bin                <--- 各平台工程目录
 	+---+ comstack           <--- Autosar Com通讯栈代码集
+	+-------+ CanIf          <--- Autosar Can Interface
+	+-------+ CanTp          <--- Autosar Can Transport Layer（ISO 15765-2-2004ocr）
+	+-------+ J1939Tp        <--- SAE J1939 Transport Layer（under construct）
+	+-------+ PduR           <--- Autosar Pdu Router
+	+-------+ Com            <--- Autosar Communication
 	+---+ config             <--- GaInOS-TK及通讯栈模块配置文件集
 	+---+ diag               <--- Autosar 诊断代码集
+	+-------+ Dcm            <--- Autosar Diagnostic Communication Manager(only UDS,no OBD)
 	+---+ ecual              <--- Autosar ECU Abstraction Layer（ECU抽象层） 
 	+---+ include            <--- 公用头文件
 	+---+ mcal               <--- Autosar 微控制器抽象层（现仅有CAN模块）
+	+-------+ Can            <--- Autosar Can Driver
 	+---+ osek               <--- GaInOS-TK 核心
 	+-------+ inc            <--- GaInOS-TK 内核 .h 
 	+-------+ src            <--- GaInOS-TK 内核 .c 
