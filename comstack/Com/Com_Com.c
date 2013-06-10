@@ -45,7 +45,7 @@ uint8 Com_SendSignal(Com_SignalIdType SignalId, const void *SignalDataPtr) {
 	const ComSignal_type * Signal;
 	const ComIPdu_type *IPdu;
 	Com_Arc_IPdu_type *Arc_IPdu;
-	INT irq_state;
+	imask_t irq_state;
 	VALIDATE_SIGNAL(SignalId, 0x0a, E_NOT_OK);
 	// Store pointer to signal for easier coding.
 	Signal = GET_Signal(SignalId);
@@ -101,8 +101,7 @@ uint8 Com_ReceiveSignal(Com_SignalIdType SignalId, void* SignalDataPtr) {
 			SignalId,
 			FALSE,
 			SignalDataPtr,
-			pduDataPtr,
-			IPdu->ComIPduSize);
+			pduDataPtr);
 
 	return r;
 }
@@ -111,7 +110,7 @@ uint8 Com_ReceiveDynSignal(Com_SignalIdType SignalId, void* SignalDataPtr, uint1
 	const ComSignal_type * Signal = GET_Signal(SignalId);
 	Com_Arc_IPdu_type    *Arc_IPdu   = GET_ArcIPdu(Signal->ComIPduHandleId);
 	const ComIPdu_type   *IPdu       = GET_IPdu(Signal->ComIPduHandleId);
-    INT state;
+    imask_t state;
    	uint8 startFromPduByte;
 	uint8 r = E_OK;
 	const void* pduDataPtr;
@@ -146,7 +145,7 @@ uint8 Com_SendDynSignal(Com_SignalIdType SignalId, const void* SignalDataPtr, ui
 	const ComSignal_type * Signal = GET_Signal(SignalId);
 	Com_Arc_IPdu_type    *Arc_IPdu   = GET_ArcIPdu(Signal->ComIPduHandleId);
 	const ComIPdu_type   *IPdu       = GET_IPdu(Signal->ComIPduHandleId);
-    INT state;
+    imask_t state;
 
 	Com_SignalType signalType = Signal->ComSignalType;
 	uint8 signalLength;
@@ -167,7 +166,7 @@ uint8 Com_SendDynSignal(Com_SignalIdType SignalId, const void* SignalDataPtr, ui
 	startFromPduByte = bitPosition / 8;
 
 	Irq_Save(state);
-	memcpy((void *)(IPdu->ComIPduDataPtr + startFromPduByte), SignalDataPtr, Length);
+	memcpy((void *)((uint8 *)IPdu->ComIPduDataPtr + startFromPduByte), SignalDataPtr, Length);
 	Arc_IPdu->Com_Arc_DynSignalLength = Length;
 	// If the signal has an update bit. Set it!
 	if (Signal->ComSignalArcUseUpdateBit) {
@@ -185,7 +184,7 @@ uint8 Com_SendDynSignal(Com_SignalIdType SignalId, const void* SignalDataPtr, ui
 Std_ReturnType Com_TriggerTransmit(PduIdType ComTxPduId, PduInfoType *PduInfoPtr) {
 	const ComIPdu_type *IPdu;
 
-    INT state;
+    imask_t state;
 	PDU_ID_CHECK(ComTxPduId,0x13,E_NOT_OK);
 	/*
 	 * COM260: This function must not check the transmission mode of the I-PDU
@@ -212,11 +211,12 @@ Std_ReturnType Com_Internal_TriggerIPduSend(PduIdType ComTxPduId) {
 	const ComIPdu_type *IPdu;
 	Com_Arc_IPdu_type *Arc_IPdu;
     imask_t state;
-    uint8 i;
     PduInfoType PduInfoPackage;
-    uint8 sizeWithoutDynSignal;
 	PDU_ID_CHECK(ComTxPduId, 0x17,E_NOT_OK);
 
+#if PDUR_COM_SUPPORT == STD_OFF
+	return E_NOT_OK;
+#else
 	IPdu = GET_IPdu(ComTxPduId);
 	Arc_IPdu = GET_ArcIPdu(ComTxPduId);
     Irq_Save(state);
@@ -226,7 +226,7 @@ Std_ReturnType Com_Internal_TriggerIPduSend(PduIdType ComTxPduId) {
     }
 
 	// Is the IPdu ready for transmission?
-	if (Arc_IPdu->Com_Arc_TxIPduTimers.ComTxIPduMinimumDelayTimer == 0) {
+	if (Arc_IPdu->Com_Arc_TxIPduTimers.ComTxIPduMinimumDelayTimer == 0 && Arc_IPdu->Com_Arc_IpduStarted) {
 
         //lint --e(725)	Suppress PC-Lint warning "Expected positive indentation...". What means?
 		// Check callout status
@@ -241,7 +241,7 @@ Std_ReturnType Com_Internal_TriggerIPduSend(PduIdType ComTxPduId) {
 
 		PduInfoPackage.SduDataPtr = (uint8 *)IPdu->ComIPduDataPtr;
 		if (IPdu->ComIPduDynSignalRef != 0) {
-			sizeWithoutDynSignal = IPdu->ComIPduSize - (IPdu->ComIPduDynSignalRef->ComBitSize/8);
+			uint8 sizeWithoutDynSignal = IPdu->ComIPduSize - (IPdu->ComIPduDynSignalRef->ComBitSize/8);
 			PduInfoPackage.SduLength = sizeWithoutDynSignal + Arc_IPdu->Com_Arc_DynSignalLength;
 		} else {
 			PduInfoPackage.SduLength = IPdu->ComIPduSize;
@@ -249,6 +249,7 @@ Std_ReturnType Com_Internal_TriggerIPduSend(PduIdType ComTxPduId) {
 
 		// Send IPdu!
 		if (PduR_ComTransmit(IPdu->ArcIPduOutgoingId, &PduInfoPackage) == E_OK) {
+			uint8 i;
 			// Clear all update bits for the contained signals
 			for (i = 0; (IPdu->ComIPduSignalRef != NULL) && (IPdu->ComIPduSignalRef[i] != NULL); i++) {
 				if (IPdu->ComIPduSignalRef[i]->ComSignalArcUseUpdateBit) {
@@ -269,7 +270,7 @@ Std_ReturnType Com_Internal_TriggerIPduSend(PduIdType ComTxPduId) {
 	}
     Irq_Restore(state);
     return E_OK;
-
+#endif
 }
 //lint -esym(904, Com_TriggerIPduSend) //PC-Lint Exception of rule 14.7
 void Com_TriggerIPduSend(PduIdType ComTxPduId) {
@@ -379,11 +380,8 @@ Std_ReturnType Com_SendSignalGroup(Com_SignalGroupIdType SignalGroupId) {
 	
 
 	Irq_Save(irq_state);
-	for (i = 0; Signal->ComGroupSignal[i] != NULL; i++) {
-		groupSignal = Signal->ComGroupSignal[i];
 
-		Com_WriteGroupSignalDataToPdu(Signal->ComHandleId, groupSignal->ComHandleId, Signal->Com_Arc_ShadowBuffer);
-	}
+	Com_CopySignalGroupDataFromShadowBufferToPdu(SignalGroupId);
 
 	// If the signal has an update bit. Set it!
 	if (Signal->ComSignalArcUseUpdateBit) {
@@ -408,7 +406,7 @@ Std_ReturnType Com_ReceiveSignalGroup(Com_SignalGroupIdType SignalGroupId) {
 		return COM_BUSY;
 	}
 	// Copy Ipdu data buffer to shadow buffer.
-	Com_CopySignalGroupDataFromShadowBuffer(SignalGroupId);
+	Com_CopySignalGroupDataFromPduToShadowBuffer(SignalGroupId);
 
 	return E_OK;
 }
@@ -416,14 +414,13 @@ Std_ReturnType Com_ReceiveSignalGroup(Com_SignalGroupIdType SignalGroupId) {
 void Com_UpdateShadowSignal(Com_SignalIdType SignalId, const void *SignalDataPtr) {
 	Com_Arc_GroupSignal_type *Arc_GroupSignal = GET_ArcGroupSignal(SignalId);
 
-	Com_WriteSignalDataToPduBuffer(SignalId, TRUE, SignalDataPtr, (void *)Arc_GroupSignal->Com_Arc_ShadowBuffer, 8);
+	Com_WriteSignalDataToPduBuffer(SignalId, TRUE, SignalDataPtr, (void *)Arc_GroupSignal->Com_Arc_ShadowBuffer);
 }
 
 void Com_ReceiveShadowSignal(Com_SignalIdType SignalId, void *SignalDataPtr) {
 	Com_Arc_GroupSignal_type *Arc_GroupSignal = GET_ArcGroupSignal(SignalId);
-	uint8 pduSize = GET_IPdu(GET_Signal(SignalId)->ComIPduHandleId)->ComIPduSize;
 
-	Com_ReadSignalDataFromPduBuffer(SignalId, TRUE, SignalDataPtr, (void *)Arc_GroupSignal->Com_Arc_ShadowBuffer,pduSize);
+	Com_ReadSignalDataFromPduBuffer(SignalId, TRUE, SignalDataPtr, (void *)Arc_GroupSignal->Com_Arc_ShadowBuffer);
 }
 
 

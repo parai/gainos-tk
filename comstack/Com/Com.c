@@ -31,8 +31,8 @@
 
 
 
-//#include <assert.h>
-//#include <stdlib.h>
+#include <assert.h>
+#include <stdlib.h>
 //#include <stdio.h>
 
 #include <string.h>
@@ -150,9 +150,11 @@ void Com_Init(const Com_ConfigType *config ) {
 					Arc_GroupSignal = GET_ArcGroupSignal(GroupSignal->ComHandleId);
 					// Set pointer to shadow buffer
 					Arc_GroupSignal->Com_Arc_ShadowBuffer = (void *)Signal->Com_Arc_ShadowBuffer;
-					// Initialize group signal data.
-					Com_WriteGroupSignalDataToPdu(Signal->ComHandleId, GroupSignal->ComHandleId, GroupSignal->ComSignalInitValue);
+					// Initialize shadowbuffer.
+					Com_UpdateShadowSignal(GroupSignal->ComHandleId, GroupSignal->ComSignalInitValue);
 				}
+				// Initialize group signal data from shadowbuffer.
+				Com_CopySignalGroupDataFromShadowBufferToPdu(Signal->ComHandleId);
 			} else {
 				// Initialize signal data.
 				Com_WriteSignalDataToPdu(Signal->ComHandleId, Signal->ComSignalInitValue);

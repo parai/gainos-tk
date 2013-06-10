@@ -43,36 +43,58 @@ static void Com_ReadDataSegment(uint8 *dest, const uint8 *source, uint8 destByte
 static void Com_WriteDataSegment(uint8 *pdu, uint8 *pduSignalMask, const uint8 *signalDataPtr, uint8 destByteLength,
                                  Com_BitPositionType segmentStartBitOffset, uint8 segmentBitLength);
 
-void Com_CopySignalGroupDataFromShadowBuffer(const Com_SignalIdType signalGroupId) {
+void Com_CopySignalGroupDataFromShadowBufferToPdu(const Com_SignalIdType signalGroupId) {
 
 	// Get PDU
 	const ComSignal_type * Signal = GET_Signal(signalGroupId);
 	const ComIPdu_type *IPdu = GET_IPdu(Signal->ComIPduHandleId);
 	uint8 pduSize = IPdu->ComIPduSize;
 	imask_t state;
-
-	const void* pduDataPtr = 0;
+    uint8 *buf;
+	uint8 *pduDataPtr = 0;
+	int i;
 	if (IPdu->ComIPduSignalProcessing == DEFERRED && IPdu->ComIPduDirection == RECEIVE) {
 		pduDataPtr = IPdu->ComIPduDeferredDataPtr;
 	} else {
 		pduDataPtr = IPdu->ComIPduDataPtr;
 	}
 
-	
-	Irq_Save(state);
+	// Aligned opaque data -> straight copy with signalgroup mask
+	buf = (uint8 *)Signal->Com_Arc_ShadowBuffer;
+	for(i= 0; i < IPdu->ComIPduSize; i++){
+		*pduDataPtr = (~Signal->Com_Arc_ShadowBuffer_Mask[i] & *pduDataPtr) |
+					  (Signal->Com_Arc_ShadowBuffer_Mask[i] & *buf);
+		buf++;
+		pduDataPtr++;
+	}
+}
 
-	// Get data, Aligned opaque data -> straight copy
-	memcpy((void *)Signal->Com_Arc_ShadowBuffer, pduDataPtr, pduSize);
+void Com_CopySignalGroupDataFromPduToShadowBuffer(const Com_SignalIdType signalGroupId) {
 
-	Irq_Restore(state);
+	// Get PDU
+	const ComSignal_type * Signal = GET_Signal(signalGroupId);
+	const ComIPdu_type *IPdu = GET_IPdu(Signal->ComIPduHandleId);
+    uint8 *buf;
+    int i;
+	const uint8 *pduDataPtr = 0;
+	if (IPdu->ComIPduSignalProcessing == DEFERRED && IPdu->ComIPduDirection == RECEIVE) {
+		pduDataPtr = IPdu->ComIPduDeferredDataPtr;
+	} else {
+		pduDataPtr = IPdu->ComIPduDataPtr;
+	}
+
+	// Aligned opaque data -> straight copy with signalgroup mask
+	buf = (uint8 *)Signal->Com_Arc_ShadowBuffer;
+	for(i= 0; i < IPdu->ComIPduSize; i++){
+		*buf++ = Signal->Com_Arc_ShadowBuffer_Mask[i] & *pduDataPtr++;
+	}
 }
 
 void Com_ReadSignalDataFromPduBuffer(
-    const uint16 signalId,
-    const boolean isGroupSignal,
-    void *signalData,
-    const void *pduBuffer,
-    uint8 pduSize) {
+		const uint16 signalId,
+		const boolean isGroupSignal,
+		void *signalData,
+		const void *pduBuffer) {
 
 	Com_SignalType signalType;
 	ComSignalEndianess_type signalEndianess;
@@ -176,38 +198,17 @@ void Com_WriteSignalDataToPdu(
 
 	// Get data
 	Com_WriteSignalDataToPduBuffer(
-        signalId,
-        FALSE,
-        signalData,
-        IPdu->ComIPduDataPtr,
-        IPdu->ComIPduSize);
+			signalId,
+			FALSE,
+			signalData,
+			IPdu->ComIPduDataPtr);
 }
-
-void Com_WriteGroupSignalDataToPdu(
-    const Com_SignalIdType parentSignalId,
-    const Com_SignalIdType groupSignalId,
-    const void *signalData) {
-
-	// Get PDU
-	const ComSignal_type *Signal     = GET_Signal(parentSignalId);
-	const ComIPdu_type   *IPdu       = GET_IPdu(Signal->ComIPduHandleId);
-
-	// Get data
-	Com_WriteSignalDataToPduBuffer(
-        groupSignalId,
-        TRUE,
-        (uint8*)signalData + (GET_GroupSignal(groupSignalId)->ComBitPosition / 8), // TODO, can we make sure group signals is on byte boundary
-        (void *)IPdu->ComIPduDataPtr,
-        IPdu->ComIPduSize);
-}
-
 
 void Com_WriteSignalDataToPduBuffer(
-    const uint16 signalId,
-    const boolean isGroupSignal,
-    const void *signalData,
-    void *pduBuffer,
-    const uint8 pduSize) {
+			const uint16 signalId,
+			const boolean isGroupSignal,
+			const void *signalData,
+			void *pduBuffer) {
 	// TODO: Implement writing little-endian signals
 
 	Com_SignalType signalType;
@@ -230,6 +231,7 @@ void Com_WriteSignalDataToPduBuffer(
 		bitSize = Signal->ComBitSize;
 		endian = Signal->ComSignalEndianess;
 	} else {
+		/* Groupsignal, we actually write to shadowbuffer */
 		const ComGroupSignal_type *GroupSignal = GET_GroupSignal(signalId);
 		signalType = GroupSignal->ComSignalType;
 		signalLength = GroupSignal->ComBitSize / 8;

@@ -272,8 +272,8 @@ class gainos_tk_canif_cfg():
         ns+='#define CANIF_READRXPDU_NOTIF_STATUS_API    STD_OFF   // Not supported\n\n';
         fp.write(ns);
         fp.write('#define USE_PDUR\n');
-        fp.write('#define USE_CANTP\n\n');
-        fp.write('#define USE_J1939TP\n\n');
+        fp.write('#define USE_CANTP\n');
+        fp.write('//#define USE_J1939TP\n\n');
         #TX PDU ID
         fp.write('/* Tx PduId For CanIF */\n')
         index=0;

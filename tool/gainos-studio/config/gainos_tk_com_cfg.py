@@ -166,8 +166,8 @@ class ComSignalGroup():
     def sizeInByte(self):
         """ComSignalGroup有ComBitSize配置位，所以。。。"""
         sizeInBit=self.ComBitSize;
-        if(self.ComSignalArcUseUpdateBit == True):
-            sizeInBit +=1;
+        #if(self.ComSignalArcUseUpdateBit == True):
+        #    sizeInBit +=1;
         sizeInByte = (sizeInBit+7)/8;
         #print 'sizeInByte:', sizeInByte
         return sizeInByte;
@@ -510,7 +510,16 @@ class gainos_tk_com_cfg():
             if(ipdu.ComIPduDirection == 'RECEIVE' and ipdu.ComIPduSignalProcessing=='DEFERRED'):
                 fp.write('uint8 %s_IPduDeferredRxBuffer[%s];\n'%(ipdu.name, ipdu.sizeInByte()));
             for siggrp in ipdu.signalGroupList:
-                fp.write('uint8 %s_SignalGroupBuffer[%s];\n'%(siggrp.name, siggrp.sizeInByte()));                
+                fp.write('uint8 %s_SignalGroupBuffer[8];\n'%(siggrp.name));
+                fp.write('//I am not that clear,If problem,please modify by hand\n')
+                fp.write('const uint8 %s_SignalGroupMaskBuffer[8] = {'%(siggrp.name));
+                for i in range(0, siggrp.ComBitPosition/8):
+                    fp.write('0x00,')                                                        
+                for i in range(siggrp.ComBitPosition/8, siggrp.ComBitPosition/8 + siggrp.sizeInByte()):
+                    fp.write('0xFF,')
+                for i in range(siggrp.ComBitPosition/8 + siggrp.sizeInByte(), 8):
+                    fp.write('0x00,')
+                fp.write('};\n')
         ##########Signal definitions####################
         cnt =0;
         for ipdu in self.cfg.IPduList:
@@ -546,6 +555,7 @@ class gainos_tk_com_cfg():
                 str+='\t\t/* .Com_Arc_IsSignalGroup = */ FALSE,\n';
                 str+='\t\t/* .ComGroupSignal = */ NULL,\n';
                 str+='\t\t/* .Com_Arc_ShadowBuffer = */ NULL,\n';
+                str+='\t\t/* .Com_Arc_ShadowBuffer_Mask = */ NULL,\n';
                 str+='\t\t/* .ComIPduHandleId = */ %s,\n'%(ipdu.name);
                 if(eol==cnt):
                     str+='\t\t/* .Com_Arc_EOL = */ TRUE\n';
@@ -573,6 +583,7 @@ class gainos_tk_com_cfg():
                 str+='\t\t/* .Com_Arc_IsSignalGroup = */ TRUE,\n';
                 str+='\t\t/* .ComGroupSignal = */ %s_SignalRefs,\n'%(sig.name);
                 str+='\t\t/* .Com_Arc_ShadowBuffer = */ %s_SignalGroupBuffer,\n'%(sig.name);
+                str+='\t\t/* .Com_Arc_ShadowBuffer_Mask = */ %s_SignalGroupMaskBuffer,\n'%(sig.name);
                 str+='\t\t/* .ComIPduHandleId = */ %s,\n'%(ipdu.name);
                 if(eol==cnt):
                     str+='\t\t/* .Com_Arc_EOL = */ TRUE\n';

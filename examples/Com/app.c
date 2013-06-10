@@ -27,29 +27,60 @@ void onSignal1Receive(void)
     Com_ReceiveSignal(vCom_IPdu1_RX_Signal1,&signal);
     printf("Signal = 0x%x.\r\n",signal);
 }
+void onSingnalGroup0Receive(void)
+{
+    static uint8 signal[8] = {0,0,0};
+    printf("onSingnalGroup0Receive().\r\n");
+    Com_ReceiveSignal(vCom_IPdu1_RX_SigGrp0,signal);
+    printf("Signal Group= [0x%x, 0x%x,0x%x].\r\n",signal[0],signal[1],signal[2]);
+}
+/*
+    byte 0 : 00 ... 07   --
+    byte 1 : 08 ... 15     | +signal0
+    byte 2 : 15 ... 23   --
+    byte 3 : 23 ... 31   -+  signal1
+    byte 4 : 32 ... 39   --
+    byte 5 : 40 ... 47     |+ signal group0
+    byte 6 : 48 ... 55   --
+    byte 7 : 56 ... 63   -+ update bit area
+*/
 TASK(vTaskSender)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     static uint8 callcnt = 0;
-    static uint8 signal[8] = {0,1,2,0,4,0,0,0};
+    static uint8 signal[8] = {0,1,2,3,4,6,8,0};
     static PduInfoType pduinfo = {signal,8};
-    signal[0]++; signal[1]++; signal[2]++; signal[4]++;
+    signal[0]++; signal[1]++; signal[2]++; signal[3]++; signal[4]++; 
+    signal[5]++; signal[6]++;
     callcnt ++;
     if(callcnt%5 == 0)
     {
-        signal[3] = 1;//set update bit
+        signal[7] = 1;//set update bit  for signal0
     }
     else if((callcnt+2)%5 == 0)
     {
-        signal[5] = 1;//set update bit
+        signal[7] = 2;//set update bit  for signal1
+    }
+    else if((callcnt+4)%5 == 0)
+    {
+        signal[7] = 4;//set update bit  for signal group 0
     }
     CanIf_Transmit(vCanIf_Channel_0, &pduinfo);
-    signal[5] = signal[3] = 0;//clear update bit
+    signal[7] = 0;//clear update bit
     if((callcnt)%0x0E == 0)
     {
         Com_SendSignal(vCom_IPdu1_TX_Signal0,signal);
         //Com_TriggerIPduSend(vCom_IPdu1_TX);
     }
+    else if((callcnt)%0x09 == 0)
+    {
+        Com_UpdateShadowSignal(vCom_IPdu1_TX_SigGrp0_Signal0,&signal[3]);
+        Com_UpdateShadowSignal(vCom_IPdu1_TX_SigGrp0_Signal1,&signal[4]);
+        Com_UpdateShadowSignal(vCom_IPdu1_TX_SigGrp0_Signal2,&signal[5]);
+        Com_UpdateShadowSignal(vCom_IPdu1_TX_SigGrp0_Signal3,&signal[6]);
+        Com_SendSignalGroup(vCom_IPdu1_TX_SigGrp0);
+    }
+    
     (void)TerminateTask();
 }
 
