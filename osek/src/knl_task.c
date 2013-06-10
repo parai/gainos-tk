@@ -94,7 +94,7 @@ EXPORT void knl_make_runnable( TCB *tcb )
 	{
 	    if(tcb->priority < knl_schedtsk->priority)
 	    {   /* tcb has higher priority */
-	        //TODO:How to implement Task (Non)Preemtable,Mean OS Schedule Policy
+	        //when task is non-preemtable,its priority will be the highest when run.
             knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);
 	    }
 	    else
@@ -119,7 +119,7 @@ EXPORT void knl_search_schedtsk(void)
         knl_ready_queue_delete(&knl_ready_queue, knl_schedtsk);
     }
 }
-
+/* put current running task into ready queue,and find the next high ready task.*/
 EXPORT void knl_preempt(void)
 {
     knl_ready_queue_insert_top(&knl_ready_queue, knl_schedtsk);
@@ -127,7 +127,7 @@ EXPORT void knl_preempt(void)
     knl_dispatch_request();
 }
 
-/* Start all the tasks configured in autosatrt */
+/* 	Initialize all the  tasks */
 EXPORT void knl_task_init(void)
 {
     TaskType i;
