@@ -1,10 +1,11 @@
 #include "CanNm.h"
 #include "CanIf.h"
+#include "Nm.h"
 
 const CanNm_ChannelType  CanNm_Channels[] = {
-    {
-        /* Active = */ FALSE,
-        /* NmNetworkHandle = */ 0,//Not Used
+    {  
+        /* Active = */ TRUE,
+        /* NmNetworkHandle = */ NM_CHANNEL0,
         /* NodeId= */ 0, // ?
         /* MainFunctionPeriod = */ 10,//eyi mi ga yi la?
         /* TimeoutTime = */ 10,//ms

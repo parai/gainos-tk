@@ -19,6 +19,8 @@
 
 #define CANNM_CHANNEL_COUNT 1
 
+#define CANNM_CHANNEL0 0
+
 extern const CanNm_ConfigType CanNm_Config;
 #endif
 

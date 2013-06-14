@@ -10,6 +10,8 @@
 #include "CanIf.h"
 #include "PduR.h"
 #include "CanNm.h"
+#include "Nm.h"
+#include "ComM.h"
 
 TASK(vTaskSender)
 {
@@ -25,7 +27,8 @@ TASK(vTaskReceiver)
 TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    CanNm_MainFunction(0);
+    CanNm_MainFunction(CANNM_CHANNEL0);
+    ComM_MainFunction(COMM_CHANNEL0);
     (void)TerminateTask();
 }
 ALARM(vAlarmSender)
@@ -53,8 +56,12 @@ void StartupHook(void)
 	Can_Init(&Can_ConfigData); 
     CanIf_Init(&CanIf_Config);
     CanNm_Init(&CanNm_Config);
+    Nm_Init(&Nm_Config);
+    ComM_Init(&ComM_Cfg);
     CanIf_SetControllerMode(vCanIf_Channel_0,CANIF_CS_STARTED);
     CanIf_SetControllerMode(vCanIf_Channel_1,CANIF_CS_STARTED);
+    Nm_PassiveStartUp(NM_CHANNEL0);
+    ComM_RequestComMode(COMM_USER0,COMM_FULL_COMMUNICATION);
 }
 
 void CanIf_UserRxIndication(uint8 channel, PduIdType pduId, const uint8 *sduPtr,

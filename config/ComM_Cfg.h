@@ -11,10 +11,16 @@
 #define COMM_T_MIN_FULL_COM_MODE_DURATION 100
 
 #define COMM_CHANNEL_COUNT 1
-#define COMM_USER_COUNT 1
 
-typedef uint8 ComM_UserHandleType;
+#define COMM_CHANNEL0 0
 
+typedef enum
+{
+    COMM_USER0 = 0,
+    COMM_USER_COUNT
+}ComM_UserHandleType;
+
+extern const ComM_ConfigType ComM_Cfg;
 #endif /* COMM_CFG_H_H_H */
 
 

@@ -5,4 +5,9 @@
 #define NM_NODE_ID_ENABLED STD_ON
 #define NM_NODE_DETECTION_ENABLED STD_ON
 
+#define NM_CHANNEL0 0
+
+#define USE_CANNM
+
+extern const Nm_ConfigType Nm_Config;
 #endif 
