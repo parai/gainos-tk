@@ -62,6 +62,7 @@ void StartupHook(void)
     CanIf_SetControllerMode(vCanIf_Channel_1,CANIF_CS_STARTED);
     Nm_PassiveStartUp(NM_CHANNEL0);
     ComM_RequestComMode(COMM_USER0,COMM_FULL_COMMUNICATION);
+    CanNm_NetworkRequest(CANNM_CHANNEL0);
 }
 
 void CanIf_UserRxIndication(uint8 channel, PduIdType pduId, const uint8 *sduPtr,
