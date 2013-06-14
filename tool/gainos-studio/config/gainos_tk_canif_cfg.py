@@ -273,7 +273,8 @@ class gainos_tk_canif_cfg():
         fp.write(ns);
         fp.write('#define USE_PDUR\n');
         fp.write('#define USE_CANTP\n');
-        fp.write('//#define USE_J1939TP\n\n');
+        fp.write('//#define USE_J1939TP\n');
+        fp.write('#define USE_CANNM\n\n');
         #TX PDU ID
         fp.write('/* Tx PduId For CanIF */\n')
         index=0;
@@ -510,6 +511,10 @@ class gainos_tk_canif_cfg():
                 return 'PDUR_ALT';#ALT is for PDUR ZERO COST
             elif(pdu.confirmation == 'CanTp_TxConfirmation'):
                 return 'CANTP';
+            elif(pdu.confirmation == 'CanNm_TxConfirmation'):
+                return 'CANNM';
+            elif(pdu.confirmation == 'J1939Tp_TxConfirmation'):
+                return 'J1939TP';
         elif(pdu.type == 'rxPdu'):
             if(pdu.indicationType == 'CAN_NM'):
                 return 'CANNM';
@@ -517,4 +522,6 @@ class gainos_tk_canif_cfg():
                 return 'CANTP';
             elif(pdu.indicationType == 'CAN_PDUR'):
                 return 'PDUR';
+            elif(pdu.indicationType == 'J1939TP'):
+                return 'J1939TP';
         return 'CANIF';

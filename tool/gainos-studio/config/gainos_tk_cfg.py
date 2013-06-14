@@ -34,10 +34,11 @@ from gainos_tk_pdur_cfg import gainos_tk_pdur_cfg
 from gainos_tk_com_cfg import gainos_tk_com_cfg
 from gainos_tk_dcm_cfg import gainos_tk_dcm_cfg
 from gainos_tk_j1939tp_cfg import gainos_tk_j1939tp_cfg
+from gainos_tk_cannm_cfg import gainos_tk_cannm_cfg
 #dictionary for MC9S12
 gainos_tk_mc9s12_dc ={
     'Adc':gainos_tk_default_cfgobj,   'Can':gainos_tk_mscan_cfg, 
-    'CanIf':gainos_tk_canif_cfg, 'CanNm':gainos_tk_default_cfgobj,
+    'CanIf':gainos_tk_canif_cfg, 'CanNm':gainos_tk_cannm_cfg,
     'CanTp':gainos_tk_cantp_cfg, 'CanSm':gainos_tk_default_cfgobj,
     'Com':gainos_tk_com_cfg,   'Dio':gainos_tk_default_cfgobj,
     'Eep':gainos_tk_default_cfgobj,   'EcuC':gainos_tk_ecuc_cfg,

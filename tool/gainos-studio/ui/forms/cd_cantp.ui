@@ -75,7 +75,7 @@
      <rect>
       <x>30</x>
       <y>20</y>
-      <width>125</width>
+      <width>181</width>
       <height>16</height>
      </rect>
     </property>
@@ -137,13 +137,13 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
       <string>Rx Pdu</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>

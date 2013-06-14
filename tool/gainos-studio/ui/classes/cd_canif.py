@@ -286,7 +286,6 @@ class cd_canif(QDialog, Ui_cd_canif):
             for channel in self.cfg.channelList:
                 for hth in channel.hthList:
                     for pdu in hth.pduList:
-                        print pdu.name[3:], pduname;
                         if(pdu.name[3:]==pduname):
                             return True;
         elif(typeofhoh=='hrh'):
@@ -294,7 +293,6 @@ class cd_canif(QDialog, Ui_cd_canif):
             for channel in self.cfg.channelList:
                 for hrh in channel.hrhList:
                     for pdu in hrh.pduList:
-                        print pdu.name[3:], pduname;
                         if(pdu.name[3:]==pduname):
                             return True;
         return False;

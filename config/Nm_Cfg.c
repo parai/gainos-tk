@@ -6,7 +6,7 @@ const Nm_ChannelType Nm_Channels[] =
 {
     {
         /* BusType = */ NM_BUSNM_CANNM,
-	    /* BusNmNetworkHandle = */ CANNM_CHANNEL0,
+	    /* BusNmNetworkHandle = */ vCanNm_Channel_0,
 	    /* ComMNetworkHandle = */  COMM_CHANNEL0
     }  
 };

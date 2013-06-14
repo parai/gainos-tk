@@ -27,7 +27,7 @@ TASK(vTaskReceiver)
 TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    CanNm_MainFunction(CANNM_CHANNEL0);
+    CanNm_MainFunction(vCanNm_Channel_0);
     ComM_MainFunction(COMM_CHANNEL0);
     (void)TerminateTask();
 }
@@ -62,7 +62,7 @@ void StartupHook(void)
     CanIf_SetControllerMode(vCanIf_Channel_1,CANIF_CS_STARTED);
     Nm_PassiveStartUp(NM_CHANNEL0);
     ComM_RequestComMode(COMM_USER0,COMM_FULL_COMMUNICATION);
-    CanNm_NetworkRequest(CANNM_CHANNEL0);
+    CanNm_NetworkRequest(vCanNm_Channel_0);
 }
 
 void CanIf_UserRxIndication(uint8 channel, PduIdType pduId, const uint8 *sduPtr,

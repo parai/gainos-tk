@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_canif.ui'
 #
-# Created: Mon Jun 10 14:07:56 2013
+# Created: Fri Jun 14 19:35:50 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -289,6 +289,7 @@ class Ui_cd_canif(object):
         self.cmbxTxPduConfirmation.addItem(_fromUtf8(""))
         self.cmbxTxPduConfirmation.addItem(_fromUtf8(""))
         self.cmbxTxPduConfirmation.addItem(_fromUtf8(""))
+        self.cmbxTxPduConfirmation.addItem(_fromUtf8(""))
         self.horizontalLayout_7.addWidget(self.cmbxTxPduConfirmation)
         self.verticalLayout_3.addLayout(self.horizontalLayout_7)
         self.tabCfg.addTab(self.tab_3, _fromUtf8(""))
@@ -477,11 +478,17 @@ class Ui_cd_canif(object):
 "</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">this means nothing,so you have no need to configure it.Just make compatible with arccore.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_31.setText(QtGui.QApplication.translate("cd_canif", "Confirmation API:", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxTxPduConfirmation.setToolTip(QtGui.QApplication.translate("cd_canif", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">If you chose CANNM,So it is really special.You should define the CanNm Channel at EcuC first.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxTxPduConfirmation.setItemText(0, QtGui.QApplication.translate("cd_canif", "NULL", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxTxPduConfirmation.setItemText(1, QtGui.QApplication.translate("cd_canif", "J1939Tp_TxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxTxPduConfirmation.setItemText(2, QtGui.QApplication.translate("cd_canif", "PduR_CanIfTxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxTxPduConfirmation.setItemText(3, QtGui.QApplication.translate("cd_canif", "CanTp_TxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxTxPduConfirmation.setItemText(4, QtGui.QApplication.translate("cd_canif", "CanIf_UserTxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxTxPduConfirmation.setItemText(4, QtGui.QApplication.translate("cd_canif", "CanNm_TxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxTxPduConfirmation.setItemText(5, QtGui.QApplication.translate("cd_canif", "CanIf_UserTxConfirmation", None, QtGui.QApplication.UnicodeUTF8))
         self.tabCfg.setTabText(self.tabCfg.indexOf(self.tab_3), QtGui.QApplication.translate("cd_canif", "Tx Pdu", None, QtGui.QApplication.UnicodeUTF8))
         self.label_41.setText(QtGui.QApplication.translate("cd_canif", "Global Pdu:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_38.setText(QtGui.QApplication.translate("cd_canif", "Can Type:", None, QtGui.QApplication.UnicodeUTF8))
@@ -514,6 +521,11 @@ class Ui_cd_canif(object):
 "</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Note:Rx Data\'s DLC must be bigger than the configured value,or the Data will be droped if DLC check enabled.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_42.setText(QtGui.QApplication.translate("cd_canif", "Indication Type:", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxRxPduIndication.setToolTip(QtGui.QApplication.translate("cd_canif", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">If you chose CANNM,So it is really special.You should define the CanNm Channel at EcuC first.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxRxPduIndication.setItemText(0, QtGui.QApplication.translate("cd_canif", "CAN_NM", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxRxPduIndication.setItemText(1, QtGui.QApplication.translate("cd_canif", "CAN_TP", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxRxPduIndication.setItemText(2, QtGui.QApplication.translate("cd_canif", "CAN_PDUR", None, QtGui.QApplication.UnicodeUTF8))
