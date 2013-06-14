@@ -28,6 +28,7 @@
 #define USE_PDUR
 #define USE_CANTP
 //#define USE_J1939TP
+#define USE_CANNM
 
 /* Tx PduId For CanIF */
 #define CANIF_TX_vEcuC_Pdu_1		0
