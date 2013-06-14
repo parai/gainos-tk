@@ -20,6 +20,7 @@ class cd_cannm(QDialog, Ui_cd_cannm):
     def __init__(self, title, fileInd, cfg, depinfo, parent = None):
         """
         depinfo[0] == EcuC.cfg
+        depinfo[1] == Nm.cfg
         """
         QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -86,6 +87,9 @@ class cd_cannm(QDialog, Ui_cd_cannm):
             self.cmbxTxPdu.addItem('TX_'+pdu.name)
         for pdu in self.depinfo[0].cfg.pduList:
             self.cmbxRxPdu.addItem('RX_'+pdu.name)
+        self.cmbxNmChannel.clear();
+        for chl in self.depinfo[1].cfg.channelList:
+            self.cmbxNmChannel.addItem(chl.name)
         self.cmbxNmChannel.setCurrentIndex(self.cmbxNmChannel.findText(obj.NmNetworkHandle))
         self.cbxChlActive.setChecked(obj.Active)
         self.spbxRepeatMessageTime.setValue(obj.RepeatMessageTime)

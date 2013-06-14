@@ -6,7 +6,7 @@ const ComM_ChannelType ComM_Channels[] =
     {
         /* BusType = */  COMM_BUS_TYPE_CAN,
         /* BusSMNetworkHandle = */ 0,//?
-        /* NmChannelHandle = */  NM_CHANNEL0,
+        /* NmChannelHandle = */  vNm_Channel_0,
         /* NmVariant = */ COMM_NM_VARIANT_FULL,
         /* MainFunctionPeriod = */ 10,
         /* LightTimeout = */ 10,

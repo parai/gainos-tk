@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_cannm.ui'
 #
-# Created: Fri Jun 14 22:32:20 2013
+# Created: Fri Jun 14 23:40:09 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -173,6 +173,7 @@ class Ui_cd_cannm(object):
         self.horizontalLayout_17.addWidget(self.label_33)
         self.cmbxTxPdu = QtGui.QComboBox(self.layoutWidget3)
         self.cmbxTxPdu.setMinimumSize(QtCore.QSize(250, 0))
+        self.cmbxTxPdu.setToolTip(_fromUtf8(""))
         self.cmbxTxPdu.setObjectName(_fromUtf8("cmbxTxPdu"))
         self.horizontalLayout_17.addWidget(self.cmbxTxPdu)
         self.verticalLayout_3.addLayout(self.horizontalLayout_17)
@@ -184,6 +185,7 @@ class Ui_cd_cannm(object):
         self.cmbxRxPdu = QtGui.QComboBox(self.layoutWidget3)
         self.cmbxRxPdu.setEnabled(True)
         self.cmbxRxPdu.setMinimumSize(QtCore.QSize(250, 0))
+        self.cmbxRxPdu.setToolTip(_fromUtf8(""))
         self.cmbxRxPdu.setObjectName(_fromUtf8("cmbxRxPdu"))
         self.horizontalLayout_18.addWidget(self.cmbxRxPdu)
         self.verticalLayout_3.addLayout(self.horizontalLayout_18)
@@ -219,6 +221,7 @@ class Ui_cd_cannm(object):
         self.horizontalLayout_2.addWidget(self.label_35)
         self.cmbxCBVPosition = QtGui.QComboBox(self.layoutWidget3)
         self.cmbxCBVPosition.setMinimumSize(QtCore.QSize(250, 0))
+        self.cmbxCBVPosition.setToolTip(_fromUtf8(""))
         self.cmbxCBVPosition.setObjectName(_fromUtf8("cmbxCBVPosition"))
         self.cmbxCBVPosition.addItem(_fromUtf8(""))
         self.cmbxCBVPosition.addItem(_fromUtf8(""))
@@ -232,6 +235,7 @@ class Ui_cd_cannm(object):
         self.horizontalLayout_20.addWidget(self.label_36)
         self.cmbxNodeIdPosition = QtGui.QComboBox(self.layoutWidget3)
         self.cmbxNodeIdPosition.setMinimumSize(QtCore.QSize(250, 0))
+        self.cmbxNodeIdPosition.setToolTip(_fromUtf8(""))
         self.cmbxNodeIdPosition.setObjectName(_fromUtf8("cmbxNodeIdPosition"))
         self.cmbxNodeIdPosition.addItem(_fromUtf8(""))
         self.cmbxNodeIdPosition.addItem(_fromUtf8(""))
@@ -282,7 +286,11 @@ class Ui_cd_cannm(object):
         self.label_47.setText(QtGui.QApplication.translate("cd_cannm", "Node Id:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_30.setText(QtGui.QApplication.translate("cd_cannm", "Network Handle:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_32.setText(QtGui.QApplication.translate("cd_cannm", "Nm Channel:", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxNmChannel.setToolTip(QtGui.QApplication.translate("cd_cannm", "Only Physical is allowed Now!", None, QtGui.QApplication.UnicodeUTF8))
+        self.cmbxNmChannel.setToolTip(QtGui.QApplication.translate("cd_cannm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Upper layer Nm.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("cd_cannm", "General", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxChlActive.setText(QtGui.QApplication.translate("cd_cannm", "Channel Active", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("cd_cannm", "Repeat Message Time:", None, QtGui.QApplication.UnicodeUTF8))
@@ -305,9 +313,7 @@ class Ui_cd_cannm(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">TimeoutTime(ms)</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("cd_cannm", "State Machine", None, QtGui.QApplication.UnicodeUTF8))
         self.label_33.setText(QtGui.QApplication.translate("cd_cannm", "Tx Pdu:", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxTxPdu.setToolTip(QtGui.QApplication.translate("cd_cannm", "Only Physical is allowed Now!", None, QtGui.QApplication.UnicodeUTF8))
         self.label_34.setText(QtGui.QApplication.translate("cd_cannm", "Rx Pdu:", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxRxPdu.setToolTip(QtGui.QApplication.translate("cd_cannm", "Only Physical is allowed Now!", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("cd_cannm", "Tx Cycle Time:", None, QtGui.QApplication.UnicodeUTF8))
         self.spbxTxCycleTime.setToolTip(QtGui.QApplication.translate("cd_cannm", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -322,12 +328,10 @@ class Ui_cd_cannm(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">ms</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_35.setText(QtGui.QApplication.translate("cd_cannm", "Control Bit \n"
 "Vector Position:", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxCBVPosition.setToolTip(QtGui.QApplication.translate("cd_cannm", "Only Physical is allowed Now!", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxCBVPosition.setItemText(0, QtGui.QApplication.translate("cd_cannm", "CANNM_PDU_BYTE_0", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxCBVPosition.setItemText(1, QtGui.QApplication.translate("cd_cannm", "CANNM_PDU_BYTE_1", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxCBVPosition.setItemText(2, QtGui.QApplication.translate("cd_cannm", "CANNM_PDU_OFF", None, QtGui.QApplication.UnicodeUTF8))
         self.label_36.setText(QtGui.QApplication.translate("cd_cannm", "Node Id Position:", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxNodeIdPosition.setToolTip(QtGui.QApplication.translate("cd_cannm", "Only Physical is allowed Now!", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxNodeIdPosition.setItemText(0, QtGui.QApplication.translate("cd_cannm", "CANNM_PDU_BYTE_0", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxNodeIdPosition.setItemText(1, QtGui.QApplication.translate("cd_cannm", "CANNM_PDU_BYTE_1", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxNodeIdPosition.setItemText(2, QtGui.QApplication.translate("cd_cannm", "CANNM_PDU_OFF", None, QtGui.QApplication.UnicodeUTF8))

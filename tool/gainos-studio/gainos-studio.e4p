@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project gainos-studio -->
-<!-- Saved: 2013-06-14, 22:34:40 -->
+<!-- Saved: 2013-06-15, 00:09:43 -->
 <!-- Copyright (C) 2013 parai, parai@foxmail.com -->
 <Project version="4.6">
   <Language>en</Language>
@@ -51,6 +51,9 @@
     <Source>ui/forms/Ui_cd_cannm.py</Source>
     <Source>ui/classes/cd_cannm.py</Source>
     <Source>config/gainos_tk_cannm_cfg.py</Source>
+    <Source>ui/forms/Ui_cd_nm.py</Source>
+    <Source>ui/classes/cd_nm.py</Source>
+    <Source>config/gainos_tk_nm_cfg.py</Source>
   </Sources>
   <Forms>
     <Form>ui/forms/gainos_studio.ui</Form>
@@ -66,6 +69,7 @@
     <Form>ui/forms/cd_os.ui</Form>
     <Form>ui/forms/cd_j1939tp.ui</Form>
     <Form>ui/forms/cd_cannm.ui</Form>
+    <Form>ui/forms/cd_nm.ui</Form>
   </Forms>
   <Translations>
   </Translations>

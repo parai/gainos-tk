@@ -6,8 +6,6 @@
  * This file is part of GaInOS-Studio.
  */
 """
-
-
 from PyQt4.QtGui import QDialog
 from PyQt4.QtCore import pyqtSignature
 from PyQt4.QtGui import QTreeWidgetItem, QMessageBox
@@ -115,6 +113,12 @@ class gainos_tk_cannm_cfg():
         if(md==None):
             QMessageBox(QMessageBox.Information, 'GaInOS Info', 
                 'Please Configure EcuC Firstly!').exec_();
+            return;
+        depinfo.append(md.obj);
+        md=gcfindModule(module_list, 'Nm');
+        if(md==None):
+            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                'Please Add Nm Firstly!').exec_();
             return;
         depinfo.append(md.obj);
         self.dlg  = cd_cannm(title, fileInd, self.cfg, depinfo);

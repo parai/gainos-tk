@@ -60,7 +60,7 @@ void StartupHook(void)
     ComM_Init(&ComM_Cfg);
     CanIf_SetControllerMode(vCanIf_Channel_0,CANIF_CS_STARTED);
     CanIf_SetControllerMode(vCanIf_Channel_1,CANIF_CS_STARTED);
-    Nm_PassiveStartUp(NM_CHANNEL0);
+    Nm_PassiveStartUp(vNm_Channel_0);
     ComM_RequestComMode(COMM_USER0,COMM_FULL_COMMUNICATION);
     CanNm_NetworkRequest(vCanNm_Channel_0);
 }
