@@ -25,7 +25,7 @@ TASK(vTaskReceiver)
 TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
-    CanNm_MainFunction_All_Channels();
+    CanNm_MainFunction(0);
     (void)TerminateTask();
 }
 ALARM(vAlarmSender)

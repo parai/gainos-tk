@@ -438,10 +438,10 @@ void CanNm_MainFunction( NetworkHandleType nmChannelHandle ) {
 			/** @req CANNM051 @req CANNM032  @req CANNM087.1  @req CANNM100.6 */
 			CanNm_Internal_TickMessageCycleTime(ChannelConf, ChannelInternal);
 		}
-#endif
+#endif //? I think something wrong with the pre-compiler. by parai
 		if (ChannelInternal->State == NM_STATE_REPEAT_MESSAGE) {
 			CanNm_Internal_TickRepeatMessageTime(ChannelConf, ChannelInternal);  /**< @req CANNM102.2 */
-		}
+		}		
 	} else if (ChannelInternal->Mode == NM_MODE_PREPARE_BUS_SLEEP) {
 		CanNm_Internal_TickWaitBusSleepTime(ChannelConf, ChannelInternal);  /**< @req CANNM115.2 */
 	} else {

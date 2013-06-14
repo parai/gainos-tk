@@ -55,10 +55,13 @@ gainos-tk
 	+---+ bin                <--- 各平台工程目录
 	+---+ comstack           <--- Autosar Com通讯栈代码集
 	+-------+ CanIf          <--- Autosar Can Interface
+	+-------+ CanNm          <--- Autosar Can Network Management（under construct）
 	+-------+ CanTp          <--- Autosar Can Transport Layer（ISO 15765-2-2004ocr）
 	+-------+ J1939Tp        <--- SAE J1939 Transport Layer（under construct）
+	+-------+ Nm             <--- Autosar Network Management（under construct）
 	+-------+ PduR           <--- Autosar Pdu Router
 	+-------+ Com            <--- Autosar Communication
+	+-------+ ComM           <--- Autosar Communication Manager（under construct）
 	+---+ config             <--- GaInOS-TK及通讯栈模块配置文件集
 	+---+ diag               <--- Autosar 诊断代码集
 	+-------+ Dcm            <--- Autosar Diagnostic Communication Manager(only UDS,no OBD)

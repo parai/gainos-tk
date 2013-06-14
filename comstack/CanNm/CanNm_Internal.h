@@ -35,9 +35,9 @@
 	}
 
 #else
-#define CANNM_DET_REPORTERROR(...)
-#define CANNM_VALIDATE(...)
-#define CANNM_VALIDATE_NORV(...)
+#define CANNM_DET_REPORTERROR(serviceId, errorId, instanceId)
+#define CANNM_VALIDATE(expression, serviceId, errorId, instanceId, __rv)
+#define CANNM_VALIDATE_NORV(expression, serviceId, errorId, instanceId)
 #endif
 
 #define CANNM_VALIDATE_INIT(serviceID)					\
