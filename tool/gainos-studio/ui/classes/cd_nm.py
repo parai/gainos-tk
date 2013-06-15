@@ -20,6 +20,7 @@ class cd_nm(QDialog, Ui_cd_nm):
     def __init__(self, title, fileInd, cfg, depinfo, parent = None):
         """
         depinfo[0] == CanNm
+        depinfo[1] == ComM
         """
         QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -83,6 +84,9 @@ class cd_nm(QDialog, Ui_cd_nm):
         self.cmbxNmChannel.clear();
         for chl in self.depinfo[0].cfg.channelList:
             self.cmbxNmChannel.addItem(chl.name)
+        self.cmbxComMChannel.clear()
+        for chl in self.depinfo[1].cfg.channelList:
+            self.cmbxComMChannel.addItem(chl.name)
         self.cmbxBusType.setCurrentIndex(self.cmbxBusType.findText(obj.BusType));
         self.cmbxComMChannel.setCurrentIndex(self.cmbxComMChannel.findText(obj.ComMNetworkHandle));
         self.cmbxNmChannel.setCurrentIndex(self.cmbxNmChannel.findText(obj.BusNmNetworkHandle));

@@ -28,7 +28,7 @@ TASK(vTaskMainFunction)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     CanNm_MainFunction(vCanNm_Channel_0);
-    ComM_MainFunction(COMM_CHANNEL0);
+    ComM_MainFunction(vComM_Channel_0);
     (void)TerminateTask();
 }
 ALARM(vAlarmSender)
@@ -61,7 +61,7 @@ void StartupHook(void)
     CanIf_SetControllerMode(vCanIf_Channel_0,CANIF_CS_STARTED);
     CanIf_SetControllerMode(vCanIf_Channel_1,CANIF_CS_STARTED);
     Nm_PassiveStartUp(vNm_Channel_0);
-    ComM_RequestComMode(COMM_USER0,COMM_FULL_COMMUNICATION);
+    ComM_RequestComMode(vComM_User_0,COMM_FULL_COMMUNICATION);
     CanNm_NetworkRequest(vCanNm_Channel_0);
 }
 

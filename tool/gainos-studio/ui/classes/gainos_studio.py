@@ -125,11 +125,9 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
     @pyqtSignature("")
     def on_btnAdd_clicked(self):
         from cd_add import cd_add
-        ArModule=['OS','Adc', 'Can','CanIf','CanNm', 'CanTp', 'CanSm', 'Com', 
-            'Dio', 'Eep', 'EcuC', 'Fls', 'Gpt', 'Icu', 'Pwm', 'Port', 'Mcu', 
-            'PduR', 'Spi', 'Wdg', 'WdgIf', 'Dcm', 'J1939Tp', 'Nm']
+        from gainos_tk_cfg import gainos_tk_module_list
         list =[];
-        for it in ArModule:
+        for it in gainos_tk_module_list:
             if(self.cfg.findModule(it) == None):
                 list.append(it);
         dlg = cd_add('Add a Module', list);

@@ -88,6 +88,12 @@ class gainos_tk_nm_cfg():
                 'Please Configure CanNm Firstly!').exec_();
             return;
         depinfo.append(md.obj);
+        md=gcfindModule(module_list, 'ComM');
+        if(md==None):
+            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                'Please Configure ComM Firstly!').exec_();
+            return;
+        depinfo.append(md.obj);
         self.dlg  = cd_nm(title, fileInd, self.cfg, depinfo);
         self.dlg.setModal(False);
         self.dlg.show();

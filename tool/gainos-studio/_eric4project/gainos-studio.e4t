@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-4.2.dtd">
 <!-- eric4 tasks file for project gainos-studio -->
-<!-- Saved: 2013-06-15, 00:09:43 -->
+<!-- Saved: 2013-06-15, 15:37:02 -->
 <Tasks version="4.2">
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
@@ -139,15 +139,6 @@
     </Resource>
   </Task>
   <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: add Did Reference List</Summary>
-    <Description></Description>
-    <Created>2013-06-08, 23:32:10</Created>
-    <Resource>
-      <Filename>ui/classes/cd_dcm.py</Filename>
-      <Linenumber>464</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
     <Created>2013-06-08, 23:53:00</Created>
@@ -181,6 +172,15 @@
     <Resource>
       <Filename>ui/classes/cd_j1939tp.py</Filename>
       <Linenumber>366</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: add Did Reference List</Summary>
+    <Description></Description>
+    <Created>2013-06-15, 14:50:32</Created>
+    <Resource>
+      <Filename>ui/classes/cd_dcm.py</Filename>
+      <Linenumber>464</Linenumber>
     </Resource>
   </Task>
 </Tasks>
