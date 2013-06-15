@@ -244,8 +244,8 @@ class gainos_tk_pdur_cfg():
         ##########################################
         fp.write('/* The maximum numbers of Tx buffers. */\n'
             '#define PDUR_MAX_TX_BUFFER_NUMBER			10 /* Not used */\n'
-            '#define PDUR_N_TP_ROUTES_WITH_BUFFER		"not understand by parai"\n'
-            '#define PDUR_N_TP_BUFFERS					"not understand by parai"\n\n');
+            '#define PDUR_N_TP_ROUTES_WITH_BUFFER		0 //"not understand by parai"\n'
+            '#define PDUR_N_TP_BUFFERS					%s\n\n'%(len(self.cfg.tpBufferList)));
         ##########################################
         fp.write('// Multicast,not understand by parai\n'
                 '#define PDUR_MULTICAST_TOIF_SUPPORT			STD_ON\n'
@@ -405,7 +405,7 @@ extern const PduR_PBConfigType PduR_Config;\n""");
 #endif\n""")
         fp.write('#if(PDUR_ZERO_COST_OPERATION == STD_OFF)\n');
         ###############################################
-        str='const PduRTpBufferInfo_type PduRTpBuffers[] = {\n';
+        str='PduRTpBufferInfo_type PduRTpBuffers[] = {\n';
         fp.write('//Tp Buffers,not understand by parai\n');
         for buffer in self.cfg.tpBufferList:
             fp.write('uint8 %s[%s];\n'%(buffer.name, buffer.size));
