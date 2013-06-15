@@ -45,6 +45,7 @@
 #define TTW_MPL		    0x00004000UL             /* Variable size memory pool wait */
 
 #define DeclareTask(TaskName)  TaskType TaskName
+#if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
 #define GenTaskStack(TaskName,stksz)  static uint32 TaskStack##TaskName[stksz/4]
 /* Task Generate information */
 #define GenTaskInfo(TaskName,Priority,stksz,Attribute,flgid,maxact,runpri) \
@@ -58,7 +59,21 @@
             /* maxact */  maxact,                                       \
             /* runpri */ runpri                                         \
             }
-
+#else
+#define GenTaskStack(TaskName,stksz)
+ /* Task Generate information */
+#define GenTaskInfo(TaskName,Priority,stksz,Attribute,flgid,maxact,runpri) \
+    {                                                                   \
+        /* tskatr */   Attribute,                                       \
+            /* task */     TaskMain##TaskName,                          \
+            /* itskpri */Priority,                                      \
+            /* sstksz */   stksz,                                       \
+            /* isstack */  NULL,                                        \
+            /* flgid */  flgid,                                         \
+            /* maxact */  maxact,                                       \
+            /* runpri */ runpri                                         \
+            }
+#endif  /* cfgOS_SHARE_SYSTEM_STACK */
 #define GenAlarmInfo(AlarmName,Owner)           \
     {                                           \
         /* owner */ ID_##Owner,                 \
@@ -138,8 +153,10 @@ typedef struct task_control_block{
     //{{    Yes, the 6 var help the os run fast by a more usage of RAM
     TaskType    tskid;      /* Task ID */
     FP          task;       /* Task Entry */
+    #if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
     VP          isstack;    /* Init Task Stack Top Pointer*/
     UINT		stksz;		/* User stack size (byte) */
+    #endif
     ATR 	    tskatr;		/* Task attribute */
     PRI         runpri;     /* Task priority When it Start To Running */
     //}}

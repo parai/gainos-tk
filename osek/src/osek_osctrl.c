@@ -61,8 +61,12 @@ void StartOS ( AppModeType AppMode )
     knl_start_hw_timer();     
 #endif
     /* OS424: The first call to StartOS() (for starting the Operating System) shall not
-       return. */    
+       return. */ 
+    #if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+    knl_start_dispatch();
+    #else 
     knl_force_dispatch();
+    #endif
 }
 
 /* |------------------+------------------------------------------------------------------| */

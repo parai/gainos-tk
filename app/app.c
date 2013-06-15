@@ -13,6 +13,7 @@ TASK(vTaskSender)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskSender is running.\r\n");
+    ActivateTask(ID_vTaskMainFunction);
     (void)TerminateTask();
 }
 

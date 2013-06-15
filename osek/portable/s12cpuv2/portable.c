@@ -76,22 +76,45 @@ EXPORT void knl_activate_r(void)
 }
 EXPORT void knl_dispatch_r(void)
 {
-    asm   pula
-    asm   staa	tk_ppage	      /* restore PPAGE */
+    #if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+	/* Context restore */
+	asm   ldx  knl_ctxtsk;
+	asm   lds  SP_OFFSET,x;       /* Restore 'ssp' from TCB */
+	#endif
+    asm   pula;
+    asm   staa	tk_ppage;	      /* restore PPAGE */
     asm   puld;
     asm   std   knl_taskmode  /* restore knl_taskmode */
     asm   rti;   
 }
 EXPORT void knl_setup_context( TCB *tcb )
 {
+    #if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
     tcb->tskctxb.ssp = tcb->isstack;
+    #endif
     tcb->tskctxb.dispatcher = knl_activate_r;
 }
+#if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+//load the system stack which is shared by tasks,ISRs and also the os dispatcher
+//just before start the dispatcher.
+EXPORT void knl_start_dispatch(void)
+{
+    asm  lds #knl_system_stack:cfgOS_SYSTEM_STACK_SIZE   /* Set system stack */
+    asm  jmp knl_force_dispatch
+}
+#endif
+
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 static void l_dispatch0(void)
 {
 l_dispatch1:
     asm sei;   //disable interrupt
+    #if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+    if(knl_schedtsk==(void *)0)
+    {   //only reload system stack when os idle.
+        asm  lds #knl_system_stack:cfgOS_SYSTEM_STACK_SIZE   /* Set system stack */
+    }
+    #endif
     if(knl_schedtsk==(void *)0)
     {
         asm cli;  //enable interrupt
@@ -104,15 +127,23 @@ l_dispatch1:
 l_dispatch2:
     knl_ctxtsk=knl_schedtsk;
 	knl_dispatch_disabled=0;    /* Dispatch enable */
+	
 	/* Context restore */
 	asm   ldx  knl_ctxtsk;
+	#if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF) //as task share the system stack 
 	asm   lds  SP_OFFSET,x;       /* Restore 'ssp' from TCB */
+	#endif
     //knl_ctxtsk->tskctxb.dispatcher();
     asm   jmp  [6,x];
 }
+
+//knl_force_dispatch() will be called when the current running task terminate,
+//then the next high ready task can start to run.
 void knl_force_dispatch(void)
 {
-    asm  lds #knl_system_stack:cfgOS_SYSTEM_STACK_SIZE   /* Set temporal stack */
+    #if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)  //as task share the system stack 
+    asm  lds #knl_system_stack:cfgOS_SYSTEM_STACK_SIZE   /* Set system stack */
+    #endif
     knl_dispatch_disabled=1;    /* Dispatch disable */ 
     knl_ctxtsk=(void *)0;
     asm sei; 
@@ -132,6 +163,7 @@ interrupt 4 void knl_dispatch_entry(void)
 	knl_ctxtsk=(void*)0;
 	asm jmp l_dispatch0;  	    	
 }
+
 ISR(SystemTick,7)
 { 
     CRGFLG &=0xEF;			// clear the interrupt flag 

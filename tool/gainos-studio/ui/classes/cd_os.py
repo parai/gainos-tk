@@ -90,6 +90,11 @@ class cd_os(QDialog, Ui_cd_os):
         self.cbxPostTaskHook.setChecked(self.cfg.general.os_post_task_hook);
         self.cbxOsErrorHook.setChecked(self.cfg.general.os_error_hook);
         self.spbxSystenStkSz.setValue(self.cfg.general.system_stack_size);
+        if(self.cfg.general.os_class[:3] == 'BCC'):
+            self.cbxShareSystemStack.setDisabled(False);
+        elif(self.cfg.general.os_class[:3] == 'ECC'):
+            self.cbxShareSystemStack.setDisabled(True);
+        self.cbxShareSystemStack.setChecked(self.cfg.general.share_system_stack);
         
     def initGui(self):
         self.initButton();
@@ -175,6 +180,10 @@ class cd_os(QDialog, Ui_cd_os):
     def refreshTaskTab(self, name):
         self.curobj=gcfindObj(self.cfg.taskList, name);
         self.leTskName.setText(name);
+        if(self.cfg.general.share_system_stack == True):
+            self.spbxTskStkSize.setDisabled(True)
+        else:
+            self.spbxTskStkSize.setDisabled(False)
         self.spbxTskStkSize.setValue(self.curobj.stksz);
         self.cbxTskPreemtable.setChecked(self.curobj.preemtable);
         self.spbxTskPrio.setValue(self.curobj.prio);
@@ -547,6 +556,12 @@ class cd_os(QDialog, Ui_cd_os):
     def on_cmbxOSConfCls_activated(self, p0):
         if self.cfg.general.os_class != p0:
             self.cfg.general.os_class = p0;
+            if(p0[:3] == 'BCC'):
+                self.cbxShareSystemStack.setDisabled(False);
+            elif(p0[:3] == 'ECC'):
+                self.cbxShareSystemStack.setDisabled(True);
+                self.cfg.general.share_system_stack = False
+                self.cbxShareSystemStack.setChecked(False)
             self.fileInd(False);
     @pyqtSignature("bool")
     def on_cbxTkExtend_clicked(self, p0):
@@ -587,6 +602,11 @@ class cd_os(QDialog, Ui_cd_os):
     def on_spbxSystenStkSz_valueChanged(self, p0):
         if self.cfg.general.system_stack_size != p0:
             self.cfg.general.system_stack_size = p0;
+            self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxShareSystemStack_clicked(self, p0):
+        if(self.cfg.general.share_system_stack != p0):
+            self.cfg.general.share_system_stack = p0;
             self.fileInd(False);
     #==================== APP MODE ========================================
     @pyqtSignature("QString")

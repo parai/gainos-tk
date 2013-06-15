@@ -45,6 +45,7 @@ typedef struct {
 } SStackFrame;
 
 /* ============================ FUNCTIONs ========================================= */
+IMPORT void knl_start_dispatch(void);
 /*
  * Throw away the current task context.
  * and forcibly dispatch to the task that should be performed next.

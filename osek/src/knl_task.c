@@ -139,8 +139,10 @@ EXPORT void knl_task_init(void)
         tcb->tskatr = knl_gtsk_table[i].tskatr;
         QueInit(&tcb->tskque);
         tcb->task = knl_gtsk_table[i].task; /* save task entry */
+        #if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
         tcb->isstack = knl_gtsk_table[i].isstack; /* save task stack buffer */
         tcb->stksz  = knl_gtsk_table[i].stksz;
+        #endif
         tcb->runpri = knl_gtsk_table[i].runpri;
         tcb->actcnt = 0;
         if((tcb->tskatr&APPMODEMASK) == knl_app_mode)

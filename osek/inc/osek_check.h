@@ -20,7 +20,12 @@
  */
 #ifndef OSEK_CHECK_H_H
 #define OSEK_CHECK_H_H
-
+/* =========================== check config ====================================== */
+#if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+#  if((cfgOS_CONFORMANCE_CLASS == ECC1) || (cfgOS_CONFORMANCE_CLASS == ECC2))
+#  error "tasks share a system stack is not supported for ECC1 or ECC2!" 
+#  endif
+#endif
 
 /* ============================ MACROs   ========================================== */
 #define OS_CHECK(_con,_ercd)    {   \

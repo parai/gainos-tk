@@ -24,6 +24,7 @@ class General():
         self.os_error_hook = False;
         self.os_stack_overflow_check = False;
         self.system_stack_size = 512;
+        self.share_system_stack = False;
     def save(self, root):
         nd = ET.Element('General');
         nd.attrib['chip'] = str(self.chip);
@@ -40,6 +41,7 @@ class General():
         nd.attrib['os_error_hook'] = str(self.os_error_hook);  
         nd.attrib['os_stack_overflow_check'] = str(self.os_stack_overflow_check);  
         nd.attrib['system_stack_size'] = str(self.system_stack_size);  
+        nd.attrib['share_system_stack'] = str(self.share_system_stack);  
         root.append(nd); 
     def parse(self, nd):
         self.chip = nd.attrib['chip'];
@@ -56,6 +58,7 @@ class General():
         self.os_error_hook = bool(nd.attrib['os_error_hook']);
         self.os_stack_overflow_check = bool(nd.attrib['os_stack_overflow_check']);
         self.system_stack_size = int(nd.attrib['system_stack_size']);
+        self.share_system_stack = bool(nd.attrib['share_system_stack']);
         
 class Resource():
     def __init__(self, name, ceilprio):
@@ -280,6 +283,7 @@ class gainos_tk_os_cfg():
         fp.write('#define cfgOS_STATUS_LEVEL OS_STATUS_%s\n'%(self.cfg.general.status));
         fp.write('#define cfgOS_TK_EXTEND %s\n'%(gSTD_ON(self.cfg.general.tk_extend)));
         fp.write('#define cfgOS_SYSTEM_STACK_SIZE %s\n'%(self.cfg.general.system_stack_size));
+        fp.write('#define cfgOS_SHARE_SYSTEM_STACK %s\n'%(gSTD_ON(self.cfg.general.share_system_stack)))
         fp.write('#define CHIP_%s\n'%(self.cfg.general.chip));
         fp.write("""#if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
