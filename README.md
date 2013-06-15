@@ -105,3 +105,7 @@ gainos-tk
 	MC9S12DP512 平台来移植的，我不保证移植的完全正确性。并且，由于原at91sam7移植文件太多，被我有所精简，
 	现在只有portable.h 和 portable.c (我喜欢FreeRTOS的代码目录结构)。并且该OS的代码很多地方，被我有所改动。
 	
+TODO list
+====
+	1.实现一个共用堆栈的OSEK OS
+	
