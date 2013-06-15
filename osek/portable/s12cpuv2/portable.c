@@ -24,8 +24,8 @@
 
 LOCAL 	UB	knl_system_stack[cfgOS_SYSTEM_STACK_SIZE];
 
-//#define tk_ppage $30  //for MX9S12DP512
-#define tk_ppage $15  //for MX9S12XEP100
+#define tk_ppage $30  //for MX9S12DP512
+//#define tk_ppage $15  //for MX9S12XEP100
 /*
  *    Function Name : disint
  *    Description   : Disable external interrupt,CPSR interrupt flag is in  disabled status.
