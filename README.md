@@ -132,9 +132,16 @@ gainos-tk
 	暂不支持。
 ##  2.实现Arm Cortex M7平台现移植必须创建vTaskIdle的问题
 
-#成果展示
+#gainso-studio 成果展示
 ### gainos-tk osek os的配置界面
 ![gainos os][logo]
-[logo]:http://a.hiphotos.baidu.com/album/pic/item/0b46f21fbe096b63a6ef9e3b0d338744eaf8ace3.jpg
+[logo]:http://f.hiphotos.bdimg.com/album/s%3D1100%3Bq%3D90/sign=d9a841482e2eb938e86d7ef3e552be44/8b82b9014a90f603fec2deee3812b31bb051ed2d.jpg
+### gainos-tk Com的配置界面
+![gainos com][logo]
+[logo]:http://d.hiphotos.bdimg.com/album/s%3D900%3Bq%3D90/sign=59cd59ea8ad4b31cf43c98bbb7ed5642/e4dde71190ef76c6b4cfb9829c16fdfaaf51677d.jpg
+
+### gainos-tk Dcm的配置界面
+![gainos dcm][logo]
+[logo]:http://h.hiphotos.bdimg.com/album/s%3D1000%3Bq%3D90/sign=ded9c1645366d0167a199a28a71bef76/3bf33a87e950352a215e67a15243fbf2b2118b58.jpg
 
 	
