@@ -131,4 +131,9 @@ gainos-tk
 	已经初步实现在9S12和mpc56xx平台该功能的支持。在Arm Cortex M7平台上，由于历史遗留问题，必须创建vTaskIdle任务的原因，
 	暂不支持。
 ##  2.实现Arm Cortex M7平台现移植必须创建vTaskIdle的问题
+
+#成果展示
+### gainos-tk osek os的配置界面
+	![]:http://a.hiphotos.baidu.com/album/pic/item/0b46f21fbe096b63a6ef9e3b0d338744eaf8ace3.jpg
+
 	
