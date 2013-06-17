@@ -134,6 +134,7 @@ gainos-tk
 
 #成果展示
 ### gainos-tk osek os的配置界面
-	![]:http://a.hiphotos.baidu.com/album/pic/item/0b46f21fbe096b63a6ef9e3b0d338744eaf8ace3.jpg
+![gainos os][logo]
+[logo]:http://a.hiphotos.baidu.com/album/pic/item/0b46f21fbe096b63a6ef9e3b0d338744eaf8ace3.jpg
 
 	
