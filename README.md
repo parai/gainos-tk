@@ -102,7 +102,7 @@ gainos-tk
 	现在只有portable.h 和 portable.c (我喜欢FreeRTOS的代码目录结构)。并且该OS的代码很多地方，被我有所改动。
 	
 #TODO list
-##  1.实现一个共用堆栈的OSEK OS
+###  1.实现一个共用堆栈的OSEK OS
 	传统OS每一个任务都享有独立的堆栈控件，对于资源较小的微控制器，显然是不太合适的。这里，我想设计出虽有一定约束，
 	但是具有相当好实时性的且支持所有任务共用一个堆栈的的gainos-tk。
 	（1）对于一般的微控制器，堆栈向下生长，只要保证任务剥夺嵌套时，按嵌套顺序terminate就不会存在问题。
@@ -130,7 +130,7 @@ gainos-tk
 **成果：**
 	已经初步实现在9S12和mpc56xx平台该功能的支持。在Arm Cortex M7平台上，由于历史遗留问题，必须创建vTaskIdle任务的原因，
 	暂不支持。
-##  2.实现Arm Cortex M7平台现移植必须创建vTaskIdle的问题
+###  2.实现Arm Cortex M7平台现移植必须创建vTaskIdle的问题
 
 #gainso-studio 成果展示
 ### gainos-tk osek os的配置界面
