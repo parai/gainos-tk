@@ -80,6 +80,7 @@ IMPORT ISR(SystemTick);
 IMPORT void knl_dispatch_entry(void);
 IMPORT void knl_activate_r(void);
 IMPORT void knl_dispatch_r(void);
+IMPORT void knl_start_dispatch(void);
 
 
 /***************************************************************************************************

@@ -107,14 +107,15 @@ EXPORT void knl_start_dispatch(void)
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 static void l_dispatch0(void)
 {
-l_dispatch1:
-    asm sei;   //disable interrupt
     #if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+	asm sei;   //disable interrupt
     if(knl_schedtsk==(void *)0)
     {   //only reload system stack when os idle.
         asm  lds #knl_system_stack:cfgOS_SYSTEM_STACK_SIZE   /* Set system stack */
     }
     #endif
+l_dispatch1:
+    asm sei;   //disable interrupt
     if(knl_schedtsk==(void *)0)
     {
         asm cli;  //enable interrupt

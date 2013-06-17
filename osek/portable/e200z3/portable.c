@@ -20,8 +20,7 @@
  */
 #include "portable.h"
 
-#define cfgTMP_STACK_SZ 1024
-LOCAL 	UB	knl_tmp_stack[cfgTMP_STACK_SZ];
+LOCAL 	UB	knl_system_stack[cfgOS_SYSTEM_STACK_SIZE];
 /*
  *    Function Name : disint
  *    Description   : Disable external interrupt,CPSR interrupt flag is in  disabled status.
@@ -135,7 +134,9 @@ extern const unsigned _SDA_BASE_;
 extern const unsigned _SDA2_BASE_;
 EXPORT void knl_setup_context( TCB *tcb )
 {
+	#if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
 	tcb->tskctxb.ssp = tcb->isstack;
+	#endif
     tcb->tskctxb.dispatcher = knl_activate_r;
 }
 EXPORT ISR(SystemTick)
@@ -158,6 +159,9 @@ EXPORT void knl_activate_r(void)
 EXPORT __asm void knl_dispatch_r(void)
 {
 nofralloc
+	#if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+	lwz   r1, SP_OFFSET(r8);     /* Restore 'ssp' from TCB */	
+	#endif
 	lwz    r11,XTMODE(r1);
 	lis    r12,knl_taskmode@h;
 	stw    r11,knl_taskmode@l(r12);  /* restore taskmode */  
@@ -169,6 +173,7 @@ nofralloc
     addi  r1,r1, STACK_FRAME_SIZE
   	rfi
 }
+
 #pragma section RX ".__exception_handlers"
 #pragma push /* Save the current state */
 __declspec (section ".__exception_handlers") extern long EXCEPTION_HANDLERS;  
@@ -180,10 +185,12 @@ LOCAL void l_dispatch0(void);
 EXPORT __asm void knl_force_dispatch(void)
 {
 nofralloc
-	wrteei  0;		/* Interrupt disable */ 
-	lis		r1,knl_tmp_stack@h			
-	ori    r1,r1,knl_tmp_stack@l
-	addi	r1,r1,cfgTMP_STACK_SZ	/* Set temporal stack */
+	wrteei  0;		/* Interrupt disable */
+	#if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF) 
+	lis		r1,knl_system_stack@h			
+	ori     r1,r1,knl_system_stack@l
+	addi	r1,r1,cfgOS_SYSTEM_STACK_SIZE	/* Set temporal stack */
+	#endif
 	/* as curtsk is no longer running,so no need to care about the context */
 	li     r11,1
 	lis    r12,knl_dispatch_disabled@h
@@ -194,6 +201,19 @@ nofralloc
 	wrteei  1;		                         /* Interrupt enable */ 
 	b	   l_dispatch0  	  
 }
+
+#if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+//load the system stack which is shared by tasks,ISRs and also the os dispatcher
+//just before start the dispatcher.
+EXPORT __asm void knl_start_dispatch(void)
+{
+    lis		r1,knl_system_stack@h			
+	ori    r1,r1,knl_system_stack@l
+	addi	r1,r1,cfgOS_SYSTEM_STACK_SIZE	/* Set temporal stack */  /* Set system stack */
+    b knl_force_dispatch
+}
+#endif
+
 EXPORT __asm void knl_dispatch_entry(void)
 {
 nofralloc
@@ -235,6 +255,18 @@ nofralloc
   	lis  r5,knl_schedtsk@h;    
   	ori  r5,r5,knl_schedtsk@l;  /* R5 = &schedtsk */
 	
+	#if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+	wrteei  0;		/* Interrupt disable */
+	lwz   r8,0(r5)
+  	cmpwi r8,0; 	/* Is there 'schedtsk'? */
+  	bne	 l_dispatch2;
+    //if(knl_schedtsk==(void *)0)
+    //{   //only reload system stack when os idle.
+        lis		r1,knl_system_stack@h			
+		ori     r1,r1,knl_system_stack@l
+		addi	r1,r1,cfgOS_SYSTEM_STACK_SIZE /* Set system stack */    	
+    #endif
+    
 l_dispatch1:
 	wrteei  0;		/* Interrupt disable */ 
 	
@@ -247,13 +279,15 @@ l_dispatch1:
   	nop
   	nop
   	b	 l_dispatch1 
-
+	//}
 l_dispatch2:                   /* Switch to 'schedtsk' */
 	lis  r6,knl_ctxtsk@h;
 	stw  r8,knl_ctxtsk@l(r6);  /* ctxtsk = schedtsk */
 	
+	#if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
 	lwz   r1, SP_OFFSET(r8);     /* Restore 'ssp' from TCB */	
-
+	#endif
+	
 	li     r11,0
 	lis    r12,knl_dispatch_disabled@h
 	stw    r11,knl_dispatch_disabled@l(r12)  /* Dispatch enable */
