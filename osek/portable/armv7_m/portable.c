@@ -22,7 +22,7 @@
 #include "osek_os.h"
 #include <stdio.h>
 
-EXPORT 	UB	knl_tmp_stack[cfgTMP_STACK_SZ];
+EXPORT 	UB	knl_system_stack[cfgOS_SYSTEM_STACK_SIZE];
 
 EXPORT void knl_start_hw_timer( void )
 {
@@ -68,7 +68,9 @@ EXPORT void knl_activate_rr(void)
 }
 EXPORT void knl_setup_context( TCB *tcb )
 {
+#if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
     tcb->tskctxb.ssp = tcb->isstack;
+#endif
     tcb->tskctxb.dispatcher = knl_activate_r;
 }
 #if(cfgCORTEX_M3_ISR == ISR_IN_C) 
@@ -81,3 +83,18 @@ EXPORT ISR(SystemTick)
     ExitISR();
 } 
 #endif
+
+#if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+#error As vTaskIdle must be created, this was not supported that well
+#endif
+IMPORT void knl_load_system_stack(void);
+TASK(vTaskIdle)
+{
+    /* Add your task special code here, but Don't delete this Task declaration.*/
+   for(;;)
+   {
+#if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+       knl_load_system_stack();
+#endif
+   }
+}

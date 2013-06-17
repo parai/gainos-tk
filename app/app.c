@@ -30,7 +30,6 @@ TASK(vTaskMainFunction)
     printf("vTaskMainFunction is running.\r\n");
     (void)TerminateTask();
 }
-
 ALARM(vAlarmSender)
 {
     /* Alarm Type: Task, you still can add your special code here.*/

@@ -553,6 +553,7 @@
           <name>AUserIncludes</name>
           <state>$PROJ_DIR$\..\..\..\osek\portable\armv7_m</state>
           <state>$PROJ_DIR$\..\..\..\arch\at91sam3s</state>
+          <state>$PROJ_DIR$\..\..\..\config</state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>

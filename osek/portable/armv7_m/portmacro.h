@@ -21,8 +21,6 @@
 #ifndef VPORT_MACRO_H_H
 #define VPORT_MACRO_H_H
 
-#define cfgTMP_STACK_SZ  1024
-
 /* Program status register (PSR) */
 #define TS_PSR_N               0x80000000        /* Condition flag Negative */
 #define TS_PSR_Z               0x40000000        /* Zero */

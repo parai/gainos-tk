@@ -110,10 +110,6 @@ EXPORT void knl_start_hw_timer( void )
 	TickTimer_SetFreqHz(1000);
 }
 
-/*
- * Create stack frame for task startup
- *	Call from 'make_dormant()'
- */
 #define  configUSE_FPU	0
 /* Definitions to set the initial MSR of each task. */
 #define portCRITICAL_INTERRUPT_ENABLE	( 1UL << 17UL )
@@ -182,6 +178,9 @@ __declspec (section ".__exception_handlers") extern long EXCEPTION_HANDLERS;
 __declspec(interrupt)
 __declspec (section ".__exception_handlers")
 LOCAL void l_dispatch0(void);
+
+//knl_force_dispatch() will be called when the current running task terminate,
+//then the next high ready task can start to run.
 EXPORT __asm void knl_force_dispatch(void)
 {
 nofralloc
@@ -208,8 +207,8 @@ nofralloc
 EXPORT __asm void knl_start_dispatch(void)
 {
     lis		r1,knl_system_stack@h			
-	ori    r1,r1,knl_system_stack@l
-	addi	r1,r1,cfgOS_SYSTEM_STACK_SIZE	/* Set temporal stack */  /* Set system stack */
+	ori     r1,r1,knl_system_stack@l
+	addi	r1,r1,cfgOS_SYSTEM_STACK_SIZE   /* Set system stack */
     b knl_force_dispatch
 }
 #endif

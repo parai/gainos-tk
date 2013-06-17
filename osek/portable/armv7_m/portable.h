@@ -83,5 +83,6 @@ IMPORT void knl_start_hw_timer( void );
 IMPORT void knl_setup_context( TCB *tcb );
 IMPORT void knl_dispatch_ret_int(void);
 IMPORT void knl_activate_r(void);
+IMPORT void knl_start_dispatch(void);
 
 #endif/* VPORT_H_H */

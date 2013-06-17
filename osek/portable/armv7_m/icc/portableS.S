@@ -18,11 +18,15 @@
  * Email: parai@foxmail.com
  * Sourrce Open At: https://github.com/parai/gainos-tk/
  */
+#define STD_ON  1
+#define STD_OFF 0
 #include "portmacro.h"
 #include "Compiler.h"
+#define MACROS_ONLY
+#include "osek_cfg.h"
 
     EXTERN knl_ctxtsk, knl_schedtsk, knl_taskindp
-    EXTERN knl_taskmode, knl_tmp_stack,knl_dispatch_disabled
+    EXTERN knl_taskmode, knl_system_stack,knl_dispatch_disabled
     SECTION .text:CODE
     THUMB
     PUBLIC enaint
@@ -58,6 +62,9 @@ knl_activate_r:
     THUMB
     PUBLIC  knl_dispatch_r
 knl_dispatch_r:
+    #if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+    ldr     sp, [r8, #SP_OFFSET]    /* Restore 'ssp' from TCB */
+    #endif
      /* start to restore task's context */
     pop     {r4-r11}
     ldr     r12, =knl_taskmode
@@ -65,14 +72,37 @@ knl_dispatch_r:
     str     r0, [r12]
     cpsie   i                                    /* just before schedule to next task */
     bx      lr                                   /* lr is EXC_RETURN */
+#if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+    SECTION .text:CODE
+    THUMB
+    PUBLIC  knl_load_system_stack
+knl_load_system_stack:
+    cpsid   i
+    ldr     sp, =(knl_system_stack + cfgOS_SYSTEM_STACK_SIZE)  /* Set system stack */
+    cpsie   i
+    bx      lr
+//load the system stack which is shared by tasks,ISRs and also the os dispatcher
+//just before start the dispatcher.
+//EXPORT void knl_start_dispatch(void)
+    SECTION .text:CODE
+    THUMB
+    PUBLIC  knl_start_dispatch
+knl_start_dispatch:
+//{
+    ldr     sp, =(knl_system_stack + cfgOS_SYSTEM_STACK_SIZE)  /* Set system stack */
+    cpsie   i
+    svc 0       //knl_force_dispatch
+//}
+#endif
 
     SECTION .text:CODE
     THUMB
     PUBLIC  knl_force_dispatch_impl
 knl_force_dispatch_impl:
     /* Interrupt is disabled,during SVC mode */
-    ldr     sp, =(knl_tmp_stack + cfgTMP_STACK_SZ)  /* Set temporal stack */
-
+    #if (cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
+    ldr     sp, =(knl_system_stack + cfgOS_SYSTEM_STACK_SIZE)  /* Set system stack */
+    #endif
     ldr     r12, =knl_dispatch_disabled
     ldr     r0, =1
     str     r0, [r12]                            /* Dispatch disable */
@@ -106,7 +136,14 @@ knl_dispatch_ret_int:
 l_dispatch0:
     /* During interrupt enable */
     ldr     r5, =knl_schedtsk              /* R5 = &schedtsk */
-
+    
+    #if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+    cpsid   i
+    ldr     r8, [r5]                             /* R8 = schedtsk */
+    cmp     r8, #0                               /* Is there 'schedtsk'? */
+    bne     l_dispatch2
+    ldr     sp, =(knl_system_stack + cfgOS_SYSTEM_STACK_SIZE)  /* Set system stack */
+    #endif
 l_dispatch1:                                     /* Judge if goto 'schedtsk'or'low_pow' */
     cpsid   i
     ldr     r8, [r5]                             /* R8 = schedtsk */
@@ -122,7 +159,10 @@ l_dispatch1:                                     /* Judge if goto 'schedtsk'or'l
 l_dispatch2:                                     /* Switch to 'schedtsk' */
     /* During interrupt disable */
     str     r8, [r4]                             /* ctxtsk = schedtsk */
+    
+    #if (cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
     ldr     sp, [r8, #SP_OFFSET]    /* Restore 'ssp' from TCB */
+    #endif
 
     ldr     r12, =knl_dispatch_disabled
     ldr     r0, =0
@@ -130,8 +170,6 @@ l_dispatch2:                                     /* Switch to 'schedtsk' */
     
     ldr     r0, [r8, #12]    /* Restore 'dispatcher' from TCB */
     bx      r0
-
-   
 
 #if (cfgCORTEX_M3_ISR == ISR_IN_ASSEMBLY)
     PUBLIC EnterISR
@@ -175,7 +213,9 @@ l_nodispatch:
 
     PUBLIC ISR(SystemTick)
     EXTERN IncrementCounter
+    #if (cfgOS_TK_EXTEND == STD_ON)
     EXTERN knl_timer_handler
+    #endif
 /* This is an ISR example for SystemTick.
  * The Entry Code for ISR must be Assemble.
  * The Way to change it to C code is hasn't been found.
@@ -185,7 +225,9 @@ ISR(SystemTick):
                             //{
     push {lr}
     bl EnterISR             //EnterISR();
+#if (cfgOS_TK_EXTEND == STD_ON)
     bl knl_timer_handler    //knl_timer_handler();
+#endif
     mov r0,#0
     bl IncrementCounter     //(void)IncrementCounter(0);
     b  ExitISR              //ExitISR();

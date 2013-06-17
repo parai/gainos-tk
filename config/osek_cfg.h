@@ -17,8 +17,8 @@
 #define cfgOS_STATUS_LEVEL OS_STATUS_EXTEND
 #define cfgOS_TK_EXTEND STD_OFF
 #define cfgOS_SYSTEM_STACK_SIZE 2048
-#define cfgOS_SHARE_SYSTEM_STACK STD_ON
-#define CHIP_MPC56XX
+#define cfgOS_SHARE_SYSTEM_STACK STD_OFF
+#define CHIP_AT91SAM3S
 #if defined(CHIP_MC9S12) //9s12
 #define CPU_FREQUENCY        32000000 /* HZ */
 #define OSC_FREQUENCY         8000000 /* HZ */
@@ -34,7 +34,7 @@
 /* App Mode */
 /* =====================  TASK  ========================== */
 #define cfgOSEK_MAX_PRIO 10
-#define cfgOSEK_TASK_NUM  3
+#define cfgOSEK_TASK_NUM  4
 #define ID_vTaskSender 0
 #define ID_vTaskReceiver 1
 #define ID_vTaskMainFunction 2
@@ -42,6 +42,7 @@
 IMPORT TASK(vTaskSender);
 IMPORT TASK(vTaskReceiver);
 IMPORT TASK(vTaskMainFunction);
+IMPORT TASK(vTaskIdle);
 #endif
 /* =====================  EVENT ========================== */
 #define ID_vTaskSenderEvent 0
