@@ -26,6 +26,10 @@
 #include "knl_task.h"
 #include "INT.h"
 
+#if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+#error This mechanism was not supported by this portable, so you need add-on work!
+#endif
+ 
 EXPORT void knl_start_hw_timer( void )
 {
 	/* Do nothing, as DAVE has done this. */

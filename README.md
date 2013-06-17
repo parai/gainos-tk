@@ -4,14 +4,12 @@ gainos-tk
 	A real time operating system conformed to osek os 2.2.3 specification. 
 	A communication stack from arccore(http://www.arccore.com/) integrated.
 	A configuring GUI tool based on python and Qt4.8.
-概述
-====
+# 概述
 	GaInOS-TK 首先是一个符合OSEK OS 2.2.3 规范的实时操作系统，其实现架构基于uTenux（http://www.uloong.cc），其遵循开源
 	U-License协议。在此 RTOS 的基础之上集成来自arccore（http://www.arccore.com/）的开源GPL协议的Com通讯栈代码。并为上述
 	两模块开发出静态配置工具gainos-studio。
 
-自述
-====
+# 自述
 	和大多数嵌入式技术爱好者一样，最初我也仅仅是学习ucOS，但渐渐的，我发现我喜欢嵌入式微内核技术。之后也相继学习过
 	FreeRTOS 和 RT-Thread，并也曾经阅读过linux 0.11代码。 并在阅读了 于渊 《自己动手写操作系统》这样一本书之后，在自己的
 	内心里也就一直有了这样的一个念头，那就是我希望有一天，我可以动手开始打造属于我自己的操作系统。那一年，我大三了。也就
@@ -46,8 +44,7 @@ gainos-tk
 	Email ：parai@foxmail.com	
 	Blog: http://hi.baidu.com/parai
 
-源码说明
-========
+# 源码说明
 	
 	+ gainos-tk
 	+---+ app                <--- 客户应用程序（TASK、ALARM、ISR）
@@ -75,9 +72,8 @@ gainos-tk
 	+-------+ portable       <--- GaInOS-TK 内核移植部分
 	+---+ toppers_osek       <--- GaInOS-TK 实现时参考的一个os
 	
-使用说明
-========
-	1.bin 目录下工程使用
+# 使用说明
+	## 1.bin 目录下工程使用
 	目前为止GaInOS提供5个工程包：
 	at91sam3s4c  <---> IAR 6.5
 	mc9s12dp512  <---> Codewarrior 5.0
@@ -86,16 +82,16 @@ gainos-tk
 	tc1797       <---> Tasking VX for TriCore <需修改 添加 GAINOS_BD 参数>
 	xc2364       <---> Tasking VX for C166    <需修改 添加 GAINOS_BD 参数>
 	
-	附注：
+	**附注：**
 		对于Tasking，需要在path and symbols 中添加 GAINOS_BD = "path/to/gainos-tk"
 	
-	2.tool/gainos-studio 工具的使用
+	## 2.tool/gainos-studio 工具的使用
 	首先要安装 python27 < http://www.python.org/download/releases/2.7/ >
 	其次安装 PyQt4-4.10.1-gpl-Py2.7-Qt4.8.4  < http://www.riverbankcomputing.com/software/pyqt/download >
 	程序入口为 main.py, 终端模式下，python main.py 运行之
 	如果您希望开发gainos-studio，推荐安装Eric，详情请百度。
 	
-	3.实现的另一个参考 toppers_osek 
+	## 3.实现的另一个参考 toppers_osek 
 	toppers_osek无疑是一个优秀的OSKE OS，实时性超棒，任务启动激活快速。
 	对于该OS，本次只是实现了9S12平台的移植，编译器codewarrior 5.0，利用该IDE可以完美仿真运行，从而可以初步
 	体验一下该RTOS的魅力。
@@ -105,9 +101,8 @@ gainos-tk
 	MC9S12DP512 平台来移植的，我不保证移植的完全正确性。并且，由于原at91sam7移植文件太多，被我有所精简，
 	现在只有portable.h 和 portable.c (我喜欢FreeRTOS的代码目录结构)。并且该OS的代码很多地方，被我有所改动。
 	
-TODO list
-====
-	1.实现一个共用堆栈的OSEK OS
+#TODO list
+	##1.实现一个共用堆栈的OSEK OS
 	传统OS每一个任务都享有独立的堆栈控件，对于资源较小的微控制器，显然是不太合适的。这里，我想设计出虽有一定约束，
 	但是具有相当好实时性的且支持所有任务共用一个堆栈的的gainos-tk。
 	（1）对于一般的微控制器，堆栈向下生长，只要保证任务剥夺嵌套时，按嵌套顺序terminate就不会存在问题。
@@ -132,4 +127,8 @@ TODO list
 	俗话说的好，车到山前必有路，由于OSKE OS有四个等级BCC1、BCC2、ECC1、ECC2。
 	显然上述情景仅发生于ECC1和ECC2，那么，我可以先将共用堆栈在BCC1和BCC2上予以实现。
 	至于ECC1和ECC2的情景下，如何实现，待往后慢慢研究。
+	**成果：**
+	已经初步实现在9S12和mpc56xx平台该功能的支持。在Arm Cortex M7平台上，由于历史遗留问题，必须创建vTaskIdle任务的原因，
+	暂不支持。
+	##2.实现Arm Cortex M7平台现移植必须创建vTaskIdle的问题
 	
