@@ -27,8 +27,11 @@ LOCAL 	UB	knl_system_stack[cfgOS_SYSTEM_STACK_SIZE];
 
 //special register <PPAGE>,its address is determined by platform
 //if needed,add your special <PPAGE> address here.
-//#define tk_ppage $30  //for MX9S12DP512
-#define tk_ppage $15    //for MX9S12XEP100
+//The an other best way to solve the problem is to define it in you compiler pre-processer
+//you have no need to modify this file
+// <?  -Dtk_ppage=$30 > or <?  -Dtk_ppage=$15 >
+//#define tk_ppage $30    //for MX9S12DP512
+//#define tk_ppage $15    //for MX9S12XEP100
 
 //save the old cpu status register and disable the interrupt
 EXPORT imask_t disint()
@@ -86,7 +89,7 @@ EXPORT void knl_dispatch_r(void)
 {
     #if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
 	/* Context restore */
-	asm   ldx  knl_ctxtsk;
+	//asm   ldx  knl_ctxtsk;
 	asm   lds  SP_OFFSET,x;       /* Restore 'ssp' from TCB */
 	#endif
     asm   pula;
@@ -121,6 +124,7 @@ EXPORT void knl_start_dispatch(void)
 #endif
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
+//start to dispatch high ready task <knl_schedtsk> if exists.
 static void l_dispatch0(void)
 {
     #if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
@@ -167,6 +171,9 @@ void knl_force_dispatch(void)
     asm jmp l_dispatch0;
 }
 
+//dispatch entry, entered by "swi" instruction
+//do preempt the current running task <knl_ctxtsk>,
+//and then do dispatch the high ready task <knl_schedtsk>
 interrupt 4 void knl_dispatch_entry(void)
 {
     knl_dispatch_disabled=1;    /* Dispatch disable */ 

@@ -35,7 +35,7 @@ EXPORT WSPEC    knl_wspec_slp = { TTW_SLP};//,NULL,NULL};
  *	"include/tk/typedef.h"
  *	typedef	W		TMO;
  *	typedef UW		RELTIM;
- *	#define TMO_FEVR	(-1)
+ *	#define TMO_FEVR	(UINT_MAX)
  */
 EXPORT void knl_make_wait( TickType tmout)
 {

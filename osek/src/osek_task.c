@@ -378,6 +378,13 @@ Error_Exit:
 }
 
 #if(cfgOS_TK_EXTEND == STD_ON)
+//Extended Task: SleepTask
+//Sleep current running task for a period of time determined by parameter <Timeout>
+//but if <Timeout> == TMO_FEVR, the current running task will sleep forever.
+//when task is in sleeping state, you can wake up it by calling WakeUpTask(TaskID).
+//But this API is really not advised, as it is "»­ÉßÌí×ã" for OSEK os.
+//And also may it be conflict with WaitEvent/SetEvent.
+//File related: knl_timer.h/c, knl_wait.h/c
 StatusType SleepTask ( TickType Timeout )
 {
     StatusType ercd = E_OK;
@@ -404,6 +411,12 @@ Error_Exit:
 	return ercd;
 }
 
+//Extended Task: WakeUpTask
+//Wake up the task which is in sleeping state so that the sleeping task 
+//can prepare to resume to run.
+//But this API is really not advised, as it is "»­ÉßÌí×ã" for OSEK os.
+//And also may it be conflict with WaitEvent/SetEvent.
+//File related: knl_timer.h/c, knl_wait.h/c
 StatusType WakeUpTask ( TaskType TaskID )
 {
     StatusType ercd = E_OK;
