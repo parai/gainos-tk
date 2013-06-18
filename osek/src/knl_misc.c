@@ -22,7 +22,7 @@
 #include "knl_task.h"
 #include "knl_bitop.h"
 #include <string.h>
-
+//initialize the ready queue and also the ready queue map
 EXPORT void knl_ready_queue_initialize( RDYQUE *rq )
 {
 	INT	i;
@@ -113,3 +113,4 @@ EXPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb )
 		rq->top_priority = NUM_PRI;
 	}
 }
+

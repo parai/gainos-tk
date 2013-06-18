@@ -73,7 +73,59 @@
 
 #define TASK(TaskName) void TaskMain##TaskName(void)
 #define ALARM(AlarmName)     \
-    void AlarmMain##AlarmName(void)             
+    void AlarmMain##AlarmName(void)  
+
+//----------------------- OS Error Process -----------
+/*
+ *  OS Error Process Macors
+ */
+#define OSServiceId_ActivateTask    0
+#define OSServiceId_TerminateTask   1
+#define OSServiceId_ChainTask       2
+#define OSServiceId_Schedule        3
+#define OSServiceId_GetTaskID       4
+#define OSServiceId_GetTaskState    5
+#define OSServiceId_GetAlarmBase    6
+#define OSServiceId_GetAlarm        7
+#define OSServiceId_SetRelAlarm     8
+#define OSServiceId_SetAbsAlarm     9
+#define OSServiceId_CancelAlarm     10
+#define OSServiceId_SetEvent        11 
+#define OSServiceId_ClearEvent      12
+#define OSServiceId_GetEvent        13
+#define OSServiceId_WaitEvent       14
+#define OSServiceId_GetResource     15
+#define OSServiceId_ReleaseResource 16
+#define OSServiceId_StartOS         17
+#define OSServiceId_ShutdownOS      18
+#define OSErrorGetServiceId()				(_errorhook_svcid)
+
+#define OSError_ActivateTask_TaskID()		(_errorhook_par1.tskid)
+#define OSError_ChainTask_TaskID()			(_errorhook_par1.tskid)
+#define OSError_GetTaskID_TaskID()			(_errorhook_par1.p_tskid)
+#define OSError_GetTaskState_TaskID()		(_errorhook_par1.tskid)
+#define OSError_GetTaskState_State()		(_errorhook_par2.p_state)
+#define OSError_GetResource_ResID()			(_errorhook_par1.resid)
+#define OSError_ReleaseResource_ResID()		(_errorhook_par1.resid)
+#define OSError_SetEvent_TaskID()			(_errorhook_par1.tskid)
+#define OSError_SetEvent_Mask()				(_errorhook_par2.mask)
+#define OSError_ClearEvent_Mask()			(_errorhook_par1.mask)
+#define OSError_GetEvent_TaskID()			(_errorhook_par1.tskid)
+#define OSError_GetEvent_Mask()				(_errorhook_par2.p_mask)
+#define OSError_WaitEvent_Mask()			(_errorhook_par1.mask)
+#define OSError_GetAlarmBase_AlarmID()		(_errorhook_par1.almid)
+#define OSError_GetAlarmBase_Info()			(_errorhook_par2.p_info)
+#define OSError_GetAlarm_AlarmID()			(_errorhook_par1.almid)
+#define OSError_GetAlarm_Tick()				(_errorhook_par2.p_tick)
+#define OSError_SetRelAlarm_AlarmID()		(_errorhook_par1.almid)
+#define OSError_SetRelAlarm_increment()		(_errorhook_par2.incr)
+#define OSError_SetRelAlarm_cycle()			(_errorhook_par3.cycle)
+#define OSError_SetAbsAlarm_AlarmID()		(_errorhook_par1.almid)
+#define OSError_SetAbsAlarm_start()			(_errorhook_par2.start)
+#define OSError_SetAbsAlarm_cycle()			(_errorhook_par3.cycle)
+#define OSError_CancelAlarm_AlarmID()		(_errorhook_par1.almid)
+#define OSError_SignalCounter_CounterID()	(_errorhook_par1.cntid)
+
 /* ============================ TYPEs   ========================================== */
 /* This data type identifies a task. */
 typedef ID TaskType;
@@ -115,35 +167,56 @@ typedef uint8 AppModeType;
 /* This data type represents the identification of system services. */
 typedef uint8 OSServiceIdType;
 
+//this is a copy and paste from nxtOSEK
+typedef union {
+		TaskType			tskid;
+		TaskRefType			p_tskid;
+		TaskStateRefType	p_state;
+		ResourceType		resid;
+		EventMaskType		mask;
+		EventMaskRefType	p_mask;
+		AlarmType			almid;
+		AlarmBaseRefType	p_info;
+		TickRefType			p_tick;
+		TickType			incr;
+		TickType			cycle;
+		TickType			start;
+		AppModeType			mode;
+		CounterType			cntid;
+	} _ErrorHook_Par;
+
+extern OSServiceIdType	_errorhook_svcid;
+extern _ErrorHook_Par	_errorhook_par1, _errorhook_par2, _errorhook_par3;
+
 /* ============================ INCLUDEs ========================================== */
 #include "osek_cfg.h"
 #include "osek_check.h"
 
 /* ============================ FUNCTIONs   ========================================== */
-StatusType GetCounterValue(CounterType CounterID,TickRefType pxValue);
+StatusType GetCounterValue(CounterType CounterID,TickRefType Value);
 StatusType GetElapsedCounterValue(CounterType CounterID,
                                   TickRefType Value,TickRefType ElapsedValue);
 StatusType IncrementCounter(CounterType CounterID);
 
-StatusType GetAlarmBase( AlarmType xAlarmID, AlarmBaseRefType pxInfo );
-StatusType GetAlarm ( AlarmType xAlarmID ,/* (SYSTIM*) */ TickRefType pxTick );
-StatusType SetRelAlarm ( AlarmType xAlarmID , TickType xIncrement ,TickType xCycle );
-StatusType SetAbsAlarm ( AlarmType xAlarmID , TickType xStart ,TickType xCycle );
-StatusType CancelAlarm ( AlarmType xAlarmID ); 
+StatusType GetAlarmBase( AlarmType AlarmID, AlarmBaseRefType pInfo );
+StatusType GetAlarm ( AlarmType AlarmID ,TickRefType Tick );
+StatusType SetRelAlarm ( AlarmType AlarmID , TickType Increment ,TickType Cycle );
+StatusType SetAbsAlarm ( AlarmType AlarmID , TickType Start ,TickType Cycle );
+StatusType CancelAlarm ( AlarmType AlarmID ); 
 
-StatusType ActivateTask ( TaskType xTaskID );
+StatusType ActivateTask ( TaskType TaskID );
 StatusType TerminateTask( void );
-StatusType ChainTask    ( TaskType xTaskID );
+StatusType ChainTask    ( TaskType TaskID );
 StatusType SleepTask    ( TickType Timeout );
 StatusType WakeUpTask   ( TaskType TaskID );
 StatusType Schedule     ( void );
-StatusType GetTaskID    ( TaskRefType pxTaskType );
-StatusType GetTaskState ( TaskType xTaskID,TaskStateRefType pxState );
+StatusType GetTaskID    ( TaskRefType TaskID );
+StatusType GetTaskState ( TaskType TaskID,TaskStateRefType State );
 
-StatusType SetEvent  ( TaskType xTaskID , EventMaskType pxMask );
-StatusType ClearEvent( EventMaskType xMask );
-StatusType GetEvent  ( TaskType xTaskID , EventMaskRefType pxEvent );
-StatusType WaitEvent ( EventMaskType xMask );
+StatusType SetEvent  ( TaskType TaskID , EventMaskType Mask );
+StatusType ClearEvent( EventMaskType Mask );
+StatusType GetEvent  ( TaskType TaskID , EventMaskRefType Event );
+StatusType WaitEvent ( EventMaskType Mask );
 
 void EnterISR(void);
 void ExitISR(void);

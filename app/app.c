@@ -52,4 +52,60 @@ void StartupHook(void)
     (void)SetRelAlarm(ID_vAlarmReceiver,50,10);
 	(void)SetRelAlarm(ID_vAlarmSender,100,200);
 	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
+	
+	(void)ActivateTask(0xFF);
+}
+
+void ShutdownHook(StatusType Error)
+{
+    /* Add Code Here */
+}
+
+void PreTaskHook(void)
+{
+    /* Add Code Here */
+}
+
+void PostTaskHook(void)
+{
+    /* Add Code Here */
+}
+//---------------------------
+LOCAL char* l_error_name_table[] = 
+{
+    "E_OK",
+    "E_OS_ACCESS",
+    "E_OS_CALLEVEL",
+    "E_OS_ID",
+    "E_OS_LIMIT",
+    "E_OS_NOFUNC",
+    "E_OS_RESOURCE",
+    "E_OS_STATE",
+    "E_OS_VALUE",
+};
+LOCAL char* l_service_id_name_table[] =
+{
+    "ActivateTask",
+    "TerminateTask",
+    "ChainTask",
+    "Schedule",
+    "GetTaskID",
+    "GetTaskState",
+    "GetAlarmBase",
+    "GetAlarm",
+    "SetRelAlarm",
+    "SetAbsAlarm",
+    "CancelAlarm",
+    "SetEvent",
+    "ClearEvent",
+    "GetEvent",
+    "WaitEvent",
+    "GetResource",
+    "ReleaseResource",
+    "StartOS",
+    "ShutdownOS",
+};
+void ErrorHook(StatusType Error)
+{
+    printf("%s : %s\r\n",l_error_name_table[Error],l_service_id_name_table[OSErrorGetServiceId()]);
 }

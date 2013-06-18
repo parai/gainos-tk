@@ -25,6 +25,11 @@
 #include "knl_resource.h"
 #include "knl_timer.h"
 #include "portable.h"
+
+#if(cfgOS_ERROR_HOOK == STD_ON)
+EXPORT OSServiceIdType	_errorhook_svcid;
+EXPORT _ErrorHook_Par	_errorhook_par1, _errorhook_par2, _errorhook_par3;
+#endif
 /* |------------------+------------------------------------------------------| */
 /* | Syntax:          | void StartOS ( AppModeType <Mode> )                  | */
 /* |------------------+------------------------------------------------------| */

@@ -78,6 +78,16 @@ StatusType ActivateTask ( TaskType TaskID )
 	END_CRITICAL_SECTION;
 
 	Error_Exit:
+	#if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_ActivateTask;
+    	_errorhook_par1.tskid = TaskID;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+	}
+	#endif /* cfgOS_ERROR_HOOK */
 	return ercd;
 }
 
@@ -136,6 +146,15 @@ StatusType TerminateTask ( void )
 	/* No return */
 
 	Error_Exit:
+	#if(cfgOS_ERROR_HOOK == STD_ON)
+    if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_TerminateTask;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
 	return ercd;
 }
 
@@ -238,6 +257,16 @@ StatusType ChainTask ( TaskType TaskID )
 
 	/* No return */
 	Error_Exit:
+	#if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_ChainTask;
+    	_errorhook_par1.tskid = TaskID;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
     return ercd;
 }
 
@@ -283,6 +312,15 @@ StatusType Schedule ( void )
     knl_reschedule();
 	END_CRITICAL_SECTION;
 	Error_Exit:
+	#if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_Schedule;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+	}
+	#endif /* cfgOS_ERROR_HOOK */
     return ercd;
 }
 
@@ -374,6 +412,17 @@ StatusType GetTaskState ( TaskType TaskID,TaskStateRefType State )
 	    *State = SUSPENDED;
 	}
 Error_Exit:
+	#if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_GetTaskState;
+    	_errorhook_par1.tskid = TaskID;
+    	_errorhook_par2.p_state = State;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+	}
+	#endif /* cfgOS_ERROR_HOOK */
 	return ercd;
 }
 
@@ -408,6 +457,7 @@ StatusType SleepTask ( TickType Timeout )
 
     END_CRITICAL_SECTION;
 Error_Exit:
+    //not supported for error hook
 	return ercd;
 }
 
@@ -442,6 +492,7 @@ StatusType WakeUpTask ( TaskType TaskID )
 	END_CRITICAL_SECTION;
 
 Error_Exit:
+    //not supported for error hook
 	return ercd;
 }
 #endif /* cfgOS_TK_EXTEND */

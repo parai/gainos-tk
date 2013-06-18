@@ -108,3 +108,4 @@ knl_tstdlib_bitsearch1( VP base, INT offset, INT width )
 
 	return -1;
 }
+
