@@ -20,11 +20,10 @@
  */
 #include "portable.h"
 
+//system stack malloc
 LOCAL 	UB	knl_system_stack[cfgOS_SYSTEM_STACK_SIZE];
-/*
- *    Function Name : disint
- *    Description   : Disable external interrupt,CPSR interrupt flag is in  disabled status.
- */
+
+//save the old cpu status register and disable the interrupt
 EXPORT asm imask_t disint(void)
 {
 nofralloc
@@ -33,11 +32,7 @@ nofralloc
    blr
 }
 
-/*
- *    Function Name : enaint
- *    Description   : Enable external interrupt (restore to original state),
- *                    Updates CPSR interrupt disabled flag with the intsts interrupt flag.
- */
+//restore the cpu status register value <MSR> saved by disint
 EXPORT asm void enaint(imask_t mask)
  {
  nofralloc
@@ -45,6 +40,7 @@ EXPORT asm void enaint(imask_t mask)
 	blr
  }
 
+ //get cpu status register <MSR>
 EXPORT asm imask_t knl_getPRIMASK ( void )
 {
 nofralloc
@@ -98,6 +94,8 @@ void TickTimer_SetFreqHz(int Freq)
 }
 #endif /* configTickSrc */
 
+
+//mean start the SystemTick ISR timer.
 EXPORT void knl_start_hw_timer( void )
 {
 	asm
@@ -128,6 +126,12 @@ EXPORT void knl_start_hw_timer( void )
                               portMACHINE_CHECK_ENABLE | portAPU_PRESENT | portFCM_FPU_PRESENT )
 extern const unsigned _SDA_BASE_;
 extern const unsigned _SDA2_BASE_;
+//when task need starting to run, prepare its context.
+//as for ucos and freeRTOS,task start policy is asynchronous,
+//so need to prepare its really running environment firstly
+//and the start to dispatch it(just like resume to run).
+//But for OSEK os, the much more real time consideration, treat 
+//start to run and resume to run differently...
 EXPORT void knl_setup_context( TCB *tcb )
 {
 	#if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
@@ -135,15 +139,21 @@ EXPORT void knl_setup_context( TCB *tcb )
 	#endif
     tcb->tskctxb.dispatcher = knl_activate_r;
 }
+
+//default SystemTick ISR handler,which also is an example for other ISR
+//the system counter whose id is 0 will be processed.
 EXPORT ISR(SystemTick)
 {
 	EnterISR();
 	#if(cfgOS_TK_EXTEND == STD_ON)
+	//really, the extended feature for OSEK is not advised to be used.
 	knl_timer_handler();
 	#endif
 	(void)IncrementCounter(0);
 	ExitISR();
 }
+
+//when task start to run
 EXPORT void knl_activate_r(void)
 {
 	/* This is the most easiest Way to get Internal Resourse and
@@ -152,6 +162,8 @@ EXPORT void knl_activate_r(void)
 	enaint(portINITIAL_MSR); // enable interrupt
     knl_ctxtsk->task();
 }
+
+//when task resume to run
 EXPORT __asm void knl_dispatch_r(void)
 {
 nofralloc

@@ -170,7 +170,7 @@ class gainos_tk_comm_cfg():
     def codeGenC(self, path):
         fp = open(path+'/ComM_Cfg.c', 'w');
         fp.write(gcGainOS_TkHead());
-        fp.write('#include "ComM.h"\n#include "Nm.h"\n\n')
+        fp.write('#include "ComM.h"\n#include "Nm.h"\n#include "CanSM.h"\n\n')
         str = 'const ComM_ChannelType ComM_Channels[] = \n{\n'
         id = 0
         for chl in self.cfg.channelList:

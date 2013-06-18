@@ -22,14 +22,15 @@
 #include "derivative.h"      /* derivative-specific definitions */
 #include "knl_timer.h"
 
+//system stack malloc
 LOCAL 	UB	knl_system_stack[cfgOS_SYSTEM_STACK_SIZE];
 
+//special register <PPAGE>,its address is determined by platform
+//if needed,add your special <PPAGE> address here.
 //#define tk_ppage $30  //for MX9S12DP512
-#define tk_ppage $15  //for MX9S12XEP100
-/*
- *    Function Name : disint
- *    Description   : Disable external interrupt,CPSR interrupt flag is in  disabled status.
- */
+#define tk_ppage $15    //for MX9S12XEP100
+
+//save the old cpu status register and disable the interrupt
 EXPORT imask_t disint()
 {
     asm psha;
@@ -39,11 +40,7 @@ EXPORT imask_t disint()
     asm pula;
 }
 
-/*
- *    Function Name : enaint
- *    Description   : Enable external interrupt (restore to original state),
- *                    Updates CPSR interrupt disabled flag with the intsts interrupt flag.
- */
+//restore the cpu status register value <CCR> saved by disint
 EXPORT void enaint(imask_t mask)
 {
     (void)mask;
@@ -53,6 +50,7 @@ EXPORT void enaint(imask_t mask)
     asm pula;
 }
 
+//get cpu status register <CCR>
 EXPORT imask_t knl_getPRIMASK ( void )
 {
     asm psha; /* sava A */
@@ -60,12 +58,20 @@ EXPORT imask_t knl_getPRIMASK ( void )
     asm tab;
     asm pula;
 }
+
+//mean start the SystemTick ISR timer.
+//here the test board I use has a 16 MHZ oscillator
+//modify it if you have a different board and want a different
+//SystemTick ISR frequency
 EXPORT void knl_start_hw_timer( void )
 {
-    CRGINT_RTIE=1;       //使能实时中断
-    RTICTL = 0x70;       //设置实时中断的时间间隔为4.096ms
-    //中断周期=1/16 x 10E-6 x （0+1）x 2E（7+9）=0.004096s=4.096ms 
+    CRGINT_RTIE=1;       //enable real-time interrupt
+    RTICTL = 0x70;       //period is 4.096ms 
+	//OSCCLK = 16 x 10E6
+    //RTI ISR period =  1/OSCCLKx （0+1）x 2E（7+9）=0.004096s=4.096ms 
 }
+
+//when task start to run 
 EXPORT void knl_activate_r(void)
 {
     /* This is the most easiest Way to get Internal Resourse and
@@ -74,6 +80,8 @@ EXPORT void knl_activate_r(void)
     __asm CLI; // enable interrupt
     knl_ctxtsk->task();
 }
+
+//when task resume to run
 EXPORT void knl_dispatch_r(void)
 {
     #if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
@@ -87,6 +95,13 @@ EXPORT void knl_dispatch_r(void)
     asm   std   knl_taskmode  /* restore knl_taskmode */
     asm   rti;   
 }
+
+//when task need starting to run, prepare its context.
+//as for ucos and freeRTOS,task start policy is asynchronous,
+//so need to prepare its really running environment firstly
+//and the start to dispatch it(just like resume to run).
+//But for OSEK os, the much more real time consideration, treat 
+//start to run and resume to run differently...
 EXPORT void knl_setup_context( TCB *tcb )
 {
     #if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
@@ -94,6 +109,7 @@ EXPORT void knl_setup_context( TCB *tcb )
     #endif
     tcb->tskctxb.dispatcher = knl_activate_r;
 }
+
 #if(cfgOS_SHARE_SYSTEM_STACK == STD_ON)
 //load the system stack which is shared by tasks,ISRs and also the os dispatcher
 //just before start the dispatcher.
@@ -165,11 +181,14 @@ interrupt 4 void knl_dispatch_entry(void)
 	asm jmp l_dispatch0;  	    	
 }
 
+//default SystemTick ISR handler,which also is an example for other ISR
+//the system counter whose id is 0 will be processed.
 ISR(SystemTick,7)
 { 
     CRGFLG &=0xEF;			// clear the interrupt flag 
     EnterISR(); 
 #if(cfgOS_TK_EXTEND == STD_ON)    
+	//really, the extended feature for OSEK is not advised to be used.
 	knl_timer_handler();
 #endif	
 	(void)IncrementCounter(0);

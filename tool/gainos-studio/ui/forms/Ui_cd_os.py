@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_os.ui'
 #
-# Created: Sat Jun 15 23:57:36 2013
+# Created: Tue Jun 18 20:16:11 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -522,7 +522,10 @@ class Ui_cd_os(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">when on,the tk extend api(SleepTask &amp; WakeUpTask) can be used.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">when on,the tk extend api(SleepTask &amp; WakeUpTask) can be used.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">But really I do not advise you to turn it on.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">I just implement it for fun but it\'s ugly and may ruin the wonderful features of OSEK os.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">As I have implemented it, I don\'t want to remove it,So use this switch to turn it off.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxTkExtend.setText(QtGui.QApplication.translate("cd_os", "Tk Extend API", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxOsStartUpHook.setText(QtGui.QApplication.translate("cd_os", "os start up hook", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxOsShutDownHook.setText(QtGui.QApplication.translate("cd_os", "os shut down hook", None, QtGui.QApplication.UnicodeUTF8))

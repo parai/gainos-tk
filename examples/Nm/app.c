@@ -12,6 +12,7 @@
 #include "CanNm.h"
 #include "Nm.h"
 #include "ComM.h"
+#include "CanSM.h"
 
 TASK(vTaskSender)
 {
@@ -29,6 +30,7 @@ TASK(vTaskMainFunction)
     /* Add your task special code here, but Don't delete this Task declaration.*/
     CanNm_MainFunction(vCanNm_Channel_0);
     ComM_MainFunction(vComM_Channel_0);
+    CanSM_MainFunction();
     (void)TerminateTask();
 }
 ALARM(vAlarmSender)
@@ -56,6 +58,7 @@ void StartupHook(void)
 	Can_Init(&Can_ConfigData); 
     CanIf_Init(&CanIf_Config);
     CanNm_Init(&CanNm_Config);
+    CanSM_Init(&CanSM_Cfg);
     Nm_Init(&Nm_Config);
     ComM_Init(&ComM_Cfg);
     CanIf_SetControllerMode(vCanIf_Channel_0,CANIF_CS_STARTED);
