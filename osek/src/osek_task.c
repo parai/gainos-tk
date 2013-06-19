@@ -303,14 +303,23 @@ StatusType ChainTask ( TaskType TaskID )
 /* |------------------+-------------------------------------------------------------| */
 StatusType Schedule ( void )
 {
-    StatusType ercd = E_NOT_OK;
+    StatusType ercd = E_OK;
+    PRI itskpri;
 	OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL);
 	OS_CHECK_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	//As Internal Resource was not supported,So in fact this API only has effect on
 	//Non-preemtable Task.
 	BEGIN_CRITICAL_SECTION;
-    knl_reschedule();
+	itskpri = knl_gtsk_table[knl_ctxtsk->tskid].itskpri;
+	//if task has internal resource and premtable
+	if(((knl_ctxtsk->tskatr&NON_PREEMTABLE) == 0)    //task preemtable
+    	&&(knl_ready_queue.top_priority <= itskpri))
+	{  //this only happends when a preemtable task has an internal resource
+    	knl_ctxtsk->priority = itskpri;   //reset it to initial priority
+        knl_reschedule();
+    }
 	END_CRITICAL_SECTION;
+	knl_ctxtsk->priority = knl_ctxtsk->runpri; //so get the internal resource again
 	Error_Exit:
 	#if(cfgOS_ERROR_HOOK == STD_ON)
 	if(E_OK != ercd)

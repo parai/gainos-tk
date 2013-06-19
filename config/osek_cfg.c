@@ -12,14 +12,16 @@
 #include "knl_alarm.h"
 #include "knl_event.h"
 #include <stdio.h>
+
+#define vInRes1Prio  3
 GenTaskStack(vTaskSender);
 GenTaskStack(vTaskReceiver);
 GenTaskStack(vTaskMainFunction);
 EXPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM]=
 {
-	GenTaskInfo(vTaskSender,OSNONEAPPMODE|PREEMTABLE,ID_vTaskSenderEvent,vTaskSenderPri),
-	GenTaskInfo(vTaskReceiver,OSNONEAPPMODE|PREEMTABLE,ID_vTaskReceiverEvent,vTaskReceiverPri),
-	GenTaskInfo(vTaskMainFunction,OSNONEAPPMODE|PREEMTABLE,INVALID_EVENT,vTaskMainFunctionPri),
+	GenTaskInfo(vTaskSender,OSNONEAPPMODE|PREEMTABLE,ID_vTaskSenderEvent,vInRes1Prio),
+	GenTaskInfo(vTaskReceiver,OSNONEAPPMODE|PREEMTABLE,ID_vTaskReceiverEvent,vInRes1Prio),
+	GenTaskInfo(vTaskMainFunction,OSNONEAPPMODE|PREEMTABLE,INVALID_EVENT,vInRes1Prio),
 };
 
 EXPORT const AlarmBaseType knl_almbase_table[cfgOSEK_COUNTER_NUM]=
