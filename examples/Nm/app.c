@@ -83,4 +83,9 @@ void CanIf_UserRxIndication(uint8 channel, PduIdType pduId, const uint8 *sduPtr,
         len--;
     }
     printf("]\r\n");
-}    
+} 
+
+void ErrorHook(StatusType Error)
+{
+    /* Add Code Here */
+}   

@@ -15,8 +15,8 @@ gainos-tk
 	自己的内心里也就一直有了这样的一个念头，那就是我希望有一天，我可以动手开始打造属于我自己的操作系统。那一年，我
 	大三了。也就是在那一年，我有点懊恼我那浑浑噩噩的大一与大二。
 
-	但是，我也发现纯粹的自己动手写一个操作系统，实在是有点难度，因为我没有方向，难免将会以ucOS、FreeRTOS等为方向标，
-	那最终的结果很可能就是抄袭，那样也就成了抄作系统了。
+	但是，我也发现纯粹的自己动手写一个操作系统，实在是有点难度，因为我没有方向，难免将会以ucOS、FreeRTOS等
+	为方向标，那最终的结果很可能就是抄袭，那样也就成了抄作系统了。
 
 	毕业开始工作，也算是有幸能够进入汽车电子领域，虽说工资待遇极差，但是这工作一年来，我真的是受益匪浅。
 	
@@ -53,6 +53,7 @@ gainos-tk
 	+---+ comstack           <--- Autosar Com通讯栈代码集
 	+-------+ CanIf          <--- Autosar Can Interface
 	+-------+ CanNm          <--- Autosar Can Network Management
+	+-------+ CanSM          <--- Autosar Can State Management
 	+-------+ CanTp          <--- Autosar Can Transport Layer（ISO 15765-2-2004ocr）
 	+-------+ J1939Tp        <--- SAE J1939 Transport Layer（under construct）
 	+-------+ Nm             <--- Autosar Network Management
@@ -89,6 +90,7 @@ gainos-tk
 	首先要安装 python27 < http://www.python.org/download/releases/2.7/ >
 	其次安装 PyQt4-4.10.1-gpl-Py2.7-Qt4.8.4  < http://www.riverbankcomputing.com/software/pyqt/download >
 	程序入口为 main.py, 终端模式下，python main.py 运行之
+	或者使用tool/gainos-studio/start gainos studio.bat双击运行，但需要保证python目录位于环境变量path之中。
 	如果您希望开发gainos-studio，推荐安装Eric，详情请百度。
 	
 ##  3.实现的另一个参考 toppers_osek 
