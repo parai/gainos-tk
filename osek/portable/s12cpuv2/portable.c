@@ -71,7 +71,7 @@ EXPORT void knl_start_hw_timer( void )
     CRGINT_RTIE=1;       //enable real-time interrupt
     RTICTL = 0x70;       //period is 4.096ms 
 	//OSCCLK = 16 x 10E6
-    //RTI ISR period =  1/OSCCLKx £¨0+1£©x 2E£¨7+9£©=0.004096s=4.096ms 
+    //RTI ISR period =  1/OSCCLK * (0+1) * 2E(7+9)=0.004096s=4.096ms 
 }
 
 //when task start to run 

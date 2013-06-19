@@ -77,6 +77,17 @@ StatusType SetEvent ( TaskType TaskID , EventMaskType Mask )
     END_CRITICAL_SECTION;
        
   Error_Exit:
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_SetEvent;
+    	_errorhook_par1.tskid = TaskID;
+    	_errorhook_par2.mask = Mask;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
 	return ercd;
 }
 
@@ -115,6 +126,16 @@ StatusType ClearEvent ( EventMaskType Mask )
     END_DISABLE_INTERRUPT;
        
   Error_Exit:
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_ClearEvent;
+    	_errorhook_par1.mask = Mask;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
 	return ercd;
 }
 
@@ -163,6 +184,17 @@ StatusType GetEvent ( TaskType TaskID , EventMaskRefType Event )
     END_DISABLE_INTERRUPT;
        
   Error_Exit:
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_GetEvent;
+    	_errorhook_par1.tskid = TaskID;
+    	_errorhook_par2.p_mask = Event;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
 	return ercd;
 }
 
@@ -214,6 +246,16 @@ StatusType WaitEvent( EventMaskType Mask )
     END_CRITICAL_SECTION;
        
   Error_Exit:
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_WaitEvent;
+    	_errorhook_par1.mask = Mask;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
 	return ercd;
 }
 

@@ -54,6 +54,7 @@ void StartupHook(void)
 	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
 	
 	(void)ActivateTask(0xFF);
+	(void)TerminateTask();
 }
 
 void ShutdownHook(StatusType Error)

@@ -54,7 +54,18 @@ StatusType GetAlarmBase ( AlarmType AlarmID, AlarmBaseRefType Info )
     Info->TicksPerBase = knl_almbase_table[cntid].TicksPerBase;
     
 Error_Exit:
-    	return ercd;
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_GetAlarmBase;
+    	_errorhook_par1.almid = AlarmID;
+    	_errorhook_par2.p_info = Info;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
+    return ercd;
 }
 
 /* |------------------+------------------------------------------------------------------| */
@@ -98,7 +109,18 @@ StatusType GetAlarm ( AlarmType AlarmID ,TickRefType Tick )
     END_DISABLE_INTERRUPT;
     
     Error_Exit:
-    	return ercd;
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_GetAlarm;
+    	_errorhook_par1.almid = AlarmID;
+    	_errorhook_par2.p_tick = Tick;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
+    return ercd;
 }
 
 /* |------------------+-----------------------------------------------------------------| */
@@ -171,6 +193,18 @@ StatusType SetRelAlarm ( AlarmType AlarmID , TickType Increment ,TickType Cycle 
     END_DISABLE_INTERRUPT;
     
 Error_Exit:
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_SetRelAlarm;
+    	_errorhook_par1.almid = AlarmID;
+    	_errorhook_par2.incr = Increment;
+    	_errorhook_par3.cycle = Cycle;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
     return ercd;
 }
 
@@ -244,6 +278,18 @@ StatusType SetAbsAlarm ( AlarmType AlarmID , TickType Start ,TickType Cycle )
     knl_alm_insert(almcb,ccb);
     END_DISABLE_INTERRUPT;
 Error_Exit:
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_SetAbsAlarm;
+    	_errorhook_par1.almid = AlarmID;
+    	_errorhook_par2.start = Start;
+    	_errorhook_par3.cycle = Cycle;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
     return ercd;
 }
 
@@ -278,6 +324,16 @@ StatusType CancelAlarm ( AlarmType AlarmID )
     QueInit(&almcb->almque);
     END_DISABLE_INTERRUPT;
     Error_Exit:
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_CancelAlarm;
+    	_errorhook_par1.almid = AlarmID;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
     	return ercd;
 }
 

@@ -46,31 +46,43 @@
 
 #define DeclareTask(TaskName)  TaskType TaskName
 #if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
-#define GenTaskStack(TaskName,stksz)  static uint32 TaskStack##TaskName[stksz/4]
+#define GenTaskStack(TaskName)  static uint32 TaskStack##TaskName[TaskName##StkSz/4]
 /* Task Generate information */
-#define GenTaskInfo(TaskName,Priority,stksz,Attribute,flgid,maxact,runpri) \
+//here runpri is special, it's the priority when task start to run
+//so by change the value of runpri, it's easy to support the internal resourse
+//but now not supported by gainos-studio,so sorry
+//-- do it by hand
+//for example:Internal resource 1<vInRes1> is shared by task 1,2,3
+//and task 1,2,3 each has initial priority 15, 9 ,7
+//so you can config vInRes1 ceiling priority to 6, and change each of task 1,2,3's
+//runpri from initial priority to 6.
+//So that task 1,2,3 now can share vInRes1 safely.
+//and also it's easy to change runprio to OS_HIGHEST_PRIORITY to make a task
+//non-preemtable.
+//by default,runprio is equal to task initial priority<itskpri> 
+#define GenTaskInfo(TaskName,Attribute,flgid,runpri) \
     {                                                                   \
         /* tskatr */   Attribute,                                       \
             /* task */     TaskMain##TaskName,                          \
-            /* itskpri */Priority,                                      \
-            /* sstksz */   stksz,                                       \
-            /* isstack */  &TaskStack##TaskName[stksz/4-1],             \
+            /* itskpri */  TaskName##Pri,                               \
+            /* sstksz */   TaskName##StkSz,                             \
+            /* isstack */  &TaskStack##TaskName[TaskName##StkSz/4-1],   \
             /* flgid */  flgid,                                         \
-            /* maxact */  maxact,                                       \
+            /* maxact */  TaskName##MaxAct,                             \
             /* runpri */ runpri                                         \
             }
 #else
-#define GenTaskStack(TaskName,stksz)
+#define GenTaskStack(TaskName)
  /* Task Generate information */
-#define GenTaskInfo(TaskName,Priority,stksz,Attribute,flgid,maxact,runpri) \
+#define GenTaskInfo(TaskName,Attribute,flgid,runpri) \
     {                                                                   \
         /* tskatr */   Attribute,                                       \
             /* task */     TaskMain##TaskName,                          \
-            /* itskpri */Priority,                                      \
-            /* sstksz */   stksz,                                       \
+            /* itskpri */  TaskName##Pri,                               \
+            /* sstksz */   TaskName##StkSz,                             \
             /* isstack */  NULL,                                        \
             /* flgid */  flgid,                                         \
-            /* maxact */  maxact,                                       \
+            /* maxact */  TaskName##MaxAct,                             \
             /* runpri */ runpri                                         \
             }
 #endif  /* cfgOS_SHARE_SYSTEM_STACK */

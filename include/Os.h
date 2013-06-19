@@ -44,7 +44,8 @@
 #define OSNONEAPPMODE    (0x00000000u)
 //Is Task Preemtable
 #define PREEMTABLE       (0x00000000u)
-#define NON_PREEMTABLE   (0x00000010u)      
+#define NON_PREEMTABLE   (0x00000010u) 
+#define OS_HIGHEST_PRIORITY 0     
 
 #define TMO_FEVR (TickType)(UINT_MAX)
 

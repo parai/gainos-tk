@@ -309,6 +309,9 @@ class gainos_tk_os_cfg():
         id = 0;
         for obj in self.cfg.taskList:
             fp.write('#define ID_%s %s\n'%(obj.name,id))
+            fp.write('#define %sPri %s\n'%(obj.name, obj.prio))
+            fp.write('#define %sStkSz %s\n'%(obj.name,obj.stksz))
+            fp.write('#define %sMaxAct %s\n'%(obj.name,obj.maxactcnt))
             id+=1;
         fp.write('#if !defined(MACROS_ONLY)\n')
         for obj in self.cfg.taskList:
@@ -371,8 +374,8 @@ class gainos_tk_os_cfg():
         stack = '';
         gtsk = 'EXPORT const T_GTSK	knl_gtsk_table[cfgOSEK_TASK_NUM]=\n{\n';
         for tsk in self.cfg.taskList:
-            stack += 'GenTaskStack(%s,%s);\n'%(tsk.name, tsk.stksz);
-            gtsk += '\tGenTaskInfo(%s,%s,%s,'%(tsk.name, tsk.prio, tsk.stksz);
+            stack += 'GenTaskStack(%s);\n'%(tsk.name);
+            gtsk += '\tGenTaskInfo(%s,'%(tsk.name);
             gtsk += '%s'%(tsk.appmode);
             if(self.cfg.general.sched_policy == 'MIXED_PREEMPTIVE_SCHEDULE'):
                 if(tsk.preemtable):
@@ -387,16 +390,16 @@ class gainos_tk_os_cfg():
                 gtsk += 'ID_%sEvent,'%(tsk.name);
             else:
                 gtsk += 'INVALID_EVENT,'
-            gtsk += '%s,'%(tsk.maxactcnt);
+            #gtsk += '%s,'%(tsk.maxactcnt);
             if(self.cfg.general.sched_policy == 'MIXED_PREEMPTIVE_SCHEDULE'):
                 if(tsk.preemtable):
-                    gtsk += '%s),\n'%(tsk.prio);
+                    gtsk += '%sPri),\n'%(tsk.name);
                 else:
-                    gtsk += '0),\n'
+                    gtsk += 'OS_HIGHEST_PRIORITY),\n'
             elif(self.cfg.general.sched_policy == 'FULL_PREEMPTIVE_SCHEDULE'):
-                gtsk += '%s),\n'%(tsk.prio);
+                gtsk += '%sPri),\n'%(tsk.name);
             elif(self.cfg.general.sched_policy == 'NONE_PREEMPTIVE_SCHEDULE'):
-                gtsk += '0),\n'
+                gtsk += 'OS_HIGHEST_PRIORITY),\n'
         gtsk += '};\n\n';
         fp.write(stack);
         fp.write(gtsk);

@@ -99,7 +99,7 @@ StatusType GetElapsedCounterValue(CounterType CounterID,
     OS_CHECK_EXT((CounterID < cfgOSEK_COUNTER_NUM),E_OS_ID);
     *ElapsedValue = knl_ccb_table[CounterID].curvalue -*Value;
     Error_Exit:
-    return E_OK;
+    return ercd;
 }
 
 
@@ -172,7 +172,7 @@ StatusType IncrementCounter(CounterType CounterID)
 	}
 	END_DISABLE_INTERRUPT;
     Error_Exit:
-    return E_OK;
+    return ercd;
 }
 #endif /* (cfgOSEK_COUNTER_NUM > 0) */
 

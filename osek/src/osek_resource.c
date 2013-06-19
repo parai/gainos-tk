@@ -97,6 +97,7 @@ StatusType GetResource (ResourceType ResID)
         BEGIN_DISABLE_INTERRUPT;
         if(newpri < 0)
         {
+            //TODO: share resourse with OSR
             /* Task share resource with ISR */
             /* should change IPL */
             /* not supported */
@@ -110,6 +111,16 @@ StatusType GetResource (ResourceType ResID)
         END_DISABLE_INTERRUPT;	
     }
 Error_Exit:
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_GetResource;
+    	_errorhook_par1.resid = ResID;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
 	return ercd;
 }
 
@@ -180,6 +191,16 @@ StatusType ReleaseResource ( ResourceType ResID )
         END_CRITICAL_SECTION;	
     }
 Error_Exit:
+    #if(cfgOS_ERROR_HOOK == STD_ON)
+	if(E_OK != ercd)
+	{
+    	BEGIN_CRITICAL_SECTION;
+    	_errorhook_svcid = OSServiceId_ReleaseResource;
+    	_errorhook_par1.resid = ResID;
+    	ErrorHook(ercd);
+    	END_CRITICAL_SECTION;
+    }
+	#endif /* cfgOS_ERROR_HOOK */
 	return ercd;
 }
 #endif /* (cfgOSEK_RESOURCE_NUM > 0) */
