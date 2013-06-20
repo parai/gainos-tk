@@ -44,6 +44,8 @@ EXPORT void knl_task_initialize( void )
 	knl_dispatch_disabled = DDS_ENABLE;
 }
 
+//no matter what,will put current ready task to the ready queue
+//and the high ready task <toptsk> will be dispatched.
 EXPORT void knl_reschedule( void )
 {
 	TCB	*toptsk;
