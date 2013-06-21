@@ -33,6 +33,9 @@ from gainos_tk_cfg import gainos_tk_cfg
 
 from Ui_gainos_studio import Ui_mwgainostk
 
+from oil_adapter import oil_gainos
+import os
+
 class mwgainostk(QMainWindow, Ui_mwgainostk):
     """
     Class documentation goes here.
@@ -69,6 +72,8 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         self.actionSave.setShortcut('Ctrl+S');
         self.actionSave_As.setShortcut('Ctrl+Shift+S');
         self.actionNew.setShortcut('Ctrl+N');
+        self.actionImport_oil.setShortcut('Ctrl+I');
+        self.actionExport_oil.setShortcut('Ctrl+E');
     
     def reloadGui(self):
         # re-load GUI
@@ -85,6 +90,31 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
             item=QTreeWidgetItem(self.trModule,QStringList(md.module));
             self.trModule.insertTopLevelItem(0, item);
 
+    @pyqtSignature("")
+    def on_actionImport_oil_triggered(self):
+        """加载配置文件"""
+        if(self.cfg == None):
+            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                        'Please New Configure File Firstly!').exec_();
+            return;
+        elif(self.cfg.findModule('OS') == None):
+            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                        'Please Add Module OS Firstly!').exec_();
+            return
+        file=QFileDialog.getOpenFileName(self, 'Open osek oil File.', 
+                '%s/*.oil'%(os.path.dirname(self.arxml)), 'osek standard oil file(*.oil)');
+        if(file!=''):
+            if(oil_gainos.to_oscfg(str(file), self.cfg.findModule('OS').obj)):
+                QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                        'Convert to gainos_tk_os_cfg successfully!').exec_();
+            else:
+                QMessageBox(QMessageBox.Critical, 'GaInOS Error', 
+                        'Convert to gainos_tk_os_cfg failed!').exec_();
+        return
+    @pyqtSignature("")
+    def on_actionExport_oil_triggered(self):
+        print "not supported!"
+        return
     @pyqtSignature("")
     def on_actionNew_triggered(self):
         from cd_select import cd_select
@@ -205,7 +235,6 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         self.cfg.show(self.curtree.text(0), self.fileIndicate);
     @pyqtSignature("")        
     def on_btnGen_clicked(self):
-        import os
         self.cfg.gen(os.path.dirname(self.arxml));
         QMessageBox(QMessageBox.Information, 'GaInOS Info', 
                 'Gen C Code Successfully at <%s>!'%(

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\gainos_studio.ui'
 #
-# Created: Mon Jun 10 12:17:03 2013
+# Created: Fri Jun 21 20:53:18 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -69,6 +69,8 @@ class Ui_mwgainostk(object):
         self.menuGaInOS_Studio.setObjectName(_fromUtf8("menuGaInOS_Studio"))
         self.menuHelp = QtGui.QMenu(self.menubar)
         self.menuHelp.setObjectName(_fromUtf8("menuHelp"))
+        self.menuTool = QtGui.QMenu(self.menubar)
+        self.menuTool.setObjectName(_fromUtf8("menuTool"))
         mwgainostk.setMenuBar(self.menubar)
         self.statusBar = QtGui.QStatusBar(mwgainostk)
         self.statusBar.setObjectName(_fromUtf8("statusBar"))
@@ -91,6 +93,10 @@ class Ui_mwgainostk(object):
         self.actionSave_As.setObjectName(_fromUtf8("actionSave_As"))
         self.actionQuit = QtGui.QAction(mwgainostk)
         self.actionQuit.setObjectName(_fromUtf8("actionQuit"))
+        self.actionImport_oil = QtGui.QAction(mwgainostk)
+        self.actionImport_oil.setObjectName(_fromUtf8("actionImport_oil"))
+        self.actionExport_oil = QtGui.QAction(mwgainostk)
+        self.actionExport_oil.setObjectName(_fromUtf8("actionExport_oil"))
         self.menuGaInOS_Studio.addAction(self.actionOpen)
         self.menuGaInOS_Studio.addAction(self.actionNew)
         self.menuGaInOS_Studio.addAction(self.actionOpen_Recent_Files)
@@ -103,7 +109,11 @@ class Ui_mwgainostk(object):
         self.menuGaInOS_Studio.addAction(self.actionQuit)
         self.menuHelp.addAction(self.actionInfo)
         self.menuHelp.addAction(self.actionAbout)
+        self.menuTool.addAction(self.actionImport_oil)
+        self.menuTool.addAction(self.actionExport_oil)
+        self.menuTool.addSeparator()
         self.menubar.addAction(self.menuGaInOS_Studio.menuAction())
+        self.menubar.addAction(self.menuTool.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(mwgainostk)
@@ -119,6 +129,7 @@ class Ui_mwgainostk(object):
         self.btnGen.setText(QtGui.QApplication.translate("mwgainostk", "^_^Gen^_^", None, QtGui.QApplication.UnicodeUTF8))
         self.menuGaInOS_Studio.setTitle(QtGui.QApplication.translate("mwgainostk", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuHelp.setTitle(QtGui.QApplication.translate("mwgainostk", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuTool.setTitle(QtGui.QApplication.translate("mwgainostk", "Tool", None, QtGui.QApplication.UnicodeUTF8))
         self.actionInfo.setText(QtGui.QApplication.translate("mwgainostk", "Info", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAbout.setText(QtGui.QApplication.translate("mwgainostk", "About", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setText(QtGui.QApplication.translate("mwgainostk", "New", None, QtGui.QApplication.UnicodeUTF8))
@@ -128,6 +139,8 @@ class Ui_mwgainostk(object):
         self.actionSave.setText(QtGui.QApplication.translate("mwgainostk", "Save", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSave_As.setText(QtGui.QApplication.translate("mwgainostk", "Save As ...", None, QtGui.QApplication.UnicodeUTF8))
         self.actionQuit.setText(QtGui.QApplication.translate("mwgainostk", "Quit", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionImport_oil.setText(QtGui.QApplication.translate("mwgainostk", "import oil", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExport_oil.setText(QtGui.QApplication.translate("mwgainostk", "export oil", None, QtGui.QApplication.UnicodeUTF8))
 
 
 if __name__ == "__main__":

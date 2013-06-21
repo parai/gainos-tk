@@ -145,7 +145,16 @@
     <addaction name="actionInfo"/>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuTool">
+    <property name="title">
+     <string>Tool</string>
+    </property>
+    <addaction name="actionImport_oil"/>
+    <addaction name="actionExport_oil"/>
+    <addaction name="separator"/>
+   </widget>
    <addaction name="menuGaInOS_Studio"/>
+   <addaction name="menuTool"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -192,6 +201,16 @@
   <action name="actionQuit">
    <property name="text">
     <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionImport_oil">
+   <property name="text">
+    <string>import oil</string>
+   </property>
+  </action>
+  <action name="actionExport_oil">
+   <property name="text">
+    <string>export oil</string>
    </property>
   </action>
  </widget>
