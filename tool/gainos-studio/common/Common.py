@@ -55,7 +55,7 @@ def TRUE(tr):
         return 'FALSE';
 
 def bool(s):
-    if(s=='True'):
+    if(s.upper()=='TRUE'):
         return True;
     else:
         return False;

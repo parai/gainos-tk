@@ -28,7 +28,7 @@
 #define INVALID_TASK (-1)
 
 #define OS_STATUS_STANDARD 0
-#define OS_STATUS_EXTEND  1
+#define OS_STATUS_EXTENDED  1
 
 /* Info About Conformance Class of OS */
 #define BCC1 1

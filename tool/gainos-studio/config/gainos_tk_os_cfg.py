@@ -15,7 +15,7 @@ class General():
         self.max_pri = 32;
         self.os_class = 'ECC2';
         self.status = 'STANDARD';
-        self.sched_policy = 'FULL_PREEMPTIVE_SCHEDULE';
+        self.sched_policy = 'MIXED_PREEMPTIVE_SCHEDULE';
         self.tk_extend = False;
         self.os_startup_hook = True;
         self.os_shutdown_hook = False;

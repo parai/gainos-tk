@@ -35,7 +35,7 @@
         goto Error_Exit;                    \
     }                                       \
 }
-#if(cfgOS_STATUS_LEVEL == OS_STATUS_EXTEND)
+#if(cfgOS_STATUS_LEVEL == OS_STATUS_EXTENDED)
 #define OS_CHECK_EXT(_con,_ercd)    {   \
     if(!(_con))                             \
     {                                       \
@@ -45,7 +45,7 @@
 }
 #else /* OS_STATUS_STANDARD*/
 #define OS_CHECK_EXT(_con,_ercd)
-#endif /* OS_STATUS_EXTEND */ 
+#endif /* OS_STATUS_EXTENDED */ 
 
 
 #endif /* OSEK_CHECK_H_H */

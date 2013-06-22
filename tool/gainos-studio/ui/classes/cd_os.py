@@ -192,6 +192,8 @@ class cd_os(QDialog, Ui_cd_os):
         self.refreshTreeCtrl(self.trTaskAppModeSrc, self.trTaskAppModeDst, self.cfg.appmodeList, self.curobj.appmode)
         self.btnTaskModeAdd.setDisabled(not self.curobj.autostart);
         self.btnTaskModeDel.setDisabled(not self.curobj.autostart);
+        self.trTaskAppModeDst.setDisabled(not self.curobj.autostart);
+        self.trTaskAppModeSrc.setDisabled(not self.curobj.autostart);
         self.enableTab(0);
 
     def refreshResourceTab(self, name):
@@ -520,6 +522,8 @@ class cd_os(QDialog, Ui_cd_os):
                 self.curobj.autostart=p0
                 self.btnTaskModeAdd.setDisabled(not self.curobj.autostart);
                 self.btnTaskModeDel.setDisabled(not self.curobj.autostart);
+                self.trTaskAppModeDst.setDisabled(not self.curobj.autostart);
+                self.trTaskAppModeSrc.setDisabled(not self.curobj.autostart);
                 self.fileInd(False); 
     @pyqtSignature("")
     def on_btnTaskModeAdd_clicked(self):

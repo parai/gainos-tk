@@ -28,13 +28,23 @@ re_oil_os_obj_type_name = re.compile(r"""
     """, re.VERBOSE)
 ## for os <general>    
 re_oil_os_general = re.compile(r'^\s*(OS)\s*(\w+)')
+re_general_STATUS = re.compile(r'STATUS\s*=\s*(\w+)\s*;')
+re_general_ERRORHOOK = re.compile(r'ERRORHOOK\s*=\s*(\w+)\s*;')
+re_general_PRETASKHOOK = re.compile(r'PRETASKHOOK\s*=\s*(\w+)\s*;')
+re_general_POSTTASKHOOK = re.compile(r'POSTTASKHOOK\s*=\s*(\w+)\s*;')
+re_general_SHUTDOWNHOOK = re.compile(r'SHUTDOWNHOOK\s*=\s*(\w+)\s*;')
+re_general_STARTUPHOOK = re.compile(r'STARTUPHOOK\s*=\s*(\w+)\s*;')
+re_general_SystemTimer = re.compile(r'SystemTimer\s*=\s*(\w+)\s*;')
+re_general_TickTime = re.compile(r'TickTime\s*=\s*(\w+)\s*;')
 ## for task
 re_oil_os_task = re.compile(r'^\s*(TASK)\s*(\w+)')
 re_task_SCHEDULE = re.compile(r'SCHEDULE\s*=\s*(\w+)\s*;')
 re_task_PRIORITY = re.compile(r'PRIORITY\s*=\s*(\w+)\s*;')
 re_task_ACTIVATION = re.compile(r'ACTIVATION\s*=\s*(\w+)\s*;')
-re_task_AUTOSTART = re.compile(r'AUTOSTART\s*=\s*(\w+)\s*;')
+re_task_AUTOSTART = re.compile(r'AUTOSTART\s*=\s*(\w+)\s*[;{]')
 re_task_StackSize = re.compile(r'StackSize\s*=\s*(\w+)\s*;')
+re_task_appmode_list = re.compile(r'AUTOSTART\s*=\s*TRUE\s*{([^{}]*)}\s*;')
+re_task_appmode = re.compile(r'APPMODE\s*=\s*(\w+)')
 
 def filter_out_comment(text):
     """text should be just a line"""
@@ -47,6 +57,33 @@ def filter_out_comment(text):
     result = string.join(result.split('\n')) #remove the line break
     return(' '+result);
 
+def oil_process_os(item, oscfg):
+    grp = re_oil_os_general.search(item).groups();
+    if(grp[0] != 'OS'):
+        return;
+    if(re_general_STATUS.search(item)):
+        oscfg.cfg.general.status = re_general_STATUS.search(item).groups()[0];
+    if(re_general_ERRORHOOK.search(item)):
+        oscfg.cfg.general.os_error_hook = bool(re_general_ERRORHOOK.search(item).groups()[0]);
+    if(re_general_PRETASKHOOK.search(item)):
+        oscfg.cfg.general.os_pretask_hook = bool(re_general_PRETASKHOOK.search(item).groups()[0]);
+    if(re_general_POSTTASKHOOK.search(item)):
+        oscfg.cfg.general.os_post_task_hook = bool(re_general_POSTTASKHOOK.search(item).groups()[0]);
+    if(re_general_SHUTDOWNHOOK.search(item)):
+        oscfg.cfg.general.os_shutdown_hook = bool(re_general_SHUTDOWNHOOK.search(item).groups()[0]);
+    if(re_general_STARTUPHOOK.search(item)):
+        oscfg.cfg.general.os_startup_hook = bool(re_general_STARTUPHOOK.search(item).groups()[0]);
+    #process the system counter
+    if(re_general_SystemTimer.search(item)):
+        name = re_general_SystemTimer.search(item).groups()[0];
+        if(gcfindObj(oscfg.cfg.counterList, name)):
+            cnt = gcfindObj(oscfg.cfg.counterList, name);
+        else:
+            cnt = Counter(name);
+            oscfg.cfg.counterList.insert(0, cnt);
+        if(re_general_TickTime.search(item)):
+            cnt.max = int(re_general_TickTime.search(item).groups()[0])
+        
 def oil_process_task(item, oscfg):
     grp = re_oil_os_task.search(item).groups();
     if(grp[0] != 'TASK'):
@@ -71,12 +108,21 @@ def oil_process_task(item, oscfg):
         tsk.maxactcnt = int(re_task_ACTIVATION.search(item).groups()[0]) - 1;
     if(re_task_AUTOSTART.search(item)):
         tsk.autostart = bool(re_task_AUTOSTART.search(item).groups()[0]);
+        if(tsk.autostart == True):
+            tsk.appmode = [];
+            if(re_task_appmode_list.search(item)):
+                appmode = re_task_appmode_list.search(item).groups()[0];
+                for mode in appmode.split(';'):
+                    if(re_task_appmode.search(mode)):
+                        tsk.appmode.append(re_task_appmode.search(mode).groups()[0])
     if(re_task_StackSize.search(item)):
         tsk.stksz = int(re_task_StackSize.search(item).groups()[0]);
         
 def oil_process(item, oscfg):
     if(re_oil_os_task.search(item)):
         oil_process_task(item, oscfg);
+    elif(re_oil_os_general.search(item)):
+        oil_process_os(item, oscfg);
         
 def to_oscfg(oilfile, oscfg):
     """convert the standard osek oil file to or merge to oscfg
