@@ -28,6 +28,9 @@
 #define BITMAPSZ	( sizeof(UINT) * 8 )
 #define NUM_BITMAP	( ((cfgOSEK_MAX_PRIO+1) + BITMAPSZ - 1) / BITMAPSZ )
 #define NUM_PRI     (cfgOSEK_MAX_PRIO+1)
+//tkernel priority mechanism adapter to osek os priority
+//the 0 is the lowest priority
+#define PRIORITY(__priority) (cfgOSEK_MAX_PRIO - (__priority) )
 
 /* Wait factor tskwait */
 #define TTW_SLP		    0x00000001UL             /* Wait caused by wakeup wait */

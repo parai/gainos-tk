@@ -322,7 +322,7 @@ class gainos_tk_os_cfg():
             fp.write('#define ID_%s %s\n'%(obj.name,id))
             id+=1;
         for obj in self.cfg.taskList:
-            fp.write('#define %sPri %s\n'%(obj.name, obj.prio))
+            fp.write('#define %sPri PRIORITY(%s)\n'%(obj.name, obj.prio))
         for obj in self.cfg.taskList:
             fp.write('#define %sStkSz %s\n'%(obj.name,obj.stksz))
         for obj in self.cfg.taskList:
@@ -369,6 +369,7 @@ class gainos_tk_os_cfg():
         id = 0;
         for obj in self.cfg.resourceList:
             fp.write('#define ID_%s %s\n'%(obj.name,id));
+            fp.write('#define %sPri PRIORITY(%s)\n'%(obj.name,obj.ceilprio))
             id += 0;
         #=========================== End =========================
         fp.write('/*  ====================  HOOKs    ======================= */\n');
@@ -438,7 +439,7 @@ class gainos_tk_os_cfg():
         #======================= RESOURCE ==============
         str = 'EXPORT const PRI knl_gres_table[cfgOSEK_RESOURCE_NUM]=\n{\n'
         for obj in self.cfg.resourceList:
-            str += '\t/* ceilpri */ %s,  /* %s */\n'%(obj.ceilprio, obj.name);
+            str += '\t/* ceilpri */ %sPri,  /* %s */\n'%(obj.name, obj.name);
         str+='};\n\n'
         fp.write(str);
         #================================= end ===============

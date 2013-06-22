@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_os.ui'
 #
-# Created: Sat Jun 22 11:45:23 2013
+# Created: Sat Jun 22 16:50:38 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -236,7 +236,6 @@ class Ui_cd_os(object):
         self.horizontalLayout_11.addWidget(self.label_7)
         self.spbxTskPrio = QtGui.QSpinBox(self.layoutWidget4)
         self.spbxTskPrio.setMinimumSize(QtCore.QSize(300, 0))
-        self.spbxTskPrio.setToolTip(_fromUtf8(""))
         self.spbxTskPrio.setObjectName(_fromUtf8("spbxTskPrio"))
         self.horizontalLayout_11.addWidget(self.spbxTskPrio)
         self.verticalLayout_2.addLayout(self.horizontalLayout_11)
@@ -283,7 +282,6 @@ class Ui_cd_os(object):
         self.gridLayout_2.addWidget(self.label_12, 1, 0, 1, 2)
         self.spbxResCeilPrio = QtGui.QSpinBox(self.layoutWidget_6)
         self.spbxResCeilPrio.setMinimumSize(QtCore.QSize(91, 0))
-        self.spbxResCeilPrio.setToolTip(_fromUtf8(""))
         self.spbxResCeilPrio.setObjectName(_fromUtf8("spbxResCeilPrio"))
         self.gridLayout_2.addWidget(self.spbxResCeilPrio, 1, 2, 1, 1)
         self.tblGaInOsCfg.addTab(self.tabRes, _fromUtf8(""))
@@ -325,7 +323,6 @@ class Ui_cd_os(object):
         self.gridLayout_3.addWidget(self.label_14, 1, 0, 1, 2)
         self.spbxInResCeilPrio = QtGui.QSpinBox(self.layoutWidget_8)
         self.spbxInResCeilPrio.setMinimumSize(QtCore.QSize(91, 0))
-        self.spbxInResCeilPrio.setToolTip(_fromUtf8(""))
         self.spbxInResCeilPrio.setObjectName(_fromUtf8("spbxInResCeilPrio"))
         self.gridLayout_3.addWidget(self.spbxInResCeilPrio, 1, 2, 1, 1)
         self.tblGaInOsCfg.addTab(self.tabInRes, _fromUtf8(""))
@@ -522,7 +519,7 @@ class Ui_cd_os(object):
         self.verticalLayout.addWidget(self.btnDel)
 
         self.retranslateUi(cd_os)
-        self.tblGaInOsCfg.setCurrentIndex(4)
+        self.tblGaInOsCfg.setCurrentIndex(2)
         self.cmbxTskType.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(cd_os)
 
@@ -586,6 +583,11 @@ class Ui_cd_os(object):
         self.cmbxTskType.setItemText(0, QtGui.QApplication.translate("cd_os", "BASIC_TASK", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxTskType.setItemText(1, QtGui.QApplication.translate("cd_os", "EXTEND_TASK", None, QtGui.QApplication.UnicodeUTF8))
         self.label_7.setText(QtGui.QApplication.translate("cd_os", "Task Priority:", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxTskPrio.setToolTip(QtGui.QApplication.translate("cd_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">0 is the lowest priority,the configured MAX_PRI is the highest.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_10.setText(QtGui.QApplication.translate("cd_os", "Task Max Activate Count:", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxTskPreemtable.setText(QtGui.QApplication.translate("cd_os", "Task Preemtable", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxTaskAutostart.setText(QtGui.QApplication.translate("cd_os", "Task Autostart", None, QtGui.QApplication.UnicodeUTF8))
@@ -593,6 +595,11 @@ class Ui_cd_os(object):
         self.label_11.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Resource Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leResName.setText(QtGui.QApplication.translate("cd_os", "vRes1", None, QtGui.QApplication.UnicodeUTF8))
         self.label_12.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Resource Ceiling Priority:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxResCeilPrio.setToolTip(QtGui.QApplication.translate("cd_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">0 is the lowest priority,the configured MAX_PRI is the highest.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabRes), QtGui.QApplication.translate("cd_os", "Resource", None, QtGui.QApplication.UnicodeUTF8))
         self.trInResAssignedTask.headerItem().setText(0, QtGui.QApplication.translate("cd_os", "Assigned To Task...", None, QtGui.QApplication.UnicodeUTF8))
         self.btnInResAdd.setText(QtGui.QApplication.translate("cd_os", "<<--", None, QtGui.QApplication.UnicodeUTF8))
@@ -600,6 +607,11 @@ class Ui_cd_os(object):
         self.label_13.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Internal Resource Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leInResName.setText(QtGui.QApplication.translate("cd_os", "vInRes1", None, QtGui.QApplication.UnicodeUTF8))
         self.label_14.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Internal Resource Ceiling Priority:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxInResCeilPrio.setToolTip(QtGui.QApplication.translate("cd_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">0 is the lowest priority,the configured MAX_PRI is the highest.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabInRes), QtGui.QApplication.translate("cd_os", "Internal Resource", None, QtGui.QApplication.UnicodeUTF8))
         self.label_15.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Counter Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leCntName.setText(QtGui.QApplication.translate("cd_os", "vCnt1", None, QtGui.QApplication.UnicodeUTF8))

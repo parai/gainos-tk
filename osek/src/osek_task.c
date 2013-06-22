@@ -307,8 +307,7 @@ StatusType Schedule ( void )
     PRI itskpri;
 	OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL);
 	OS_CHECK_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
-	//As Internal Resource was not supported,So in fact this API only has effect on
-	//Non-preemtable Task.
+
 	BEGIN_CRITICAL_SECTION;
 	itskpri = knl_gtsk_table[knl_ctxtsk->tskid].itskpri;
 	//if task has internal resource and premtable

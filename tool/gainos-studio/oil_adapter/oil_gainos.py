@@ -112,6 +112,8 @@ def oil_process_task(item, oscfg):
             tsk.preemtable = True;
         else:
             tsk.preemtable = False;
+    # should convert priority,because in gainos, the smaller value of priority has higher
+    # priority,so now I am tired....
     if(re_task_PRIORITY.search(item)):
         tsk.prio = int(re_task_PRIORITY.search(item).groups()[0]);
     if(re_task_ACTIVATION.search(item)):
