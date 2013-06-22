@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_os.ui'
 #
-# Created: Sat Jun 22 10:57:55 2013
+# Created: Sat Jun 22 11:45:23 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -416,7 +416,9 @@ class Ui_cd_os(object):
         self.label_21.setObjectName(_fromUtf8("label_21"))
         self.gridLayout_5.addWidget(self.label_21, 3, 0, 1, 2)
         self.leAlarmCbk = QtGui.QLineEdit(self.layoutWidget_10)
+        self.leAlarmCbk.setEnabled(False)
         self.leAlarmCbk.setToolTip(_fromUtf8(""))
+        self.leAlarmCbk.setText(_fromUtf8(""))
         self.leAlarmCbk.setObjectName(_fromUtf8("leAlarmCbk"))
         self.gridLayout_5.addWidget(self.leAlarmCbk, 3, 2, 1, 1)
         self.lblAlarmTask = QtGui.QLabel(self.layoutWidget_10)
@@ -520,7 +522,7 @@ class Ui_cd_os(object):
         self.verticalLayout.addWidget(self.btnDel)
 
         self.retranslateUi(cd_os)
-        self.tblGaInOsCfg.setCurrentIndex(0)
+        self.tblGaInOsCfg.setCurrentIndex(4)
         self.cmbxTskType.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(cd_os)
 
@@ -613,7 +615,6 @@ class Ui_cd_os(object):
         self.cmbxAlarmType.setItemText(1, QtGui.QApplication.translate("cd_os", "task", None, QtGui.QApplication.UnicodeUTF8))
         self.cmbxAlarmType.setItemText(2, QtGui.QApplication.translate("cd_os", "event", None, QtGui.QApplication.UnicodeUTF8))
         self.label_21.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Alarm Callback Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.leAlarmCbk.setText(QtGui.QApplication.translate("cd_os", "vAlarm1Cbk", None, QtGui.QApplication.UnicodeUTF8))
         self.lblAlarmTask.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Alarm Event Task:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_23.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Alarm Set Event:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabAlm), QtGui.QApplication.translate("cd_os", "Alarm", None, QtGui.QApplication.UnicodeUTF8))

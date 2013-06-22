@@ -407,7 +407,7 @@ p, li { white-space: pre-wrap; }
      <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabTask">
      <attribute name="title">
@@ -1048,11 +1048,14 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="3" column="2">
         <widget class="QLineEdit" name="leAlarmCbk">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="toolTip">
           <string/>
          </property>
          <property name="text">
-          <string>vAlarm1Cbk</string>
+          <string/>
          </property>
         </widget>
        </item>

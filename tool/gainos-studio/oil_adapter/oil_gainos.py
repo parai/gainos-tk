@@ -26,7 +26,7 @@ re_oil_os_obj_type_name = re.compile(r"""
     |^\s*(COUNTER)\s*(\w+)
     |^\s*(RESOURCE)\s*(\w+)
     """, re.VERBOSE)
-## for os <general>    
+# 3: for os <general>    
 re_oil_os_general = re.compile(r'^\s*(OS)\s*(\w+)')
 re_general_STATUS = re.compile(r'STATUS\s*=\s*(\w+)\s*;')
 re_general_ERRORHOOK = re.compile(r'ERRORHOOK\s*=\s*(\w+)\s*;')
@@ -36,7 +36,7 @@ re_general_SHUTDOWNHOOK = re.compile(r'SHUTDOWNHOOK\s*=\s*(\w+)\s*;')
 re_general_STARTUPHOOK = re.compile(r'STARTUPHOOK\s*=\s*(\w+)\s*;')
 re_general_SystemTimer = re.compile(r'SystemTimer\s*=\s*(\w+)\s*;')
 re_general_TickTime = re.compile(r'TickTime\s*=\s*(\w+)\s*;')
-## for task
+# 4: for task
 re_oil_os_task = re.compile(r'^\s*(TASK)\s*(\w+)')
 re_task_SCHEDULE = re.compile(r'SCHEDULE\s*=\s*(\w+)\s*;')
 re_task_PRIORITY = re.compile(r'PRIORITY\s*=\s*(\w+)\s*;')
@@ -45,7 +45,18 @@ re_task_AUTOSTART = re.compile(r'AUTOSTART\s*=\s*(\w+)\s*[;{]')
 re_task_StackSize = re.compile(r'StackSize\s*=\s*(\w+)\s*;')
 re_task_appmode_list = re.compile(r'AUTOSTART\s*=\s*TRUE\s*{([^{}]*)}\s*;')
 re_task_appmode = re.compile(r'APPMODE\s*=\s*(\w+)')
-
+# 6: for counter
+re_oil_os_counter = re.compile(r'^\s*(COUNTER)\s*(\w+)')
+re_counter_MAXALLOWEDVALUE = re.compile(r'MAXALLOWEDVALUE\s*=\s*(\w+)\s*;')
+re_counter_TICKSPERBASE = re.compile(r'TICKSPERBASE\s*=\s*(\w+)\s*;')
+re_counter_MINCYCLE = re.compile(r'MINCYCLE\s*=\s*(\w+)\s*;')
+# 5: for alarm
+re_oil_os_alarm = re.compile(r'^\s*(ALARM)\s*(\w+)')
+re_alarm_COUNTER = re.compile(r'COUNTER\s*=\s*(\w+)\s*;')
+re_alarm_ACTION = re.compile(r'ACTION\s*=\s*(ACTIVATETASK|SETEVENT|ALARMCALLBACK)\s*{([^{}]+)}\s*;')
+re_action_TASK = re.compile(r'TASK\s*=\s*(\w+)\s*;')
+re_action_EVENT = re.compile(r'EVENT\s*=\s*(\w+)\s*;')
+re_action_ALARMCALLBACKNAME = re.compile(r'ALARMCALLBACKNAME\s*=\s*(\w+)\s*;')
 def filter_out_comment(text):
     """text should be just a line"""
     #过滤形如 “/* .. */” 的注释
@@ -75,7 +86,7 @@ def oil_process_os(item, oscfg):
         oscfg.cfg.general.os_startup_hook = bool(re_general_STARTUPHOOK.search(item).groups()[0]);
     #process the system counter
     if(re_general_SystemTimer.search(item)):
-        name = re_general_SystemTimer.search(item).groups()[0];
+        name = 'SystemTimer'  #re_general_SystemTimer.search(item).groups()[0];
         if(gcfindObj(oscfg.cfg.counterList, name)):
             cnt = gcfindObj(oscfg.cfg.counterList, name);
         else:
@@ -92,7 +103,6 @@ def oil_process_task(item, oscfg):
     if(gcfindObj(oscfg.cfg.taskList, name)):
         tsk = gcfindObj(oscfg.cfg.taskList, name)
     else:
-        id = len(oscfg.cfg.taskList)
         tsk = Task(name, 10, 512); #use default value
         oscfg.cfg.taskList.append(tsk)
     #now start to process it
@@ -117,12 +127,60 @@ def oil_process_task(item, oscfg):
                         tsk.appmode.append(re_task_appmode.search(mode).groups()[0])
     if(re_task_StackSize.search(item)):
         tsk.stksz = int(re_task_StackSize.search(item).groups()[0]);
+
+def oil_process_counter(item, oscfg):
+    grp = re_oil_os_counter.search(item).groups();
+    if(grp[0] != 'COUNTER'):
+        return
+    name = grp[1];
+    if(gcfindObj(oscfg.cfg.counterList, name)):
+        cnt = gcfindObj(oscfg.cfg.counterList, name)
+    else:
+        cnt = Counter(name); #use default value
+        oscfg.cfg.counterList.append(cnt)
+    if(re_counter_MAXALLOWEDVALUE.search(item)):
+        cnt.max = int(re_counter_MAXALLOWEDVALUE.search(item).groups()[0]); 
+    if(re_counter_TICKSPERBASE.search(item)):
+        cnt.tpb = int(re_counter_TICKSPERBASE.search(item).groups()[0]); 
+    if(re_counter_MINCYCLE.search(item)):
+        cnt.min = int(re_counter_MINCYCLE.search(item).groups()[0]); 
+    
+def oil_process_alarm(item, oscfg):
+    grp = re_oil_os_alarm.search(item).groups();
+    if(grp[0] != 'ALARM'):
+        return
+    name = grp[1];
+    if(gcfindObj(oscfg.cfg.alarmList, name)):
+        alm = gcfindObj(oscfg.cfg.alarmList, name)
+    else:
+        alm = Alarm(name); #use default value
+        oscfg.cfg.alarmList.append(alm)
+    if(re_alarm_COUNTER.search(item)):
+        alm.counter = str(re_alarm_COUNTER.search(item).groups()[0]);
+    if(re_alarm_ACTION.search(item)):
+        action = re_alarm_ACTION.search(item).groups(); 
+        if(action[0] == 'ACTIVATETASK'):
+            alm.type = 'task';
+            if(re_action_TASK.search(action[1])):
+                alm.task = re_action_TASK.search(action[1]).groups()[0]
+        elif(action[0] == 'SETEVENT'):
+            alm.type = 'event';
+            if(re_action_TASK.search(action[1])):
+                alm.task = re_action_TASK.search(action[1]).groups()[0]
+            if(re_action_EVENT.search(action[1])):
+                alm.event = re_action_EVENT.search(action[1]).groups()[0]
+        elif(action[0] == 'ALARMCALLBACK'):
+            alm.type = 'callback';
         
 def oil_process(item, oscfg):
     if(re_oil_os_task.search(item)):
         oil_process_task(item, oscfg);
     elif(re_oil_os_general.search(item)):
         oil_process_os(item, oscfg);
+    elif(re_oil_os_counter.search(item)):
+        oil_process_counter(item, oscfg);
+    elif(re_oil_os_alarm.search(item)):
+        oil_process_alarm(item, oscfg);
         
 def to_oscfg(oilfile, oscfg):
     """convert the standard osek oil file to or merge to oscfg
