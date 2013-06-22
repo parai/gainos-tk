@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_os.ui'
 #
-# Created: Sat Jun 22 16:50:38 2013
+# Created: Sat Jun 22 17:06:19 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -223,6 +223,7 @@ class Ui_cd_os(object):
         self.label_22.setObjectName(_fromUtf8("label_22"))
         self.horizontalLayout_12.addWidget(self.label_22)
         self.cmbxTskType = QtGui.QComboBox(self.layoutWidget4)
+        self.cmbxTskType.setEnabled(False)
         self.cmbxTskType.setMinimumSize(QtCore.QSize(300, 0))
         self.cmbxTskType.setObjectName(_fromUtf8("cmbxTskType"))
         self.cmbxTskType.addItem(_fromUtf8(""))
@@ -519,7 +520,7 @@ class Ui_cd_os(object):
         self.verticalLayout.addWidget(self.btnDel)
 
         self.retranslateUi(cd_os)
-        self.tblGaInOsCfg.setCurrentIndex(2)
+        self.tblGaInOsCfg.setCurrentIndex(0)
         self.cmbxTskType.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(cd_os)
 

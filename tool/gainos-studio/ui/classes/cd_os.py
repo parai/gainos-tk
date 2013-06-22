@@ -62,11 +62,6 @@ class cd_os(QDialog, Ui_cd_os):
         self.btnAdd.setDisabled(True);
         self.btnDel.setDisabled(True);
 
-    def initTab(self):
-        #基于tkernel，默认任务为扩展任务ECC
-        self.cmbxTskType.setDisabled(True);
-        self.cmbxTskType.setCurrentIndex(1);
-
     def initSpbxRange(self):
         self.spbxResCeilPrio.setRange(1, 140);
         self.spbxTskPrio.setRange(1, 140);
@@ -98,7 +93,6 @@ class cd_os(QDialog, Ui_cd_os):
         
     def initGui(self):
         self.initButton();
-        self.initTab();
         self.disableAllTab();
         self.reloadGui();
         self.initSpbxRange();
@@ -194,6 +188,10 @@ class cd_os(QDialog, Ui_cd_os):
         self.btnTaskModeDel.setDisabled(not self.curobj.autostart);
         self.trTaskAppModeDst.setDisabled(not self.curobj.autostart);
         self.trTaskAppModeSrc.setDisabled(not self.curobj.autostart);
+        if(len(self.curobj.eventList)):
+            self.cmbxTskType.setCurrentIndex(1);
+        else:
+            self.cmbxTskType.setCurrentIndex(0);
         self.enableTab(0);
 
     def refreshResourceTab(self, name):
@@ -357,6 +355,7 @@ class cd_os(QDialog, Ui_cd_os):
         obj=Event(name, hex(1<<id));
         self.curobj.eventList.append(obj);
         self.curtree.setExpanded(True);
+        self.cmbxTskType.setCurrentIndex(1);
 
     @pyqtSignature("")
     def on_btnAdd_clicked(self):
@@ -394,6 +393,8 @@ class cd_os(QDialog, Ui_cd_os):
         elif(text=='Delete Event'):
             tsk=gcfindObj(self.cfg.taskList, parent.text(0));
             tsk.eventList.remove(self.curobj);
+            if(len(tsk.eventList) == 0):
+                self.cmbxTskType.setCurrentIndex(0);
         del self.curtree;
         #reselect a tree item,software trigger on_trModule_itemClicked()
         if(index>0):
