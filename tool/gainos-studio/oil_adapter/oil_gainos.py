@@ -6,7 +6,7 @@
  * This file is part of GaInOS-Studio.
  */
 """
-import re, string
+import re, string, os
 from config.gainos_tk_cfg import gainos_tk_cfg
 from common.Common import *
 from config.gainos_tk_os_cfg import *
@@ -14,6 +14,8 @@ from config.gainos_tk_os_cfg import *
 # 1: for comment 
 re_comment_type1 = re.compile(r'/\*[^/]*\*/');
 re_comment_type2 = re.compile(r'//.*');
+## include 
+re_include = re.compile(r'\s*#include\s+["<]([^\s]+)[">]');
 
 # 2: for os obj
 re_oil_os_obj = re.compile(r'^\s*OS|^\s*TASK|^\s*ALARM|^\s*COUNTER|^\s*RESOURCE')
@@ -24,11 +26,15 @@ re_oil_os_obj_type_name = re.compile(r"""
     |^\s*(COUNTER)\s*(\w+)
     |^\s*(RESOURCE)\s*(\w+)
     """, re.VERBOSE)
+## for os <general>    
 re_oil_os_general = re.compile(r'^\s*(OS)\s*(\w+)')
 ## for task
 re_oil_os_task = re.compile(r'^\s*(TASK)\s*(\w+)')
 re_task_SCHEDULE = re.compile(r'SCHEDULE\s*=\s*(\w+)\s*;')
 re_task_PRIORITY = re.compile(r'PRIORITY\s*=\s*(\w+)\s*;')
+re_task_ACTIVATION = re.compile(r'ACTIVATION\s*=\s*(\w+)\s*;')
+re_task_AUTOSTART = re.compile(r'AUTOSTART\s*=\s*(\w+)\s*;')
+re_task_StackSize = re.compile(r'StackSize\s*=\s*(\w+)\s*;')
 
 def filter_out_comment(text):
     """text should be just a line"""
@@ -61,6 +67,12 @@ def oil_process_task(item, oscfg):
             tsk.preemtable = False;
     if(re_task_PRIORITY.search(item)):
         tsk.prio = int(re_task_PRIORITY.search(item).groups()[0]);
+    if(re_task_ACTIVATION.search(item)):
+        tsk.maxactcnt = int(re_task_ACTIVATION.search(item).groups()[0]) - 1;
+    if(re_task_AUTOSTART.search(item)):
+        tsk.autostart = bool(re_task_AUTOSTART.search(item).groups()[0]);
+    if(re_task_StackSize.search(item)):
+        tsk.stksz = int(re_task_StackSize.search(item).groups()[0]);
         
 def oil_process(item, oscfg):
     if(re_oil_os_task.search(item)):
@@ -93,9 +105,20 @@ def to_oscfg(oilfile, oscfg):
                     barcenum += el.count('{');
                 elif(el.count('}') > 0):
                     barcenum -= el.count('}');
+            elif(re_include.search(el)): #include file
+                basep = os.path.dirname(oilfile)
+                file = re_include.search(el).groups()[0];
+                file = basep+file;
+                to_oscfg(file, oscfg);
         #}
         else:
         #{
+            if(re_include.search(el)): #include file
+                basep = os.path.dirname(oilfile)
+                file = re_include.search(el).groups()[0];
+                file = basep+file;
+                print file
+                continue;
             if(el.count('{') > 0):  #so at comment should not include '{}'
                 brace_flag = True;
                 barcenum += el.count('{');

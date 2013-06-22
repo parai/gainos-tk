@@ -107,6 +107,7 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
             if(oil_gainos.to_oscfg(str(file), self.cfg.findModule('OS').obj)):
                 QMessageBox(QMessageBox.Information, 'GaInOS Info', 
                         'Convert to gainos_tk_os_cfg successfully!').exec_();
+                self.fileIndicate(False)
             else:
                 QMessageBox(QMessageBox.Critical, 'GaInOS Error', 
                         'Convert to gainos_tk_os_cfg failed!').exec_();

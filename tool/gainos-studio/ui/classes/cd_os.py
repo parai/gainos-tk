@@ -186,13 +186,12 @@ class cd_os(QDialog, Ui_cd_os):
             self.spbxTskStkSize.setDisabled(False)
         self.spbxTskStkSize.setValue(self.curobj.stksz);
         self.cbxTskPreemtable.setChecked(self.curobj.preemtable);
+        self.cbxTaskAutostart.setChecked(self.curobj.autostart);
         self.spbxTskPrio.setValue(self.curobj.prio);
         self.spbxTskMaxActivateCount.setValue(self.curobj.maxactcnt);
-        self.cmbxTskMode.clear();
-        for appmode in self.cfg.appmodeList:
-            self.cmbxTskMode.addItem(appmode.name);
-        self.cmbxTskMode.addItem('OSNONEAPPMODE');
-        self.cmbxTskMode.setCurrentIndex(self.cmbxTskMode.findText(self.curobj.appmode))
+        self.refreshTreeCtrl(self.trTaskAppModeSrc, self.trTaskAppModeDst, self.cfg.appmodeList, self.curobj.appmode)
+        self.btnTaskModeAdd.setDisabled(not self.curobj.autostart);
+        self.btnTaskModeDel.setDisabled(not self.curobj.autostart);
         self.enableTab(0);
 
     def refreshResourceTab(self, name):
@@ -303,8 +302,8 @@ class cd_os(QDialog, Ui_cd_os):
         obj=AppMode(name);
         self.cfg.appmodeList.append(obj);
         self.curtree.setExpanded(True);
-        if(len(self.cfg.appmodeList) >= 15):
-            #use attribute 4 LSB bits to store the taskmode
+        if(len(self.cfg.appmodeList) >= 8):
+            #use attribute 8 LSB bits to store the taskmode
             self.btnAdd.setDisabled(True);
         
     def addTask(self):
@@ -402,6 +401,35 @@ class cd_os(QDialog, Ui_cd_os):
             parent.setSelected(True);
             self.on_trModule_itemClicked(parent, 0);
         self.fileInd(False);
+#--------- Tree Control Common operation -----------------------------
+    def moveTreeItem(self, trFrom, trTo):
+        if(trFrom.currentItem()):
+            name = trFrom.currentItem().text(0)
+            item = QTreeWidgetItem(trTo, QStringList(name)); #add
+            trFrom.takeTopLevelItem(trFrom.indexOfTopLevelItem(trFrom.currentItem()));#remove
+    def refreshTreeCtrl(self, trSrc, trDst, lsSrc, lsDst):
+        """lsSrc：源资源列表，trSrc：源目录树控件
+           lsDst：目标资源列表，trDst：目标目录树控件
+           一般的，lsSrc是 GaInOS-TK一个对象列表
+           而 lsDst则是一个字符串 String 列表
+        """
+        #移除所有
+        for index in range(0, trSrc.topLevelItemCount()):
+            temp=trSrc.takeTopLevelItem(0);
+            del temp;
+        for index in range(0, trDst.topLevelItemCount()):
+            temp=trDst.takeTopLevelItem(0);
+            del temp;
+        #向相应控件注册对象
+        for str in lsDst:
+            if(gcfindObj(lsSrc, str) != None):#if it still in the lsSrc
+                item=QTreeWidgetItem(trDst,QStringList(str));
+            else: # maybe you have removed & rename it, so should remove it from the list
+                lsDst.remove(str);
+        for obj in lsSrc:
+            if(gcfindStr(lsDst, obj.name) == None):
+                item=QTreeWidgetItem(trSrc,QStringList(obj.name));
+        #print lsDst
     #========================== Alarm ==================================
     @pyqtSignature("QString")
     def on_leAlarmName_textChanged(self, p0):
@@ -473,12 +501,6 @@ class cd_os(QDialog, Ui_cd_os):
             if(self.curobj.prio!=p0):
                 self.curobj.prio=p0
                 self.fileInd(False); 
-    @pyqtSignature("QString")
-    def on_cmbxTskMode_activated(self, p0):
-        if(self.curobj!=None):
-            if(self.curobj.appmode!=p0):
-                self.curobj.appmode=p0;
-                self.fileInd(False);
     @pyqtSignature("int")
     def on_spbxTskMaxActivateCount_valueChanged(self, p0):
         if(self.curobj!=None):  
@@ -491,6 +513,26 @@ class cd_os(QDialog, Ui_cd_os):
             if(self.curobj.preemtable!=p0):
                 self.curobj.preemtable=p0
                 self.fileInd(False); 
+    @pyqtSignature("bool")
+    def on_cbxTaskAutostart_clicked(self, p0):
+        if(self.curobj!=None):  
+            if(self.curobj.autostart!=p0):
+                self.curobj.autostart=p0
+                self.btnTaskModeAdd.setDisabled(not self.curobj.autostart);
+                self.btnTaskModeDel.setDisabled(not self.curobj.autostart);
+                self.fileInd(False); 
+    @pyqtSignature("")
+    def on_btnTaskModeAdd_clicked(self):
+        if(self.trTaskAppModeSrc.currentItem()):
+            self.curobj.appmode.append(self.trTaskAppModeSrc.currentItem().text(0));
+            self.moveTreeItem(self.trTaskAppModeSrc, self.trTaskAppModeDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnTaskModeDel_clicked(self):
+        if(self.trTaskAppModeDst.currentItem()):
+            self.curobj.appmode.remove(self.trTaskAppModeDst.currentItem().text(0));
+            self.moveTreeItem(self.trTaskAppModeDst, self.trTaskAppModeSrc);
+            self.fileInd(False);
     #============================= Event =================================
     @pyqtSignature("QString")
     def on_leEventName_textChanged(self, p0):

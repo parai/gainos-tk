@@ -94,7 +94,7 @@ class Task():
         self.stksz=stksz;
         self.autostart=True;
         self.maxactcnt = 1;
-        self.appmode = 'OSDEFAULTAPPMODE';
+        self.appmode = [];
         self.preemtable = True;
         self.eventList=[];
     
@@ -103,21 +103,32 @@ class Task():
         nd.attrib['name'] = str(self.name);
         nd.attrib['prio'] = str(self.prio);
         nd.attrib['stksz'] = str(self.stksz);
+        nd.attrib['autostart'] = str(self.autostart);
         nd.attrib['maxactcnt'] = str(self.maxactcnt);
-        nd.attrib['appmode'] = str(self.appmode);
+        #nd.attrib['appmode'] = str(self.appmode);
+        nd2 = ET.Element('appmode');
+        for mode in self.appmode:
+            nd2.append(ET.Element(str(mode)));
+        nd.append(nd2);
         nd.attrib['preemtable'] = str(self.preemtable);
+        nd2 = ET.Element('eventList');
         for obj in self.eventList:
-            obj.save(nd);
+            obj.save(nd2);
+        nd.append(nd2);
         root.append(nd);
     
     def parse(self, nd):
         self.name = nd.attrib['name'];
         self.prio = int(nd.attrib['prio']);
         self.stksz = int(nd.attrib['stksz']);
+        self.autostart = bool(nd.attrib['autostart']);
         self.maxactcnt = int(nd.attrib['maxactcnt']);
-        self.appmode = str(nd.attrib['appmode']);
+        nd2 = ET.Element('appmode');
+        for nd2 in nd.find('appmode'):
+            self.appmode.append(nd2.tag);
+        nd.append(nd2);
         self.preemtable = bool(nd.attrib['preemtable']);
-        for nd2 in nd:
+        for nd2 in nd.find('eventList'):
             obj = Event('', 0);
             obj.parse(nd2);
             self.eventList.append(obj);
@@ -301,7 +312,7 @@ class gainos_tk_os_cfg():
         for appmode in self.cfg.appmodeList:
             if(appmode.name != 'OSDEFAULTAPPMODE'):
                 fp.write('#define %s %s\n'%(appmode.name,hex(id)));
-                id += 1;
+                id *= 2;
         #===============================Task ================================
         fp.write('/* =====================  TASK  ========================== */\n');
         fp.write('#define cfgOSEK_MAX_PRIO %s\n'%(self.cfg.general.max_pri));
@@ -309,10 +320,19 @@ class gainos_tk_os_cfg():
         id = 0;
         for obj in self.cfg.taskList:
             fp.write('#define ID_%s %s\n'%(obj.name,id))
-            fp.write('#define %sPri %s\n'%(obj.name, obj.prio))
-            fp.write('#define %sStkSz %s\n'%(obj.name,obj.stksz))
-            fp.write('#define %sMaxAct %s\n'%(obj.name,obj.maxactcnt))
             id+=1;
+        for obj in self.cfg.taskList:
+            fp.write('#define %sPri %s\n'%(obj.name, obj.prio))
+        for obj in self.cfg.taskList:
+            fp.write('#define %sStkSz %s\n'%(obj.name,obj.stksz))
+        for obj in self.cfg.taskList:
+            fp.write('#define %sMaxAct %s\n'%(obj.name,obj.maxactcnt))
+        for obj in self.cfg.taskList:
+            str = ' OSNONEAPPMODE '
+            if(obj.autostart):
+                for mode in obj.appmode:
+                    str += '| %s '%(mode);
+            fp.write('#define %sMode (%s)\n'%(obj.name,str));
         fp.write('#if !defined(MACROS_ONLY)\n')
         for obj in self.cfg.taskList:
             fp.write('IMPORT TASK(%s);\n'%(obj.name));
@@ -376,7 +396,7 @@ class gainos_tk_os_cfg():
         for tsk in self.cfg.taskList:
             stack += 'GenTaskStack(%s);\n'%(tsk.name);
             gtsk += '\tGenTaskInfo(%s,'%(tsk.name);
-            gtsk += '%s'%(tsk.appmode);
+            gtsk += '%sMode'%(tsk.name);
             if(self.cfg.general.sched_policy == 'MIXED_PREEMPTIVE_SCHEDULE'):
                 if(tsk.preemtable):
                     gtsk += '|PREEMTABLE,'

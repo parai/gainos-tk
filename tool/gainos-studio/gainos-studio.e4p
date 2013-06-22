@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project gainos-studio -->
-<!-- Saved: 2013-06-22, 00:27:25 -->
+<!-- Saved: 2013-06-22, 08:55:32 -->
 <!-- Copyright (C) 2013 parai, parai@foxmail.com -->
 <Project version="4.6">
   <Language>en</Language>
@@ -59,6 +59,11 @@
     <Source>config/gainos_tk_comm_cfg.py</Source>
     <Source>oil_adapter/__init__.py</Source>
     <Source>oil_adapter/oil_gainos.py</Source>
+    <Source>ui/__init__.py</Source>
+    <Source>ui/classes/__init__.py</Source>
+    <Source>ui/forms/__init__.py</Source>
+    <Source>config/__init__.py</Source>
+    <Source>common/__init__.py</Source>
   </Sources>
   <Forms>
     <Form>ui/forms/gainos_studio.ui</Form>
