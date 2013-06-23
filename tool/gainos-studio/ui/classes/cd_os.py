@@ -57,6 +57,7 @@ class cd_os(QDialog, Ui_cd_os):
         self.reloadTreeGui(2, self.cfg.resourceList);   # 2 Resource
         self.reloadTreeGui(3, self.cfg.counterList);    # 3 Counter
         self.reloadTreeGui(4, self.cfg.alarmList);      # 4 Alarm
+        self.reloadTreeGui(5, self.cfg.internalResourceList);
 
     def initButton(self):
         self.btnAdd.setDisabled(True);
@@ -140,6 +141,10 @@ class cd_os(QDialog, Ui_cd_os):
             self.btnAdd.setText('Add Alarm');
             self.btnAdd.setDisabled(False);
             self.btnDel.setDisabled(True);
+        elif(trname=='Internal Resource'):
+            self.btnAdd.setText('Add Internal Resource');
+            self.btnAdd.setDisabled(False);
+            self.btnDel.setDisabled(True);
         #--------------------- 二级目录
         elif(self.curtree.parent().text(0)=='AppMode'):
             self.btnDel.setText('Delete AppMode');
@@ -157,12 +162,18 @@ class cd_os(QDialog, Ui_cd_os):
             self.btnDel.setText('Delete Resource');
             self.btnAdd.setDisabled(True);
             self.btnDel.setDisabled(False);
+            if(trname == 'RES_SCHEDULER'):
+                self.btnDel.setDisabled(True);
         elif(self.curtree.parent().text(0)=='Counter'):
             self.btnDel.setText('Delete Counter');
             self.btnAdd.setDisabled(True);
             self.btnDel.setDisabled(False);
         elif(self.curtree.parent().text(0)=='Alarm'):
             self.btnDel.setText('Delete Alarm');
+            self.btnAdd.setDisabled(True);
+            self.btnDel.setDisabled(False);
+        elif(self.curtree.parent().text(0)=='Internal Resource'):
+            self.btnDel.setText('Delete Internal Resource');
             self.btnAdd.setDisabled(True);
             self.btnDel.setDisabled(False);
         #--------------------- 三级目录
@@ -197,8 +208,21 @@ class cd_os(QDialog, Ui_cd_os):
     def refreshResourceTab(self, name):
         self.curobj=gcfindObj(self.cfg.resourceList, name);
         self.leResName.setText(name);
+        if(name == 'RES_SCHEDULER'):
+            self.leResName.setDisabled(True);
+            self.spbxResCeilPrio.setDisabled(True);
+            self.btnResAdd.setDisabled(True);
+            self.btnResRemove.setDisabled(True);
+            self.curobj.ceilprio = self.cfg.general.max_pri;
+        else:
+            self.leResName.setDisabled(False);
+            self.spbxResCeilPrio.setDisabled(False);
+            self.btnResAdd.setDisabled(False);
+            self.btnResRemove.setDisabled(False);
         self.spbxResCeilPrio.setValue(self.curobj.ceilprio);
+        self.refreshTreeCtrl(self.trResAvailableTask, self.trResAssignedTask, self.cfg.taskList, self.curobj.taskList)
         self.enableTab(1);
+        
 
     def refreshCounterTab(self, name):
         self.curobj=gcfindObj(self.cfg.counterList, name);
@@ -266,6 +290,13 @@ class cd_os(QDialog, Ui_cd_os):
             self.leAppModeName.setDisabled(False);
         self.leAppModeName.setText(name);
         self.enableTab(7);
+    
+    def refreshInternalResourceTab(self, name):
+        self.curobj = gcfindObj(self.cfg.internalResourceList, name);
+        self.leInResName.setText(self.curobj.name);
+        self.spbxInResCeilPrio.setValue(self.curobj.ceilprio);
+        self.refreshTreeCtrl(self.trInResAvailableTask, self.trInResAssignedTask, self.cfg.taskList, self.curobj.taskList)
+        self.enableTab(2)
     def refreshTab(self):
         if(self.curtree.parent() == None):
             self.disableAllTab();
@@ -279,6 +310,8 @@ class cd_os(QDialog, Ui_cd_os):
             self.refreshTaskTab(objname);
         elif(trname == 'Resource'):
             self.refreshResourceTab(objname);
+        elif(trname == 'Internal Resource'):
+            self.refreshInternalResourceTab(objname);
         elif(trname == 'Counter'):
             self.refreshCounterTab(objname);
         elif(trname == 'Alarm'):
@@ -356,7 +389,14 @@ class cd_os(QDialog, Ui_cd_os):
         self.curobj.eventList.append(obj);
         self.curtree.setExpanded(True);
         self.cmbxTskType.setCurrentIndex(1);
-
+    def addInternalResource(self):
+        id = len(self.cfg.internalResourceList);
+        name=QString('vInRes%d'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj=InternalResource(name,id+1);
+        self.cfg.internalResourceList.append(obj);
+        self.curtree.setExpanded(True);
     @pyqtSignature("")
     def on_btnAdd_clicked(self):
         text=self.btnAdd.text();
@@ -372,6 +412,8 @@ class cd_os(QDialog, Ui_cd_os):
             self.addEvent();
         elif(text=='Add AppMode'):
             self.addAppMode();
+        elif(text=='Add Internal Resource'):
+            self.addInternalResource();
         self.fileInd(False);
     
     @pyqtSignature("")
@@ -384,6 +426,8 @@ class cd_os(QDialog, Ui_cd_os):
             self.cfg.taskList.remove(self.curobj);
         elif(text=='Delete Resource'):
             self.cfg.resourceList.remove(self.curobj);
+        elif(text=='Delete Internal Resource'):
+            self.cfg.internalResourceList.remove(self.curobj);
         elif(text=='Delete Counter'):
             self.cfg.counterList.remove(self.curobj);
         elif(text=='Delete Alarm'):
@@ -484,6 +528,44 @@ class cd_os(QDialog, Ui_cd_os):
             if(self.curobj.ceilprio!=p0):
                 self.curobj.ceilprio=p0;
                 self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnResAdd_clicked(self):
+        if(self.trResAvailableTask.currentItem()):
+            self.curobj.taskList.append(self.trResAvailableTask.currentItem().text(0));
+            self.moveTreeItem(self.trResAvailableTask, self.trResAssignedTask);
+            self.fileInd(False); 
+    @pyqtSignature("")
+    def on_btnResRemove_clicked(self):
+        if(self.trResAssignedTask.currentItem()):
+            self.curobj.taskList.remove(self.trResAssignedTask.currentItem().text(0));
+            self.moveTreeItem(self.trResAssignedTask, self.trResAvailableTask);
+            self.fileInd(False);
+    #===================== Internal Resource ====================================
+    @pyqtSignature("QString")
+    def on_leInResName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxInResCeilPrio_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.ceilprio!=p0):
+                self.curobj.ceilprio=p0;
+                self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnInResAdd_clicked(self):
+        if(self.trInResAvailableTask.currentItem()):
+            self.curobj.taskList.append(self.trInResAvailableTask.currentItem().text(0));
+            self.moveTreeItem(self.trInResAvailableTask, self.trInResAssignedTask);
+            self.fileInd(False); 
+    @pyqtSignature("")
+    def on_btnInResRemove_clicked(self):
+        if(self.trInResAssignedTask.currentItem()):
+            self.curobj.taskList.remove(self.trInResAssignedTask.currentItem().text(0));
+            self.moveTreeItem(self.trInResAssignedTask, self.trInResAvailableTask);
+            self.fileInd(False);
     #=========================== Task ============================
     @pyqtSignature("QString")
     def on_leTskName_textChanged(self, p0):

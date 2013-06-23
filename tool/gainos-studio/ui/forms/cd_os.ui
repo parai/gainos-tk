@@ -407,7 +407,7 @@ p, li { white-space: pre-wrap; }
      <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabTask">
      <attribute name="title">
@@ -729,6 +729,82 @@ p, li { white-space: pre-wrap; }
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="layoutWidget_13">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>160</y>
+        <width>31</width>
+        <height>66</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_9">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="btnResAdd">
+         <property name="maximumSize">
+          <size>
+           <width>29</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>&lt;&lt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="btnResRemove">
+         <property name="maximumSize">
+          <size>
+           <width>29</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>&gt;&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QTreeWidget" name="trResAssignedTask">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>100</y>
+        <width>231</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;For normal resource, each task can get it, but you should make sure that the ceiling priority should be higher than all the tasks that will acquire this normal resource.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;So you can ignore this config,this just help you to remember, don't expect this tool will help you to resolve the ceiling priority automatically, you should do this!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <column>
+       <property name="text">
+        <string>Assigned To Task...</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QTreeWidget" name="trResAvailableTask">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>100</y>
+        <width>211</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <column>
+       <property name="text">
+        <string notr="true">Available Task...</string>
+       </property>
+      </column>
+     </widget>
     </widget>
     <widget class="QWidget" name="tabInRes">
      <attribute name="title">
@@ -737,11 +813,19 @@ p, li { white-space: pre-wrap; }
      <widget class="QTreeWidget" name="trInResAssignedTask">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>0</x>
         <y>100</y>
-        <width>171</width>
-        <height>171</height>
+        <width>231</width>
+        <height>251</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Internal Resource is really special,only the task assigned with this internal resource can get it.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Note that each task can only has one internal resource,so be carefull. This tool has no validation function.So configure it right.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <column>
        <property name="text">
@@ -752,10 +836,10 @@ p, li { white-space: pre-wrap; }
      <widget class="QTreeWidget" name="trInResAvailableTask">
       <property name="geometry">
        <rect>
-        <x>290</x>
+        <x>260</x>
         <y>100</y>
-        <width>171</width>
-        <height>171</height>
+        <width>211</width>
+        <height>251</height>
        </rect>
       </property>
       <column>
@@ -767,24 +851,36 @@ p, li { white-space: pre-wrap; }
      <widget class="QWidget" name="layoutWidget_7">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>140</y>
-        <width>87</width>
+        <x>230</x>
+        <y>150</y>
+        <width>31</width>
         <height>66</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_7">
        <item row="0" column="0">
         <widget class="QPushButton" name="btnInResAdd">
+         <property name="maximumSize">
+          <size>
+           <width>29</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="text">
-          <string>&lt;&lt;--</string>
+          <string>&lt;&lt;</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
         <widget class="QPushButton" name="btnInResRemove">
+         <property name="maximumSize">
+          <size>
+           <width>29</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="text">
-          <string>--&gt;&gt;</string>
+          <string>&gt;&gt;</string>
          </property>
         </widget>
        </item>
@@ -835,6 +931,9 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;0 is the lowest priority,the configured MAX_PRI is the highest.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="maximum">
+          <number>65535</number>
          </property>
         </widget>
        </item>
@@ -1311,6 +1410,11 @@ p, li { white-space: pre-wrap; }
     <item>
      <property name="text">
       <string>Alarm</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Internal Resource</string>
      </property>
     </item>
    </widget>

@@ -140,7 +140,7 @@ gainos-tk
 	我认为更改算法是很愚蠢的事情，tkernel的这个优先级管理算法我认为是足够优秀的，所以呢，我选择更改工具，
 	或者说呢，进行优先级变更，反正，gainos-tk是通过工具来配置的。
 
-#gainso-studio 成果展示
+#gainos-studio 成果展示
 ### gainos-tk osek os的配置界面
 ![gainos os][logo1]
 [logo1]:http://f.hiphotos.bdimg.com/album/s%3D1100%3Bq%3D90/sign=d9a841482e2eb938e86d7ef3e552be44/8b82b9014a90f603fec2deee3812b31bb051ed2d.jpg

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_os.ui'
 #
-# Created: Sat Jun 22 17:06:19 2013
+# Created: Sun Jun 23 10:53:35 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -285,26 +285,49 @@ class Ui_cd_os(object):
         self.spbxResCeilPrio.setMinimumSize(QtCore.QSize(91, 0))
         self.spbxResCeilPrio.setObjectName(_fromUtf8("spbxResCeilPrio"))
         self.gridLayout_2.addWidget(self.spbxResCeilPrio, 1, 2, 1, 1)
+        self.layoutWidget_13 = QtGui.QWidget(self.tabRes)
+        self.layoutWidget_13.setGeometry(QtCore.QRect(230, 160, 31, 66))
+        self.layoutWidget_13.setObjectName(_fromUtf8("layoutWidget_13"))
+        self.gridLayout_9 = QtGui.QGridLayout(self.layoutWidget_13)
+        self.gridLayout_9.setMargin(0)
+        self.gridLayout_9.setObjectName(_fromUtf8("gridLayout_9"))
+        self.btnResAdd = QtGui.QPushButton(self.layoutWidget_13)
+        self.btnResAdd.setMaximumSize(QtCore.QSize(29, 16777215))
+        self.btnResAdd.setObjectName(_fromUtf8("btnResAdd"))
+        self.gridLayout_9.addWidget(self.btnResAdd, 0, 0, 1, 1)
+        self.btnResRemove = QtGui.QPushButton(self.layoutWidget_13)
+        self.btnResRemove.setMaximumSize(QtCore.QSize(29, 16777215))
+        self.btnResRemove.setObjectName(_fromUtf8("btnResRemove"))
+        self.gridLayout_9.addWidget(self.btnResRemove, 1, 0, 1, 1)
+        self.trResAssignedTask = QtGui.QTreeWidget(self.tabRes)
+        self.trResAssignedTask.setGeometry(QtCore.QRect(0, 100, 231, 251))
+        self.trResAssignedTask.setObjectName(_fromUtf8("trResAssignedTask"))
+        self.trResAvailableTask = QtGui.QTreeWidget(self.tabRes)
+        self.trResAvailableTask.setGeometry(QtCore.QRect(260, 100, 211, 251))
+        self.trResAvailableTask.setObjectName(_fromUtf8("trResAvailableTask"))
+        self.trResAvailableTask.headerItem().setText(0, _fromUtf8("Available Task..."))
         self.tblGaInOsCfg.addTab(self.tabRes, _fromUtf8(""))
         self.tabInRes = QtGui.QWidget()
         self.tabInRes.setObjectName(_fromUtf8("tabInRes"))
         self.trInResAssignedTask = QtGui.QTreeWidget(self.tabInRes)
-        self.trInResAssignedTask.setGeometry(QtCore.QRect(20, 100, 171, 171))
+        self.trInResAssignedTask.setGeometry(QtCore.QRect(0, 100, 231, 251))
         self.trInResAssignedTask.setObjectName(_fromUtf8("trInResAssignedTask"))
         self.trInResAvailableTask = QtGui.QTreeWidget(self.tabInRes)
-        self.trInResAvailableTask.setGeometry(QtCore.QRect(290, 100, 171, 171))
+        self.trInResAvailableTask.setGeometry(QtCore.QRect(260, 100, 211, 251))
         self.trInResAvailableTask.setObjectName(_fromUtf8("trInResAvailableTask"))
         self.trInResAvailableTask.headerItem().setText(0, _fromUtf8("Available Task..."))
         self.layoutWidget_7 = QtGui.QWidget(self.tabInRes)
-        self.layoutWidget_7.setGeometry(QtCore.QRect(200, 140, 87, 66))
+        self.layoutWidget_7.setGeometry(QtCore.QRect(230, 150, 31, 66))
         self.layoutWidget_7.setObjectName(_fromUtf8("layoutWidget_7"))
         self.gridLayout_7 = QtGui.QGridLayout(self.layoutWidget_7)
         self.gridLayout_7.setMargin(0)
         self.gridLayout_7.setObjectName(_fromUtf8("gridLayout_7"))
         self.btnInResAdd = QtGui.QPushButton(self.layoutWidget_7)
+        self.btnInResAdd.setMaximumSize(QtCore.QSize(29, 16777215))
         self.btnInResAdd.setObjectName(_fromUtf8("btnInResAdd"))
         self.gridLayout_7.addWidget(self.btnInResAdd, 0, 0, 1, 1)
         self.btnInResRemove = QtGui.QPushButton(self.layoutWidget_7)
+        self.btnInResRemove.setMaximumSize(QtCore.QSize(29, 16777215))
         self.btnInResRemove.setObjectName(_fromUtf8("btnInResRemove"))
         self.gridLayout_7.addWidget(self.btnInResRemove, 1, 0, 1, 1)
         self.layoutWidget_8 = QtGui.QWidget(self.tabInRes)
@@ -324,6 +347,7 @@ class Ui_cd_os(object):
         self.gridLayout_3.addWidget(self.label_14, 1, 0, 1, 2)
         self.spbxInResCeilPrio = QtGui.QSpinBox(self.layoutWidget_8)
         self.spbxInResCeilPrio.setMinimumSize(QtCore.QSize(91, 0))
+        self.spbxInResCeilPrio.setMaximum(65535)
         self.spbxInResCeilPrio.setObjectName(_fromUtf8("spbxInResCeilPrio"))
         self.gridLayout_3.addWidget(self.spbxInResCeilPrio, 1, 2, 1, 1)
         self.tblGaInOsCfg.addTab(self.tabInRes, _fromUtf8(""))
@@ -506,6 +530,7 @@ class Ui_cd_os(object):
         item_0 = QtGui.QTreeWidgetItem(self.trModule)
         item_0 = QtGui.QTreeWidgetItem(self.trModule)
         item_0 = QtGui.QTreeWidgetItem(self.trModule)
+        item_0 = QtGui.QTreeWidgetItem(self.trModule)
         self.layoutWidget7 = QtGui.QWidget(self.groupBox_2)
         self.layoutWidget7.setGeometry(QtCore.QRect(290, 70, 151, 62))
         self.layoutWidget7.setObjectName(_fromUtf8("layoutWidget7"))
@@ -520,7 +545,7 @@ class Ui_cd_os(object):
         self.verticalLayout.addWidget(self.btnDel)
 
         self.retranslateUi(cd_os)
-        self.tblGaInOsCfg.setCurrentIndex(0)
+        self.tblGaInOsCfg.setCurrentIndex(2)
         self.cmbxTskType.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(cd_os)
 
@@ -601,10 +626,25 @@ class Ui_cd_os(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">0 is the lowest priority,the configured MAX_PRI is the highest.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnResAdd.setText(QtGui.QApplication.translate("cd_os", "<<", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnResRemove.setText(QtGui.QApplication.translate("cd_os", ">>", None, QtGui.QApplication.UnicodeUTF8))
+        self.trResAssignedTask.setToolTip(QtGui.QApplication.translate("cd_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">For normal resource, each task can get it, but you should make sure that the ceiling priority should be higher than all the tasks that will acquire this normal resource.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">So you can ignore this config,this just help you to remember, don\'t expect this tool will help you to resolve the ceiling priority automatically, you should do this!</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.trResAssignedTask.headerItem().setText(0, QtGui.QApplication.translate("cd_os", "Assigned To Task...", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabRes), QtGui.QApplication.translate("cd_os", "Resource", None, QtGui.QApplication.UnicodeUTF8))
+        self.trInResAssignedTask.setToolTip(QtGui.QApplication.translate("cd_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Internal Resource is really special,only the task assigned with this internal resource can get it.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Note that each task can only has one internal resource,so be carefull. This tool has no validation function.So configure it right.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.trInResAssignedTask.headerItem().setText(0, QtGui.QApplication.translate("cd_os", "Assigned To Task...", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnInResAdd.setText(QtGui.QApplication.translate("cd_os", "<<--", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnInResRemove.setText(QtGui.QApplication.translate("cd_os", "-->>", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnInResAdd.setText(QtGui.QApplication.translate("cd_os", "<<", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnInResRemove.setText(QtGui.QApplication.translate("cd_os", ">>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_13.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Internal Resource Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leInResName.setText(QtGui.QApplication.translate("cd_os", "vInRes1", None, QtGui.QApplication.UnicodeUTF8))
         self.label_14.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Internal Resource Ceiling Priority:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
@@ -656,6 +696,7 @@ class Ui_cd_os(object):
         self.trModule.topLevelItem(2).setText(0, QtGui.QApplication.translate("cd_os", "Resource", None, QtGui.QApplication.UnicodeUTF8))
         self.trModule.topLevelItem(3).setText(0, QtGui.QApplication.translate("cd_os", "Counter", None, QtGui.QApplication.UnicodeUTF8))
         self.trModule.topLevelItem(4).setText(0, QtGui.QApplication.translate("cd_os", "Alarm", None, QtGui.QApplication.UnicodeUTF8))
+        self.trModule.topLevelItem(5).setText(0, QtGui.QApplication.translate("cd_os", "Internal Resource", None, QtGui.QApplication.UnicodeUTF8))
         self.trModule.setSortingEnabled(__sortingEnabled)
         self.btnAdd.setText(QtGui.QApplication.translate("cd_os", "Add", None, QtGui.QApplication.UnicodeUTF8))
         self.btnDel.setText(QtGui.QApplication.translate("cd_os", "Delete", None, QtGui.QApplication.UnicodeUTF8))
