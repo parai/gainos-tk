@@ -105,6 +105,7 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
                 '%s/*.oil'%(os.path.dirname(self.arxml)), 'osek standard oil file(*.oil)');
         if(file!=''):
             if(oil_gainos.to_oscfg(str(file), self.cfg.findModule('OS').obj)):
+                oil_gainos.post_process(self.cfg.findModule('OS').obj);
                 QMessageBox(QMessageBox.Information, 'GaInOS Info', 
                         'Convert to gainos_tk_os_cfg successfully!').exec_();
                 self.fileIndicate(False)

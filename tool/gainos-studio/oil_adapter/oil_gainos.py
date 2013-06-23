@@ -5,6 +5,7 @@
  *
  * This file is part of GaInOS-Studio.
  */
+ This version is just for oil25
 """
 import re, string, os
 from config.gainos_tk_cfg import gainos_tk_cfg
@@ -36,6 +37,7 @@ re_general_SHUTDOWNHOOK = re.compile(r'SHUTDOWNHOOK\s*=\s*(\w+)\s*;')
 re_general_STARTUPHOOK = re.compile(r'STARTUPHOOK\s*=\s*(\w+)\s*;')
 re_general_SystemTimer = re.compile(r'SystemTimer\s*=\s*(\w+)\s*;')
 re_general_TickTime = re.compile(r'TickTime\s*=\s*(\w+)\s*;')
+
 # 4: for task
 re_oil_os_task = re.compile(r'^\s*(TASK)\s*(\w+)')
 re_task_SCHEDULE = re.compile(r'SCHEDULE\s*=\s*(\w+)\s*;')
@@ -44,12 +46,16 @@ re_task_ACTIVATION = re.compile(r'ACTIVATION\s*=\s*(\w+)\s*;')
 re_task_AUTOSTART = re.compile(r'AUTOSTART\s*=\s*(\w+)\s*[;{]')
 re_task_StackSize = re.compile(r'StackSize\s*=\s*(\w+)\s*;')
 re_task_appmode_list = re.compile(r'AUTOSTART\s*=\s*TRUE\s*{([^{}]*)}\s*;')
-re_task_appmode = re.compile(r'APPMODE\s*=\s*(\w+)')
+re_task_APPMODE = re.compile(r'APPMODE\s*=\s*(\w+)')
+re_task_RESOURCE = re.compile(r'RESOURCE\s*=\s*(\w+)')
+re_task_EVENT = re.compile(r'EVENT\s*=\s*(\w+)')
+
 # 6: for counter
 re_oil_os_counter = re.compile(r'^\s*(COUNTER)\s*(\w+)')
 re_counter_MAXALLOWEDVALUE = re.compile(r'MAXALLOWEDVALUE\s*=\s*(\w+)\s*;')
 re_counter_TICKSPERBASE = re.compile(r'TICKSPERBASE\s*=\s*(\w+)\s*;')
 re_counter_MINCYCLE = re.compile(r'MINCYCLE\s*=\s*(\w+)\s*;')
+
 # 5: for alarm
 re_oil_os_alarm = re.compile(r'^\s*(ALARM)\s*(\w+)')
 re_alarm_COUNTER = re.compile(r'COUNTER\s*=\s*(\w+)\s*;')
@@ -57,6 +63,15 @@ re_alarm_ACTION = re.compile(r'ACTION\s*=\s*(ACTIVATETASK|SETEVENT|ALARMCALLBACK
 re_action_TASK = re.compile(r'TASK\s*=\s*(\w+)\s*;')
 re_action_EVENT = re.compile(r'EVENT\s*=\s*(\w+)\s*;')
 re_action_ALARMCALLBACKNAME = re.compile(r'ALARMCALLBACKNAME\s*=\s*(\w+)\s*;')
+
+# 6: for resource
+re_oil_os_resource = re.compile(r'^\s*(RESOURCE)\s*(\w+)')
+re_resource_property = re.compile(r'RESOURCEPROPERTY\s*=\s*(STANDARD|LINKED|INTERNAL)\s*;')
+
+# 7: for event
+re_oil_os_event = re.compile(r'^\s*(EVENT)\s*(\w+)')
+re_event_MASK = re.compile(r'MASK\s*=\s*(\w+)\s*;')
+
 def filter_out_comment(text):
     """text should be just a line"""
     #过滤形如 “/* .. */” 的注释
@@ -125,10 +140,22 @@ def oil_process_task(item, oscfg):
             if(re_task_appmode_list.search(item)):
                 appmode = re_task_appmode_list.search(item).groups()[0];
                 for mode in appmode.split(';'):
-                    if(re_task_appmode.search(mode)):
-                        tsk.appmode.append(re_task_appmode.search(mode).groups()[0])
+                    if(re_task_APPMODE.search(mode)):
+                        tsk.appmode.append(re_task_APPMODE.search(mode).groups()[0])
     if(re_task_StackSize.search(item)):
         tsk.stksz = int(re_task_StackSize.search(item).groups()[0]);
+    #for resource
+    for subitem in item.split(';'): #maybe sereval resource
+        if(re_task_RESOURCE.search(subitem)): 
+            resname = re_task_RESOURCE.search(subitem).groups()[0]
+            if(gcfindStr(tsk.resourceList, resname) == None):
+                tsk.resourceList.append(resname)
+    # for EVENT
+    for subitem in item.split(';'): #maybe sereval event
+        if(re_task_EVENT.search(subitem)): 
+            name = re_task_EVENT.search(subitem).groups()[0]
+            ent = Event(name, 'AUTO'); #default
+            tsk.eventList.append(ent)
 
 def oil_process_counter(item, oscfg):
     grp = re_oil_os_counter.search(item).groups();
@@ -173,7 +200,39 @@ def oil_process_alarm(item, oscfg):
                 alm.event = re_action_EVENT.search(action[1]).groups()[0]
         elif(action[0] == 'ALARMCALLBACK'):
             alm.type = 'callback';
-        
+def oil_process_resource(item, oscfg):
+    grp = re_oil_os_resource.search(item).groups();
+    if(grp[0] != 'RESOURCE'):
+        return
+    name = grp[1];
+    if(re_resource_property.search(item)):
+        type = re_resource_property.search(item).groups()[0];
+        if(type == 'STANDARD'):
+            if(gcfindObj(oscfg.cfg.resourceList, name)):
+                res = gcfindObj(oscfg.cfg.resourceList, name)
+            else:
+                res = Resource(name, 0); #should resolve ceiling priority when parse done
+                oscfg.cfg.resourceList.append(res);
+        elif(type == 'INTERNAL'):
+            if(gcfindObj(oscfg.cfg.internalResourceList, name)):
+                res = gcfindObj(oscfg.cfg.internalResourceList, name)
+            else:
+                res = InternalResource(name,0); #should resolve ceiling priority when parse done
+                oscfg.cfg.internalResourceList.append(res);
+def oil_process_event(item, oscfg):
+    print item
+    grp = re_oil_os_event.search(item).groups();
+    if(grp[0] != 'EVENT'):
+        return
+    name = grp[1];
+    if(gcfindObj(oscfg.cfg.eventList, name)):
+        ent = gcfindObj(oscfg.cfg.eventList, name)
+    else:
+        ent = Event(name, 'AUTO');
+        oscfg.cfg.eventList.append(ent);
+    if(re_event_MASK.search(item)):
+        mask = re_event_MASK.search(item).groups()[0]
+        print mask
 def oil_process(item, oscfg):
     if(re_oil_os_task.search(item)):
         oil_process_task(item, oscfg);
@@ -183,6 +242,12 @@ def oil_process(item, oscfg):
         oil_process_counter(item, oscfg);
     elif(re_oil_os_alarm.search(item)):
         oil_process_alarm(item, oscfg);
+    elif(re_oil_os_resource.search(item)):
+        oil_process_resource(item, oscfg);
+    elif(re_oil_os_event.search(item)):
+        oil_process_event(item, oscfg);
+    
+    print item
         
 def to_oscfg(oilfile, oscfg):
     """convert the standard osek oil file to or merge to oscfg
@@ -209,12 +274,12 @@ def to_oscfg(oilfile, oscfg):
                 if(el.count('{') > 0):  #so at comment should not include '{}'
                     brace_flag = True;
                     barcenum += el.count('{');
-                elif(el.count('}') > 0):
+                if(el.count('}') > 0):
                     barcenum -= el.count('}');
             elif(re_include.search(el)): #include file
                 basep = os.path.dirname(oilfile)
                 file = re_include.search(el).groups()[0];
-                file = basep+file;
+                file = basep+'/'+file;
                 to_oscfg(file, oscfg);
         #}
         else:
@@ -239,3 +304,36 @@ def to_oscfg(oilfile, oscfg):
         #}
     fp.close();
     return True;
+# ----------------------------- Post Process ---------------
+def resource_priority_post_process1(res, oscfg):
+    """each resource should has a special priority where without task assigned"""
+    for tsk in oscfg.cfg.taskList:
+        if(tsk.prio == res.ceilprio):
+            res.ceilprio += 1;
+
+def resource_priority_post_process2(res, oscfg):
+    """each resource should has a special priority where without task assigned
+    and internal resource assigned"""
+    for tsk in oscfg.cfg.taskList:
+        if(tsk.prio == res.ceilprio):
+            res.ceilprio += 1;
+    for inres in oscfg.cfg.internalResourceList:
+        if(inres.ceilprio == res.ceilprio):
+            res.ceilprio += 1;
+
+def post_process(oscfg):
+    # resolve internal and standard resource priority
+    for res in oscfg.cfg.internalResourceList+oscfg.cfg.resourceList:
+            res.taskList = []
+    for tsk in oscfg.cfg.taskList:
+        for res in oscfg.cfg.internalResourceList+oscfg.cfg.resourceList:
+            if(gcfindStr(tsk.resourceList, res.name)):
+                res.taskList.append(tsk.name)
+                if(res.ceilprio < (tsk.prio+1)):
+                   res.ceilprio =  (tsk.prio+1)
+    for res in oscfg.cfg.internalResourceList:
+        resource_priority_post_process1(res, oscfg);
+    for res in oscfg.cfg.resourceList:
+        resource_priority_post_process2(res, oscfg);
+    
+    

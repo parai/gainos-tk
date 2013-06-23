@@ -7,7 +7,7 @@
  */
 """
 import xml.etree.ElementTree as ET
-from Common import *
+from common.Common import *
 class General():
     def __init__(self, chip):
         self.chip = chip;
@@ -122,6 +122,9 @@ class Task():
         self.appmode = [];
         self.preemtable = True;
         self.eventList=[];
+        #just for oil adapter
+        self.resourceList = [];
+        self.internalResourceList = [];
     
     def save(self, root):
         nd = ET.Element('Task');
@@ -220,6 +223,8 @@ class gainos_tk_os_obj():
         self.appmodeList = [];
         self.appmodeList.append(AppMode('OSDEFAULTAPPMODE'));
         self.internalResourceList = [];
+        ### for oil usage
+        self.eventList=[];
 
 class gainos_tk_os_cfg():
     def __init__(self, chip):
