@@ -19,7 +19,7 @@ re_comment_type2 = re.compile(r'//.*');
 re_include = re.compile(r'\s*#include\s+["<]([^\s]+)[">]');
 
 # 2: for os obj
-re_oil_os_obj = re.compile(r'^\s*OS|^\s*TASK|^\s*ALARM|^\s*COUNTER|^\s*RESOURCE')
+re_oil_os_obj = re.compile(r'^\s*OS|^\s*TASK|^\s*ALARM|^\s*COUNTER|^\s*RESOURCE||^\s*EVENT')
 re_oil_os_obj_type_name = re.compile(r"""
     ^\s*(OS)\s*(\w+)
     |^\s*(TASK)\s*(\w+)
@@ -107,8 +107,9 @@ def oil_process_os(item, oscfg):
         else:
             cnt = Counter(name);
             oscfg.cfg.counterList.insert(0, cnt);
-        if(re_general_TickTime.search(item)):
-            cnt.max = int(re_general_TickTime.search(item).groups()[0])
+#        if(re_general_TickTime.search(item)):
+#            cnt.max = int(re_general_TickTime.search(item).groups()[0])
+        cnt.max = 32767;
         
 def oil_process_task(item, oscfg):
     grp = re_oil_os_task.search(item).groups();
@@ -154,8 +155,12 @@ def oil_process_task(item, oscfg):
     for subitem in item.split(';'): #maybe sereval event
         if(re_task_EVENT.search(subitem)): 
             name = re_task_EVENT.search(subitem).groups()[0]
-            ent = Event(name, 'AUTO'); #default
-            tsk.eventList.append(ent)
+            if(gcfindObj(tsk.eventList, name)):
+                ent = gcfindObj(tsk.eventList, name)
+                ent.mask = 'AUTO'
+            else:
+                ent = Event(name, 'AUTO'); #default
+                tsk.eventList.append(ent)
 
 def oil_process_counter(item, oscfg):
     grp = re_oil_os_counter.search(item).groups();
@@ -219,20 +224,20 @@ def oil_process_resource(item, oscfg):
             else:
                 res = InternalResource(name,0); #should resolve ceiling priority when parse done
                 oscfg.cfg.internalResourceList.append(res);
+
 def oil_process_event(item, oscfg):
-    print item
     grp = re_oil_os_event.search(item).groups();
     if(grp[0] != 'EVENT'):
         return
     name = grp[1];
     if(gcfindObj(oscfg.cfg.eventList, name)):
         ent = gcfindObj(oscfg.cfg.eventList, name)
+        ent.mask = 'AUTO'
     else:
         ent = Event(name, 'AUTO');
         oscfg.cfg.eventList.append(ent);
     if(re_event_MASK.search(item)):
-        mask = re_event_MASK.search(item).groups()[0]
-        print mask
+        ent.mask = re_event_MASK.search(item).groups()[0]
 def oil_process(item, oscfg):
     if(re_oil_os_task.search(item)):
         oil_process_task(item, oscfg);
@@ -246,8 +251,6 @@ def oil_process(item, oscfg):
         oil_process_resource(item, oscfg);
     elif(re_oil_os_event.search(item)):
         oil_process_event(item, oscfg);
-    
-    print item
         
 def to_oscfg(oilfile, oscfg):
     """convert the standard osek oil file to or merge to oscfg
@@ -264,7 +267,6 @@ def to_oscfg(oilfile, oscfg):
         el = filter_out_comment(el);
         if(process_one_item_start == False):
         #{
-            #print el
             oneitem = ''; 
             barcenum = 0;
             brace_flag = False;
@@ -288,7 +290,6 @@ def to_oscfg(oilfile, oscfg):
                 basep = os.path.dirname(oilfile)
                 file = re_include.search(el).groups()[0];
                 file = basep+file;
-                print file
                 continue;
             if(el.count('{') > 0):  #so at comment should not include '{}'
                 brace_flag = True;
@@ -321,6 +322,20 @@ def resource_priority_post_process2(res, oscfg):
         if(inres.ceilprio == res.ceilprio):
             res.ceilprio += 1;
 
+def oil_resolve_event_mask(eventList):
+    for i in range(0, 32): #each bit corresponds to an event
+        found = 0
+        mask = 1<<i
+        for ent in eventList:
+            found += 1;
+            if(ent.mask != 'AUTO'):
+                if(mask == int(ent.mask, 16)):
+                    found = 0;
+                    break
+        if(found == len(eventList)):
+            return hex(mask);
+    return hex(mask)
+        
 def post_process(oscfg):
     # resolve internal and standard resource priority
     for res in oscfg.cfg.internalResourceList+oscfg.cfg.resourceList:
@@ -335,5 +350,17 @@ def post_process(oscfg):
         resource_priority_post_process1(res, oscfg);
     for res in oscfg.cfg.resourceList:
         resource_priority_post_process2(res, oscfg);
+    #resolve Event Mask
+    for tsk in oscfg.cfg.taskList:
+        for ent in tsk.eventList:
+            entp = gcfindObj(oscfg.cfg.eventList, ent.name);
+            if(entp.mask != 'AUTO'):
+                ent.mask = entp.mask;
+    for tsk in oscfg.cfg.taskList:
+        for ent in tsk.eventList:
+            entp = gcfindObj(oscfg.cfg.eventList, ent.name);
+            if(entp.mask == 'AUTO'):
+                ent.mask = oil_resolve_event_mask(tsk.eventList);
+        
     
     
