@@ -498,17 +498,19 @@ class gainos_tk_os_cfg():
         fp.write(stack);
         fp.write(gtsk);
         #================== Counter ==========================
-        str = 'EXPORT const AlarmBaseType knl_almbase_table[cfgOSEK_COUNTER_NUM]=\n{\n';
-        for obj in self.cfg.counterList:
-            str += '\tGenAlarmBaseInfo(%s,%s,%s), /* %s */\n'%(obj.max, obj.tpb, obj.min, obj.name);
-        str+='};\n\n'
-        fp.write(str);
+        if(len(self.cfg.counterList) >0):
+            str = 'EXPORT const AlarmBaseType knl_almbase_table[cfgOSEK_COUNTER_NUM]=\n{\n';
+            for obj in self.cfg.counterList:
+                str += '\tGenAlarmBaseInfo(%s,%s,%s), /* %s */\n'%(obj.max, obj.tpb, obj.min, obj.name);
+            str+='};\n\n'
+            fp.write(str);
         #==================== ALARM =======================
-        str = 'EXPORT const T_GALM knl_galm_table[cfgOSEK_ALARM_NUM]=\n{\n';
-        for obj in self.cfg.alarmList:
-            str += '\tGenAlarmInfo(%s,%s),\n'%(obj.name, obj.counter);
-        str+='};\n\n'
-        fp.write(str);
+        if(len(self.cfg.alarmList) >0):
+            str = 'EXPORT const T_GALM knl_galm_table[cfgOSEK_ALARM_NUM]=\n{\n';
+            for obj in self.cfg.alarmList:
+                str += '\tGenAlarmInfo(%s,%s),\n'%(obj.name, obj.counter);
+            str+='};\n\n'
+            fp.write(str);
         #======================= RESOURCE ==============
         str = 'EXPORT const PRI knl_gres_table[cfgOSEK_RESOURCE_NUM]=\n{\n'
         for obj in self.cfg.resourceList:
