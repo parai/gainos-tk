@@ -20,6 +20,7 @@
  */
 #include "knl_alarm.h"
 #include "knl_queue.h"
+#include "knl_task.h"
 #if(cfgOSEK_ALARM_NUM >0)
 EXPORT ALMCB knl_almcb_table[cfgOSEK_ALARM_NUM];
 
@@ -40,7 +41,11 @@ EXPORT void knl_cntalm_init(void)
     {
         almcb = &knl_almcb_table[i];
         QueInit(&almcb->almque);
-        almcb->almid = i; 
+        almcb->almid = i;
+        if((knl_galm_table[i].mode & knl_app_mode) != 0) 
+        {
+            (void)SetRelAlarm(i,knl_galm_table[i].time,knl_galm_table[i].cycle); 
+        }
     }
 }
 

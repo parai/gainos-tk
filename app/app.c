@@ -50,9 +50,9 @@ ALARM(vAlarmMainFunction)
 void StartupHook(void)
 {
     /* Add Code Here */
-    (void)SetRelAlarm(vAlarmReceiver,50,10);
-	(void)SetRelAlarm(vAlarmSender,100,200);
-	(void)SetRelAlarm(vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
+    //(void)SetRelAlarm(vAlarmReceiver,50,10);
+	//(void)SetRelAlarm(vAlarmSender,100,200);
+	//(void)SetRelAlarm(vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
 }
 
 void ShutdownHook(StatusType Error)

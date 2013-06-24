@@ -63,6 +63,11 @@ re_alarm_ACTION = re.compile(r'ACTION\s*=\s*(ACTIVATETASK|SETEVENT|ALARMCALLBACK
 re_action_TASK = re.compile(r'TASK\s*=\s*(\w+)\s*;')
 re_action_EVENT = re.compile(r'EVENT\s*=\s*(\w+)\s*;')
 re_action_ALARMCALLBACKNAME = re.compile(r'ALARMCALLBACKNAME\s*=\s*(\w+)\s*;')
+re_alarm_AUTOSTART = re.compile(r'AUTOSTART\s*=\s*(\w+)\s*[;{]')
+re_alarm_appmode_list = re.compile(r'AUTOSTART\s*=\s*TRUE\s*{([^{}]*)}\s*;')
+re_alarm_APPMODE = re.compile(r'APPMODE\s*=\s*(\w+)')
+re_alarm_ALARMTIME = re.compile(r'ALARMTIME\s*=\s*(\w+)')
+re_alarm_CYCLETIME = re.compile(r'CYCLETIME\s*=\s*(\w+)')
 
 # 6: for resource
 re_oil_os_resource = re.compile(r'^\s*(RESOURCE)\s*(\w+)')
@@ -142,7 +147,10 @@ def oil_process_task(item, oscfg):
                 appmode = re_task_appmode_list.search(item).groups()[0];
                 for mode in appmode.split(';'):
                     if(re_task_APPMODE.search(mode)):
-                        tsk.appmode.append(re_task_APPMODE.search(mode).groups()[0])
+                        modename = re_task_APPMODE.search(mode).groups()[0]
+                        tsk.appmode.append(modename)
+                        if(gcfindObj(oscfg.cfg.appmodeList, modename) == None):
+                            oscfg.cfg.appmodeList.append(AppMode(modename));
     if(re_task_StackSize.search(item)):
         tsk.stksz = int(re_task_StackSize.search(item).groups()[0]);
     #for resource
@@ -205,6 +213,23 @@ def oil_process_alarm(item, oscfg):
                 alm.event = re_action_EVENT.search(action[1]).groups()[0]
         elif(action[0] == 'ALARMCALLBACK'):
             alm.type = 'callback';
+    if(re_alarm_AUTOSTART.search(item)):
+        alm.autostart = bool(re_alarm_AUTOSTART.search(item).groups()[0]);
+        if(alm.autostart == True):
+            alm.appmode = [];
+            if(re_alarm_appmode_list.search(item)):
+                appmode = re_alarm_appmode_list.search(item).groups()[0];
+                for mode in appmode.split(';'):
+                    if(re_alarm_APPMODE.search(mode)):
+                        modename = re_alarm_APPMODE.search(mode).groups()[0]
+                        alm.appmode.append(modename)
+                        if(gcfindObj(oscfg.cfg.appmodeList, modename) == None):
+                            oscfg.cfg.appmodeList.append(AppMode(modename));
+    if(re_alarm_ALARMTIME.search(item)):
+        alm.alarmTime = int(re_alarm_ALARMTIME.search(item).groups()[0])
+    if(re_alarm_CYCLETIME.search(item)):
+        alm.cycleTime = int(re_alarm_CYCLETIME.search(item).groups()[0])
+
 def oil_process_resource(item, oscfg):
     grp = re_oil_os_resource.search(item).groups();
     if(grp[0] != 'RESOURCE'):

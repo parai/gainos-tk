@@ -151,10 +151,8 @@ class Task():
         self.stksz = int(nd.attrib['stksz']);
         self.autostart = bool(nd.attrib['autostart']);
         self.maxactcnt = int(nd.attrib['maxactcnt']);
-        nd2 = ET.Element('appmode');
         for nd2 in nd.find('appmode'):
             self.appmode.append(nd2.tag);
-        nd.append(nd2);
         self.preemtable = bool(nd.attrib['preemtable']);
         for nd2 in nd.find('eventList'):
             obj = Event('', 0);
@@ -189,6 +187,10 @@ class Alarm():
         self.type='callback'; 
         self.task='';
         self.event=''; 
+        self.autostart = False
+        self.alarmTime = 100
+        self.cycleTime = 100
+        self.appmode = [];
     def save(self, root):
         nd = ET.Element('Alarm');
         nd.attrib['name'] = str(self.name);
@@ -196,13 +198,25 @@ class Alarm():
         nd.attrib['type'] = str(self.type);
         nd.attrib['task'] = str(self.task);
         nd.attrib['event'] = str(self.event);
+        nd.attrib['autostart'] = str(self.autostart);
+        nd.attrib['alarmTime'] = str(self.alarmTime);
+        nd.attrib['cycleTime'] = str(self.cycleTime);
+        nd2 = ET.Element('appmode');
+        for mode in self.appmode:
+            nd2.append(ET.Element(str(mode)));
+        nd.append(nd2);
         root.append(nd); 
     def parse(self, nd):
         self.name = nd.attrib['name'];
         self.counter = nd.attrib['counter'];
         self.type = nd.attrib['type'];
         self.task = nd.attrib['task'];
-        self.event = nd.attrib['event'];      
+        self.event = nd.attrib['event'];
+        self.autostart = bool(nd.attrib['autostart']);      
+        self.alarmTime = int(nd.attrib['alarmTime']);      
+        self.cycleTime = int(nd.attrib['cycleTime']);
+        for nd2 in nd.find('appmode'):
+            self.appmode.append(nd2.tag);      
 class AppMode():
     def __init__(self, name):
         self.name = name;
@@ -403,6 +417,15 @@ class gainos_tk_os_cfg():
         for obj in self.cfg.alarmList:
             fp.write('#define %s %s\n'%(obj.name,id));
             id+=1;
+        for obj in self.cfg.alarmList:
+            fp.write('#define %s_AutoStartTime %s\n'%(obj.name,obj.alarmTime));
+            fp.write('#define %s_AutoCycleTime %s\n'%(obj.name,obj.cycleTime));
+        for obj in self.cfg.alarmList:
+            str = ' OSNONEAPPMODE '
+            if(obj.autostart):
+                for mode in obj.appmode:
+                    str += '| %s '%(mode);
+            fp.write('#define %sMode (%s)\n'%(obj.name,str));    
         fp.write('#if !defined(MACROS_ONLY)\n')
         for obj in self.cfg.alarmList:
             fp.write('IMPORT ALARM(%s);\n'%(obj.name));

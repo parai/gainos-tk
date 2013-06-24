@@ -147,7 +147,7 @@ EXPORT void knl_task_init(void)
         #endif
         tcb->runpri = knl_gtsk_table[i].runpri;
         tcb->actcnt = 0;
-        if((tcb->tskatr&APPMODEMASK)&knl_app_mode != 0 )
+        if(((tcb->tskatr&APPMODEMASK)&knl_app_mode) != 0 )
         {
         	knl_make_active(tcb);
         }

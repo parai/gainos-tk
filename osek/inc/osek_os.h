@@ -92,8 +92,11 @@
 #define GenAlarmInfo(AlarmName,Owner)           \
     {                                           \
         /* owner */ Owner,                 \
-            /* almhdr */ AlarmMain##AlarmName   \
-            }
+        /* almhdr */ AlarmMain##AlarmName,   \
+        /* time */ AlarmName##_AutoStartTime,   \
+        /* cycle */ AlarmName##_AutoCycleTime,   \
+        /* mode */ AlarmName##Mode   \
+    }
 
 #define GenAlarmBaseInfo(MaxAllowedValue,TicksPerBase,MinCycle) \
     {                                                           \
@@ -224,6 +227,9 @@ typedef struct alarm_generate_info
 {
     CounterType owner; /* Alarm Owner -> Counter */
     FP          almhdr;  /* Alarm handler */
+    TickType    time;
+    TickType    cycle;
+    AppModeType mode;
 }T_GALM;
 
 /* Alarm Control Block */

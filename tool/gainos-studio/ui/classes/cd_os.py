@@ -273,7 +273,18 @@ class cd_os(QDialog, Ui_cd_os):
     def refreshAlarmTab(self, name):
         self.curobj=gcfindObj(self.cfg.alarmList, name);
         self.leAlarmName.setText(name);
-        self.refreshAlarmTabCmbx();        
+        self.refreshAlarmTabCmbx();
+        self.refreshTreeCtrl(self.trAlarmAppModeSrc, self.trAlarmAppModeDst, self.cfg.appmodeList, self.curobj.appmode);
+        self.spbxAlarmTime.setValue(self.curobj.alarmTime);
+        self.spbxAlarmCycleTime.setValue(self.curobj.cycleTime);
+        self.cbxAlarmAutostart.setChecked(self.curobj.autostart);
+        #关联控件
+        self.trAlarmAppModeSrc.setDisabled(not self.curobj.autostart)
+        self.trAlarmAppModeDst.setDisabled(not self.curobj.autostart)
+        self.spbxAlarmTime.setDisabled(not self.curobj.autostart)
+        self.spbxAlarmCycleTime.setDisabled(not self.curobj.autostart)
+        self.btnAlarmModeAdd.setDisabled(not self.curobj.autostart)
+        self.btnAlarmModeDel.setDisabled(not self.curobj.autostart)
         self.enableTab(4);
 
     def refreshEventTab(self, name):
@@ -514,6 +525,42 @@ class cd_os(QDialog, Ui_cd_os):
             if(self.curobj.counter!=p0):
                 self.curobj.counter=p0;
                 self.fileInd(False);
+    @pyqtSignature("bool")
+    def on_cbxAlarmAutostart_clicked(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.autostart!=p0):
+                self.curobj.autostart=p0;
+                self.trAlarmAppModeSrc.setDisabled(not self.curobj.autostart)
+                self.trAlarmAppModeDst.setDisabled(not self.curobj.autostart)
+                self.spbxAlarmTime.setDisabled(not self.curobj.autostart)
+                self.spbxAlarmCycleTime.setDisabled(not self.curobj.autostart)
+                self.btnAlarmModeAdd.setDisabled(not self.curobj.autostart)
+                self.btnAlarmModeDel.setDisabled(not self.curobj.autostart)
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxAlarmTime_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.alarmTime!=p0):
+                self.curobj.alarmTime=p0;
+                self.fileInd(False);
+    @pyqtSignature("int")
+    def on_spbxAlarmCycleTime_valueChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.cycleTime!=p0):
+                self.curobj.cycleTime=p0;
+                self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnAlarmModeAdd_clicked(self):
+        if(self.trAlarmAppModeSrc.currentItem()):
+            self.curobj.appmode.append(self.trAlarmAppModeSrc.currentItem().text(0));
+            self.moveTreeItem(self.trAlarmAppModeSrc, self.trAlarmAppModeDst);
+            self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnAlarmModeDel_clicked(self):
+        if(self.trAlarmAppModeDst.currentItem()):
+            self.curobj.appmode.remove(self.trAlarmAppModeDst.currentItem().text(0));
+            self.moveTreeItem(self.trAlarmAppModeDst, self.trAlarmAppModeSrc);
+            self.fileInd(False);
     #===================== Resource ====================================
     @pyqtSignature("QString")
     def on_leResName_textChanged(self, p0):
