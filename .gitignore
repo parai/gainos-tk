@@ -25,7 +25,10 @@ cscope.files
 *.out
 *.app
 
-#others
+# others
 *.htm
 *.doc
 *.html
+
+# directories
+mc9s12xep100_os_only

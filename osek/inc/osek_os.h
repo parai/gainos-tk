@@ -91,7 +91,7 @@
 #endif  /* cfgOS_SHARE_SYSTEM_STACK */
 #define GenAlarmInfo(AlarmName,Owner)           \
     {                                           \
-        /* owner */ ID_##Owner,                 \
+        /* owner */ Owner,                 \
             /* almhdr */ AlarmMain##AlarmName   \
             }
 

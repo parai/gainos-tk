@@ -363,7 +363,7 @@ class gainos_tk_os_cfg():
         fp.write('#define cfgOSEK_TASK_NUM  %s\n'%(len(self.cfg.taskList)));
         id = 0;
         for obj in self.cfg.taskList:
-            fp.write('#define ID_%s %s\n'%(obj.name,id))
+            fp.write('#define %s %s\n'%(obj.name,id))
             id+=1;
         for obj in self.cfg.taskList:
             fp.write('#define %sPri PRIORITY(%s)\n'%(obj.name, obj.prio))
@@ -396,12 +396,12 @@ class gainos_tk_os_cfg():
         fp.write('#define cfgOSEK_COUNTER_NUM %s\n'%len((self.cfg.counterList)));
         id = 0;
         for obj in self.cfg.counterList:
-            fp.write('#define ID_%s %s\n'%(obj.name,id));
+            fp.write('#define %s %s\n'%(obj.name,id));
             id += 1;
         fp.write('#define cfgOSEK_ALARM_NUM %s\n'%(len(self.cfg.alarmList)));
         id = 0;
         for obj in self.cfg.alarmList:
-            fp.write('#define ID_%s %s\n'%(obj.name,id));
+            fp.write('#define %s %s\n'%(obj.name,id));
             id+=1;
         fp.write('#if !defined(MACROS_ONLY)\n')
         for obj in self.cfg.alarmList:
@@ -412,7 +412,7 @@ class gainos_tk_os_cfg():
         fp.write('#define cfgOSEK_RESOURCE_NUM %s\n'%(len(self.cfg.resourceList)));
         id = 0;
         for obj in self.cfg.resourceList:
-            fp.write('#define ID_%s %s\n'%(obj.name,id));
+            fp.write('#define %s %s\n'%(obj.name,id));
             if(obj.name == 'RES_SCHEDULER'):
                 fp.write('#define %sPri PRIORITY(%s)\n'%(obj.name,'cfgOSEK_MAX_PRIO'));
             else:
