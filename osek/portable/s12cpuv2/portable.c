@@ -190,15 +190,17 @@ interrupt 4 void knl_dispatch_entry(void)
 
 //default SystemTick ISR handler,which also is an example for other ISR
 //the system counter whose id is 0 will be processed.
-ISR(SystemTick,7)
+interrupt 7 ISR(SystemTick)
 { 
     CRGFLG &=0xEF;			// clear the interrupt flag 
     EnterISR(); 
-#if(cfgOS_TK_EXTEND == STD_ON)    
+    #if(cfgOS_TK_EXTEND == STD_ON)    
 	//really, the extended feature for OSEK is not advised to be used.
 	knl_timer_handler();
-#endif	
+    #endif
+    #if(cfgOSEK_COUNTER_NUM > 0)	
 	(void)IncrementCounter(0);
+	#endif
 	ExitISR();	
 }
 #pragma CODE_SEG DEFAULT

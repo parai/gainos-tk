@@ -90,10 +90,10 @@ TASK(Task1)
 	ret = ActivateTask(Task2);
 	ASSERT(OTHER, ret != E_OK);
 
-#if (CT_SCHEDULING_Task1 == CT_NON_PREEMPTIVE)
+//#if (CT_SCHEDULING_Task1 == CT_NON_PREEMPTIVE)
 	/* force scheduling */
 	Schedule();
-#endif /* #if (CT_SCHEDULING_TASK1 == CT_NON_PREEMPTIVE) */
+//#endif /* #if (CT_SCHEDULING_TASK1 == CT_NON_PREEMPTIVE) */
 
 	Sequence(9);	
 	/* get scheduler resource */
@@ -126,10 +126,10 @@ TASK(Task1)
 	/*  trigger ISR 2 */
 	TriggerISR2();
 
-#if ( ISR_CATEGORY_3 == ENABLE )
+//#if ( ISR_CATEGORY_3 == ENABLE )
 	/* trigger ISR 3 */
 	TriggerISR3();
-#endif /* #if ( ISR_CATEGORY_3 == ENABLE ) */
+//#endif /* #if ( ISR_CATEGORY_3 == ENABLE ) */
 
 	Sequence(18);
 	/* evaluate conformance tests */
@@ -216,7 +216,7 @@ ISR(ISR2)
 ISR(ISR3)
 {
 	StatusType ret;
-
+    TaskType TaskID;
 	EnterISR();
 
 	/* \treq TM_21 nmf B1B2E1E2 e Call TerminateTask() from ISR category 3
@@ -244,10 +244,10 @@ ISR(ISR3)
 	 *
 	 * \result Service returns E_OS_CALLEVEL
 	 */
-	ret = GetTaskID();
+	ret = GetTaskID(&TaskID);
 	ASSERT(TM_38, ret != E_OS_CALLEVEL);
 
-	LeaveISR();
+	ExitISR();
 
 }
 #endif /* #if ( ISR_CATEGORY_3 == ENABLE ) */

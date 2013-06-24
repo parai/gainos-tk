@@ -60,6 +60,7 @@
 
 /*==================[inclusions]=============================================*/
 #include "ctest.h"		/* include ctest header file */
+#include <stdio.h>
 
 /*==================[macros and definitions]=================================*/
 
@@ -714,6 +715,7 @@ void ASSERT
    if (cond)
    {
 		TestResults[(tc)>>2] |=	FAILED << ( ( tc & 3 ) * 2 );
+		printf("Test failed at test case: %d.\r\n",(int)tc);
 		while(1);
    }
 	else
@@ -744,10 +746,12 @@ void ConfTestEvaluation
 	if ( ( testok == TRUE ) && ( SequenceCounter == SequenceCounterOk ) )
 	{
 		ConfTestResult = 255;
+		printf("All test OK!\r\n");
 	}
 	else
 	{
 		ConfTestResult = 128;
+		printf("Some test FAILED!\r\n");
 	}
 
 }
@@ -768,6 +772,7 @@ void Sequence
    else
    {
 		SequenceCounter |= SEQUENCE_INVALID;
+		printf("Invalid Sequence at %ld.\r\n",seq);
    }
 }
 

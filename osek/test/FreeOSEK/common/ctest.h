@@ -236,13 +236,14 @@
  ** if DISABLE the ISR Category 3 test cases will not be compiled
  ** if ENABLE the ISR Category 3 test cases will be compiled
  **/
-#define ISR_CATEGORY_3 DISABLE
+#define ISR_CATEGORY_3 ENABLE
 
 /** \brief ISR2 Trigger Macro
  **
  ** This macro shall implement a mechanismus to trigger the ISR2 interruption
  **/
-#define TriggerISR2()
+extern ISR(ISR2);
+#define TriggerISR2()  ISRMainISR2()  
 
 /** \brief Initialise Alarm Counter Macro
  **
@@ -256,14 +257,15 @@
  **/
 #define IncAlarmCounter() (void)IncrementCounter(Counter1, 1);
 
-#if (ISR_CATEGORY_3 == ENABLE)
+//#if (ISR_CATEGORY_3 == ENABLE)
 /** \brief ISR3 Trigger Macro
  **
  ** This macro shall implement a mechanismus to trigger the ISR3 interruption
  ** only needed if ISR_CATEGORY_3 is ENABLE
  **/
-#define TriggerISR3()
-#endif /* #if (ISR_CATEGORY_3 == ENABLE) */
+extern ISR(ISR3);
+#define TriggerISR3() ISRMainISR2()
+//#endif /* #if (ISR_CATEGORY_3 == ENABLE) */
 
 /** \brief Conformance Test Error Checking Type Extended */
 #define CT_ERROR_CHECKING_EXTENDED	1

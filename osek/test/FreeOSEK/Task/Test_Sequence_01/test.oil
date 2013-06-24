@@ -13,24 +13,24 @@ OS	ExampleOS {
 
 TASK Task1 {
    PRIORITY = 1;
-   SCHEDULE = NON;	//FULL 
+   SCHEDULE = FULL;	//or NON,but for gainos when NON, no need to get resource,so failed at 
    ACTIVATION = 1;
    AUTOSTART = TRUE {
-		APPMODE = AppMode1;
+		APPMODE = OSDEFAULTAPPMODE;
 	};
-	STACK = 256;
+	StackSize = 256;
 	TYPE = BASIC;
 };
 
 TASK Task2 {
 	PRIORITY = 2;
-	SCHEDULE = NON;	//FULL 
+	SCHEDULE = FULL;	//or NON 
 	ACTIVATION = 1;
 	AUTOSTART = FALSE;
-	STACK = 256;
+	StackSize = 256;
 	TYPE = BASIC;
 }
 
-APPMODE AppMode1;
+//APPMODE AppMode1;
 
 //};

@@ -591,7 +591,7 @@ void ErrorHook(StatusType Error)
                 return 'OS_HIGHEST_PRIORITY'
         elif(self.cfg.general.sched_policy == 'NONE_PREEMPTIVE_SCHEDULE'):
             return 'OS_HIGHEST_PRIORITY'
-        #now first resoulve if it has internal resource
+        #now first resolve if it has internal resource
         for inres in self.cfg.internalResourceList:
             for tskname in inres.taskList:
                 if(tskname == tsk.name):

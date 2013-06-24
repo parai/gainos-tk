@@ -28,6 +28,6 @@
 #define IMPORT  extern 
 #define LOCAL   static
 
-#define ISR(ISRname,ISRid) interrupt ISRid void ISRMain##ISRname(void) 
+#define ISR(ISRname) void ISRMain##ISRname(void) 
 
 #endif /* COMPILER_H_H_H */
