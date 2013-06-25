@@ -59,6 +59,7 @@ TASK(vTaskStart)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskStart is running.\r\n");
+    GetResource(RES_SCHEDULER);
     ActivateTask(vTask2);
     ActivateTask(vTask1);
     ActivateTask(vTask2);
@@ -66,6 +67,7 @@ TASK(vTaskStart)
     ActivateTask(vTask1);
     ActivateTask(vTask1);
     ActivateTask(vTask0);
+    ReleaseResource(RES_SCHEDULER);
     (void)TerminateTask();
 }
 
@@ -107,4 +109,10 @@ LOCAL char* l_service_id_name_table[] =
 void ErrorHook(StatusType Error)
 {
     printf("%s : %s\r\n",l_error_name_table[Error],l_service_id_name_table[OSErrorGetServiceId()]);
+}
+
+ALARM(vAlarm0)
+{
+    /* Alarm Type: Task, you still can add your special code here.*/
+    (void)ActivateTask(vTaskStart);
 }

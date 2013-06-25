@@ -152,7 +152,7 @@ Inline void FifoQuePop(FIFOQUE* que)
 		return;
 	}
 		
-	que->fifoque[que->head] = NULL; //for debug purpose
+    //que->fifoque[que->head] = NULL; //for debug purpose
 	
 	if((que->head+1) < que->length)
 	{

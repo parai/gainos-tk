@@ -601,14 +601,14 @@ ALARM(%s)
 ALARM(%s)
 {
     /* Alarm Type: Task, you still can add your special code here.*/
-    (void)ActivateTask(ID_%s);
+    (void)ActivateTask(%s);
 }"""%(obj.name, obj.task));
             elif(obj.type == 'event'):
                 fp.write("""
 ALARM(%s)
 {
     /* Alarm Type: Event, you still can add your special code here.*/
-    (void)SetEvent(ID_%s,%s);
+    (void)SetEvent(%s,%s);
 }"""%(obj.name, obj.task, obj.event));
 
         if(self.cfg.general.os_startup_hook):
