@@ -75,6 +75,7 @@ class cd_os(QDialog, Ui_cd_os):
         #self.cmbxOSConfCls.setDisabled(True);
         self.on_cmbxSchedPolicy_activated(self.cfg.general.sched_policy);
         self.cmbxSchedPolicy.setCurrentIndex(self.cmbxSchedPolicy.findText(self.cfg.general.sched_policy));
+        self.cfg.resolveOsCC();
         self.cmbxOSConfCls.setCurrentIndex(self.cmbxOSConfCls.findText(self.cfg.general.os_class));
         self.cmbxStatus.setCurrentIndex(self.cmbxStatus.findText(self.cfg.general.status));
         self.spbxMaxPrio.setValue(self.cfg.general.max_pri);
@@ -193,6 +194,11 @@ class cd_os(QDialog, Ui_cd_os):
         self.cbxTskPreemtable.setChecked(self.curobj.preemtable);
         self.cbxTaskAutostart.setChecked(self.curobj.autostart);
         self.spbxTskPrio.setValue(self.curobj.prio);
+        if(len(self.curobj.eventList) > 0):
+            self.curobj.maxactcnt = 1; #for extended task,only one task activation was allowed
+            self.spbxTskMaxActivateCount.setDisabled(True)
+        else:
+            self.spbxTskMaxActivateCount.setDisabled(False)
         self.spbxTskMaxActivateCount.setValue(self.curobj.maxactcnt);
         self.refreshTreeCtrl(self.trTaskAppModeSrc, self.trTaskAppModeDst, self.cfg.appmodeList, self.curobj.appmode)
         self.btnTaskModeAdd.setDisabled(not self.curobj.autostart);
@@ -334,6 +340,8 @@ class cd_os(QDialog, Ui_cd_os):
 
     @pyqtSignature("QTreeWidgetItem*, int")
     def on_trModule_itemClicked(self, item, column):
+        self.cfg.resolveOsCC();
+        self.cmbxOSConfCls.setCurrentIndex(self.cmbxOSConfCls.findText(self.cfg.general.os_class));
         self.curtree = item;
         self.refreshTab();
         self.refreshButton();
@@ -400,6 +408,10 @@ class cd_os(QDialog, Ui_cd_os):
         self.curobj.eventList.append(obj);
         self.curtree.setExpanded(True);
         self.cmbxTskType.setCurrentIndex(1);
+        self.curobj.maxactcnt = 1; #for extended task,only one task activation was allowed
+        self.spbxTskMaxActivateCount.setDisabled(True)
+        self.spbxTskMaxActivateCount.setValue(1)
+
     def addInternalResource(self):
         id = len(self.cfg.internalResourceList);
         name=QString('vInRes%d'%(id));
@@ -425,6 +437,8 @@ class cd_os(QDialog, Ui_cd_os):
             self.addAppMode();
         elif(text=='Add Internal Resource'):
             self.addInternalResource();
+        self.cfg.resolveOsCC();
+        self.cmbxOSConfCls.setCurrentIndex(self.cmbxOSConfCls.findText(self.cfg.general.os_class));
         self.fileInd(False);
     
     @pyqtSignature("")
@@ -450,6 +464,9 @@ class cd_os(QDialog, Ui_cd_os):
             tsk.eventList.remove(self.curobj);
             if(len(tsk.eventList) == 0):
                 self.cmbxTskType.setCurrentIndex(0);
+                self.spbxTskMaxActivateCount.setDisabled(False)
+        self.cfg.resolveOsCC();
+        self.cmbxOSConfCls.setCurrentIndex(self.cmbxOSConfCls.findText(self.cfg.general.os_class));
         del self.curtree;
         #reselect a tree item,software trigger on_trModule_itemClicked()
         if(index>0):
@@ -633,12 +650,16 @@ class cd_os(QDialog, Ui_cd_os):
             if(self.curobj.prio!=p0):
                 self.curobj.prio=p0
                 self.fileInd(False); 
+                self.cfg.resolveOsCC();
+                self.cmbxOSConfCls.setCurrentIndex(self.cmbxOSConfCls.findText(self.cfg.general.os_class));
     @pyqtSignature("int")
     def on_spbxTskMaxActivateCount_valueChanged(self, p0):
         if(self.curobj!=None):  
             if(self.curobj.maxactcnt!=p0):
                 self.curobj.maxactcnt=p0
                 self.fileInd(False); 
+                self.cfg.resolveOsCC();
+                self.cmbxOSConfCls.setCurrentIndex(self.cmbxOSConfCls.findText(self.cfg.general.os_class));
     @pyqtSignature("bool")
     def on_cbxTskPreemtable_clicked(self, p0):
         if(self.curobj!=None):  

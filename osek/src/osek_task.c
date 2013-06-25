@@ -68,6 +68,9 @@ StatusType ActivateTask ( TaskType TaskID )
 	    if(tcb->actcnt < knl_gtsk_table[TaskID].maxact)
 	    {
 	        tcb->actcnt += 1;
+	        #if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_ON)
+	        knl_ready_queue_insert(&knl_ready_queue, tcb);
+	        #endif
 	    }
 	    else
 	    #endif
@@ -139,7 +142,11 @@ StatusType TerminateTask ( void )
 	if(knl_ctxtsk->actcnt > 0)
 	{
 	    knl_ctxtsk->actcnt -= 1;
+	    #if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	    knl_make_active(knl_ctxtsk);
+	    #else
+	    knl_make_ready(knl_ctxtsk);
+	    #endif
 	}
     #endif
 	knl_force_dispatch();
@@ -231,6 +238,9 @@ StatusType ChainTask ( TaskType TaskID )
     	    if(tcb->actcnt < knl_gtsk_table[TaskID].maxact)
     	    {
     	        tcb->actcnt += 1;
+    	        #if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_ON)
+    	        knl_ready_queue_insert(&knl_ready_queue, tcb);
+    	        #endif
     	    }
     	    else
     	    #endif
@@ -246,7 +256,11 @@ StatusType ChainTask ( TaskType TaskID )
     	if(knl_ctxtsk->actcnt > 0)
     	{
     	    knl_ctxtsk->actcnt -= 1;
+    	    #if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
     	    knl_make_active(knl_ctxtsk);
+    	    #else
+    	    knl_make_ready(knl_ctxtsk);
+    	    #endif
     	}
         #endif
         if (TS_DORMANT == state) {

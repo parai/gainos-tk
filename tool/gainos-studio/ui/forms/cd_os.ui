@@ -272,6 +272,9 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QComboBox" name="cmbxOSConfCls">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="minimumSize">
             <size>
              <width>71</width>
@@ -407,7 +410,7 @@ p, li { white-space: pre-wrap; }
      <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabTask">
      <attribute name="title">
@@ -1133,7 +1136,7 @@ p, li { white-space: pre-wrap; }
        </property>
       </column>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>

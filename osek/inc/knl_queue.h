@@ -118,6 +118,7 @@ Inline void  FifoQueInit(FIFOQUE* que)
 /* push the element entry to the tail of the fifo queue */
 Inline void FifoQuePush(VP entry,FIFOQUE* que) 
 {
+    que->fifoque[que->tail] = entry;
 	/* no care of overflow */
 	if((que->tail+1) < que->length)
 	{
@@ -126,8 +127,7 @@ Inline void FifoQuePush(VP entry,FIFOQUE* que)
 	else
 	{
 		que->tail = 0;
-	}
-	que->fifoque[que->tail] = entry;
+	}	
 }
 /* push the element entry to the head of the fifo queue */
 Inline void FifoQueAltPush(VP entry,FIFOQUE* que) 
@@ -144,15 +144,16 @@ Inline void FifoQueAltPush(VP entry,FIFOQUE* que)
 	que->fifoque[que->head] = entry;
 }
 /* pop the head element from the fifo queue */
-Inline VP FifoQuePop(FIFOQUE* que) 
+Inline void FifoQuePop(FIFOQUE* que) 
 {
 	/* no care of overflow */
-	VP element;
 	if(que->head == que->tail)
 	{
-		return NULL;
+		return;
 	}
-	element = que->fifoque[que->head];
+		
+	que->fifoque[que->head] = NULL; //for debug purpose
+	
 	if((que->head+1) < que->length)
 	{
 		que->head++;
@@ -161,7 +162,6 @@ Inline VP FifoQuePop(FIFOQUE* que)
 	{
 		que->head = 0;
 	}
-	return element;
 }
 /* polling the head element from the fifo queue */
 Inline VP FifoQuePoll(FIFOQUE* que) 

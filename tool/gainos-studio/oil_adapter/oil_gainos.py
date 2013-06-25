@@ -138,7 +138,7 @@ def oil_process_task(item, oscfg):
     if(re_task_PRIORITY.search(item)):
         tsk.prio = int(re_task_PRIORITY.search(item).groups()[0]);
     if(re_task_ACTIVATION.search(item)):
-        tsk.maxactcnt = int(re_task_ACTIVATION.search(item).groups()[0]) - 1;
+        tsk.maxactcnt = int(re_task_ACTIVATION.search(item).groups()[0]);
     if(re_task_AUTOSTART.search(item)):
         tsk.autostart = bool(re_task_AUTOSTART.search(item).groups()[0]);
         if(tsk.autostart == True):
@@ -386,6 +386,7 @@ def post_process(oscfg):
             entp = gcfindObj(oscfg.cfg.eventList, ent.name);
             if(entp.mask == 'AUTO'):
                 ent.mask = oil_resolve_event_mask(tsk.eventList);
+    oscfg.cfg.resolveOsCC();
         
     
     

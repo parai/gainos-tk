@@ -117,7 +117,7 @@ class Task():
         self.name=name;
         self.prio=prio;
         self.stksz=stksz;
-        self.autostart=True;
+        self.autostart=False;
         self.maxactcnt = 1;
         self.appmode = [];
         self.preemtable = True;
@@ -240,6 +240,42 @@ class gainos_tk_os_obj():
         ### for oil usage
         self.eventList=[];
 
+    def resolveOsCC(self):
+        self.general.os_class = 'BCC'; #start
+        for tsk in self.taskList:
+            if(len(tsk.eventList)):
+                self.general.os_class = 'ECC'
+                break;
+        for tsk in self.taskList:
+            if(len(tsk.eventList) == 0  and tsk.maxactcnt > 1):
+                self.general.os_class = self.general.os_class[:3]+'2'
+                return
+        for tsk in self.taskList:
+            for tsk2 in self.taskList:
+                if(tsk != tsk2):
+                    if(tsk.prio == tsk2.prio):
+                        self.general.os_class = self.general.os_class[:3]+'2'
+                        return
+        self.general.os_class = self.general.os_class[:3]+'1'
+    def isFifoQueue(self):
+        for tsk in self.taskList:
+            for tsk2 in self.taskList:
+                if(tsk != tsk2):
+                    if(tsk.prio == tsk2.prio):
+                        if(tsk.maxactcnt > 1 or tsk2.maxactcnt > 1):
+                            return True
+        return False
+    def resolveFifoQueLength(self, priority):
+        length = 0;
+        for tsk in self.taskList:
+            if(tsk.prio == priority):
+                length += tsk.maxactcnt;
+        if(length == 0):
+            return 0;
+        else:
+            return length+1
+                
+
 class gainos_tk_os_cfg():
     def __init__(self, chip):
         self.dlg = None;
@@ -349,6 +385,7 @@ class gainos_tk_os_cfg():
         fp.write('#define NONE_PREEMPTIVE_SCHEDULE  2\n');
         fp.write('#define cfgOS_SCHEDULE_POLICY %s\n'%(self.cfg.general.sched_policy));
         fp.write('#define cfgOS_CONFORMANCE_CLASS %s\n'%(self.cfg.general.os_class))
+        fp.write('#define cfgOSEK_FIFO_QUEUE_PER_PRIORITY %s\n'%(gSTD_ON(self.cfg.isFifoQueue())))
         fp.write('#define cfgOS_STATUS_LEVEL OS_STATUS_%s\n'%(self.cfg.general.status));
         fp.write('#define cfgOS_TK_EXTEND %s\n'%(gSTD_ON(self.cfg.general.tk_extend)));
         fp.write('#define cfgOS_SYSTEM_STACK_SIZE %s\n'%(self.cfg.general.system_stack_size));
@@ -384,7 +421,7 @@ class gainos_tk_os_cfg():
         for obj in self.cfg.taskList:
             fp.write('#define %sStkSz %s\n'%(obj.name,obj.stksz))
         for obj in self.cfg.taskList:
-            fp.write('#define %sMaxAct %s\n'%(obj.name,obj.maxactcnt))
+            fp.write('#define %sMaxAct %s\n'%(obj.name,obj.maxactcnt-1))
         for obj in self.cfg.taskList:
             str = ' OSNONEAPPMODE '
             if(obj.autostart):
@@ -517,6 +554,26 @@ class gainos_tk_os_cfg():
             str += '\t/* ceilpri */ %sPri,  /* %s */\n'%(obj.name, obj.name);
         str+='};\n\n'
         fp.write(str);
+        #======================== Ready Queue =================
+        if(self.cfg.isFifoQueue()):
+            for pri in range(0, self.cfg.general.max_pri+1):
+                length = self.cfg.resolveFifoQueLength(self.cfg.general.max_pri-pri)
+                if(length > 0):
+                    fp.write('LOCAL TCB* knl_fifoque_%s[%s];\n'%(pri, length))
+        if(self.cfg.isFifoQueue()):
+            str = 'EXPORT RDYQUE	knl_ready_queue = {\n'
+            str += '\t/* top_priority = */ 0,\n'
+            str += '\t{/* tskque */\n'
+            for pri in range(0, self.cfg.general.max_pri+1):
+                length = self.cfg.resolveFifoQueLength(self.cfg.general.max_pri-pri)
+                if(length > 0):
+                    str += '\t\t{/* fifoque = */knl_fifoque_%s,'%(pri)
+                else:
+                    str += '\t\t{/* fifoque = */ NULL,'
+                str += '\t\t/* length = */ %s},//PRIORITY(%s)\n'%(length, self.cfg.general.max_pri-pri)
+            str += '\t},\n'
+            str +='};\n\n'
+            fp.write(str);
         #================================= end ===============
         fp.close();
     

@@ -117,7 +117,7 @@ EXPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb )
 		return;
 	}
 	#else
-	(void)FifoQuePop(&rq->tskque[priority]);
+	FifoQuePop(&rq->tskque[priority]);
 	if ( !isFifoQueEmpty(&rq->tskque[priority]) ) {
 		return;
 	}
