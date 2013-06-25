@@ -14,6 +14,7 @@
 #define NONE_PREEMPTIVE_SCHEDULE  2
 #define cfgOS_SCHEDULE_POLICY MIXED_PREEMPTIVE_SCHEDULE
 #define cfgOS_CONFORMANCE_CLASS ECC2
+#define cfgOSEK_FIFO_QUEUE_PER_PRIORITY  STD_ON
 #define cfgOS_STATUS_LEVEL OS_STATUS_EXTENDED
 #define cfgOS_TK_EXTEND STD_OFF
 #define cfgOS_SYSTEM_STACK_SIZE 512
@@ -33,7 +34,7 @@
 
 /* App Mode */
 /* =====================  TASK  ========================== */
-#define cfgOSEK_MAX_PRIO 32
+#define cfgOSEK_MAX_PRIO  3
 #define cfgOSEK_TASK_NUM  2
 #define Task1 0
 #define Task2 1

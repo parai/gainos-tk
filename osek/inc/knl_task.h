@@ -23,6 +23,7 @@
 #define KNL_TASK_H_H
 /* ============================ INCLUDEs ========================================== */
 #include "osek_os.h"
+#include "knl_queue.h"
 
 /* ============================ MACROs    ========================================== */
 /*
@@ -66,7 +67,7 @@ Inline TCB* knl_ready_queue_top( RDYQUE *rq )
 	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	return (TCB*)rq->tskque[rq->top_priority].next;
 	#else
-	return (TCB*)FifoQuePoll(rq->tskque[rq->top_priority]);
+	return (TCB*)FifoQuePoll(&rq->tskque[rq->top_priority]);
 	#endif
 }
 

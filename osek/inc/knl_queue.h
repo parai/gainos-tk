@@ -63,6 +63,58 @@ Inline void QueInsert(QUEUE* entry,QUEUE* que)
 	que->prev = entry; 
 }
 
+/*
+ * Delete from queue
+ *	Deletes entry from queue
+ *	No action is performed if entry is empty.
+ */
+#if 0    /* make consistant with QueInit() ... */
+#define QueRemove(__entry)                                          \
+do                                                                  \
+{                                                                   \
+     	if ( (__entry)->next != (__entry) ) {                       \
+		(__entry)->prev->next = (struct queue*) (__entry)->next;    \
+		(__entry)->next->prev = (struct queue*) (__entry)->prev;    \
+	}                                                               \
+}while(0)
+#else
+Inline void QueRemove(QUEUE* entry)                                                                                            
+{                                                                   
+ 	if ( entry->next != entry ) {                      
+    	entry->prev->next = (struct queue*) entry->next;    
+    	entry->next->prev = (struct queue*) entry->prev;  
+	} 
+}                                                             
+#endif
+
+#if 0
+/*
+ * Remove top entry
+ *	Deletes the entry directly after que from the queue,
+ *	and returns the deleted entry.
+ *	Returns NULL if que is empty.
+ */
+Inline QUEUE* QueRemoveNext( QUEUE *que )
+{
+	QUEUE	*entry;
+
+	if ( que->next == que ) {
+		return NULL;
+	}
+
+	entry = que->next;
+	que->next = (struct queue*)entry->next;
+	entry->next->prev = que;
+
+	return entry;
+}
+#endif
+
+Inline void  FifoQueInit(FIFOQUE* que)
+{
+	que->tail = que->head = 0;
+}
+
 /* push the element entry to the tail of the fifo queue */
 Inline void FifoQuePush(VP entry,FIFOQUE* que) 
 {
@@ -120,52 +172,7 @@ Inline VP FifoQuePoll(FIFOQUE* que)
 	}
 	return que->fifoque[que->head];
 }
+
 #define isFifoQueEmpty(__que)   ((boolean)(( (__que)->head == (__que)->tail )))
-/*
- * Delete from queue
- *	Deletes entry from queue
- *	No action is performed if entry is empty.
- */
-#if 0    /* make consistant with QueInit() ... */
-#define QueRemove(__entry)                                          \
-do                                                                  \
-{                                                                   \
-     	if ( (__entry)->next != (__entry) ) {                       \
-		(__entry)->prev->next = (struct queue*) (__entry)->next;    \
-		(__entry)->next->prev = (struct queue*) (__entry)->prev;    \
-	}                                                               \
-}while(0)
-#else
-Inline void QueRemove(QUEUE* entry)                                                                                            
-{                                                                   
- 	if ( entry->next != entry ) {                      
-    	entry->prev->next = (struct queue*) entry->next;    
-    	entry->next->prev = (struct queue*) entry->prev;  
-	} 
-}                                                             
-#endif
 
-/* ============================ FUNCTIONs    ========================================== */
-#if 0
-/*
- * Remove top entry
- *	Deletes the entry directly after que from the queue,
- *	and returns the deleted entry.
- *	Returns NULL if que is empty.
- */
-Inline QUEUE* QueRemoveNext( QUEUE *que )
-{
-	QUEUE	*entry;
-
-	if ( que->next == que ) {
-		return NULL;
-	}
-
-	entry = que->next;
-	que->next = (struct queue*)entry->next;
-	entry->next->prev = que;
-
-	return entry;
-}
-#endif
 #endif /* KNL_QUEUE_H_H */

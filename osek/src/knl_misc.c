@@ -34,6 +34,10 @@ EXPORT void knl_ready_queue_initialize( RDYQUE *rq )
 		QueInit(&rq->tskque[i]);
 	}
 	rq->null = NULL;
+	#else
+	for ( i = 0; i < NUM_PRI; i++ ) {
+		FifoQueInit(&rq->tskque[i]);
+	}
 	#endif
 //	rq->klocktsk = NULL;
 	(void)memset(rq->bitmap, 0, sizeof(rq->bitmap));

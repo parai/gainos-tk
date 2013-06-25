@@ -198,8 +198,8 @@ typedef struct task_control_block{
  */
 typedef struct _fifo_queue
 {
-    VP        fifoque; /* hold the queue element */
-    INT       length;  /* the queue length */
+    VP* const       fifoque; /* hold the queue element */
+    const INT       length;  /* the queue length */
     INT       head;    /* the place to pop */
     INT       tail;    /* the place to push */
 }FIFOQUE;
