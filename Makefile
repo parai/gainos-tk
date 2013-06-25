@@ -1,7 +1,7 @@
 # makefile for osek concofmance test
 
 COMPILER_DIR = D:/usr/opt/SW
-BD = ../../..
+BD = .
 
 .PHONY:clean all
 
@@ -13,6 +13,13 @@ tm1:
 	cp -f $(BD)/osek/test/FreeOSEK/Task/Test_Sequence_01/test.c  $(BD)/app/
 	cp -f $(BD)/osek/test/FreeOSEK/Task/Test_Sequence_01/test.h  $(BD)/app/
 	python $(BD)/tool/gainos-studio/main.py --test $(BD)/osek/test/FreeOSEK/Task/Test_Sequence_01/test.oil $(BD)/config
+	make all
+	make sim
+
+tm2:
+	cp -f $(BD)/osek/test/FreeOSEK/Task/Test_Sequence_02/test.c  $(BD)/app/
+	cp -f $(BD)/osek/test/FreeOSEK/Task/Test_Sequence_02/test.h  $(BD)/app/
+	python $(BD)/tool/gainos-studio/main.py --test $(BD)/osek/test/FreeOSEK/Task/Test_Sequence_02/test.oil $(BD)/config
 	make all
 	make sim
 

@@ -23,7 +23,6 @@
  */
  """
  
-from PyQt4 import QtCore, QtGui
 import sys, os
 
 def gappendpath():
@@ -39,12 +38,25 @@ def gappendpath():
     sys.path.append(dir+'/common');
 
 def main(argc, argv):
+    from PyQt4 import QtCore, QtGui
     from gainos_studio import mwgainostk
     app = QtGui.QApplication(argv);
     wMainWin = mwgainostk(argc,argv);
     wMainWin.show();
     sys.exit(app.exec_());
 
+def gainos_test(oilfile,path):
+    from config.gainos_tk_os_cfg import gainos_tk_os_cfg
+    from oil_adapter import oil_gainos
+    oscfg = gainos_tk_os_cfg('MC9S12');
+    oil_gainos.to_oscfg(oilfile,oscfg)
+    oil_gainos.post_process(oscfg)
+    oscfg.gen(path);
+    print "Generate file at %s OK!"%(path)
+
 if __name__ == "__main__":
     gappendpath();
-    main(len(sys.argv),sys.argv);
+    if(len(sys.argv) == 4 and sys.argv[1] == '--test'):
+        gainos_test(sys.argv[2],sys.argv[3])
+    else:
+        main(len(sys.argv),sys.argv);

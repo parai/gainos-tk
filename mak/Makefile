@@ -3,7 +3,7 @@
 
 COMPILER_DIR = D:/usr/opt/SW
 
-BD = ../../..
+BD = 
 
 CC  = $(COMPILER_DIR)/Prog/chc12.exe
 ASM = $(COMPILER_DIR)/Prog/ahc12.exe
@@ -18,37 +18,37 @@ LD_FLAGS  = -M -WmsgNu=abcet
 
 LIBS = $(COMPILER_DIR)/lib/hc12c/lib/ansibi.lib
 
-INC=-I$(BD)/arch/s12cpuv2/ \
-	-I$(BD)/bin/gainos_tk/mc9s12dp512/Project/Sources/ \
-	-I$(BD)/config/		\
-	-I$(BD)/app/ \
-	-I$(BD)/include/ \
-	-I$(BD)/osek/inc/ \
-	-I$(BD)/osek/portable/s12cpuv2/	\
-	-I$(BD)/osek/test/FreeOSEK/common/
+INC=-I$(BD)arch/s12cpuv2/ \
+	-I$(BD)bin/gainos_tk/mc9s12dp512/Project/Sources/ \
+	-I$(BD)config/		\
+	-I$(BD)app/ \
+	-I$(BD)include/ \
+	-I$(BD)osek/inc/ \
+	-I$(BD)osek/portable/s12cpuv2/	\
+	-I$(BD)osek/test/FreeOSEK/common/
 	
 OBJS=	\
-	$(BD)/bin/gainos_tk/mc9s12dp512/Project/Sources/main.o \
-	$(BD)/bin/gainos_tk/mc9s12dp512/Project/Sources/datapage.o \
-	$(BD)/bin/gainos_tk/mc9s12dp512/Project/Sources/Start12.o \
-	$(BD)/bin/gainos_tk/mc9s12dp512/Project/Sources/mc9s12dp512.o \
-	$(BD)/config/osek_cfg.o \
-	$(BD)/app/test.o \
-	$(BD)/osek/portable/s12cpuv2/portable.o \
-	$(BD)/osek/src/knl_alarm.o \
-	$(BD)/osek/src/knl_bitop.o \
-	$(BD)/osek/src/knl_misc.o \
-	$(BD)/osek/src/knl_task.o \
-	$(BD)/osek/src/knl_timer.o \
-	$(BD)/osek/src/knl_wait.o \
-	$(BD)/osek/src/osek_alarm.o \
-	$(BD)/osek/src/osek_counter.o \
-	$(BD)/osek/src/osek_event.o \
-	$(BD)/osek/src/osek_interrupt.o \
-	$(BD)/osek/src/osek_osctrl.o \
-	$(BD)/osek/src/osek_resource.o \
-	$(BD)/osek/src/osek_task.o 		\
-	$(BD)/osek/test/FreeOSEK/common/ctest_rst.o	
+	$(BD)bin/gainos_tk/mc9s12dp512/Project/Sources/main.o \
+	$(BD)bin/gainos_tk/mc9s12dp512/Project/Sources/datapage.o \
+	$(BD)bin/gainos_tk/mc9s12dp512/Project/Sources/Start12.o \
+	$(BD)bin/gainos_tk/mc9s12dp512/Project/Sources/mc9s12dp512.o \
+	$(BD)config/osek_cfg.o \
+	$(BD)app/test.o \
+	$(BD)osek/portable/s12cpuv2/portable.o \
+	$(BD)osek/src/knl_alarm.o \
+	$(BD)osek/src/knl_bitop.o \
+	$(BD)osek/src/knl_misc.o \
+	$(BD)osek/src/knl_task.o \
+	$(BD)osek/src/knl_timer.o \
+	$(BD)osek/src/knl_wait.o \
+	$(BD)osek/src/osek_alarm.o \
+	$(BD)osek/src/osek_counter.o \
+	$(BD)osek/src/osek_event.o \
+	$(BD)osek/src/osek_interrupt.o \
+	$(BD)osek/src/osek_osctrl.o \
+	$(BD)osek/src/osek_resource.o \
+	$(BD)osek/src/osek_task.o 		\
+	$(BD)osek/test/FreeOSEK/common/ctest_rst.o	
 	
 OBJS_LINK= 	\
 	main.o \
@@ -87,6 +87,6 @@ all: $(OBJS) Project.abs
 	echo "done all"
 	
 Project.abs:
-	$(LD) $(BD)/bin/gainos_tk/mc9s12dp512/Project/prm/Project.prm $(COMMON_FLAGS) $(LD_FLAGS) -Add($(LIBS)) -Add($(OBJS_LINK)) -O$*.abs
+	$(LD) $(BD)bin/gainos_tk/mc9s12dp512/Project/prm/Project.prm $(COMMON_FLAGS) $(LD_FLAGS) -Add($(LIBS)) -Add($(OBJS_LINK)) -O$*.abs
 
 

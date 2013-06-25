@@ -8,9 +8,10 @@
  This version is just for oil25
 """
 import re, string, os
-from config.gainos_tk_cfg import gainos_tk_cfg
+
 from common.Common import *
 from config.gainos_tk_os_cfg import *
+
 #定义所有正则表达式
 # 1: for comment 
 re_comment_type1 = re.compile(r'/\*[^/]*\*/');
