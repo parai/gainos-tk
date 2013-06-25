@@ -63,6 +63,64 @@ Inline void QueInsert(QUEUE* entry,QUEUE* que)
 	que->prev = entry; 
 }
 
+/* push the element entry to the tail of the fifo queue */
+Inline void FifoQuePush(VP entry,FIFOQUE* que) 
+{
+	/* no care of overflow */
+	if((que->tail+1) < que->length)
+	{
+		que->tail++;
+	}
+	else
+	{
+		que->tail = 0;
+	}
+	que->fifoque[que->tail] = entry;
+}
+/* push the element entry to the head of the fifo queue */
+Inline void FifoQueAltPush(VP entry,FIFOQUE* que) 
+{
+	/* no care of overflow */
+	if((que->head-1) < 0)
+	{
+		que->head = que->length - 1;
+	}
+	else
+	{
+		que->head--;
+	}
+	que->fifoque[que->head] = entry;
+}
+/* pop the head element from the fifo queue */
+Inline VP FifoQuePop(FIFOQUE* que) 
+{
+	/* no care of overflow */
+	VP element;
+	if(que->head == que->tail)
+	{
+		return NULL;
+	}
+	element = que->fifoque[que->head];
+	if((que->head+1) < que->length)
+	{
+		que->head++;
+	}
+	else
+	{
+		que->head = 0;
+	}
+	return element;
+}
+/* polling the head element from the fifo queue */
+Inline VP FifoQuePoll(FIFOQUE* que) 
+{
+	if(que->head == que->tail)
+	{
+		return NULL;
+	}
+	return que->fifoque[que->head];
+}
+#define isFifoQueEmpty(__que)   ((boolean)(( (__que)->head == (__que)->tail )))
 /*
  * Delete from queue
  *	Deletes entry from queue

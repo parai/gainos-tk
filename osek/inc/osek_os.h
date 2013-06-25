@@ -193,6 +193,17 @@ typedef struct task_control_block{
 	QUEUE resque;	/* queue to hold resources */
 }TCB;
 
+/* This type if for BCC2 and ECC2 with basic tasks whose activation is more than 
+ * 1, so should have a fifoque to record the order of task activation per priority.
+ */
+typedef struct _fifo_queue
+{
+    VP        fifoque; /* hold the queue element */
+    INT       length;  /* the queue length */
+    INT       head;    /* the place to pop */
+    INT       tail;    /* the place to push */
+}FIFOQUE;
+
 /*
  * Definition of ready queue structure
  *	In the ready queue, the task queue 'tskque' is provided per priority.
@@ -210,8 +221,12 @@ typedef struct task_control_block{
  */
 typedef	struct ready_queue {
 	PRI	top_priority;		/* Highest priority in ready queue */
+    #if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	QUEUE	tskque[NUM_PRI];	/* Task queue per priority */
 	TCB	*   null;			/* When the ready queue is empty, */
+    #else
+    FIFOQUE tskque[NUM_PRI];    /* Task queue per priority */
+    #endif /* cfgOSEK_FIFO_QUEUE_PER_PRIORITY */
 	UINT	bitmap[NUM_BITMAP];	/* Bitmap area per priority */
 //	TCB	*klocktsk;	/* READY task with kernel lock */
 } RDYQUE;

@@ -28,10 +28,13 @@ EXPORT void knl_ready_queue_initialize( RDYQUE *rq )
 	INT	i;
 
 	rq->top_priority = NUM_PRI;
+
+	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	for ( i = 0; i < NUM_PRI; i++ ) {
 		QueInit(&rq->tskque[i]);
 	}
 	rq->null = NULL;
+	#endif
 //	rq->klocktsk = NULL;
 	(void)memset(rq->bitmap, 0, sizeof(rq->bitmap));
 }
@@ -45,7 +48,12 @@ EXPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 {
 	INT	priority = tcb->priority;
 
+	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	QueInsert(&tcb->tskque, &rq->tskque[priority]);
+	#else
+	FifoQuePush(&tcb->tskque, &rq->tskque[priority]);
+	#endif
+
 	knl_tstdlib_bitset(rq->bitmap, priority);
 
 //	if ( tcb->klocked ) {
@@ -63,7 +71,11 @@ EXPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 EXPORT void knl_ready_queue_insert_top( RDYQUE *rq, TCB *tcb )
 {
 	INT	priority = tcb->priority;
+	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	QueInsert(&tcb->tskque, rq->tskque[priority].next);
+	#else
+	FifoQueAltPush(&tcb->tskque, &rq->tskque[priority]);
+	#endif
 	knl_tstdlib_bitset(rq->bitmap, priority);
 
 //	if ( tcb->klocked ) {
@@ -90,7 +102,7 @@ EXPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb )
 //	if ( rq->klocktsk == tcb ) {
 //		rq->klocktsk = NULL;
 //	}
-
+	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	QueRemove(&tcb->tskque);
 //	if ( tcb->klockwait ) {
 //		/* Delete from kernel lock wait queue */
@@ -100,6 +112,12 @@ EXPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb )
 	if ( !isQueEmpty(&rq->tskque[priority]) ) {
 		return;
 	}
+	#else
+	(void)FifoQuePop(&rq->tskque[priority]);
+	if ( !isFifoQueEmpty(&rq->tskque[priority]) ) {
+		return;
+	}
+	#endif
 
 	knl_tstdlib_bitclr(rq->bitmap, priority);
 	if ( priority != rq->top_priority ) {
