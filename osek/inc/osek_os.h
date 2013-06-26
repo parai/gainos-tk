@@ -226,6 +226,7 @@ typedef	struct ready_queue {
 	TCB	*   null;			/* When the ready queue is empty, */
     #else
     FIFOQUE tskque[NUM_PRI];    /* Task queue per priority */
+    FIFOQUE null;
     #endif /* cfgOSEK_FIFO_QUEUE_PER_PRIORITY */
 	UINT	bitmap[NUM_BITMAP];	/* Bitmap area per priority */
 //	TCB	*klocktsk;	/* READY task with kernel lock */
