@@ -307,6 +307,11 @@ def to_oscfg(oilfile, oscfg):
                     barcenum += el.count('{');
                 if(el.count('}') > 0):
                     barcenum -= el.count('}');
+                if((brace_flag == True) and (barcenum == 0)): #in one line
+                    #filter out the multi-line comment
+                    oneitem = filter_out_comment(oneitem)
+                    oil_process(oneitem, oscfg);
+                    process_one_item_start = False
             elif(re_include.search(el)): #include file
                 basep = os.path.dirname(oilfile)
                 file = re_include.search(el).groups()[0];

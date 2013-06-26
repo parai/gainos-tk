@@ -271,17 +271,17 @@ StatusType ChainTask ( TaskType TaskID )
 
 	/* No return */
 	Error_Exit:
+	ENABLE_INTERRUPT;
 	#if(cfgOS_ERROR_HOOK == STD_ON)
 	if(E_OK != ercd)
 	{
-    	//BEGIN_CRITICAL_SECTION;
+    	BEGIN_CRITICAL_SECTION;
     	_errorhook_svcid = OSServiceId_ChainTask;
     	_errorhook_par1.tskid = TaskID;
     	ErrorHook(ercd);
-    	//END_CRITICAL_SECTION;
+    	END_CRITICAL_SECTION;
     }
-	#endif /* cfgOS_ERROR_HOOK */
-	ENABLE_INTERRUPT;
+	#endif /* cfgOS_ERROR_HOOK */	
     return ercd;
 }
 
