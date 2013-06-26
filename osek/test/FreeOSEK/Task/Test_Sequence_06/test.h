@@ -1,12 +1,10 @@
-// Copyright 2008, 2009, Mariano Cerdeiro
-// by parai, this file is part of FreeOSEK
-// see GNU License
 
-#ifndef _CTEST_TM_01_H_
-#define _CTEST_TM_01_H_
-/** \brief Free OSEK Conformance Test 
+
+#ifndef _CTEST_TM_06_H_
+#define _CTEST_TM_06_H_
+/** \brief Free OSEK Conformance Test Task Management, Test Sequence 6
  **
- ** \file FreeOSEK/tst/ctest/inc/ctest_tm_01.h
+ ** \file FreeOSEK/tst/ctest/inc/ctest_tm_06.h
  **/
 
 /** \addtogroup FreeOSEK
@@ -15,7 +13,7 @@
  ** @{ */
 /** \addtogroup FreeOSEK_CT_TM Task Management
  ** @{ */
-/** \addtogroup FreeOSEK_CT_TM_01 Test Sequence 1
+/** \addtogroup FreeOSEK_CT_TM_06 Test Sequence 6
  ** @{ */
 
 /*
@@ -27,11 +25,11 @@
 /*
  * modification history (new versions first)
  * -----------------------------------------------------------
- * 20090403 v0.1.0 MaCe	initial version based on module tests
+ * 20090409 v0.1.0 MaCe	initial version based on module tests
  */  
 
 /*==================[inclusions]=============================================*/
-//#include "Types.h"
+#include "Std_Types.h"
 #include "ctest.h"
 
 /*==================[macros]=================================================*/
@@ -39,8 +37,7 @@
  **
  ** Defines the total amount of sequence points in this test sequence
  **/
-#define MAX_SEQUENCE 18
-#define ctest_tm_01
+#define MAX_SEQUENCE 10
 
 /*==================[typedef]================================================*/
 
@@ -53,5 +50,5 @@
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _CTEST_TM_01_H_ */
+#endif /* #ifndef _CTEST_TM_06_H_ */
 

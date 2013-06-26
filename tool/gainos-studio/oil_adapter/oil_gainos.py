@@ -45,7 +45,8 @@ re_task_SCHEDULE = re.compile(r'SCHEDULE\s*=\s*(\w+)\s*;')
 re_task_PRIORITY = re.compile(r'PRIORITY\s*=\s*(\w+)\s*;')
 re_task_ACTIVATION = re.compile(r'ACTIVATION\s*=\s*(\w+)\s*;')
 re_task_AUTOSTART = re.compile(r'AUTOSTART\s*=\s*(\w+)\s*[;{]')
-re_task_StackSize = re.compile(r'StackSize\s*=\s*(\w+)\s*;')
+re_task_StackSize = re.compile(r'StackSize\s*=\s*(\w+)\s*;') #for MB Test
+re_task_STACK = re.compile(r'STACK\s*=\s*(\w+)\s*;') #for FreeOSEK
 re_task_appmode_list = re.compile(r'AUTOSTART\s*=\s*TRUE\s*{([^{}]*)}\s*;')
 re_task_APPMODE = re.compile(r'APPMODE\s*=\s*(\w+)')
 re_task_RESOURCE = re.compile(r'RESOURCE\s*=\s*(\w+)')
@@ -154,6 +155,8 @@ def oil_process_task(item, oscfg):
                             oscfg.cfg.appmodeList.append(AppMode(modename));
     if(re_task_StackSize.search(item)):
         tsk.stksz = int(re_task_StackSize.search(item).groups()[0]);
+    elif(re_task_STACK.search(item)):
+        tsk.stksz = int(re_task_STACK.search(item).groups()[0]);
     #for resource
     for subitem in item.split(';'): #maybe sereval resource
         if(re_task_RESOURCE.search(subitem)): 
@@ -388,6 +391,7 @@ def post_process(oscfg):
             if(entp.mask == 'AUTO'):
                 ent.mask = oil_resolve_event_mask(tsk.eventList);
     oscfg.cfg.resolveOsCC();
+    oscfg.cfg.resolveOsMaxPriority();
         
     
     

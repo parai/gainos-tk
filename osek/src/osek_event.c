@@ -241,9 +241,13 @@ StatusType WaitEvent( EventMaskType Mask )
     {
         flgcb->waipth = Mask;
         knl_ctxtsk->state = TS_WAIT;
+        //release internal resource or for Non-Preemtable Task
+        knl_ctxtsk->priority = knl_ctxtsk->itskpri; 
         knl_search_schedtsk();
     }
     END_CRITICAL_SECTION;
+    //re-get internal resource or for Non-Preemtable task
+    knl_ctxtsk->priority = knl_ctxtsk->runpri;
        
   Error_Exit:
     #if(cfgOS_ERROR_HOOK == STD_ON)

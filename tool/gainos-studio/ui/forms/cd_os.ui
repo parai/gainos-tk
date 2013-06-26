@@ -257,6 +257,12 @@ p, li { white-space: pre-wrap; }
            <property name="toolTip">
             <string/>
            </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>65535</number>
+           </property>
           </widget>
          </item>
         </layout>

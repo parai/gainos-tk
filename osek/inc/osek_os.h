@@ -177,6 +177,7 @@ typedef struct task_control_block{
     #endif
     ATR 	    tskatr;		/* Task attribute */
     PRI         runpri;     /* Task priority When it Start To Running */
+    PRI         itskpri;    /* Priority at task startup */
     //}}
     UINT        actcnt;     /* Task Activate Count */
 	PRI	        priority;	/* Current priority */

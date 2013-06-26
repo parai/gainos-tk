@@ -85,6 +85,7 @@ del /s /q *.src
 REM delete CW cmd file
 del /s /q *.cmd
 
+rm -f ./app/test.c ./app/test.h
 echo Cleared successfully
 echo on
 pause

@@ -19,7 +19,8 @@ TASK Task1 {
 		APPMODE = OSDEFAULTAPPMODE;
 	};
 	STACK = 256;
-	TYPE = BASIC;
+	TYPE = EXTENDED;
+	EVENT = Event1;
 };
 
 TASK Task2 {
@@ -28,7 +29,8 @@ TASK Task2 {
 	ACTIVATION = 1;
 	AUTOSTART = FALSE;
 	STACK = 256;
-	TYPE = BASIC;
+	TYPE = EXTENDED;
+	EVENT = Event2;
 }
 
 TASK Task3 {
@@ -40,14 +42,15 @@ TASK Task3 {
 	TYPE = BASIC;
 }
 
-TASK Task4 {
-	PRIORITY = 4;
-	SCHEDULE = FULL;
-	ACTIVATION = 1;
-	AUTOSTART = FALSE;
-	STACK = 256;
-	TYPE = BASIC;
-}
+EVENT Event1
+{
+	MASK = AUTO;
+};
+
+EVENT Event2
+{
+	MASK = AUTO;
+};
 
 //APPMODE AppMode1;
 

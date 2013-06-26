@@ -64,7 +64,7 @@ EXPORT void knl_reschedule( void )
 EXPORT void knl_make_ready( TCB *tcb )
 {
     tcb->state = TS_READY;
-    tcb->priority = knl_gtsk_table[tcb->tskid].itskpri;
+    tcb->priority = tcb->itskpri;
 	#if(cfgOSEK_EVENTFLAG_NUM > 0)
     {
         ID flgid;
@@ -151,6 +151,7 @@ EXPORT void knl_task_init(void)
         tcb->stksz  = knl_gtsk_table[i].stksz;
         #endif
         tcb->runpri = knl_gtsk_table[i].runpri;
+        tcb->itskpri= knl_gtsk_table[i].itskpri;
         tcb->actcnt = 0;
         if(((tcb->tskatr&APPMODEMASK)&knl_app_mode) != 0 )
         {

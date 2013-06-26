@@ -226,6 +226,7 @@ class AppMode():
         root.append(nd); 
     def parse(self, nd):
         self.name = nd.attrib['name'];
+        
 class gainos_tk_os_obj():
     def __init__(self, chip):
         self.general = General(chip);
@@ -257,6 +258,7 @@ class gainos_tk_os_obj():
                         self.general.os_class = self.general.os_class[:3]+'2'
                         return
         self.general.os_class = self.general.os_class[:3]+'1'
+
     def isFifoQueue(self):
         for tsk in self.taskList:
             for tsk2 in self.taskList:
@@ -265,6 +267,7 @@ class gainos_tk_os_obj():
                         if(tsk.maxactcnt > 1 or tsk2.maxactcnt > 1):
                             return True
         return False
+
     def resolveFifoQueLength(self, priority):
         length = 0;
         for tsk in self.taskList:
@@ -274,7 +277,13 @@ class gainos_tk_os_obj():
             return 0;
         else:
             return length+1
-                
+
+    def resolveOsMaxPriority(self):
+        self.general.max_pri = 0;
+        for tsk in self.taskList:
+            if(tsk.prio > self.general.max_pri):
+                self.general.max_pri = tsk.prio
+        self.general.max_pri += 3;
 
 class gainos_tk_os_cfg():
     def __init__(self, chip):
