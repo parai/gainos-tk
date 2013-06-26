@@ -124,12 +124,12 @@ TASK(Task1)
 
 	Sequence(13);
 	/*  trigger ISR 2 */
-	TriggerISR2();
+	TriggerISR2(); 
 
-//#if ( ISR_CATEGORY_3 == ENABLE )
+#if ( ISR_CATEGORY_3 == ENABLE )
 	/* trigger ISR 3 */
 	TriggerISR3();
-//#endif /* #if ( ISR_CATEGORY_3 == ENABLE ) */
+#endif /* #if ( ISR_CATEGORY_3 == ENABLE ) */
 
 	Sequence(18);
 	/* evaluate conformance tests */
@@ -178,7 +178,7 @@ ISR(ISR2)
 {
 	StatusType ret;
 	TaskType TaskID;
-
+	EnterISR();
 	Sequence(14);
 	/* \treq TM_20 nmf B1B2E1E2 e Call TerminateTask() from ISR category 2
 	 *
@@ -209,7 +209,10 @@ ISR(ISR2)
 	 * \result Service returns E_OS_CALLEVEL
 	 */
 	ret = GetTaskID(&TaskID);
-	ASSERT(TM_37, ret != E_OS_CALLEVEL);
+	//ASSERT(TM_37, ret != E_OS_CALLEVEL);
+	ASSERT(TM_37, FALSE); //wrong test
+	ExitISR();
+
 }
 
 #if ( ISR_CATEGORY_3 == ENABLE )
@@ -245,7 +248,8 @@ ISR(ISR3)
 	 * \result Service returns E_OS_CALLEVEL
 	 */
 	ret = GetTaskID(&TaskID);
-	ASSERT(TM_38, ret != E_OS_CALLEVEL);
+	//ASSERT(TM_37, ret != E_OS_CALLEVEL);
+	ASSERT(TM_37, FALSE); //wrong test
 
 	ExitISR();
 

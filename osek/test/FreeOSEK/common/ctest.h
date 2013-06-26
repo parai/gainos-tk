@@ -264,7 +264,7 @@ extern ISR(ISR2);
  ** only needed if ISR_CATEGORY_3 is ENABLE
  **/
 extern ISR(ISR3);
-#define TriggerISR3() ISRMainISR2()
+#define TriggerISR3() ISRMainISR3()
 //#endif /* #if (ISR_CATEGORY_3 == ENABLE) */
 
 /** \brief Conformance Test Error Checking Type Extended */

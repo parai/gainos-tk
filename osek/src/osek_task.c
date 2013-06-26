@@ -324,10 +324,9 @@ StatusType Schedule ( void )
 
 	BEGIN_CRITICAL_SECTION;
 	itskpri = knl_gtsk_table[knl_ctxtsk->tskid].itskpri;
-	//if task has internal resource and premtable
-	if(((knl_ctxtsk->tskatr&NON_PREEMTABLE) == 0)    //task preemtable
-    	&&(knl_ready_queue.top_priority <= itskpri))
-	{  //this only happends when a preemtable task has an internal resource
+	//if task has internal resource or task is non-premtable
+	if(knl_ready_queue.top_priority <= itskpri)
+	{
     	knl_ctxtsk->priority = itskpri;   //reset it to initial priority
         knl_reschedule();
     }

@@ -40,6 +40,7 @@
  ** Defines the total amount of sequence points in this test sequence
  **/
 #define MAX_SEQUENCE 5
+#define ctest_tm_02 
 
 /*==================[typedef]================================================*/
 

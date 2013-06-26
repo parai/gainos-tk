@@ -60,6 +60,7 @@
 
 /*==================[inclusions]=============================================*/
 #include "ctest.h"		/* include ctest header file */
+#include "test.h" 
 #include <stdio.h>
 
 /*==================[macros and definitions]=================================*/
@@ -715,7 +716,7 @@ void ASSERT
    if (cond)
    {
 		TestResults[(tc)>>2] |=	FAILED << ( ( tc & 3 ) * 2 );
-		printf("Test failed at test case: %d.\r\n",(int)tc);
+		printf("Assert Failed: <tc = %d>.\r\n",(int)tc);
 		while(1);
    }
 	else
@@ -723,6 +724,7 @@ void ASSERT
 		if ( ( TestResults[(tc)>>2] >> ( (tc & 3 ) * 2 ) ) != FAILED )
 		{
 			TestResults[(tc)>>2] |=	OK << ( ( tc & 3 ) * 2 );
+			//printf("Assert Ok: <tc = %d>.\r\n",(int)tc);
 		}
 	}
 }
@@ -746,12 +748,12 @@ void ConfTestEvaluation
 	if ( ( testok == TRUE ) && ( SequenceCounter == SequenceCounterOk ) )
 	{
 		ConfTestResult = 255;
-		printf("All test OK!\r\n");
+		printf("<============= OK ================>\r\n");
 	}
 	else
 	{
 		ConfTestResult = 128;
-		printf("Some test FAILED!\r\n");
+		printf("<============ FAILED =============>\r\n");
 	}
 
 }
@@ -764,15 +766,17 @@ void Sequence
    if ( (seq) == 0 )
    {
       SequenceCounter = 0;
+      printf("Sequence Ok: <seq = %d>.\r\n",(int)seq);
    }
    else if ( (SequenceCounter+1) == (seq) )
    {
       SequenceCounter++;
+      printf("Sequence Ok: <seq = %d>.\r\n",(int)seq);
    }
    else
    {
 		SequenceCounter |= SEQUENCE_INVALID;
-		printf("Invalid Sequence at %ld.\r\n",seq);
+		printf("Sequence Failed: <seq = %d>.\r\n",(int)seq);
    }
 }
 
