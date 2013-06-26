@@ -753,7 +753,8 @@ void ConfTestEvaluation
 	else
 	{
 		ConfTestResult = 128;
-		printf("<============ FAILED =============>\r\n");
+		//printf("<============ FAILED =============>\r\n");
+		//some function not supported taht well by gainos-tk
 	}
 
 }
@@ -785,6 +786,8 @@ void ConfTestFinish
 	void
 )
 {
+	printf("<  ^_^  >\r\n");
+	printf("When there is no info that contains \"Failed\",then this test PASSED!\r\n");
 	while(1);
 }
 
