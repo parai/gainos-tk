@@ -167,7 +167,7 @@ StatusType IncrementCounter(CounterType CounterID)
 	    }
 	    else
 	    {
-	        QueInit(&ccb->almque);
+	        QueInit(&almcb->almque);
 	    }
 	}
 	END_DISABLE_INTERRUPT;

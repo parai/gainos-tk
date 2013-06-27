@@ -105,7 +105,14 @@ StatusType GetAlarm ( AlarmType AlarmID ,TickRefType Tick )
     max = knl_almbase_table[cntid].MaxAllowedValue;
     
     BEGIN_DISABLE_INTERRUPT;
-    *Tick = knl_diff_tick(ccb->curvalue,almcb->time,max*2);
+    if(ccb->curvalue <  almcb->time)
+    {
+        *Tick = almcb->time - ccb->curvalue;
+    }
+    else
+    {
+        *Tick = max*2 + 1- ccb->curvalue + almcb->time;
+    }
     END_DISABLE_INTERRUPT;
     
     Error_Exit:
@@ -269,7 +276,7 @@ StatusType SetAbsAlarm ( AlarmType AlarmID , TickType Start ,TickType Cycle )
     max = knl_almbase_table[cntid].MaxAllowedValue;
     OS_CHECK_EXT((max > Start),E_OS_VALUE);
     OS_CHECK_EXT((max > Cycle),E_OS_VALUE);
-    OS_CHECK_EXT(((knl_almbase_table[cntid].MinCycle < Cycle) || (0 == Cycle)),E_OS_VALUE);
+    OS_CHECK_EXT(((knl_almbase_table[cntid].MinCycle <= Cycle) || (0 == Cycle)),E_OS_VALUE);
     ccb = &knl_ccb_table[cntid];
     
     BEGIN_DISABLE_INTERRUPT;

@@ -74,7 +74,8 @@
 /*==================[external data definition]===============================*/
 uint8 TestResults[35];
 
-
+TickType test_alarm_counter_value1;
+TickType test_alarm_counter_value2;
 const uint8 TestResultsOk[35] =
 	{
 #if (defined ctest_tm_01)

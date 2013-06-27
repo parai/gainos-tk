@@ -7,6 +7,7 @@
 #define ENABLE  1
 
 #define CT_SCHEDULING_Task1 CT_NON_PREEMPTIVE
+//#define CT_SCHEDULING_Task1 CT_PREEMPTIVE
 
 #define ISR_CATEGORY_3 ENABLE
 #endif 

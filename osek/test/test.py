@@ -7,6 +7,7 @@ def FreeOSEK(path):
 	#test code is from FreeOSEK
 	cwd = os.getcwd();
 	bd = cwd+'/../..'
+	os.system('rm -f %s/*.o %s/*.abs %s/*.map'%(bd,bd,bd))
 	app = cwd+'/../../app/'
 	config = cwd+'/../../config/'
 	tool = cwd+'/../../tool/gainos-studio'

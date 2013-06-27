@@ -72,6 +72,7 @@ StatusType SetEvent ( TaskType TaskID , EventMaskType Mask )
     if((flgcb->flgptn & flgcb->waipth) != NO_EVENT)
     {
         flgcb->waipth = NO_EVENT;
+        tcb->state = TS_READY;
         knl_make_runnable(tcb);
     }
     END_CRITICAL_SECTION;

@@ -79,6 +79,9 @@ EXPORT void knl_activate_r(void)
 {
     /* This is the most easiest Way to get Internal Resourse and
      * to make a task non-preemtable I think */
+    #if(cfgOS_PRE_TASK_HOOK == STD_ON)
+    PreTaskHook();
+    #endif
     knl_ctxtsk->priority = knl_ctxtsk->runpri;
     __asm CLI; // enable interrupt
     knl_ctxtsk->task();
@@ -92,6 +95,9 @@ EXPORT void knl_dispatch_r(void)
 	//asm   ldx  knl_ctxtsk;
 	asm   lds  SP_OFFSET,x;       /* Restore 'ssp' from TCB */
 	#endif
+    #if(cfgOS_PRE_TASK_HOOK == STD_ON)
+    PreTaskHook();
+    #endif
     asm   pula;
     asm   staa	tk_ppage;	      /* restore PPAGE */
     asm   puld;
@@ -176,6 +182,9 @@ void knl_force_dispatch(void)
 //and then do dispatch the high ready task <knl_schedtsk>
 interrupt 4 void knl_dispatch_entry(void)
 {
+    #if(cfgOS_POST_TASK_HOOK == STD_ON)
+    PostTaskHook();
+    #endif
     knl_dispatch_disabled=1;    /* Dispatch disable */ 
     asm   ldd   knl_taskmode  
     asm   pshd;                 /* save knl_taskmode */

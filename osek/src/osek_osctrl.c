@@ -123,6 +123,13 @@ void ShutdownOS( StatusType Error )
 
 }
 
+//get the os active application mode
+StatusType GetActiveApplicationMode(AppModeType* Mode)
+{
+    *Mode = knl_app_mode;
+    return E_OK;
+}
+
 #if defined(cfgOSEK_STD_ISR_PROCESS)
 /* For Arm Cortex M3, terrible. So I move them to portableS.S */
 /* For others, define cfgOSEK_STD_ISR_PROCESS in your compiler pre-processor */

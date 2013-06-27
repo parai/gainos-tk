@@ -136,6 +136,9 @@ StatusType TerminateTask ( void )
 	OS_CHECK_EXT(isQueEmpty(&knl_ctxtsk->resque),E_OS_RESOURCE);
 	DISABLE_INTERRUPT;
 
+	#if(cfgOS_POST_TASK_HOOK == STD_ON)
+    PostTaskHook();
+    #endif
 	knl_ctxtsk->state = TS_DORMANT;
 	knl_search_schedtsk();
 	#if((cfgOS_CONFORMANCE_CLASS == ECC2) || (cfgOS_CONFORMANCE_CLASS == BCC2))
@@ -250,6 +253,10 @@ StatusType ChainTask ( TaskType TaskID )
     		}
     	}
     	
+    	#if(cfgOS_POST_TASK_HOOK == STD_ON)
+	    PostTaskHook();
+	    #endif
+
     	knl_ctxtsk->state = TS_DORMANT;
     	knl_search_schedtsk();
     	#if((cfgOS_CONFORMANCE_CLASS == ECC2) || (cfgOS_CONFORMANCE_CLASS == BCC2))

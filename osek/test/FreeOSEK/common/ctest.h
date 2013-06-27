@@ -245,17 +245,36 @@
 extern ISR(ISR2);
 #define TriggerISR2()  ISRMainISR2()  
 
+extern TickType test_alarm_counter_value1;
+extern TickType test_alarm_counter_value2;
 /** \brief Initialise Alarm Counter Macro
  **
  ** This macro shall implement a mechanismus to initialise the alarm counter
  **/
-#define InitAlarmCounter()
+//stop the truly Counter1 timer
+#include "derivative.h" 
+#include "osek_os.h" 
+extern CCB knl_ccb_table[]; 
+#define InitAlarmCounter() CRGINT_RTIE=0;knl_ccb_table[Counter1].curvalue = 0  
+ //GetCounterValue(Counter1,&test_alarm_counter_value1)
 
 /** \brief Increment Alarm Counter Macro
  **
  ** This macro shall implement a mechanismus to increment the alarm counter
  **/
-#define IncAlarmCounter() (void)IncrementCounter(Counter1, 1);
+ //simulate it
+#define IncAlarmCounter() do{EnterISR();(void)IncrementCounter(Counter1);ExitISR();}while(0)
+/*
+ do{	\
+	while(GetCounterValue(Counter1,&test_alarm_counter_value2)){	\
+		if(test_alarm_counter_value2 != test_alarm_counter_value1)	\
+		{	\
+			break;	\
+		}	\
+	}	\
+	GetCounterValue(Counter1,&test_alarm_counter_value1);	\
+}while(0)
+*/
 
 //#if (ISR_CATEGORY_3 == ENABLE)
 /** \brief ISR3 Trigger Macro
@@ -340,17 +359,6 @@ extern uint32 SequenceCounter;
 extern const uint32 SequenceCounterOk;
 
 /*==================[external functions declaration]=========================*/
-/** \brief main function
- **
- ** Project main function. This function is called after the c conformance
- ** initialisation. This function shall call the StartOS in the right
- ** Application Mode. The StartOS API shall never return.
- **
- **/
-int main
-(
-   void
-) ATTRIBUTES();
 
 /** \brief Conformance Test Evaluation
  **

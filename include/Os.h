@@ -223,8 +223,11 @@ StatusType ClearEvent( EventMaskType Mask );
 StatusType GetEvent  ( TaskType TaskID , EventMaskRefType Event );
 StatusType WaitEvent ( EventMaskType Mask );
 
+StatusType GetActiveApplicationMode(AppModeType* Mode);
+
 void EnterISR(void);
 void ExitISR(void);
+#define LeaveISR() ExitISR()
 void DisableAllInterrupts( void );
 void EnableAllInterrupts ( void );
 void SuspendAllInterrupts( void );
