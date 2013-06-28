@@ -323,7 +323,8 @@ def to_oscfg(oilfile, oscfg):
             if(re_include.search(el)): #include file
                 basep = os.path.dirname(oilfile)
                 file = re_include.search(el).groups()[0];
-                file = basep+file;
+                file = basep+'/'+file;
+                to_oscfg(file, oscfg);
                 continue;
             if(el.count('{') > 0):  #so at comment should not include '{}'
                 brace_flag = True;

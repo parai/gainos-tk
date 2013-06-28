@@ -90,29 +90,29 @@ TASK(Task1)
 
 	Sequence(5);
 	/* \treq AL_11 nmf B1B2E1E2 e call SetRelAlarm() with icrement value greater
-	 * than MaxAllowedValue
+	 * than maxallowedvalue
 	 *
 	 * \result Service returns E_OS_VALUE
 	 */
-	ret = SetRelAlarm(Alarm1, AlarmBase.MaxAllowedValue+1, 0);
+	ret = SetRelAlarm(Alarm1, AlarmBase.maxallowedvalue+1, 0);
 	ASSERT(AL_11, ret != E_OS_VALUE);
 
 	Sequence(6);
 	/* \treq AL_12 nmf B1B2E1E2 e call SetRelAlarm() with cycle value lower
-	 * than MinCycle
+	 * than mincycle
 	 *
 	 * \result Service returns E_OS_VALUE
 	 */
-	ret = SetRelAlarm(Alarm1, 0, AlarmBase.MinCycle-1);
+	ret = SetRelAlarm(Alarm1, 0, AlarmBase.mincycle-1);
 	ASSERT(AL_12, ret != E_OS_VALUE);
 
 	Sequence(7);
 	/* \treq AL_13 nmf B1B2E1E2 e call SetRelAlarm() with cycle value greater
-	 * than MaxAllowedValue
+	 * than maxallowedvalue
 	 *
 	 * \result Service returns E_OS_VALUE
 	 */
-	ret = SetRelAlarm(Alarm1, 0, AlarmBase.MaxAllowedValue+1);
+	ret = SetRelAlarm(Alarm1, 0, AlarmBase.maxallowedvalue+1);
 	ASSERT(AL_13, ret != E_OS_VALUE);
 
 	Sequence(8);
@@ -134,11 +134,11 @@ TASK(Task1)
 
 	Sequence(10);
 	/* \treq AL_20 nmf B1B2E1E2 e call SetAbsAlarm() with increment value
-	 * greater than MaxAllowedValue
+	 * greater than maxallowedvalue
 	 *
 	 * \result Service returns E_OS_VALUE
 	 */
-	ret = SetAbsAlarm(Alarm1, AlarmBase.MaxAllowedValue+1, 0);
+	ret = SetAbsAlarm(Alarm1, AlarmBase.maxallowedvalue+1, 0);
 	ASSERT(AL_20, ret != E_OS_VALUE);
 
 	Sequence(11);
@@ -147,7 +147,7 @@ TASK(Task1)
 	 *
 	 * \result Service returns E_OS_VALUE
 	 */
-	ret = SetAbsAlarm(Alarm1, 0, AlarmBase.MinCycle-1);
+	ret = SetAbsAlarm(Alarm1, 0, AlarmBase.mincycle-1);
 	ASSERT(AL_21, ret != E_OS_VALUE);
 
 	Sequence(12);
@@ -156,7 +156,7 @@ TASK(Task1)
 	 *
 	 * \result Service returns E_OS_VALUE
 	 */
-	ret = SetAbsAlarm(Alarm1, 0, AlarmBase.MaxAllowedValue+1);
+	ret = SetAbsAlarm(Alarm1, 0, AlarmBase.maxallowedvalue+1);
 	ASSERT(AL_22, ret != E_OS_VALUE);
 
 	Sequence(13);

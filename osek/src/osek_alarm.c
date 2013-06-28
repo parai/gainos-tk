@@ -49,9 +49,9 @@ StatusType GetAlarmBase ( AlarmType AlarmID, AlarmBaseRefType Info )
     CounterType cntid;
     OS_CHECK_EXT((AlarmID < cfgOSEK_ALARM_NUM),E_OS_ID);
     cntid = knl_galm_table[AlarmID].owner;
-    Info->MaxAllowedValue = knl_almbase_table[cntid].MaxAllowedValue;
-    Info->MinCycle = knl_almbase_table[cntid].MinCycle;
-    Info->TicksPerBase = knl_almbase_table[cntid].TicksPerBase;
+    Info->maxallowedvalue = knl_almbase_table[cntid].maxallowedvalue;
+    Info->mincycle = knl_almbase_table[cntid].mincycle;
+    Info->ticksperbase = knl_almbase_table[cntid].ticksperbase;
     
 Error_Exit:
     #if(cfgOS_ERROR_HOOK == STD_ON)
@@ -102,7 +102,7 @@ StatusType GetAlarm ( AlarmType AlarmID ,TickRefType Tick )
     OS_CHECK((!isQueEmpty(&almcb->almque)),E_OS_NOFUNC);
     cntid = knl_galm_table[AlarmID].owner;
     ccb = &knl_ccb_table[cntid];
-    max = knl_almbase_table[cntid].MaxAllowedValue;
+    max = knl_almbase_table[cntid].maxallowedvalue;
     
     BEGIN_DISABLE_INTERRUPT;
     if(ccb->curvalue <  almcb->time)
@@ -187,10 +187,10 @@ StatusType SetRelAlarm ( AlarmType AlarmID , TickType Increment ,TickType Cycle 
     almcb = &knl_almcb_table[AlarmID];
     OS_CHECK((isQueEmpty(&almcb->almque)),E_OS_STATE);
     cntid = knl_galm_table[AlarmID].owner;
-    max = knl_almbase_table[cntid].MaxAllowedValue;
+    max = knl_almbase_table[cntid].maxallowedvalue;
     OS_CHECK_EXT((max > Increment),E_OS_VALUE);
     OS_CHECK_EXT((max > Cycle),E_OS_VALUE);
-    OS_CHECK_EXT(((knl_almbase_table[cntid].MinCycle <= Cycle) || (0 == Cycle)),E_OS_VALUE);
+    OS_CHECK_EXT(((knl_almbase_table[cntid].mincycle <= Cycle) || (0 == Cycle)),E_OS_VALUE);
     ccb = &knl_ccb_table[cntid];
     
     BEGIN_DISABLE_INTERRUPT;
@@ -273,10 +273,10 @@ StatusType SetAbsAlarm ( AlarmType AlarmID , TickType Start ,TickType Cycle )
     almcb = &knl_almcb_table[AlarmID];
     OS_CHECK((isQueEmpty(&almcb->almque)),E_OS_STATE);
     cntid = knl_galm_table[AlarmID].owner;
-    max = knl_almbase_table[cntid].MaxAllowedValue;
+    max = knl_almbase_table[cntid].maxallowedvalue;
     OS_CHECK_EXT((max > Start),E_OS_VALUE);
     OS_CHECK_EXT((max > Cycle),E_OS_VALUE);
-    OS_CHECK_EXT(((knl_almbase_table[cntid].MinCycle <= Cycle) || (0 == Cycle)),E_OS_VALUE);
+    OS_CHECK_EXT(((knl_almbase_table[cntid].mincycle <= Cycle) || (0 == Cycle)),E_OS_VALUE);
     ccb = &knl_ccb_table[cntid];
     
     BEGIN_DISABLE_INTERRUPT;

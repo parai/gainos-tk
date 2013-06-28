@@ -80,6 +80,9 @@
 #define ALARM(AlarmName)     \
     void AlarmMain##AlarmName(void)  
 
+#define DeclareTask(TaskName)
+#define DeclareAlarm(AlarmName)
+
 //----------------------- OS Error Process -----------
 /*
  *  OS Error Process Macors
@@ -149,12 +152,12 @@ typedef TickType* TickRefType;
 typedef struct
 {
     /* Maximum possible allowed count value in ticks */
-    TickType MaxAllowedValue;
+    TickType maxallowedvalue;
     /*  Number of ticks required to reach a counter-specific (significant) unit. */
-    TickType TicksPerBase;
+    TickType ticksperbase;
     /* Smallest allowed value for the cycle-parameter of */
     /* SetRelAlarm/SetAbsAlarm) (only for systems with extended status). */
-    TickType MinCycle;
+    TickType mincycle;
 }AlarmBaseType;
 /* This data type points to the data type AlarmBaseType. */
 typedef AlarmBaseType * AlarmBaseRefType;

@@ -47,7 +47,6 @@
 #define TTW_MPF		    0x00002000UL             /* Fixed size memory pool wait */
 #define TTW_MPL		    0x00004000UL             /* Variable size memory pool wait */
 
-#define DeclareTask(TaskName)  TaskType TaskName
 #if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
 #define GenTaskStack(TaskName)  static uint32 TaskStack##TaskName[TaskName##StkSz/4]
 /* Task Generate information */
