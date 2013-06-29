@@ -88,10 +88,10 @@
             /* runpri */ runpri                                         \
             }
 #endif  /* cfgOS_SHARE_SYSTEM_STACK */
-#define GenAlarmInfo(AlarmName,Owner)           \
+#define GenAlarmInfo(AlarmName,Owner,Almhdr)           \
     {                                           \
         /* owner */ Owner,                 \
-        /* almhdr */ AlarmMain##AlarmName,   \
+        /* almhdr */ AlarmMain##Almhdr,   \
         /* time */ AlarmName##_AutoStartTime,   \
         /* cycle */ AlarmName##_AutoCycleTime,   \
         /* mode */ AlarmName##Mode   \

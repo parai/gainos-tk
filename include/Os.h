@@ -78,7 +78,9 @@
 
 #define TASK(TaskName) void TaskMain##TaskName(void)
 #define ALARM(AlarmName)     \
-    void AlarmMain##AlarmName(void)  
+    void AlarmMain##AlarmName(void) 
+#define ALARMCALLBACK(cbk)  \
+    void AlarmMain##cbk(void)    
 
 #define DeclareTask(TaskName)
 #define DeclareAlarm(AlarmName)
@@ -144,7 +146,8 @@ typedef uint8   TaskStateType;
 /* This data type points to a variable of the data type TaskStateType. */
 typedef TaskStateType * TaskStateRefType;
 /* This data type represents count values in ticks. */
-typedef UINT TickType;
+//typedef UINT TickType;
+typedef uint32 TickType;
 /* This data type points to the data type TickType. */
 typedef TickType* TickRefType;
 /* This data type represents a structure for storage of counter characteristics. 

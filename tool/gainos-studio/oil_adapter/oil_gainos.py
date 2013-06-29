@@ -64,7 +64,7 @@ re_alarm_COUNTER = re.compile(r'COUNTER\s*=\s*(\w+)\s*;')
 re_alarm_ACTION = re.compile(r'ACTION\s*=\s*(ACTIVATETASK|SETEVENT|ALARMCALLBACK)\s*{([^{}]+)}\s*;')
 re_action_TASK = re.compile(r'TASK\s*=\s*(\w+)\s*;')
 re_action_EVENT = re.compile(r'EVENT\s*=\s*(\w+)\s*;')
-re_action_ALARMCALLBACKNAME = re.compile(r'ALARMCALLBACKNAME\s*=\s*(\w+)\s*;')
+re_action_ALARMCALLBACKNAME = re.compile(r'ALARMCALLBACKNAME\s*=\s*"(\w+)"\s*;')
 re_alarm_AUTOSTART = re.compile(r'AUTOSTART\s*=\s*(\w+)\s*[;{]')
 re_alarm_appmode_list = re.compile(r'AUTOSTART\s*=\s*TRUE\s*{([^{}]*)}\s*;')
 re_alarm_APPMODE = re.compile(r'APPMODE\s*=\s*(\w+)')
@@ -217,6 +217,8 @@ def oil_process_alarm(item, oscfg):
                 alm.event = re_action_EVENT.search(action[1]).groups()[0]
         elif(action[0] == 'ALARMCALLBACK'):
             alm.type = 'callback';
+            if(re_action_ALARMCALLBACKNAME.search(action[1])):
+                alm.cbkname = re_action_ALARMCALLBACKNAME.search(action[1]).groups()[0]
     if(re_alarm_AUTOSTART.search(item)):
         alm.autostart = bool(re_alarm_AUTOSTART.search(item).groups()[0]);
         if(alm.autostart == True):
@@ -231,8 +233,12 @@ def oil_process_alarm(item, oscfg):
                             oscfg.cfg.appmodeList.append(AppMode(modename));
     if(re_alarm_ALARMTIME.search(item)):
         alm.alarmTime = int(re_alarm_ALARMTIME.search(item).groups()[0])
+        if(alm.alarmTime >= 10):
+            alm.alarmTime /= 10;  #just for test purpose, when test over, should remove it
     if(re_alarm_CYCLETIME.search(item)):
         alm.cycleTime = int(re_alarm_CYCLETIME.search(item).groups()[0])
+        if(alm.cycleTime >= 10):
+            alm.cycleTime /= 10;
 
 def oil_process_resource(item, oscfg):
     grp = re_oil_os_resource.search(item).groups();

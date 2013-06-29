@@ -128,10 +128,6 @@ TASK(Task3)
 {
 	TerminateTask();
 }
-ALARM(Alarm1)
-{
-    (void)SetEvent(Task2,Event1);
-}
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */

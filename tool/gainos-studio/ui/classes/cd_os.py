@@ -250,9 +250,11 @@ class cd_os(QDialog, Ui_cd_os):
         if(self.curobj.type == 'callback'):
             self.cmbxAlarmTask.setDisabled(True);
             self.cmbxAlarmEvent.setDisabled(True);
+            self.leAlarmCbk.setDisabled(False)
         elif(self.curobj.type == 'task'):
             self.cmbxAlarmTask.setDisabled(False);
             self.cmbxAlarmEvent.setDisabled(True);
+            self.leAlarmCbk.setDisabled(True)
             self.lblAlarmTask.setText('Alarm Activate Task:');
             #task
             for obj in self.cfg.taskList:
@@ -261,6 +263,7 @@ class cd_os(QDialog, Ui_cd_os):
         elif(self.curobj.type == 'event'):
             self.cmbxAlarmTask.setDisabled(False);
             self.cmbxAlarmEvent.setDisabled(False);
+            self.leAlarmCbk.setDisabled(True)
             self.lblAlarmTask.setText('Alarm Event Task:');
             #task
             tsk=None;
@@ -284,6 +287,7 @@ class cd_os(QDialog, Ui_cd_os):
         self.spbxAlarmTime.setValue(self.curobj.alarmTime);
         self.spbxAlarmCycleTime.setValue(self.curobj.cycleTime);
         self.cbxAlarmAutostart.setChecked(self.curobj.autostart);
+        self.leAlarmCbk.setText(self.curobj.cbkname);
         #关联控件
         self.trAlarmAppModeSrc.setDisabled(not self.curobj.autostart)
         self.trAlarmAppModeDst.setDisabled(not self.curobj.autostart)
@@ -520,7 +524,12 @@ class cd_os(QDialog, Ui_cd_os):
                 self.curobj.type=p0;
                 self.refreshAlarmTabCmbx();
                 self.fileInd(False);
-    
+    @pyqtSignature("QString")
+    def on_leAlarmCbk_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.cbkname!=p0):
+                self.curobj.cbkname=p0;
+                self.fileInd(False);
     @pyqtSignature("QString")
     def on_cmbxAlarmTask_activated(self, p0):
         if(self.curobj!=None):

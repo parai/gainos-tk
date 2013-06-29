@@ -53,7 +53,7 @@ void StartOS ( AppModeType AppMode )
 {
     DISABLE_INTERRUPT;
     knl_app_mode =  AppMode;
-    #if(cfgOSEK_COUNTER_NUM > 0)
+    #if(cfgOSEK_ALARM_NUM > 0)
     knl_cntalm_init();
     #endif
     knl_resource_init();
@@ -111,6 +111,7 @@ void StartOS ( AppModeType AppMode )
 /* |------------------+------------------------------------------------------------------| */
 void ShutdownOS( StatusType Error )
 {
+    DISABLE_INTERRUPT;
 #if (cfgOS_SHUT_DOWN_HOOK == STD_ON)
 	ShutdownHook(Error);
 #endif

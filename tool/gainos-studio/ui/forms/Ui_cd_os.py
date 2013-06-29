@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_os.ui'
 #
-# Created: Wed Jun 26 19:39:18 2013
+# Created: Fri Jun 28 23:08:58 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -474,7 +474,7 @@ class Ui_cd_os(object):
         self.label_21.setObjectName(_fromUtf8("label_21"))
         self.horizontalLayout_24.addWidget(self.label_21)
         self.leAlarmCbk = QtGui.QLineEdit(self.layoutWidget5)
-        self.leAlarmCbk.setEnabled(False)
+        self.leAlarmCbk.setEnabled(True)
         self.leAlarmCbk.setToolTip(_fromUtf8(""))
         self.leAlarmCbk.setText(_fromUtf8(""))
         self.leAlarmCbk.setObjectName(_fromUtf8("leAlarmCbk"))
@@ -616,7 +616,7 @@ class Ui_cd_os(object):
         self.verticalLayout.addWidget(self.btnDel)
 
         self.retranslateUi(cd_os)
-        self.tblGaInOsCfg.setCurrentIndex(0)
+        self.tblGaInOsCfg.setCurrentIndex(4)
         self.cmbxTskType.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(cd_os)
 

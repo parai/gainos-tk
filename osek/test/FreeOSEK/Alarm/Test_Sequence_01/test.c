@@ -182,12 +182,6 @@ TASK(Task2)
 	TerminateTask();
 }
 
-ALARM(Alarm1)
-{
-    /* Alarm Type: Task, you still can add your special code here.*/
-    (void)ActivateTask(Task1);
-}
-
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
