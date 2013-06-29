@@ -61,7 +61,7 @@ Error_Exit:
     	_errorhook_svcid = OSServiceId_GetAlarmBase;
     	_errorhook_par1.almid = AlarmID;
     	_errorhook_par2.p_info = Info;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
     }
 	#endif /* cfgOS_ERROR_HOOK */
@@ -123,7 +123,7 @@ StatusType GetAlarm ( AlarmType AlarmID ,TickRefType Tick )
     	_errorhook_svcid = OSServiceId_GetAlarm;
     	_errorhook_par1.almid = AlarmID;
     	_errorhook_par2.p_tick = Tick;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
     }
 	#endif /* cfgOS_ERROR_HOOK */
@@ -208,7 +208,7 @@ Error_Exit:
     	_errorhook_par1.almid = AlarmID;
     	_errorhook_par2.incr = Increment;
     	_errorhook_par3.cycle = Cycle;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
     }
 	#endif /* cfgOS_ERROR_HOOK */
@@ -293,7 +293,7 @@ Error_Exit:
     	_errorhook_par1.almid = AlarmID;
     	_errorhook_par2.start = Start;
     	_errorhook_par3.cycle = Cycle;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
     }
 	#endif /* cfgOS_ERROR_HOOK */
@@ -337,7 +337,7 @@ StatusType CancelAlarm ( AlarmType AlarmID )
     	BEGIN_CRITICAL_SECTION;
     	_errorhook_svcid = OSServiceId_CancelAlarm;
     	_errorhook_par1.almid = AlarmID;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
     }
 	#endif /* cfgOS_ERROR_HOOK */

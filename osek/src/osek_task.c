@@ -87,7 +87,7 @@ StatusType ActivateTask ( TaskType TaskID )
     	BEGIN_CRITICAL_SECTION;
     	_errorhook_svcid = OSServiceId_ActivateTask;
     	_errorhook_par1.tskid = TaskID;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
 	}
 	#endif /* cfgOS_ERROR_HOOK */
@@ -161,7 +161,7 @@ StatusType TerminateTask ( void )
 	{
     	BEGIN_CRITICAL_SECTION;
     	_errorhook_svcid = OSServiceId_TerminateTask;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
     }
 	#endif /* cfgOS_ERROR_HOOK */
@@ -285,7 +285,7 @@ StatusType ChainTask ( TaskType TaskID )
     	BEGIN_CRITICAL_SECTION;
     	_errorhook_svcid = OSServiceId_ChainTask;
     	_errorhook_par1.tskid = TaskID;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
     }
 	#endif /* cfgOS_ERROR_HOOK */	
@@ -347,7 +347,7 @@ StatusType Schedule ( void )
 	{
     	BEGIN_CRITICAL_SECTION;
     	_errorhook_svcid = OSServiceId_Schedule;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
 	}
 	#endif /* cfgOS_ERROR_HOOK */
@@ -449,7 +449,7 @@ Error_Exit:
     	_errorhook_svcid = OSServiceId_GetTaskState;
     	_errorhook_par1.tskid = TaskID;
     	_errorhook_par2.p_state = State;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
 	}
 	#endif /* cfgOS_ERROR_HOOK */

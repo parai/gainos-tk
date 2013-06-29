@@ -117,7 +117,7 @@ Error_Exit:
     	BEGIN_CRITICAL_SECTION;
     	_errorhook_svcid = OSServiceId_GetResource;
     	_errorhook_par1.resid = ResID;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
     }
 	#endif /* cfgOS_ERROR_HOOK */
@@ -197,7 +197,7 @@ Error_Exit:
     	BEGIN_CRITICAL_SECTION;
     	_errorhook_svcid = OSServiceId_ReleaseResource;
     	_errorhook_par1.resid = ResID;
-    	ErrorHook(ercd);
+    	CallErrorHook(ercd);
     	END_CRITICAL_SECTION;
     }
 	#endif /* cfgOS_ERROR_HOOK */

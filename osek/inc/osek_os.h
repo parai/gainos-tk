@@ -273,5 +273,7 @@ typedef struct event_control_block {
 	EventMaskType	            flgptn;		    /* Event flag current pattern */
     EventMaskType               waipth;         /* Event flag wait pattern */
 } FLGCB;
+
+void CallErrorHook(StatusType xError);
 #endif /* _OSEK_OS_H_ */
 

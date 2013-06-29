@@ -84,6 +84,7 @@
 
 #define DeclareTask(TaskName)
 #define DeclareAlarm(AlarmName)
+#define DeclareResource(ResourceName)
 
 //----------------------- OS Error Process -----------
 /*
@@ -146,8 +147,7 @@ typedef uint8   TaskStateType;
 /* This data type points to a variable of the data type TaskStateType. */
 typedef TaskStateType * TaskStateRefType;
 /* This data type represents count values in ticks. */
-//typedef UINT TickType;
-typedef uint32 TickType;
+typedef UINT TickType;
 /* This data type points to the data type TickType. */
 typedef TickType* TickRefType;
 /* This data type represents a structure for storage of counter characteristics. 
