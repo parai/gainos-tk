@@ -73,4 +73,6 @@ IMPORT void knl_start_hw_timer( void );
  */
 IMPORT void knl_setup_context( TCB *tcb );
 
+IMPORT PRI knl_get_ipl(void);
+IMPORT void knl_set_ipl(PRI ipl);
 #endif/* VPORT_H_H */

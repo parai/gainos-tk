@@ -97,7 +97,7 @@ StatusType GetResource (ResourceType ResID)
         BEGIN_DISABLE_INTERRUPT;
         if(newpri < 0)
         {
-            //TODO: share resourse with OSR
+            //TODO: share resourse with ISR
             /* Task share resource with ISR */
             /* should change IPL */
             /* not supported */
@@ -204,3 +204,4 @@ Error_Exit:
 	return ercd;
 }
 #endif /* (cfgOSEK_RESOURCE_NUM > 0) */
+

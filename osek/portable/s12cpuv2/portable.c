@@ -62,6 +62,23 @@ EXPORT imask_t knl_getPRIMASK ( void )
     asm pula;
 }
 
+PRI knl_get_ipl(void)
+{
+    return (PRI)0;
+}
+
+void knl_set_ipl(PRI ipl)
+{
+    if(ipl < 0)
+    {
+        DISABLE_INTERRUPT;
+    }
+    else
+    {
+        ENABLE_INTERRUPT;
+    }
+}
+
 //mean start the SystemTick ISR timer.
 //here the test board I use has a 16 MHZ oscillator
 //modify it if you have a different board and want a different
