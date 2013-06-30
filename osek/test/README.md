@@ -24,10 +24,13 @@ But well I will give the test results and the reasons why some tests are failed.
 ###test15  OK
 ###test16  Failed
 	GetResource for Non-preematble task was not supported by gainos-tk
-	As I think,if a task is non-preemtable,it seems that it will get the RES_SCHEDULER when start to run, A Non-preemtable task is a task has an internal resource linked to RES_SCHEDULER in 
-	gainos-tk.
+	As I think,if a task is non-preemtable,it seems that it will get the RES_SCHEDULER when 
+	start to run. A Non-preemtable task is treated as a task that has an internal resource 
+	linked to RES_SCHEDULER in gainos-tk.
 ###test17  OK
 ###test18  OK
 ###test19  OK
 ###test20  OK
 ###test21  Failed,the same reason as test16
+###test22  OK
+###test23  Failed,the same reason as test16
