@@ -188,8 +188,8 @@ StatusType SetRelAlarm ( AlarmType AlarmID , TickType Increment ,TickType Cycle 
     OS_CHECK((isQueEmpty(&almcb->almque)),E_OS_STATE);
     cntid = knl_galm_table[AlarmID].owner;
     max = knl_almbase_table[cntid].maxallowedvalue;
-    OS_CHECK_EXT((max > Increment),E_OS_VALUE);
-    OS_CHECK_EXT((max > Cycle),E_OS_VALUE);
+    OS_CHECK_EXT((max >= Increment),E_OS_VALUE);
+    OS_CHECK_EXT((max >= Cycle),E_OS_VALUE);
     OS_CHECK_EXT(((knl_almbase_table[cntid].mincycle <= Cycle) || (0 == Cycle)),E_OS_VALUE);
     ccb = &knl_ccb_table[cntid];
     
@@ -274,8 +274,8 @@ StatusType SetAbsAlarm ( AlarmType AlarmID , TickType Start ,TickType Cycle )
     OS_CHECK((isQueEmpty(&almcb->almque)),E_OS_STATE);
     cntid = knl_galm_table[AlarmID].owner;
     max = knl_almbase_table[cntid].maxallowedvalue;
-    OS_CHECK_EXT((max > Start),E_OS_VALUE);
-    OS_CHECK_EXT((max > Cycle),E_OS_VALUE);
+    OS_CHECK_EXT((max >= Start),E_OS_VALUE);
+    OS_CHECK_EXT((max >= Cycle),E_OS_VALUE);
     OS_CHECK_EXT(((knl_almbase_table[cntid].mincycle <= Cycle) || (0 == Cycle)),E_OS_VALUE);
     ccb = &knl_ccb_table[cntid];
     

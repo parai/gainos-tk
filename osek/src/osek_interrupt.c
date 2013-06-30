@@ -19,8 +19,12 @@
  * Sourrce Open At: https://github.com/parai/gainos-tk/
  */
 #include "osek_os.h"
+#include "portable.h" 
 
-
+LOCAL uint8 sus_all_cnt = 0;
+LOCAL imask_t sus_all_mask = 0;
+LOCAL uint8 sus_os_cnt = 0;
+LOCAL PRI   sus_os_ipl = 0;
 /* |------------------+-------------------------------------------------------------------| */
 /* | Syntax:          | void EnableAllInterrupts ( void )                                 | */
 /* |------------------+-------------------------------------------------------------------| */
@@ -47,6 +51,7 @@
 /* |------------------+-------------------------------------------------------------------| */
 void EnableAllInterrupts( void )
 {
+	ENABLE_INTERRUPT;
 }
 /* |------------------+--------------------------------------------------------------------| */
 /* | Syntax:          | void DisableAllInterrupts ( void )                                 | */
@@ -80,6 +85,7 @@ void EnableAllInterrupts( void )
 /* |------------------+--------------------------------------------------------------------| */
 void DisableAllInterrupts(void)
 {
+	DISABLE_INTERRUPT;
 }
 
 /* |------------------+------------------------------------------------------------------| */
@@ -116,6 +122,19 @@ void DisableAllInterrupts(void)
 /* |------------------+------------------------------------------------------------------| */
 void ResumeAllInterrupts ( void )
 {
+	if (sus_all_cnt == 0) {
+		/*
+		 *  SuspendAllInterrupts hasn't been called before ResumeAllInterrupts
+		 *  It's an error, so just do nothig.
+		 */
+	}
+	else if (sus_all_cnt == 1) {
+		sus_all_cnt--;
+		enaint(sus_all_mask);
+	}
+	else {
+		sus_all_cnt--;
+	}
 }
 
 /* |------------------+------------------------------------------------------------------| */
@@ -149,6 +168,19 @@ void ResumeAllInterrupts ( void )
 /* |------------------+------------------------------------------------------------------| */
 void SuspendAllInterrupts( void )
 {
+	if (sus_all_cnt == 0xFFu) {
+		/*
+		 *  SuspendAllInterrupts has reached its max nest count
+		 *  So do nothing. May a ResumeAllInterrupts call has been forgot.
+		 */
+	}
+	else if (sus_all_cnt == 0) {
+		sus_all_mask = disint();
+		sus_all_cnt++;
+	}
+	else {
+		sus_all_cnt++;
+	}
 }
 
 /* |------------------+------------------------------------------------------------------| */
@@ -185,6 +217,17 @@ void SuspendAllInterrupts( void )
 /* |------------------+------------------------------------------------------------------| */
 void SuspendOSInterrupts( void )
 {
+	if (sus_os_cnt == 0xFFu) {
+
+	}
+	else if (sus_os_cnt == 0) {
+		sus_os_ipl = knl_get_ipl();
+		knl_set_ipl(-1); //currently not supported that well
+		sus_os_cnt++;
+	}
+	else {
+		sus_os_cnt++;
+	}
 }
 
 /* |------------------+-------------------------------------------------------------------| */
@@ -218,6 +261,15 @@ void SuspendOSInterrupts( void )
 /* |------------------+-------------------------------------------------------------------| */
 void ResumeOSInterrupts( void )
 {
-
+	if (sus_os_cnt == 0) {
+		
+	}
+	else if (sus_os_cnt == 1) {
+		sus_os_cnt--;
+		knl_set_ipl(sus_os_ipl);
+	}
+	else {
+		sus_os_cnt--;
+	}
 }
 

@@ -404,6 +404,15 @@ def post_process(oscfg):
                 ent.mask = oil_resolve_event_mask(tsk.eventList);
     oscfg.cfg.resolveOsCC();
     oscfg.cfg.resolveOsMaxPriority();
+    # just add alarm for ConfTest purpose
+    if(gcfindObj(oscfg.cfg.alarmList,'AlarmError') == None):
+        alm = Alarm('AlarmError');
+        alm.type = 'task'
+        alm.task = 'TaskError'
+        alm.counter = 'SystemTimer'
+        oscfg.cfg.alarmList.append(alm);
+
+
         
     
     

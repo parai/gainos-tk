@@ -125,10 +125,9 @@ void ShutdownOS( StatusType Error )
 }
 
 //get the os active application mode
-StatusType GetActiveApplicationMode(AppModeType* Mode)
+AppModeType GetActiveApplicationMode(void)
 {
-    *Mode = knl_app_mode;
-    return E_OK;
+    return knl_app_mode;
 }
 
 #if defined(cfgOSEK_STD_ISR_PROCESS)
