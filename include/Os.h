@@ -85,6 +85,7 @@
 #define DeclareTask(TaskName)
 #define DeclareAlarm(AlarmName)
 #define DeclareResource(ResourceName)
+#define DeclareEvent(EventName)    
 
 //----------------------- OS Error Process -----------
 /*
