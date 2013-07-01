@@ -93,7 +93,7 @@ StatusType GetResource (ResourceType ResID)
     {
         oldpri = knl_ctxtsk->priority;
         newpri = knl_gres_table[ResID];
-        OS_CHECK_EXT((newpri < oldpri),E_OS_ACCESS);
+        OS_CHECK_EXT((newpri <= knl_ctxtsk->itskpri),E_OS_ACCESS);
         BEGIN_DISABLE_INTERRUPT;
         if(newpri < 0)
         {
@@ -103,8 +103,11 @@ StatusType GetResource (ResourceType ResID)
             /* not supported */
         }
         else
-        {
-            knl_ctxtsk->priority = newpri; 
+        {   
+            if(newpri < oldpri)
+            {
+                knl_ctxtsk->priority = newpri; 
+            }
             rescb->tskpri = oldpri;
             QueInsert(&rescb->resque,&knl_ctxtsk->resque);  
         }
@@ -166,10 +169,11 @@ StatusType ReleaseResource ( ResourceType ResID )
     else
     {
         OS_CHECK_EXT((knl_ctxtsk->resque.prev == &rescb->resque),E_OS_NOFUNC);
-        oldpri = knl_gres_table[ResID];
+        
+        oldpri = knl_ctxtsk->priority;
         newpri = rescb->tskpri;
          
-        OS_CHECK_EXT((newpri > oldpri),E_OS_ACCESS);
+        OS_CHECK_EXT((newpri >= oldpri),E_OS_ACCESS);
         
         BEGIN_CRITICAL_SECTION;
         if(oldpri < 0)

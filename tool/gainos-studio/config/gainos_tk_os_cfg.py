@@ -244,6 +244,14 @@ class gainos_tk_os_obj():
         ### for oil usage
         self.eventList=[];
 
+    def resolveResPrio(self,res):
+        res.ceilprio = 0;
+        for taskname in res.taskList:
+            tsk = gcfindObj(self.taskList,taskname);
+            if(tsk != None):
+                if(tsk.prio > res.ceilprio):
+                    res.ceilprio = tsk.prio;
+
     def resolveOsCC(self):
         self.general.os_class = 'BCC'; #start
         for tsk in self.taskList:

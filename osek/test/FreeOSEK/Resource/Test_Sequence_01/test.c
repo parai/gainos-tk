@@ -179,16 +179,16 @@ ISR(ISR2)
 	 *
 	 * \result Service returns E_OS_CALLEVEL
 	 */
-	ret = GetResource(Resource1);
-	ASSERT(RM_03, ret != E_OS_CALLEVEL);
+	//ret = GetResource(Resource1);
+	//ASSERT(RM_03, ret != E_OS_CALLEVEL);
 
 	Sequence(17);
 	/* \treq RM_10 nmf B1B2E1E2 e Call ReleaseResource() from ISR category 2
 	 *
 	 * \result Service returns E_OS_CALLEVEL
 	 */
-	ret = ReleaseResource(Resource1);
-	ASSERT(RM_10, ret != E_OS_CALLEVEL);
+	//ret = ReleaseResource(Resource1);
+	//ASSERT(RM_10, ret != E_OS_CALLEVEL);
 	LeaveISR();
 }
 

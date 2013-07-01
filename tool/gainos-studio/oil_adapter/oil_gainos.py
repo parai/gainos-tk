@@ -107,7 +107,8 @@ def oil_process_os(item, oscfg):
     if(re_general_STARTUPHOOK.search(item)):
         oscfg.cfg.general.os_startup_hook = bool(re_general_STARTUPHOOK.search(item).groups()[0]);
     #process the system counter
-    if(re_general_SystemTimer.search(item)):
+    #if(re_general_SystemTimer.search(item)):
+    if(True): #no matter what, add it
         name = 'SystemTimer'  #re_general_SystemTimer.search(item).groups()[0];
         if(gcfindObj(oscfg.cfg.counterList, name)):
             cnt = gcfindObj(oscfg.cfg.counterList, name);
@@ -347,22 +348,6 @@ def to_oscfg(oilfile, oscfg):
     fp.close();
     return True;
 # ----------------------------- Post Process ---------------
-def resource_priority_post_process1(res, oscfg):
-    """each resource should has a special priority where without task assigned"""
-    for tsk in oscfg.cfg.taskList:
-        if(tsk.prio == res.ceilprio):
-            res.ceilprio += 1;
-
-def resource_priority_post_process2(res, oscfg):
-    """each resource should has a special priority where without task assigned
-    and internal resource assigned"""
-    for tsk in oscfg.cfg.taskList:
-        if(tsk.prio == res.ceilprio):
-            res.ceilprio += 1;
-    for inres in oscfg.cfg.internalResourceList:
-        if(inres.ceilprio == res.ceilprio):
-            res.ceilprio += 1;
-
 def oil_resolve_event_mask(eventList):
     for i in range(0, 32): #each bit corresponds to an event
         found = 0
@@ -385,12 +370,10 @@ def post_process(oscfg):
         for res in oscfg.cfg.internalResourceList+oscfg.cfg.resourceList:
             if(gcfindStr(tsk.resourceList, res.name)):
                 res.taskList.append(tsk.name)
-                if(res.ceilprio < (tsk.prio+1)):
-                   res.ceilprio =  (tsk.prio+1)
-    for res in oscfg.cfg.internalResourceList:
-        resource_priority_post_process1(res, oscfg);
-    for res in oscfg.cfg.resourceList:
-        resource_priority_post_process2(res, oscfg);
+                #if(res.ceilprio < (tsk.prio+1)):
+                #   res.ceilprio =  (tsk.prio+1)
+    for res in oscfg.cfg.internalResourceList+oscfg.cfg.resourceList:
+        oscfg.cfg.resolveResPrio(res);
     #resolve Event Mask
     for tsk in oscfg.cfg.taskList:
         for ent in tsk.eventList:
@@ -410,7 +393,7 @@ def post_process(oscfg):
         alm.type = 'task'
         alm.task = 'TaskError'
         alm.counter = 'SystemTimer'
-        oscfg.cfg.alarmList.append(alm);
+        #oscfg.cfg.alarmList.append(alm);
 
 
         
