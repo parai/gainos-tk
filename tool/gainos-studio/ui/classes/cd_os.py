@@ -219,12 +219,14 @@ class cd_os(QDialog, Ui_cd_os):
             self.spbxResCeilPrio.setDisabled(True);
             self.btnResAdd.setDisabled(True);
             self.btnResRemove.setDisabled(True);
+            self.btnResolveResPrio.setDisabled(True);
             self.curobj.ceilprio = self.cfg.general.max_pri;
         else:
             self.leResName.setDisabled(False);
             self.spbxResCeilPrio.setDisabled(False);
             self.btnResAdd.setDisabled(False);
             self.btnResRemove.setDisabled(False);
+            self.btnResolveResPrio.setDisabled(False);
         self.spbxResCeilPrio.setValue(self.curobj.ceilprio);
         self.refreshTreeCtrl(self.trResAvailableTask, self.trResAssignedTask, self.cfg.taskList, self.curobj.taskList)
         self.enableTab(1);
@@ -613,6 +615,11 @@ class cd_os(QDialog, Ui_cd_os):
             self.curobj.taskList.remove(self.trResAssignedTask.currentItem().text(0));
             self.moveTreeItem(self.trResAssignedTask, self.trResAvailableTask);
             self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnResolveResPrio_clicked(self):
+        self.cfg.resolveResPrio(self.curobj);
+        self.spbxResCeilPrio.setValue(self.curobj.ceilprio);
+        self.fileInd(False);
     #===================== Internal Resource ====================================
     @pyqtSignature("QString")
     def on_leInResName_textChanged(self, p0):
@@ -639,6 +646,11 @@ class cd_os(QDialog, Ui_cd_os):
             self.curobj.taskList.remove(self.trInResAssignedTask.currentItem().text(0));
             self.moveTreeItem(self.trInResAssignedTask, self.trInResAvailableTask);
             self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnResolveInResPrio_clicked(self):
+        self.cfg.resolveResPrio(self.curobj);
+        self.spbxInResCeilPrio.setValue(self.curobj.ceilprio);
+        self.fileInd(False);
     #=========================== Task ============================
     @pyqtSignature("QString")
     def on_leTskName_textChanged(self, p0):

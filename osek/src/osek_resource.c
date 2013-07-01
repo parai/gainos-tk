@@ -81,38 +81,23 @@ StatusType GetResource (ResourceType ResID)
 {
 	StatusType ercd = E_OK;
 	RESCB *rescb;
-	PRI newpri,oldpri;
+	PRI ceilpri,oldpri;
+	OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL); //add as share resource with ISR was not supported
 	OS_CHECK_EXT((ResID < cfgOSEK_RESOURCE_NUM),E_OS_ID);
 	rescb = &knl_rescb_table[ResID];
     OS_CHECK_EXT((isQueEmpty(&rescb->resque)),E_OS_ACCESS);	
-    if(in_indp())  /* Interrupt level */
+    oldpri = knl_ctxtsk->priority;
+    ceilpri = knl_gres_table[ResID];
+    OS_CHECK_EXT((ceilpri <= knl_ctxtsk->itskpri),E_OS_ACCESS);
+    
+    BEGIN_DISABLE_INTERRUPT;  
+    if(ceilpri < oldpri)
     {
-        /* not supported */
+        knl_ctxtsk->priority = ceilpri; 
     }
-    else
-    {
-        oldpri = knl_ctxtsk->priority;
-        newpri = knl_gres_table[ResID];
-        OS_CHECK_EXT((newpri <= knl_ctxtsk->itskpri),E_OS_ACCESS);
-        BEGIN_DISABLE_INTERRUPT;
-        if(newpri < 0)
-        {
-            //TODO: share resourse with ISR
-            /* Task share resource with ISR */
-            /* should change IPL */
-            /* not supported */
-        }
-        else
-        {   
-            if(newpri < oldpri)
-            {
-                knl_ctxtsk->priority = newpri; 
-            }
-            rescb->tskpri = oldpri;
-            QueInsert(&rescb->resque,&knl_ctxtsk->resque);  
-        }
-        END_DISABLE_INTERRUPT;	
-    }
+    rescb->tskpri = oldpri;
+    QueInsert(&rescb->resque,&knl_ctxtsk->resque);  
+    END_DISABLE_INTERRUPT;	
 Error_Exit:
     #if(cfgOS_ERROR_HOOK == STD_ON)
 	if(E_OK != ercd)
@@ -158,42 +143,24 @@ StatusType ReleaseResource ( ResourceType ResID )
 {
 	StatusType ercd = E_OK;
 	RESCB *rescb;
-	PRI newpri,oldpri;
+	PRI ceilpri,oldpri;
+	OS_CHECK_EXT(!in_indp(),E_OS_CALLEVEL); //add as share resource with ISR was not supported
 	OS_CHECK_EXT((ResID < cfgOSEK_RESOURCE_NUM),E_OS_ID);
-	rescb = &knl_rescb_table[ResID];
-    	
-    if(in_indp())  /* Interrupt level */
+	rescb = &knl_rescb_table[ResID];	
+    OS_CHECK_EXT((knl_ctxtsk->resque.prev == &rescb->resque),E_OS_NOFUNC);  
+    oldpri = rescb->tskpri;
+    ceilpri = knl_gres_table[ResID];        
+    OS_CHECK_EXT((ceilpri <= knl_ctxtsk->itskpri),E_OS_ACCESS);
+    
+    BEGIN_CRITICAL_SECTION;
+    knl_ctxtsk->priority = oldpri; 
+    QueRemove(&rescb->resque);
+    QueInit(&rescb->resque);    
+    if(oldpri > knl_ready_queue.top_priority)
     {
-        /* not supported */
+        knl_preempt();
     }
-    else
-    {
-        OS_CHECK_EXT((knl_ctxtsk->resque.prev == &rescb->resque),E_OS_NOFUNC);
-        
-        oldpri = knl_ctxtsk->priority;
-        newpri = rescb->tskpri;
-         
-        OS_CHECK_EXT((newpri >= oldpri),E_OS_ACCESS);
-        
-        BEGIN_CRITICAL_SECTION;
-        if(oldpri < 0)
-        {
-            /* Task share resource with ISR */
-            /* should change IPL */
-            /* not supported */           
-        }
-        else
-        {
-            knl_ctxtsk->priority = newpri; 
-            QueRemove(&rescb->resque);
-            QueInit(&rescb->resque);    
-            if(newpri > knl_ready_queue.top_priority)
-            {
-                knl_preempt();
-            }
-        }
-        END_CRITICAL_SECTION;	
-    }
+    END_CRITICAL_SECTION;	
 Error_Exit:
     #if(cfgOS_ERROR_HOOK == STD_ON)
 	if(E_OK != ercd)

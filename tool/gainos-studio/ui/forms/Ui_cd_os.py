@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_os.ui'
 #
-# Created: Fri Jun 28 23:08:58 2013
+# Created: Mon Jul 01 19:57:55 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -268,26 +268,6 @@ class Ui_cd_os(object):
         self.tblGaInOsCfg.addTab(self.tabTask, _fromUtf8(""))
         self.tabRes = QtGui.QWidget()
         self.tabRes.setObjectName(_fromUtf8("tabRes"))
-        self.layoutWidget_6 = QtGui.QWidget(self.tabRes)
-        self.layoutWidget_6.setGeometry(QtCore.QRect(20, 20, 374, 66))
-        self.layoutWidget_6.setObjectName(_fromUtf8("layoutWidget_6"))
-        self.gridLayout_2 = QtGui.QGridLayout(self.layoutWidget_6)
-        self.gridLayout_2.setMargin(0)
-        self.gridLayout_2.setObjectName(_fromUtf8("gridLayout_2"))
-        self.label_11 = QtGui.QLabel(self.layoutWidget_6)
-        self.label_11.setObjectName(_fromUtf8("label_11"))
-        self.gridLayout_2.addWidget(self.label_11, 0, 0, 1, 1)
-        self.leResName = QtGui.QLineEdit(self.layoutWidget_6)
-        self.leResName.setMinimumSize(QtCore.QSize(231, 0))
-        self.leResName.setObjectName(_fromUtf8("leResName"))
-        self.gridLayout_2.addWidget(self.leResName, 0, 1, 1, 2)
-        self.label_12 = QtGui.QLabel(self.layoutWidget_6)
-        self.label_12.setObjectName(_fromUtf8("label_12"))
-        self.gridLayout_2.addWidget(self.label_12, 1, 0, 1, 2)
-        self.spbxResCeilPrio = QtGui.QSpinBox(self.layoutWidget_6)
-        self.spbxResCeilPrio.setMinimumSize(QtCore.QSize(91, 0))
-        self.spbxResCeilPrio.setObjectName(_fromUtf8("spbxResCeilPrio"))
-        self.gridLayout_2.addWidget(self.spbxResCeilPrio, 1, 2, 1, 1)
         self.layoutWidget_13 = QtGui.QWidget(self.tabRes)
         self.layoutWidget_13.setGeometry(QtCore.QRect(230, 160, 31, 66))
         self.layoutWidget_13.setObjectName(_fromUtf8("layoutWidget_13"))
@@ -309,6 +289,32 @@ class Ui_cd_os(object):
         self.trResAvailableTask.setGeometry(QtCore.QRect(260, 100, 211, 251))
         self.trResAvailableTask.setObjectName(_fromUtf8("trResAvailableTask"))
         self.trResAvailableTask.headerItem().setText(0, _fromUtf8("Available Task..."))
+        self.widget = QtGui.QWidget(self.tabRes)
+        self.widget.setGeometry(QtCore.QRect(11, 23, 451, 64))
+        self.widget.setObjectName(_fromUtf8("widget"))
+        self.verticalLayout_4 = QtGui.QVBoxLayout(self.widget)
+        self.verticalLayout_4.setMargin(0)
+        self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
+        self.horizontalLayout_28 = QtGui.QHBoxLayout()
+        self.horizontalLayout_28.setObjectName(_fromUtf8("horizontalLayout_28"))
+        self.label_11 = QtGui.QLabel(self.widget)
+        self.label_11.setObjectName(_fromUtf8("label_11"))
+        self.horizontalLayout_28.addWidget(self.label_11)
+        self.leResName = QtGui.QLineEdit(self.widget)
+        self.leResName.setMinimumSize(QtCore.QSize(231, 0))
+        self.leResName.setObjectName(_fromUtf8("leResName"))
+        self.horizontalLayout_28.addWidget(self.leResName)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_28)
+        self.horizontalLayout_27 = QtGui.QHBoxLayout()
+        self.horizontalLayout_27.setObjectName(_fromUtf8("horizontalLayout_27"))
+        self.btnResolveResPrio = QtGui.QPushButton(self.widget)
+        self.btnResolveResPrio.setObjectName(_fromUtf8("btnResolveResPrio"))
+        self.horizontalLayout_27.addWidget(self.btnResolveResPrio)
+        self.spbxResCeilPrio = QtGui.QSpinBox(self.widget)
+        self.spbxResCeilPrio.setMinimumSize(QtCore.QSize(91, 0))
+        self.spbxResCeilPrio.setObjectName(_fromUtf8("spbxResCeilPrio"))
+        self.horizontalLayout_27.addWidget(self.spbxResCeilPrio)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_27)
         self.tblGaInOsCfg.addTab(self.tabRes, _fromUtf8(""))
         self.tabInRes = QtGui.QWidget()
         self.tabInRes.setObjectName(_fromUtf8("tabInRes"))
@@ -333,26 +339,32 @@ class Ui_cd_os(object):
         self.btnInResRemove.setMaximumSize(QtCore.QSize(29, 16777215))
         self.btnInResRemove.setObjectName(_fromUtf8("btnInResRemove"))
         self.gridLayout_7.addWidget(self.btnInResRemove, 1, 0, 1, 1)
-        self.layoutWidget_8 = QtGui.QWidget(self.tabInRes)
-        self.layoutWidget_8.setGeometry(QtCore.QRect(21, 21, 436, 66))
-        self.layoutWidget_8.setObjectName(_fromUtf8("layoutWidget_8"))
-        self.gridLayout_3 = QtGui.QGridLayout(self.layoutWidget_8)
-        self.gridLayout_3.setMargin(0)
-        self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
-        self.label_13 = QtGui.QLabel(self.layoutWidget_8)
+        self.widget1 = QtGui.QWidget(self.tabInRes)
+        self.widget1.setGeometry(QtCore.QRect(12, 24, 451, 64))
+        self.widget1.setObjectName(_fromUtf8("widget1"))
+        self.verticalLayout_5 = QtGui.QVBoxLayout(self.widget1)
+        self.verticalLayout_5.setMargin(0)
+        self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
+        self.horizontalLayout_30 = QtGui.QHBoxLayout()
+        self.horizontalLayout_30.setObjectName(_fromUtf8("horizontalLayout_30"))
+        self.label_13 = QtGui.QLabel(self.widget1)
         self.label_13.setObjectName(_fromUtf8("label_13"))
-        self.gridLayout_3.addWidget(self.label_13, 0, 0, 1, 1)
-        self.leInResName = QtGui.QLineEdit(self.layoutWidget_8)
+        self.horizontalLayout_30.addWidget(self.label_13)
+        self.leInResName = QtGui.QLineEdit(self.widget1)
         self.leInResName.setObjectName(_fromUtf8("leInResName"))
-        self.gridLayout_3.addWidget(self.leInResName, 0, 1, 1, 2)
-        self.label_14 = QtGui.QLabel(self.layoutWidget_8)
-        self.label_14.setObjectName(_fromUtf8("label_14"))
-        self.gridLayout_3.addWidget(self.label_14, 1, 0, 1, 2)
-        self.spbxInResCeilPrio = QtGui.QSpinBox(self.layoutWidget_8)
+        self.horizontalLayout_30.addWidget(self.leInResName)
+        self.verticalLayout_5.addLayout(self.horizontalLayout_30)
+        self.horizontalLayout_29 = QtGui.QHBoxLayout()
+        self.horizontalLayout_29.setObjectName(_fromUtf8("horizontalLayout_29"))
+        self.btnResolveInResPrio = QtGui.QPushButton(self.widget1)
+        self.btnResolveInResPrio.setObjectName(_fromUtf8("btnResolveInResPrio"))
+        self.horizontalLayout_29.addWidget(self.btnResolveInResPrio)
+        self.spbxInResCeilPrio = QtGui.QSpinBox(self.widget1)
         self.spbxInResCeilPrio.setMinimumSize(QtCore.QSize(91, 0))
         self.spbxInResCeilPrio.setMaximum(65535)
         self.spbxInResCeilPrio.setObjectName(_fromUtf8("spbxInResCeilPrio"))
-        self.gridLayout_3.addWidget(self.spbxInResCeilPrio, 1, 2, 1, 1)
+        self.horizontalLayout_29.addWidget(self.spbxInResCeilPrio)
+        self.verticalLayout_5.addLayout(self.horizontalLayout_29)
         self.tblGaInOsCfg.addTab(self.tabInRes, _fromUtf8(""))
         self.tabCnt = QtGui.QWidget()
         self.tabCnt.setObjectName(_fromUtf8("tabCnt"))
@@ -616,7 +628,7 @@ class Ui_cd_os(object):
         self.verticalLayout.addWidget(self.btnDel)
 
         self.retranslateUi(cd_os)
-        self.tblGaInOsCfg.setCurrentIndex(4)
+        self.tblGaInOsCfg.setCurrentIndex(1)
         self.cmbxTskType.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(cd_os)
 
@@ -689,14 +701,6 @@ class Ui_cd_os(object):
         self.cbxTskPreemtable.setText(QtGui.QApplication.translate("cd_os", "Task Preemtable", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxTaskAutostart.setText(QtGui.QApplication.translate("cd_os", "Task Autostart", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabTask), QtGui.QApplication.translate("cd_os", "Task", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_11.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Resource Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.leResName.setText(QtGui.QApplication.translate("cd_os", "vRes1", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_12.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Resource Ceiling Priority:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.spbxResCeilPrio.setToolTip(QtGui.QApplication.translate("cd_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">0 is the lowest priority,the configured MAX_PRI is the highest.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.btnResAdd.setText(QtGui.QApplication.translate("cd_os", "<<", None, QtGui.QApplication.UnicodeUTF8))
         self.btnResRemove.setText(QtGui.QApplication.translate("cd_os", ">>", None, QtGui.QApplication.UnicodeUTF8))
         self.trResAssignedTask.setToolTip(QtGui.QApplication.translate("cd_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -706,6 +710,14 @@ class Ui_cd_os(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">For normal resource, each task can get it, but you should make sure that the ceiling priority should be higher than all the tasks that will acquire this normal resource.</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">So you can ignore this config,this just help you to remember, don\'t expect this tool will help you to resolve the ceiling priority automatically, you should do this!</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.trResAssignedTask.headerItem().setText(0, QtGui.QApplication.translate("cd_os", "Assigned To Task...", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_11.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Resource Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.leResName.setText(QtGui.QApplication.translate("cd_os", "vRes1", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnResolveResPrio.setText(QtGui.QApplication.translate("cd_os", "Resolve Resource Ceiling Priority:", None, QtGui.QApplication.UnicodeUTF8))
+        self.spbxResCeilPrio.setToolTip(QtGui.QApplication.translate("cd_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">0 is the lowest priority,the configured MAX_PRI is the highest.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tblGaInOsCfg.setTabText(self.tblGaInOsCfg.indexOf(self.tabRes), QtGui.QApplication.translate("cd_os", "Resource", None, QtGui.QApplication.UnicodeUTF8))
         self.trInResAssignedTask.setToolTip(QtGui.QApplication.translate("cd_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -718,7 +730,7 @@ class Ui_cd_os(object):
         self.btnInResRemove.setText(QtGui.QApplication.translate("cd_os", ">>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_13.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Internal Resource Name:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.leInResName.setText(QtGui.QApplication.translate("cd_os", "vInRes1", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_14.setText(QtGui.QApplication.translate("cd_os", "<html><head/><body><p>Internal Resource Ceiling Priority:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnResolveInResPrio.setText(QtGui.QApplication.translate("cd_os", "Resolve Resource Ceiling Priority:", None, QtGui.QApplication.UnicodeUTF8))
         self.spbxInResCeilPrio.setToolTip(QtGui.QApplication.translate("cd_os", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"

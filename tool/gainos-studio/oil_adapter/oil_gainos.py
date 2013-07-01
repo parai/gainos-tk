@@ -388,14 +388,14 @@ def post_process(oscfg):
     oscfg.cfg.resolveOsCC();
     oscfg.cfg.resolveOsMaxPriority();
     # just add alarm for ConfTest purpose
+    if(gcfindObj(oscfg.cfg.taskList, 'TaskError') == None):
+        tsk = Task('TaskError', 10, 100);
+        oscfg.cfg.taskList.append(tsk)
     if(gcfindObj(oscfg.cfg.alarmList,'AlarmError') == None):
         alm = Alarm('AlarmError');
         alm.type = 'task'
         alm.task = 'TaskError'
         alm.counter = 'SystemTimer'
-        #oscfg.cfg.alarmList.append(alm);
-
-
-        
+        oscfg.cfg.alarmList.append(alm);
     
     

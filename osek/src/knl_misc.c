@@ -40,7 +40,7 @@ EXPORT void knl_ready_queue_initialize( RDYQUE *rq )
 	}
 	rq->null.head = rq->null.tail = 0; //for NULL
 	#endif
-//	rq->klocktsk = NULL;
+
 	(void)memset(rq->bitmap, 0, sizeof(rq->bitmap));
 }
 /*
@@ -48,10 +48,11 @@ EXPORT void knl_ready_queue_initialize( RDYQUE *rq )
  *	Insert it at the end of the same priority tasks with task priority 
  *	indicated with 'tcb'. Set the applicable bit in the bitmap area and 
  *	update 'top_priority' if necessary. 
+ *  task state from TS_DORMANT to READY
  */
 EXPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 {
-	INT	priority = tcb->priority;
+	INT	priority = tcb->itskpri; 
 
 	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	QueInsert(&tcb->tskque, &rq->tskque[priority]);
@@ -61,31 +62,24 @@ EXPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 
 	knl_tstdlib_bitset(rq->bitmap, priority);
 
-//	if ( tcb->klocked ) {
-//		rq->klocktsk = tcb;
-//	}
-
 	if ( priority < rq->top_priority ) {
 		rq->top_priority = priority;
 	}
 }
 
 /*
- * Insert task at head in ready queue 
+ * Insert task at head in ready queue, for preemting 
+ * task state from RUNNING to READY
  */
 EXPORT void knl_ready_queue_insert_top( RDYQUE *rq, TCB *tcb )
 {
-	INT	priority = tcb->priority;
+	INT	priority = tcb->priority;  //use tsk current priority
 	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	QueInsert(&tcb->tskque, rq->tskque[priority].next);
 	#else
 	FifoQueAltPush(&tcb->tskque, &rq->tskque[priority]);
 	#endif
 	knl_tstdlib_bitset(rq->bitmap, priority);
-
-//	if ( tcb->klocked ) {
-//		rq->klocktsk = tcb;
-//	}
 
 	if ( priority < rq->top_priority ) {
 		rq->top_priority = priority;
@@ -104,16 +98,8 @@ EXPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb )
 	INT	priority = tcb->priority;
 	INT	i;
 
-//	if ( rq->klocktsk == tcb ) {
-//		rq->klocktsk = NULL;
-//	}
 	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	QueRemove(&tcb->tskque);
-//	if ( tcb->klockwait ) {
-//		/* Delete from kernel lock wait queue */
-//		tcb->klockwait = FALSE;
-//		return;
-//	}
 	if ( !isQueEmpty(&rq->tskque[priority]) ) {
 		return;
 	}

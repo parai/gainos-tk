@@ -34,8 +34,7 @@ TASK Task2 {
 };
 
 TASK Task3 {
-   //PRIORITY = 3;
-   PRIORITY = 5;  //shoud has higher priority than Resource1
+   PRIORITY = 3;
    SCHEDULE = FULL;
    ACTIVATION = 1;
    AUTOSTART = FALSE;

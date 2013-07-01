@@ -284,10 +284,13 @@ class gainos_tk_os_obj():
         for tsk in self.taskList:
             if(tsk.prio == priority):
                 length += tsk.maxactcnt;
+        for res in self.resourceList+self.internalResourceList:
+            if(res.ceilprio == priority):
+                length += 1; # for a task with this resource
         if(length == 0):
             return 0;
         else:
-            return length+1
+            return length+2
 
     def resolveOsMaxPriority(self):
         self.general.max_pri = 0;
