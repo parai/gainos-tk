@@ -62,6 +62,8 @@ IMPORT void knl_force_dispatch(void);
 /*
  * Start task dispatcher during ISR
  */
+//better to use a PendSV, so bug for 9S12X(with IPL) 
+//should lower IPL firstly and then start to dispatch
 #define knl_isr_dispatch() {asm swi;}
 
 IMPORT imask_t disint( void );
