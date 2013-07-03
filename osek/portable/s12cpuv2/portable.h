@@ -61,10 +61,14 @@ IMPORT void knl_force_dispatch(void);
 
 /*
  * Start task dispatcher during ISR
+ * You should define "CPU9S12X" for CPU with IPL in CCR in you compiler pre-process
  */
-//better to use a PendSV, so bug for 9S12X(with IPL) 
-//should lower IPL firstly and then start to dispatch
+#if !defined(CPU9S12X)  //for CPU without IPL in CCR
 #define knl_isr_dispatch() {asm swi;}
+#else  //for CPU with IPL in CCR
+//lower IPL firstly and then call dispatch
+#define knl_isr_dispatch() {asm psha;asm ldaa #0;asm tfr a,ccrh;asm pula;asm swi;}
+#endif
 
 IMPORT imask_t disint( void );
 IMPORT void enaint( imask_t intsts );

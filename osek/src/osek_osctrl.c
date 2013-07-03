@@ -133,7 +133,6 @@ AppModeType GetActiveApplicationMode(void)
 #if defined(cfgOSEK_STD_ISR_PROCESS)
 /* For Arm Cortex M3, terrible. So I move them to portableS.S */
 /* For others, define cfgOSEK_STD_ISR_PROCESS in your compiler pre-processor */
-/* This is not OK for HC9S12X(with x-gate and IPL) but OK for HC9S12(without x-gate and IPL) */
 void EnterISR(void)
 {
     knl_taskindp++;/* Enter Task Independedt Part */
