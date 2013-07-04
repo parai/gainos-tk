@@ -337,7 +337,7 @@ StatusType Schedule ( void )
 
 	BEGIN_CRITICAL_SECTION;
 	//if task has internal resource or task is non-premtable
-	if(knl_ready_queue.top_priority <= knl_ctxtsk->itskpri)
+	if(knl_ready_queue.top_priority < knl_ctxtsk->itskpri)
 	{	//release internal resource or for Non-Preemtable Task
     	knl_ctxtsk->priority = knl_ctxtsk->itskpri;  
         knl_reschedule();
