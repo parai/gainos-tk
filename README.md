@@ -71,6 +71,7 @@ gainos-tk
 	+-------+ inc            <--- GaInOS-TK 内核 .h 
 	+-------+ src            <--- GaInOS-TK 内核 .c 
 	+-------+ portable       <--- GaInOS-TK 内核移植部分
+	+-------+ test           <--- GaInOS-TK 内核OSEK 符合性测试
 	+---+ toppers_osek       <--- GaInOS-TK 实现时参考的一个os
 	
 # 使用说明
