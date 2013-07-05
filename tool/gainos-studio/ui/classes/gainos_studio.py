@@ -115,8 +115,21 @@ class mwgainostk(QMainWindow, Ui_mwgainostk):
         return
     @pyqtSignature("")
     def on_actionExport_oil_triggered(self):
-        print "not supported!"
-        return
+        """输出os 配置至标准 oil"""
+        if(self.cfg == None):
+            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                        'Please New Configure File Firstly!').exec_();
+            return;
+        elif(self.cfg.findModule('OS') == None):
+            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                        'Please Add Module OS Firstly!').exec_();
+            return
+        file=QFileDialog.getSaveFileName(self, 'Save oscfg to oil ...', 
+            '%s/%s'%(os.path.dirname(self.arxml),'gainoscfg.oil'), 'osek standard oil file(*.oil)');
+        if(file!=''):
+            oil_gainos.to_osoil(str(file), self.cfg.findModule('OS').obj)
+            QMessageBox(QMessageBox.Information, 'GaInOS Info', 
+                    'Export to %s successfully!'%(file)).exec_();
     @pyqtSignature("")
     def on_actionNew_triggered(self):
         from cd_select import cd_select

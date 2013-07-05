@@ -397,5 +397,92 @@ def post_process(oscfg):
         alm.task = 'TaskError'
         alm.counter = 'SystemTimer'
         oscfg.cfg.alarmList.append(alm);
+        
+def to_osoil(file, oscfg):
+    """convert oscfg to oil"""
+    fp = open(file, 'w');
+    fp.write(gcGainOS_TkHead())
+    #-------------------- OS
+    str = 'OS gainos\n{\n'
+    str +='\tSTATUS = %s;\n'%(oscfg.cfg.general.status)
+    str +='\tERRORHOOK = %s;\n'%(TRUE(oscfg.cfg.general.os_error_hook))
+    str +='\tPRETASKHOOK = %s;\n'%(TRUE(oscfg.cfg.general.os_pretask_hook))
+    str +='\tPOSTTASKHOOK = %s;\n'%(TRUE(oscfg.cfg.general.os_post_task_hook))
+    str +='\tSHUTDOWNHOOK = %s;\n'%(TRUE(oscfg.cfg.general.os_shutdown_hook))
+    str +='\tSTARTUPHOOK = %s;\n'%(TRUE(oscfg.cfg.general.os_startup_hook))
+    str +='};\n\n'
+    fp.write(str);
+    #------------------- TASK 
+    for tsk in oscfg.cfg.taskList:
+        str = 'TASK %s\n{\n'%(tsk.name)
+        str += '\tPRIORITY = %s;\n'%(tsk.prio)
+        str += '\tStackSize = %s;\n'%(tsk.stksz)
+        str += '\tACTIVATION = %s;\n'%(tsk.maxactcnt)
+        if(oscfg.cfg.general.sched_policy == 'MIXED_PREEMPTIVE_SCHEDULE'):
+            if(tsk.preemtable == True):
+                str += '\tSCHEDULE = FULL;\n'
+            else:
+                str += '\tSCHEDULE = NON;\n'
+        elif(oscfg.cfg.general.sched_policy == 'FULL_PREEMPTIVE_SCHEDULE'):
+            str += '\tSCHEDULE = FULL;\n'
+        elif(oscfg.cfg.general.sched_policy == 'NONE_PREEMPTIVE_SCHEDULE'):
+            str += '\tSCHEDULE = NON;\n'
+        if(tsk.autostart == False):
+            str += '\tAUTOSTART = FALSE;\n'
+        else:
+            str += '\tAUTOSTART = TRUE {\n'
+            for mode in tsk.appmode:
+                str += '\t\tAPPMODE = %s;\n'%(mode);
+            str += '\t};\n'
+        for ent in tsk.eventList:
+            str += '\tEVENT = %s;\n'%(ent.name);
+        for res in oscfg.cfg.resourceList+oscfg.cfg.internalResourceList:
+            if(gcfindStr(res.taskList, tsk.name) != None):
+                str += '\tRESOURCE = %s;\n'%(res.name);
+        str += '};\n\n'
+        fp.write(str);
+    #---------- EVENT 
+    for tsk in oscfg.cfg.taskList:
+        for ent in tsk.eventList:
+            fp.write('EVENT %s\n{\n\tMASK = %s;\n};\n\n'%(ent.name, ent.mask))
+    #----------- RESOURCE
+    for res in oscfg.cfg.resourceList:
+        fp.write('RESOURCE %s\n{\n\tRESOURCEPROPERTY = STANDARD;\n};\n\n'%(res.name))
+    for res in oscfg.cfg.internalResourceList:
+        fp.write('RESOURCE %s\n{\n\tRESOURCEPROPERTY = INTERNAL;\n};\n\n'%(res.name));
+    #----------- COUNTER
+    for cnt in oscfg.cfg.counterList:
+        str = 'COUNTER %s\n{\n'%(cnt.name) 
+        str += '\tMINCYCLE = %s;\n'%(cnt.min)  
+        str += '\tMAXALLOWEDVALUE = %s;\n'%(cnt.max)   
+        str += '\tTICKSPERBASE = %s;\n'%(cnt.tpb)   
+        str += '};\n\n'
+        fp.write(str);
+    #------------ ALATM
+    for alm in oscfg.cfg.alarmList:
+        str = 'ALARM %s\n{\n'%(alm.name)
+        str += '\tCOUNTER = %s;\n'%(alm.counter)
+        if(alm.type == 'task'):
+            str += '\tACTION = ACTIVATETASK \n{\n\t\tTASK = %s;\n\t};\n'%(alm.task)
+        elif(alm.type == 'callback'):
+            str += '\tACTION = ALARMCALLBACK \n{\n\t\tALARMCALLBACKNAME = %s;\n\t};\n'%(alm.cbkname)
+        else:
+            str += """
+    ACTION = SETEVENT { 
+        TASK = %s; 
+        EVENT = %s; 
+    };\n"""%(alm.task, alm.event);
+        if(alm.autostart == False):
+            str += 'AUTOSTART = FALSE;\n'
+        else:
+            str += '\tAUTOSTART = TRUE {\n'
+            str += '\tALARMTIME = %s;\n'%(alm.alarmTime)
+            str += '\tCYCLETIME = %s;\n'%(alm.cycleTime)
+            for mode in alm.appmode:
+                str += '\t\tAPPMODE = %s;\n'%(mode);
+            str += '\t};\n'
+        str += '};\n\n'
+        fp.write(str)
+    fp.close();
     
     
