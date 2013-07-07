@@ -341,7 +341,7 @@ StatusType CancelAlarm ( AlarmType AlarmID )
     	END_CRITICAL_SECTION;
     }
 	#endif /* cfgOS_ERROR_HOOK */
-    	return ercd;
+    return ercd;
 }
 
 #endif /* (cfgOSEK_ALARM_NUM >0) */

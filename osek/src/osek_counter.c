@@ -146,11 +146,11 @@ StatusType IncrementCounter(CounterType CounterID)
        in nxtOSEK, max allowed value allowed for counter and alarm are both the MaxAllowedValue*2,
        as it has implemented the TicksPerBase. So the method used by nxtOSEK is prefered.
     */
-    ccb->curvalue = knl_add_ticks(ccb->curvalue,knl_almbase_table[CounterID].ticksperbase,max<<1);
+    ccb->curvalue = knl_add_ticks(ccb->curvalue,knl_almbase_table[CounterID].ticksperbase,max*2);
     /* Execute alarm that passed occurring time. */
 	while ( !isQueEmpty(&ccb->almque) ) {
 	    ALMCB *almcb =  (ALMCB *)ccb->almque.next;
-	    if(knl_diff_tick(ccb->curvalue,almcb->time,max<<1) > max)
+	    if(knl_diff_tick(ccb->curvalue,almcb->time,max*2) > max)
 	    {  /* It seems so complicated, but refer OSEK OS specification.
               you will find out the reason. */
 	        break;
@@ -162,7 +162,7 @@ StatusType IncrementCounter(CounterType CounterID)
 	    }
 	    if(almcb->cycle > 0)
 	    {
-	        almcb->time = knl_add_ticks(almcb->time,almcb->cycle,max<<1);
+	        almcb->time = knl_add_ticks(almcb->time,almcb->cycle,max*2);
 	        knl_alm_insert(almcb,ccb);
 	    }
 	    else

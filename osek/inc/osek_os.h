@@ -64,7 +64,7 @@
 //by default,runprio is equal to task initial priority<itskpri> 
 #define GenTaskInfo(TaskName,Attribute,flgid,runpri) \
     {                                                                   \
-        /* tskatr */   Attribute,                                       \
+        /* mode */   TaskName##Mode,                                       \
             /* task */     TaskMain##TaskName,                          \
             /* itskpri */  TaskName##Pri,                               \
             /* sstksz */   TaskName##StkSz,                             \
@@ -154,7 +154,7 @@ typedef struct timer_event_block {
  * Task gerneration information
  */
 typedef struct t_gtsk {
-	ATR 	tskatr;		/* Task attribute */
+	AppModeType mode;		/* Task mode */
 	FP      task;		/* Task startup address */
 	PRI	    itskpri;	/* Priority at task startup */
 	UINT	stksz;		/* User stack size (byte) */
@@ -174,14 +174,11 @@ typedef struct task_control_block{
     VP          isstack;    /* Init Task Stack Top Pointer*/
     UINT		stksz;		/* User stack size (byte) */
     #endif
-    ATR 	    tskatr;		/* Task attribute */
     PRI         runpri;     /* Task priority When it Start To Running */
     PRI         itskpri;    /* Priority at task startup */
     //}}
     UINT        actcnt;     /* Task Activate Count */
 	PRI	        priority;	/* Current priority */
-//	BOOL	    klockwait:1;	/* TRUE at wait kernel lock */
-//	BOOL     	klocked:1;	    /* TRUE at hold kernel lock */
 	UB /*TSTAT*/	state;  	/* Task state (Int. expression) */
 #if(cfgOS_TK_EXTEND == STD_ON)
 	WSPEC *	        wspec;	  /* Wait specification */

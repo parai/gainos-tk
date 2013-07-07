@@ -37,8 +37,6 @@
 #define ECC2 4
 
 /* Attribute for task */
-// use the atr[7:0] to store the appmode for each task
-// each bit correspond to one
 /* Default application mode, always a valid parameter to StartOS */
 #define APPMODEMASK      (0x000000FFu)
 #define OSDEFAULTAPPMODE (0x00000001u)
@@ -46,9 +44,7 @@
 //Is Task Preemtable
 #define PREEMTABLE       (0x00000000u)
 #define NON_PREEMTABLE   (0x00000100u) 
-//Is Task Autostart
-#define AUTOSTART        (0x00000200u)
-#define NON_AUTOSTART    (0x00000000u) 
+ 
 #define OS_HIGHEST_PRIORITY 0     
 
 #define TMO_FEVR (TickType)(UINT_MAX)

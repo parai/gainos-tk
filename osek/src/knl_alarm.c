@@ -58,7 +58,7 @@ EXPORT TickType knl_add_ticks(TickType almval,TickType incr,TickType maxval2)
     }
     else
     {
-        return (incr - (maxval2 - almval));
+        return (incr - (maxval2 + 1  - almval));
     }
 }
 

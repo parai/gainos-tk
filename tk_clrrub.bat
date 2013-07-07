@@ -54,7 +54,7 @@ del /s /q *.lnp
 del /s /q *.lst
 del /s /q *.map
 del /s /q *.o
-del /s /q *.out
+REM del /s /q *.out
 del /s /q *.pbi
 del /s /q *.plg
 del /s /q *.sfr

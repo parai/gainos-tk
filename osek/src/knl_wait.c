@@ -82,6 +82,7 @@ EXPORT void knl_wait_release_tmout( TCB *tcb )
 EXPORT void knl_make_non_wait( TCB *tcb )
 {
 	if ( tcb->state == TS_WAIT ) {
+	    tcb->state = TS_READY;
 		knl_make_runnable(tcb);
 	} else {
 		tcb->state = TS_SUSPEND;
