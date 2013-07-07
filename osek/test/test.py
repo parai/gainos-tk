@@ -22,6 +22,7 @@ def FreeOSEK(path):
 	os.system('%s/Prog/hiwave.exe -W -Prod=Full_Chip_Simulation.ini -instance=sim Project.abs'%(COMPILER_DIR));
 	#os.system('%s/Prog/hiwave.exe -W -Prod=TBDML.ini -instance=tbdml Project.abs -CMD="Go"'%(COMPILER_DIR));
 	print '          ^_^              ^_^                       ^_^                '
+	os.chdir(cwd); #change back
 
 def ConfTest(path):
 	#test code is private
@@ -42,7 +43,23 @@ def ConfTest(path):
 	os.system('%s/Prog/hiwave.exe -W -Prod=Full_Chip_Simulation.ini -instance=sim Project.abs'%(COMPILER_DIR));
 	#os.system('%s/Prog/hiwave.exe -W -Prod=TBDML.ini -instance=tbdml Project.abs -CMD="Go"'%(COMPILER_DIR));
 	print '          ^_^              ^_^                       ^_^                '
+	os.chdir(cwd); #change back
+	
+def AllConfTest():
+	for i in range(1,165):
+		if(i==5 or i==6):
+			continue
+		print '>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST %s START <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'%(i)
+		print '>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST %s START <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'%(i)
+		print '>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST %s START <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'%(i)
+		path = 'ConfTest/src/test%s'%(i)
+		ConfTest(path);
+		print '>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST %s END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'%(i)
+		print '>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST %s END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'%(i)
+		print '>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST %s END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'%(i)
 
+def AllTest():
+	AllConfTest();
 
 if __name__ == "__main__":
 	# example
@@ -53,3 +70,5 @@ if __name__ == "__main__":
 			FreeOSEK(path);
 		elif(path[:8] == 'ConfTest'):
 			ConfTest(path);
+		elif(path == 'all'):
+			AllTest();
