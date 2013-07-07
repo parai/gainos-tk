@@ -110,9 +110,3 @@ void ErrorHook(StatusType Error)
 {
     printf("%s : %s\r\n",l_error_name_table[Error],l_service_id_name_table[OSErrorGetServiceId()]);
 }
-
-ALARM(vAlarm0)
-{
-    /* Alarm Type: Task, you still can add your special code here.*/
-    (void)ActivateTask(vTaskStart);
-}

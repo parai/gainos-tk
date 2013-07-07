@@ -22,6 +22,25 @@
 #include "osek_os.h"
 #include <stdio.h>
 
+#if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
+#error As vTaskIdle must be created, this was not supported that well
+#endif
+
+#if !defined(cfgCORTEX_M3_ISR)
+#error "cfgCORTEX_M3_ISR" not defined as "ISR_IN_ASSEMBLY" in compiler pre-processor
+#endif
+#if (cfgCORTEX_M3_ISR != ISR_IN_ASSEMBLY)
+#error "cfgCORTEX_M3_ISR" != "ISR_IN_ASSEMBLY"
+#endif
+
+#if !defined(vTaskIdle)
+#error An Idle Task "vTaskIdle" must be created with the priority 0,and it must be started automatically and in an endless loop forever!
+#else
+#  if(vTaskIdlePri != PRIORITY(0))
+#  error vTaskIdle's priority must be 0.
+#  endif
+#endif
+
 EXPORT 	UB	knl_system_stack[cfgOS_SYSTEM_STACK_SIZE];
 
 EXPORT void knl_start_hw_timer( void )
@@ -68,9 +87,7 @@ EXPORT void knl_activate_rr(void)
 }
 EXPORT void knl_setup_context( TCB *tcb )
 {
-#if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
     tcb->tskctxb.ssp = tcb->isstack;
-#endif
     tcb->tskctxb.dispatcher = knl_activate_r;
 }
 #if(cfgCORTEX_M3_ISR == ISR_IN_C) 
@@ -84,17 +101,7 @@ EXPORT ISR(SystemTick)
 } 
 #endif
 
-#if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
-#error As vTaskIdle must be created, this was not supported that well
-#endif
-IMPORT void knl_load_system_stack(void);
 TASK(vTaskIdle)
 {
-    /* Add your task special code here, but Don't delete this Task declaration.*/
-   for(;;)
-   {
-#if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
-       knl_load_system_stack();
-#endif
-   }
+    for(;;);
 }

@@ -117,8 +117,8 @@ EXPORT void knl_dispatch_r(void)
     #endif
     asm   pula;
     asm   staa	tk_ppage;	      /* restore PPAGE */
-    asm   puld;
-    asm   std   knl_taskmode  /* restore knl_taskmode */
+    //asm   puld;
+    //asm   std   knl_taskmode  /* restore knl_taskmode */
     asm   rti;   
 }
 
@@ -203,8 +203,8 @@ interrupt 4 void knl_dispatch_entry(void)
     PostTaskHook();
     #endif
     knl_dispatch_disabled=1;    /* Dispatch disable */ 
-    asm   ldd   knl_taskmode  
-    asm   pshd;                 /* save knl_taskmode */
+    //asm   ldd   knl_taskmode  
+    //asm   pshd;                 /* save knl_taskmode */
     asm   ldaa	tk_ppage		        
 	asm   psha                  /* save ppage */
 	asm   ldx  knl_ctxtsk;

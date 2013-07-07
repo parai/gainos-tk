@@ -62,47 +62,21 @@ knl_activate_r:
     THUMB
     PUBLIC  knl_dispatch_r
 knl_dispatch_r:
-    #if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
-    ldr     sp, [r8, #SP_OFFSET]    /* Restore 'ssp' from TCB */
-    #endif
      /* start to restore task's context */
     pop     {r4-r11}
-    ldr     r12, =knl_taskmode
-    pop     {r0}
-    str     r0, [r12]
+    //ldr     r12, =knl_taskmode
+    //pop     {r0}
+    //str     r0, [r12]
     cpsie   i                                    /* just before schedule to next task */
     bx      lr                                   /* lr is EXC_RETURN */
-#if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
-    SECTION .text:CODE
-    THUMB
-    PUBLIC  knl_load_system_stack
-knl_load_system_stack:
-    cpsid   i
-    ldr     sp, =(knl_system_stack + cfgOS_SYSTEM_STACK_SIZE)  /* Set system stack */
-    cpsie   i
-    bx      lr
-//load the system stack which is shared by tasks,ISRs and also the os dispatcher
-//just before start the dispatcher.
-//EXPORT void knl_start_dispatch(void)
-    SECTION .text:CODE
-    THUMB
-    PUBLIC  knl_start_dispatch
-knl_start_dispatch:
-//{
-    ldr     sp, =(knl_system_stack + cfgOS_SYSTEM_STACK_SIZE)  /* Set system stack */
-    cpsie   i
-    svc 0       //knl_force_dispatch
-//}
-#endif
 
     SECTION .text:CODE
     THUMB
     PUBLIC  knl_force_dispatch_impl
 knl_force_dispatch_impl:
     /* Interrupt is disabled,during SVC mode */
-    #if (cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
     ldr     sp, =(knl_system_stack + cfgOS_SYSTEM_STACK_SIZE)  /* Set system stack */
-    #endif
+
     ldr     r12, =knl_dispatch_disabled
     ldr     r0, =1
     str     r0, [r12]                            /* Dispatch disable */
@@ -121,9 +95,9 @@ knl_dispatch_ret_int:
     ldr     r0, =1
     str     r0, [r12]                            /* Dispatch disable */
     cpsie   i                                    /* Interrupt enable */
-    ldr     r12, =knl_taskmode
-    ldr     r0, [r12]
-    push    {r0}
+//    ldr     r12, =knl_taskmode
+//    ldr     r0, [r12]
+//    push    {r0}
     push    {r4-r11}
     ldr     r4, =knl_ctxtsk                /* R4 = &ctxtsk */
     ldr     r0, =0
@@ -136,14 +110,7 @@ knl_dispatch_ret_int:
 l_dispatch0:
     /* During interrupt enable */
     ldr     r5, =knl_schedtsk              /* R5 = &schedtsk */
-    
-    #if (cfgOS_SHARE_SYSTEM_STACK == STD_ON)
-    cpsid   i
-    ldr     r8, [r5]                             /* R8 = schedtsk */
-    cmp     r8, #0                               /* Is there 'schedtsk'? */
-    bne     l_dispatch2
-    ldr     sp, =(knl_system_stack + cfgOS_SYSTEM_STACK_SIZE)  /* Set system stack */
-    #endif
+
 l_dispatch1:                                     /* Judge if goto 'schedtsk'or'low_pow' */
     cpsid   i
     ldr     r8, [r5]                             /* R8 = schedtsk */
@@ -159,10 +126,7 @@ l_dispatch1:                                     /* Judge if goto 'schedtsk'or'l
 l_dispatch2:                                     /* Switch to 'schedtsk' */
     /* During interrupt disable */
     str     r8, [r4]                             /* ctxtsk = schedtsk */
-    
-    #if (cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
     ldr     sp, [r8, #SP_OFFSET]    /* Restore 'ssp' from TCB */
-    #endif
 
     ldr     r12, =knl_dispatch_disabled
     ldr     r0, =0
@@ -225,13 +189,13 @@ ISR(SystemTick):
                             //{
     push {lr}
     bl EnterISR             //EnterISR();
-#if (cfgOS_TK_EXTEND == STD_ON)
+    #if (cfgOS_TK_EXTEND == STD_ON)
     bl knl_timer_handler    //knl_timer_handler();
-#endif
+    #endif
+
     mov r0,#0
     bl IncrementCounter     //(void)IncrementCounter(0);
     b  ExitISR              //ExitISR();
                             //} 
 #endif  /* ISR_IN_ASSEMBLY */                            
     END
-

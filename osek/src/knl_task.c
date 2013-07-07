@@ -31,7 +31,7 @@ EXPORT TCB	*knl_schedtsk;
 EXPORT RDYQUE	knl_ready_queue;
 #endif
 EXPORT	INT	    knl_taskindp = 0;
-EXPORT	UINT	knl_taskmode;
+EXPORT	UINT	knl_taskmode;    //TODO remove it for all compilers
 EXPORT TCB	    knl_tcb_table[cfgOSEK_TASK_NUM];
 EXPORT AppModeType knl_app_mode;
 

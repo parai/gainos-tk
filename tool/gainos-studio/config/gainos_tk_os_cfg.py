@@ -596,7 +596,7 @@ class gainos_tk_os_cfg():
             for pri in range(0, self.cfg.general.max_pri+1):
                 length = self.cfg.resolveFifoQueLength(self.cfg.general.max_pri-pri)
                 if(length > 0):
-                    str += '\t\t{/* fifoque = */knl_fifoque_%s,'%(pri)
+                    str += '\t\t{/* fifoque = */(VP *)knl_fifoque_%s,'%(pri)
                 else:
                     str += '\t\t{/* fifoque = */ NULL,'
                 str += '\t\t/* length = */ %s},//PRIORITY(%s)\n'%(length, self.cfg.general.max_pri-pri)
