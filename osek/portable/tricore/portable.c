@@ -407,3 +407,8 @@ EXPORT __trap(6) void knl_syscall_entry(void)
 }
 #endif
 #endif /* cfgUSE_FREERTOS_PORT */
+
+PRI knl_get_ipl(void)
+{
+    return (PRI)0;
+}

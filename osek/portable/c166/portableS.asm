@@ -30,8 +30,8 @@
 	.extern	__icall : far
 	.extern _knl_activate_rr
 
-	cfgTMP_STACK_SZ .set  	1024	;system stack
-	cfgTMP_USTK_SZ  .set  	128		;user stack
+	cfgTMP_STACK_SZ .set  	512	;system stack
+	cfgTMP_USTK_SZ  .set  	512		;user stack
 	SSP_OFFSET 		.set 	4 		;sizeof(QUEUE)               ->  ssp
 	USP_OFFSET 		.set 	6		;sizeof(QUEUE) +sizeof(VP)   ->  usp
 	DSP_OFFSET 		.set 	8		;sizeof(QUEUE) +sizeof(VP)*2 ->  dispatcher
@@ -136,8 +136,8 @@ _knl_dispatch_entry	.proc	intno knl_dispatch_entry_trap = 1
 	push r1
 	push r0
 	; /* save knl_taskmode */
-	movw r0,_knl_taskmode
-	push r0
+	; movw r0,_knl_taskmode
+	; push r0
 
 	; /* save SP */
 	movw r0,_knl_ctxtsk
@@ -188,9 +188,9 @@ knl_activate_r:
 ;{
 knl_dispatch_r:
 	; restore context
-	pop  r11
-	movw r12,#_knl_taskmode
-	movw [r12],r11
+	; pop  r11
+	; movw r12,#_knl_taskmode
+	; movw [r12],r11
 	pop r0
 	pop r1
 	pop r2

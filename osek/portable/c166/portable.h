@@ -59,8 +59,10 @@ IMPORT void knl_force_dispatch(void);
 
 /*
  * Start task dispatcher during ISR
+ * lower IPL and then dispatch
  */
-#define knl_isr_dispatch() {__asm("TRAP #1");}
+#define TK_PSW                    (*((uint16 volatile *) 0xFF10))
+#define knl_isr_dispatch() {TK_PSW &= 0x0FFF;__asm("TRAP #1");}
 
 IMPORT imask_t disint( void );
 IMPORT void enaint( imask_t intsts );
@@ -70,5 +72,6 @@ IMPORT void knl_start_hw_timer( void );
  *	Call from 'make_dormant()'
  */
 IMPORT void knl_setup_context( TCB *tcb );
-
+IMPORT PRI knl_get_ipl(void);
+IMPORT void knl_set_ipl(PRI ipl);
 #endif/* VPORT_H_H */

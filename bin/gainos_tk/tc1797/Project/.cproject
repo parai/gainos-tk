@@ -27,7 +27,7 @@
 </builder>
 <tool id="com.tasking.ctc.cc.abs.debug.1886129737" name="C/C++ Compiler" superClass="com.tasking.ctc.cc.abs.debug">
 <option id="com.tasking.ctc.cc.pr36858.318761634" name="workaround for PR36858" superClass="com.tasking.ctc.cc.pr36858" value="true" valueType="string"/>
-<option id="com.tasking.ctc.cc.additionalOptions.1964957456" name="Additional options:" superClass="com.tasking.ctc.cc.additionalOptions" value="--tasking-sfr" valueType="string"/>
+<option id="com.tasking.ctc.cc.additionalOptions.1964957456" name="Additional options:" superClass="com.tasking.ctc.cc.additionalOptions" value="--tasking-sfr -DcfgOSEK_STD_ISR_PROCESS" valueType="string"/>
 <option id="com.tasking.ctc.cc.includePaths.938475481" name="Include paths" superClass="com.tasking.ctc.cc.includePaths" valueType="includePath">
 <listOptionValue builtIn="false" value="../GaInOS-TK/arch/tricore"/>
 <listOptionValue builtIn="false" value="../GaInOS-TK/arch/tricore/dave"/>
@@ -58,12 +58,12 @@
 </toolChain>
 </folderInfo>
 <sourceEntries>
-<entry excluding="config|appd|include|app|tool|arch|osek" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+<entry excluding="toppers_osek|config|appd|include|app|tool|arch|osek" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="app"/>
 <entry excluding="e200z3|at91sam3s|c166|stm32f1|s12cpuv2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="arch"/>
-<entry excluding="D*.*|P*.*|C*.*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="config"/>
+<entry excluding="D*.*|P*.*|C*.*|J*.*|N*.*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="config"/>
 <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
-<entry excluding="portable/tricore/TODO|portable/c166|portable/s12cpuv2|portable/armv7_m|portable/e200z3" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="osek"/>
+<entry excluding="portable/tricore/TODO|portable/c166|portable/s12cpuv2|portable/armv7_m|portable/e200z3|test" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="osek"/>
 </sourceEntries>
 </configuration>
 </storageModule>

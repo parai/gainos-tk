@@ -33,6 +33,24 @@
 EXPORT void knl_start_hw_timer( void )
 {
 }
+
+PRI knl_get_ipl(void)
+{
+    return (PRI)0;
+}
+
+void knl_set_ipl(PRI ipl)
+{
+    if(ipl < 0)
+    {
+        DISABLE_INTERRUPT;
+    }
+    else
+    {
+        ENABLE_INTERRUPT;
+    }
+}
+
 EXPORT void __near knl_activate_rr(void)
 {
 	/* This is the most easiest Way to get Internal Resourse and
@@ -54,7 +72,14 @@ EXPORT void knl_setup_context( TCB *tcb )
 ISR(SystemTick,0x6E)
 { 
     EnterISR(); 
+
+	#if(cfgOS_TK_EXTEND == STD_ON)
+	//really, the extended feature for OSEK is not advised to be used.
 	knl_timer_handler();
+    #endif
+    #if((cfgOSEK_COUNTER_NUM > 0) && (cfgOSEK_ALARM_NUM > 0))
 	(void)IncrementCounter(0);
+	#endif
+
 	ExitISR();	
 }

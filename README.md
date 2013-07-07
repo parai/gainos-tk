@@ -83,7 +83,12 @@ gainos-tk
 	stm32f107vc  <---> IAR 6.5
 	tc1797       <---> Tasking VX for TriCore <需修改 添加 GAINOS_BD 参数>
 	xc2364       <---> Tasking VX for C166    <需修改 添加 GAINOS_BD 参数>
-	
+## 2.关于移植 portable 的说明
+    本OS在9S12平台上开发与测试，并给出了其他4个平台( XC2364 TC1797 ARM_CORTEXM3 MPC5634)的移植示例，
+	不保证完全移植的正确性。即使是对于9S12平台gainos-tk的移植，我认为也存在很多可以优化的地方。由于，
+	对于硬件CPU细节的不关心，也为了有更多的时间专注于gainos-tk上层调度逻辑的实现，这里寄期望于熟悉
+	相关CPU的开源爱好人士能够贡献gainos-tk的底层 portable 移植代码。
+		
 **附注：**
 		对于Tasking，需要在path and symbols 中添加 GAINOS_BD = "path/to/gainos-tk"
 	
@@ -104,8 +109,8 @@ gainos-tk
 	MC9S12DP512 平台来移植的，我不保证移植的完全正确性。并且，由于原at91sam7移植文件太多，被我有所精简，
 	现在只有portable.h 和 portable.c (我喜欢FreeRTOS的代码目录结构)。并且该OS的代码很多地方，被我有所改动。
 	
-#TODO list
-###  1.实现一个共用堆栈的OSEK OS
+#Add-on features
+###  1.实现一个共用堆栈的OSEK OS(仅支持BCC，FULL模式)
 	传统OS每一个任务都享有独立的堆栈控件，对于资源较小的微控制器，显然是不太合适的。这里，我想设计出虽有一定
 	约束，但是具有相当好实时性的且支持所有任务共用一个堆栈的的gainos-tk。
 	（1）对于一般的微控制器，堆栈向下生长，只要保证任务剥夺嵌套时，按嵌套顺序terminate就不会存在问题。
@@ -133,13 +138,10 @@ gainos-tk
 **成果：**
 	已经初步实现在9S12和mpc56xx平台该功能的支持。在Arm Cortex M7平台上，由于历史遗留问题，必须创建
 	vTaskIdle任务的原因，暂不支持。
-###  2.解决Arm Cortex M7平台现移植必须创建vTaskIdle的问题
+
+#TODO
+###  1.解决Arm Cortex M7平台现移植必须创建vTaskIdle的问题
 **希望有热心的网友能够给予帮助，个人讨厌研究CPU内核相关的事情**
-###  3.优先级对应问题
-	由于gainos-tk继承t-kernel的很多东西，优先级也一样，跟随tkernel，其优先级的值越小，优先级越高。
-	而OSEK OS规范却规定0为最低优先级，数值越大，优先级越高。现在是时候解决这个问题了。
-	我认为更改算法是很愚蠢的事情，tkernel的这个优先级管理算法我认为是足够优秀的，所以呢，我选择更改工具，
-	或者说呢，进行优先级变更，反正，gainos-tk是通过工具来配置的。
 
 #gainos-studio 成果展示
 ### gainos-tk osek os的配置界面

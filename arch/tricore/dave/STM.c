@@ -300,7 +300,9 @@ void INTERRUPT (STM_INT1) STM_viSRN1(void)
   if(STM_ICR.B.CMP1IR == 1)   // if compare match of CMP1 is pending
   {
     // USER CODE BEGIN (SRN1,4)
+#if(cfgOS_TK_EXTEND == STD_ON)
 	  knl_timer_handler();
+#endif
     // USER CODE END
 
     STM_ISRR.B.CMP1IRR = 1;  // clear request bit of CMP1

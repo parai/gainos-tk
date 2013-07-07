@@ -76,5 +76,5 @@ IMPORT void knl_start_hw_timer( void );
 IMPORT void knl_setup_context( TCB *tcb );
 IMPORT void knl_reclaim_csa( unsigned long pxHeadCSA );
 IMPORT void knl_set_ipl(UINT ipl);
-
+IMPORT PRI knl_get_ipl(void);
 #endif/* VPORT_H_H */

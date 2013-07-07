@@ -108,5 +108,5 @@ LOCAL char* l_service_id_name_table[] =
 };
 void ErrorHook(StatusType Error)
 {
-    printf("%s : %s\r\n",l_error_name_table[Error],l_service_id_name_table[OSErrorGetServiceId()]);
+    //printf("%s : %s\r\n",l_error_name_table[Error],l_service_id_name_table[OSErrorGetServiceId()]);
 }
