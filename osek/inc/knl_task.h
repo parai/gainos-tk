@@ -50,7 +50,10 @@
 #define knl_task_alive( __state )   \
     ((BOOL)( (( __state ) & (TS_READY|TS_WAIT|TS_SUSPEND)) != 0 ))
 
-#define TASK_MODE(__id) (knl_gtsk_table[__id].mode)    
+/* get task mode */
+#define TASK_MODE(__id) (knl_gtsk_table[__id].mode)  
+
+  
 /*
  * Return the priority of the highest priority task in the ready queue
  */

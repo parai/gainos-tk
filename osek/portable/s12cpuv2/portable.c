@@ -178,7 +178,7 @@ l_dispatch2:
 	asm   lds  SP_OFFSET,x;       /* Restore 'ssp' from TCB */
 	#endif
     //knl_ctxtsk->tskctxb.dispatcher();
-    asm   jmp  [6,x];
+    asm   jmp  [DSP_OFFSET,x];
 }
 
 //knl_force_dispatch() will be called when the current running task terminate,

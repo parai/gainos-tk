@@ -25,7 +25,13 @@
 #include "portmacro.h"
 #include "knl_task.h"
 /* ============================ MACROs ============================================= */
-#define SP_OFFSET 4 /* sizeof(QUEUE) */
+#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
+#define SP_OFFSET  4 /* sizeof(QUEUE) */
+#define DSP_OFFSET 6 
+#else
+#define SP_OFFSET  0 
+#define DSP_OFFSET 2
+#endif
 
 /* ============================ TYPEs ============================================= */
 /*

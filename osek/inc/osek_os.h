@@ -165,7 +165,9 @@ typedef struct t_gtsk {
 } T_GTSK;
 
 typedef struct task_control_block{
+    #if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
     QUEUE	    tskque;		/* Task queue */
+    #endif
     CTXB     	tskctxb;	/* Task context block */
     //{{    Yes, the 6 var help the os run fast by a more usage of RAM
     TaskType    tskid;      /* Task ID */
@@ -249,7 +251,7 @@ typedef struct alarm_generate_info
 typedef struct AlmCtrlBlk
 {
     QUEUE           almque;
-    AlarmType       almid;
+    //AlarmType       almid;
     TickType        time; /* The Time It will expire */
     TickType        cycle;
 }ALMCB;

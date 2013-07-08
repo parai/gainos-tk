@@ -143,7 +143,9 @@ EXPORT void knl_task_init(void)
     for(i=0,tcb=knl_tcb_table; i < cfgOSEK_TASK_NUM; i++,tcb++)
     {
         tcb->tskid = i;
+        #if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
         QueInit(&tcb->tskque);
+        #endif
         tcb->task = knl_gtsk_table[i].task; /* save task entry */
         #if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
         tcb->isstack = knl_gtsk_table[i].isstack; /* save task stack buffer */

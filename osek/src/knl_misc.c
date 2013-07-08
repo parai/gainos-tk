@@ -57,7 +57,7 @@ EXPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	QueInsert(&tcb->tskque, &rq->tskque[priority]);
 	#else
-	FifoQuePush(&tcb->tskque, &rq->tskque[priority]);
+	FifoQuePush(tcb, &rq->tskque[priority]);
 	#endif
 
 	knl_tstdlib_bitset(rq->bitmap, priority);
@@ -77,7 +77,7 @@ EXPORT void knl_ready_queue_insert_top( RDYQUE *rq, TCB *tcb )
 	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	QueInsert(&tcb->tskque, rq->tskque[priority].next);
 	#else
-	FifoQueAltPush(&tcb->tskque, &rq->tskque[priority]);
+	FifoQueAltPush(tcb, &rq->tskque[priority]);
 	#endif
 	knl_tstdlib_bitset(rq->bitmap, priority);
 
