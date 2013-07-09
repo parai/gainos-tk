@@ -176,10 +176,14 @@ typedef struct task_control_block{
     VP          isstack;    /* Init Task Stack Top Pointer*/
     UINT		stksz;		/* User stack size (byte) */
     #endif
+    #if( (cfgOSEK_INTERNAL_RESOURCE_NUM >0) || (cfgOS_SCHEDULE_POLICY != FULL_PREEMPTIVE_SCHEDULE))
     PRI         runpri;     /* Task priority When it Start To Running */
+    #endif
     PRI         itskpri;    /* Priority at task startup */
     //}}
+    #if((cfgOS_CONFORMANCE_CLASS == ECC2) || (cfgOS_CONFORMANCE_CLASS == BCC2))
     UINT        actcnt;     /* Task Activate Count */
+    #endif
 	PRI	        priority;	/* Current priority */
 	UB /*TSTAT*/	state;  	/* Task state (Int. expression) */
 #if(cfgOS_TK_EXTEND == STD_ON)

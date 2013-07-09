@@ -53,7 +53,48 @@
 /* get task mode */
 #define TASK_MODE(__id) (knl_gtsk_table[__id].mode)  
 
-  
+#if( (cfgOSEK_INTERNAL_RESOURCE_NUM >0) || (cfgOS_SCHEDULE_POLICY != FULL_PREEMPTIVE_SCHEDULE))
+#define INIT_TASK_PRIORITYs(_tcb,_tskid)                    \
+    do{                                                     \
+        (_tcb)->runpri = knl_gtsk_table[_tskid].runpri;     \
+        (_tcb)->itskpri= knl_gtsk_table[_tskid].itskpri;    \
+    }while(0)
+#else
+#define INIT_TASK_PRIORITYs(_tcb,_tskid)                    \
+    do{                                                     \
+        (_tcb)->itskpri= knl_gtsk_table[_tskid].itskpri;    \
+    }while(0)        
+#endif 
+
+#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
+#define INIT_TASK_READY_QUEUE(_tcb)  QueInit(&(_tcb)->tskque)
+
+#define INSERT_TASK_AT_THE_HEAD_OF_THE_READY_QUEUE(_tcb,_rq,_priority)  \
+     QueInsert(&(_tcb)->tskque, (_rq)->tskque[_priority].next)
+
+#define INSERT_TASK_AT_THE_TAIL_OF_THE_READY_QUEUE(_tcb,_rq,_priority)  \
+     QueInsert(&(_tcb)->tskque, &(_rq)->tskque[_priority])
+          
+#else    /* cfgOSEK_FIFO_QUEUE_PER_PRIORITY */
+#define INIT_TASK_READY_QUEUE(_tcb)
+
+#define INSERT_TASK_AT_THE_HEAD_OF_THE_READY_QUEUE(_tcb,_rq,_priority)  \
+     FifoQueAltPush((_tcb), &(_rq)->tskque[_priority])
+
+#define INSERT_TASK_AT_THE_TAIL_OF_THE_READY_QUEUE(_tcb,_rq,_priority)  \
+     FifoQuePush((_tcb), &(_rq)->tskque[_priority])
+    
+#endif   /* cfgOSEK_FIFO_QUEUE_PER_PRIORITY */
+
+#if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
+#define INIT_TASK_STACK(_tcb,_tskid)    \
+do{                                     \
+    (_tcb)->isstack = knl_gtsk_table[_tskid].isstack; /* save task stack buffer */   \
+    (_tcb)->stksz  = knl_gtsk_table[_tskid].stksz;                                   \
+}while(0)
+#else
+#define INIT_TASK_STACK(_tcb,_tskid)
+#endif      
 /*
  * Return the priority of the highest priority task in the ready queue
  */
@@ -65,9 +106,6 @@
 Inline TCB* knl_ready_queue_top( RDYQUE *rq )
 {
 	/* If there is a task at kernel lock, that is the highest priority task */
-//	if ( rq->klocktsk != NULL ) {
-//		return rq->klocktsk;
-//	}
 	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
 	return (TCB*)rq->tskque[rq->top_priority].next;
 	#else

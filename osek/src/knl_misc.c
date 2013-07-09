@@ -54,11 +54,7 @@ EXPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 {
 	INT	priority = tcb->itskpri; 
 
-	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
-	QueInsert(&tcb->tskque, &rq->tskque[priority]);
-	#else
-	FifoQuePush(tcb, &rq->tskque[priority]);
-	#endif
+	INSERT_TASK_AT_THE_TAIL_OF_THE_READY_QUEUE(tcb,rq,priority);
 
 	knl_tstdlib_bitset(rq->bitmap, priority);
 
@@ -74,11 +70,9 @@ EXPORT void knl_ready_queue_insert( RDYQUE *rq, TCB *tcb )
 EXPORT void knl_ready_queue_insert_top( RDYQUE *rq, TCB *tcb )
 {
 	INT	priority = tcb->priority;  //use tsk current priority
-	#if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
-	QueInsert(&tcb->tskque, rq->tskque[priority].next);
-	#else
-	FifoQueAltPush(tcb, &rq->tskque[priority]);
-	#endif
+	
+	INSERT_TASK_AT_THE_HEAD_OF_THE_READY_QUEUE(tcb,rq,priority);
+	
 	knl_tstdlib_bitset(rq->bitmap, priority);
 
 	if ( priority < rq->top_priority ) {
@@ -103,7 +97,8 @@ EXPORT void knl_ready_queue_delete( RDYQUE *rq, TCB *tcb )
 	if ( !isQueEmpty(&rq->tskque[priority]) ) {
 		return;
 	}
-	#else
+	#else 
+	/* Only the first task can be deleted in the ready queue of priority. */
 	FifoQuePop(&rq->tskque[priority]);
 	if ( !isFifoQueEmpty(&rq->tskque[priority]) ) {
 		return;

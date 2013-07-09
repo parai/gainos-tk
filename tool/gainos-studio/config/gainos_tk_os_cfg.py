@@ -509,6 +509,7 @@ class gainos_tk_os_cfg():
                 fp.write(tsk+', ')
             fp.write(']\n');
         fp.write('\n/*  ================   INTERNAL RESOURCE ================= */\n');
+        fp.write('#define cfgOSEK_INTERNAL_RESOURCE_NUM %s\n'%(len(self.cfg.internalResourceList)));
         for inres in self.cfg.internalResourceList:
             fp.write('#define %sPri PRIORITY(%s)\n'%(inres.name,inres.ceilprio))
             fp.write('\t//it had been assigned to [ ')

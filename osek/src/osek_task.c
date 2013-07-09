@@ -23,6 +23,7 @@
 #include "knl_timer.h"
 #include "knl_queue.h"
 #include "knl_wait.h"
+#include "knl_resource.h"
 #include "portable.h"
 /* |------------------+------------------------------------------------------------| */
 /* | Syntax:          | StatusType ActivateTask ( TaskType <TaskID> )              | */
@@ -141,6 +142,7 @@ StatusType TerminateTask ( void )
     #endif
 	knl_ctxtsk->state = TS_DORMANT;
 	//release internal resource or for non-preemtable task
+	ReleaseInternalResource();
 	knl_ctxtsk->priority = knl_ctxtsk->itskpri;
 	knl_search_schedtsk();
 	#if((cfgOS_CONFORMANCE_CLASS == ECC2) || (cfgOS_CONFORMANCE_CLASS == BCC2))
@@ -231,7 +233,7 @@ StatusType ChainTask ( TaskType TaskID )
     if(TaskID == knl_ctxtsk->tskid){
         /* chain to itself */
         //release internal resource or for non-preemtable task
-        knl_ctxtsk->priority = knl_ctxtsk->itskpri;  
+        ReleaseInternalResource(); 
         knl_search_schedtsk();
         knl_make_active(knl_ctxtsk);
     }
@@ -339,13 +341,13 @@ StatusType Schedule ( void )
 	//if task has internal resource or task is non-premtable
 	if(knl_ready_queue.top_priority < knl_ctxtsk->itskpri)
 	{	//release internal resource or for Non-Preemtable Task
-    	knl_ctxtsk->priority = knl_ctxtsk->itskpri;  
+    	ReleaseInternalResource();
         knl_reschedule();
     }
 	END_CRITICAL_SECTION;
 
 	//re-get internal resource or for Non-Preemtable task
-	knl_ctxtsk->priority = knl_ctxtsk->runpri;
+	GetInternalResource();
 
 	Error_Exit:
 	#if(cfgOS_ERROR_HOOK == STD_ON)

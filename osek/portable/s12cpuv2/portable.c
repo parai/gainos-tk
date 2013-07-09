@@ -21,6 +21,7 @@
 #include "portable.h"
 #include "derivative.h"      /* derivative-specific definitions */
 #include "knl_timer.h"
+#include "knl_resource.h"
 
 //system stack malloc
 LOCAL 	UB	knl_system_stack[cfgOS_SYSTEM_STACK_SIZE];
@@ -94,12 +95,12 @@ EXPORT void knl_start_hw_timer( void )
 //when task start to run 
 EXPORT void knl_activate_r(void)
 {
-    /* This is the most easiest Way to get Internal Resourse and
-     * to make a task non-preemtable I think */
     #if(cfgOS_PRE_TASK_HOOK == STD_ON)
     PreTaskHook();
     #endif
-    knl_ctxtsk->priority = knl_ctxtsk->runpri;
+    /* This is the most easiest Way to get Internal Resourse and
+     * to make a task non-preemtable I think */
+    GetInternalResource();
     __asm CLI; // enable interrupt
     knl_ctxtsk->task();
 }

@@ -22,6 +22,7 @@
 #include "knl_task.h"
 #include "knl_event.h"
 #include "knl_queue.h"
+#include "knl_resource.h"
 #include "portable.h"
 #if(cfgOSEK_EVENTFLAG_NUM > 0)
 EXPORT FLGCB knl_flgcb_table[cfgOSEK_EVENTFLAG_NUM];
@@ -243,12 +244,12 @@ StatusType WaitEvent( EventMaskType Mask )
         flgcb->waipth = Mask;
         knl_ctxtsk->state = TS_WAIT;
         //release internal resource or for Non-Preemtable Task
-        knl_ctxtsk->priority = knl_ctxtsk->itskpri; 
+        ReleaseInternalResource();
         knl_search_schedtsk();
     }
     END_CRITICAL_SECTION;
     //re-get internal resource or for Non-Preemtable task
-    knl_ctxtsk->priority = knl_ctxtsk->runpri;
+    GetInternalResource();
        
   Error_Exit:
     #if(cfgOS_ERROR_HOOK == STD_ON)

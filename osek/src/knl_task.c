@@ -143,17 +143,18 @@ EXPORT void knl_task_init(void)
     for(i=0,tcb=knl_tcb_table; i < cfgOSEK_TASK_NUM; i++,tcb++)
     {
         tcb->tskid = i;
-        #if(cfgOSEK_FIFO_QUEUE_PER_PRIORITY == STD_OFF)
-        QueInit(&tcb->tskque);
-        #endif
+        
+        INIT_TASK_READY_QUEUE(tcb);
+        
         tcb->task = knl_gtsk_table[i].task; /* save task entry */
-        #if(cfgOS_SHARE_SYSTEM_STACK == STD_OFF)
-        tcb->isstack = knl_gtsk_table[i].isstack; /* save task stack buffer */
-        tcb->stksz  = knl_gtsk_table[i].stksz;
-        #endif
-        tcb->runpri = knl_gtsk_table[i].runpri;
-        tcb->itskpri= knl_gtsk_table[i].itskpri;
+        
+        INIT_TASK_STACK(tcb,i);
+        
+        INIT_TASK_PRIORITYs(tcb,i);
+        
+        #if((cfgOS_CONFORMANCE_CLASS == ECC2) || (cfgOS_CONFORMANCE_CLASS == BCC2))
         tcb->actcnt = 0;
+        #endif
         if((TASK_MODE(i)&knl_app_mode) != 0 )
         {
         	knl_make_active(tcb);

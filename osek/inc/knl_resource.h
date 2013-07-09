@@ -25,8 +25,22 @@
 #include "Std_Types.h"
 #include "osek_os.h"
 
+/* ============================  MACROs  ========================================== */
+/*
+ * treat the Non-preemtable task as it has the resource RES_SCHEDULER as internal resource 
+ */
+#if( (cfgOSEK_INTERNAL_RESOURCE_NUM >0) || (cfgOS_SCHEDULE_POLICY != FULL_PREEMPTIVE_SCHEDULE))
+#define GetInternalResource()       { knl_ctxtsk->priority = knl_ctxtsk->runpri; }
+#define ReleaseInternalResource()   { knl_ctxtsk->priority = knl_ctxtsk->itskpri; }
+#else
+#define GetInternalResource()
+#define ReleaseInternalResource()
+#endif
+
+/* ============================  DATAs  ========================================== */
 IMPORT const PRI knl_gres_table[];
 IMPORT RESCB knl_rescb_table[];
 
+/* ============================ FUNCTIONs ======================================== */
 IMPORT void knl_resource_init(void);
 #endif  /* KNL_RESOURCE_H_H */
