@@ -265,7 +265,7 @@ StatusType ChainTask ( TaskType TaskID )
 
     	knl_ctxtsk->state = TS_DORMANT;
     	//release internal resource or for non-preemtable task
-    	knl_ctxtsk->priority = knl_ctxtsk->itskpri;
+        ReleaseInternalResource();
     	knl_search_schedtsk();
     	#if((cfgOS_CONFORMANCE_CLASS == ECC2) || (cfgOS_CONFORMANCE_CLASS == BCC2))
     	if(knl_ctxtsk->actcnt > 0)
