@@ -58,6 +58,7 @@ class cd_os(QDialog, Ui_cd_os):
         self.reloadTreeGui(3, self.cfg.counterList);    # 3 Counter
         self.reloadTreeGui(4, self.cfg.alarmList);      # 4 Alarm
         self.reloadTreeGui(5, self.cfg.internalResourceList);
+        self.reloadTreeGui(6, self.cfg.schedTblList);
 
     def initButton(self):
         self.btnAdd.setDisabled(True);
@@ -99,6 +100,7 @@ class cd_os(QDialog, Ui_cd_os):
         self.reloadGui();
         self.initSpbxRange();
         self.initGeneral();
+        self.pteSchedTblInfo.setReadOnly(True);
 
     def disableAllTab(self):
         """禁止所有的Tab页"""
@@ -146,6 +148,10 @@ class cd_os(QDialog, Ui_cd_os):
             self.btnAdd.setText('Add Internal Resource');
             self.btnAdd.setDisabled(False);
             self.btnDel.setDisabled(True);
+        elif(trname=='Schedule Table'):
+            self.btnAdd.setText('Add Schedule Table');
+            self.btnAdd.setDisabled(False);
+            self.btnDel.setDisabled(True);
         #--------------------- 二级目录
         elif(self.curtree.parent().text(0)=='AppMode'):
             self.btnDel.setText('Delete AppMode');
@@ -175,6 +181,10 @@ class cd_os(QDialog, Ui_cd_os):
             self.btnDel.setDisabled(False);
         elif(self.curtree.parent().text(0)=='Internal Resource'):
             self.btnDel.setText('Delete Internal Resource');
+            self.btnAdd.setDisabled(True);
+            self.btnDel.setDisabled(False);
+        elif(self.curtree.parent().text(0)=='Schedule Table'):
+            self.btnDel.setText('Delete Schedule Table');
             self.btnAdd.setDisabled(True);
             self.btnDel.setDisabled(False);
         #--------------------- 三级目录
@@ -320,6 +330,13 @@ class cd_os(QDialog, Ui_cd_os):
         self.spbxInResCeilPrio.setValue(self.curobj.ceilprio);
         self.refreshTreeCtrl(self.trInResAvailableTask, self.trInResAssignedTask, self.cfg.taskList, self.curobj.taskList)
         self.enableTab(2)
+    
+    def refreshSchedTblTab(self, name):
+        self.curobj = gcfindObj(self.cfg.schedTblList, name)
+        self.leSchedTblName.setText(name);
+        self.pteSchedTblInfo.setPlainText(self.curobj.toString())
+        self.enableTab(5)
+
     def refreshTab(self):
         if(self.curtree.parent() == None):
             self.disableAllTab();
@@ -339,8 +356,8 @@ class cd_os(QDialog, Ui_cd_os):
             self.refreshCounterTab(objname);
         elif(trname == 'Alarm'):
             self.refreshAlarmTab(objname);
-        elif(trname == 'Autosar'):
-            self.refreshAutosarTab(objname);
+        elif(trname == 'Schedule Table'):
+            self.refreshSchedTblTab(objname);
         elif(self.curtree.parent().parent().text(0) == 'Task'):
             self.refreshEventTab(objname);
 
@@ -426,6 +443,16 @@ class cd_os(QDialog, Ui_cd_os):
         obj=InternalResource(name,id+1);
         self.cfg.internalResourceList.append(obj);
         self.curtree.setExpanded(True);
+    
+    def addScheduleTable(self):
+        id = len(self.cfg.schedTblList);
+        name=QString('vSchedTbl%d'%(id));
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);
+        obj=ScheduleTable(name);
+        self.cfg.schedTblList.append(obj);
+        self.curtree.setExpanded(True);
+        
     @pyqtSignature("")
     def on_btnAdd_clicked(self):
         text=self.btnAdd.text();
@@ -443,6 +470,8 @@ class cd_os(QDialog, Ui_cd_os):
             self.addAppMode();
         elif(text=='Add Internal Resource'):
             self.addInternalResource();
+        elif(text=='Add Schedule Table'):
+            self.addScheduleTable();
         self.cfg.resolveOsCC();
         self.cmbxOSConfCls.setCurrentIndex(self.cmbxOSConfCls.findText(self.cfg.general.os_class));
         self.fileInd(False);
@@ -459,6 +488,8 @@ class cd_os(QDialog, Ui_cd_os):
             self.cfg.resourceList.remove(self.curobj);
         elif(text=='Delete Internal Resource'):
             self.cfg.internalResourceList.remove(self.curobj);
+        elif(text=='Delete Schedule Table'):
+            self.cfg.schedTblList.remove(self.curobj);
         elif(text=='Delete Counter'):
             self.cfg.counterList.remove(self.curobj);
         elif(text=='Delete Alarm'):
@@ -834,5 +865,20 @@ class cd_os(QDialog, Ui_cd_os):
                 self.curobj.name=p0;
                 self.curtree.setText(0, p0);
                 self.fileInd(False);
-    
+    #==================== Schedule Table ========================================
+    @pyqtSignature("QString")
+    def on_leSchedTblName_textChanged(self, p0):
+        if(self.curobj!=None):
+            if(self.curobj.name!=p0):
+                self.curobj.name=p0;
+                self.curtree.setText(0, p0);
+                self.fileInd(False);
+    @pyqtSignature("")
+    def on_btnCfgSchedEp_clicked(self):
+        from ui.classes.cd_schedtbl import cd_schedtbl
+        if(self.curobj!=None):
+            dlg = cd_schedtbl(self.curobj, self.cfg)
+            dlg.exec_();
+            self.pteSchedTblInfo.setPlainText(self.curobj.toString())
+            self.fileInd(False);
     

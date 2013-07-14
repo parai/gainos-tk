@@ -115,7 +115,7 @@ class gainos_tk_obj():
         self.obj = gainos_tk_dc[chip][module](chip);
     
     def show(self, fileInd, module_list = None):
-        title = '%s For %s, < GaInOS-TK by parai >'%(self.module, self.chip);
+        title = '%s for %s, <gainos-tk by parai>'%(self.module, self.chip);
         self.obj.show(title, fileInd, module_list);
     
     def save(self, root):

@@ -229,7 +229,63 @@ class AppMode():
         root.append(nd); 
     def parse(self, nd):
         self.name = nd.attrib['name'];
-        
+class ExpiryPoint():
+    def __init__(self):
+        self.offset = -1;
+        self.actionList = []; #example: ActivateTask(Task1); SetEvent(Task1,Event1);
+    def save(self, root):
+        nd = ET.Element('ExpiryPoint')
+        nd.attrib['offset'] = str(self.offset)
+        nd2 = ET.Element('actionList')
+        for action in self.actionList:
+            nd2.append(ET.Element(action));
+        nd.append(nd2)
+        root.append(nd)
+    def parse(self, nd):
+        self.offset = int(nd.attrib['offset'])
+        for nd2 in nd.find('actionList'):
+            self.actionList.append(nd2.tag);
+class ScheduleTable():
+    def __init__(self, name):
+        self.name = name;
+        self.owner = ''; #driving counter
+        self.strategy = 'NONE'; #sync strategy
+        self.repeatable = True; 
+        self.finaldelay = 10;
+        self.table = []; #should be in the order by offset from small to large
+    def save(self, root):
+        nd = ET.Element('ScheduleTable')
+        nd.attrib['name'] = str(self.name)
+        nd.attrib['owner'] = str(self.owner)
+        nd.attrib['strategy'] = str(self.strategy)
+        nd.attrib['repeatable'] = str(self.repeatable)
+        nd.attrib['finaldelay'] = str(self.finaldelay)
+        nd2 = ET.Element('ExpiryPointList')
+        for tbl in self.table:
+            tbl.save(nd2);
+        nd.append(nd2)
+        root.append(nd)
+    def parse(self, nd):
+        self.name = nd.attrib['name']
+        self.owner = nd.attrib['owner']
+        self.strategy = nd.attrib['strategy']
+        self.repeatable = bool(nd.attrib['repeatable'])
+        self.finaldelay = int(nd.attrib['finaldelay'])
+        for nd2 in nd.find('ExpiryPointList'):
+            tbl = ExpiryPoint()
+            tbl.parse(nd2)
+            self.table.append(tbl)
+    def toString(self):
+        str = 'Repeatable: <%s>\n'%(self.repeatable)
+        str += 'Driving counter: <%s>\n'%(self.owner)
+        str += 'Sync strategy: <%s>\n'%(self.strategy)
+        str += 'Final delay: <%s>\n'%(self.finaldelay)
+        for tbl in self.table:
+            str += '< offset = %s:\n'%(tbl.offset)
+            for action in tbl.actionList:
+                str += '\t\t%s;\n'%(action)
+            str += '/>\n'
+        return str;
 class gainos_tk_os_obj():
     def __init__(self, chip):
         self.general = General(chip);
@@ -241,6 +297,7 @@ class gainos_tk_os_obj():
         self.appmodeList = [];
         self.appmodeList.append(AppMode('OSDEFAULTAPPMODE'));
         self.internalResourceList = [];
+        self.schedTblList = [];
         ### for oil usage
         self.eventList=[];
 
@@ -346,6 +403,11 @@ class gainos_tk_os_cfg():
             if(mode.name != 'OSDEFAULTAPPMODE'):
                 mode.save(nd);
         root.append(nd);
+        
+        nd = ET.Element('schedTblList');
+        for sched in self.cfg.schedTblList:
+            sched.save(nd)
+        root.append(nd);
     
     def parse(self, root):
         self.cfg.general.parse(root.find('General'));
@@ -385,6 +447,12 @@ class gainos_tk_os_cfg():
             obj = AppMode('unname');
             obj.parse(nd);
             self.cfg.appmodeList.append(obj);
+        
+        list = root.find('schedTblList');
+        for nd in list:
+            obj = ScheduleTable('unname');
+            obj.parse(nd);
+            self.cfg.schedTblList.append(obj);
 
     def gen(self, path):
         self.genC(path);

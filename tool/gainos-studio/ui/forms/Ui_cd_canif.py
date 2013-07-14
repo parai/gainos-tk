@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_canif.ui'
 #
-# Created: Fri Jun 14 19:35:50 2013
+# Created: Sun Jul 14 16:41:33 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_cd_canif(object):
     def setupUi(self, cd_canif):
         cd_canif.setObjectName(_fromUtf8("cd_canif"))
-        cd_canif.resize(965, 588)
+        cd_canif.resize(965, 585)
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Consolas"))
         font.setPointSize(12)

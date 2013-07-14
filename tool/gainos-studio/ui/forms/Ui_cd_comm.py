@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_comm.ui'
 #
-# Created: Sat Jun 15 14:41:55 2013
+# Created: Sun Jul 14 16:41:39 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -213,7 +213,7 @@ class Ui_cd_comm(object):
         item_0 = QtGui.QTreeWidgetItem(self.trComMCfg)
 
         self.retranslateUi(cd_comm)
-        self.tabCfg.setCurrentIndex(0)
+        self.tabCfg.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(cd_comm)
 
     def retranslateUi(self, cd_comm):

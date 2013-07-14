@@ -416,7 +416,7 @@ p, li { white-space: pre-wrap; }
      <string notr="true">font: 12pt &quot;Consolas&quot;;</string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="tabTask">
      <attribute name="title">
@@ -758,7 +758,7 @@ p, li { white-space: pre-wrap; }
        </property>
       </column>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>11</x>
@@ -903,7 +903,7 @@ p, li { white-space: pre-wrap; }
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>12</x>
@@ -1445,7 +1445,7 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>250</y>
+        <y>350</y>
         <width>211</width>
         <height>23</height>
        </rect>
@@ -1460,7 +1460,7 @@ p, li { white-space: pre-wrap; }
         <x>10</x>
         <y>50</y>
         <width>451</width>
-        <height>191</height>
+        <height>291</height>
        </rect>
       </property>
      </widget>
@@ -1636,6 +1636,11 @@ p, li { white-space: pre-wrap; }
     <item>
      <property name="text">
       <string>Internal Resource</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Schedule Table</string>
      </property>
     </item>
    </widget>

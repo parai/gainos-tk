@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project gainos-studio -->
-<!-- Saved: 2013-06-22, 08:55:32 -->
+<!-- Saved: 2013-07-14, 18:03:09 -->
 <!-- Copyright (C) 2013 parai, parai@foxmail.com -->
 <Project version="4.6">
   <Language>en</Language>
@@ -64,6 +64,8 @@
     <Source>ui/forms/__init__.py</Source>
     <Source>config/__init__.py</Source>
     <Source>common/__init__.py</Source>
+    <Source>ui/forms/Ui_cd_schedtbl.py</Source>
+    <Source>ui/classes/cd_schedtbl.py</Source>
   </Sources>
   <Forms>
     <Form>ui/forms/gainos_studio.ui</Form>
@@ -81,6 +83,7 @@
     <Form>ui/forms/cd_cannm.ui</Form>
     <Form>ui/forms/cd_nm.ui</Form>
     <Form>ui/forms/cd_comm.ui</Form>
+    <Form>ui/forms/cd_schedtbl.ui</Form>
   </Forms>
   <Translations>
   </Translations>
