@@ -238,13 +238,16 @@ class ExpiryPoint():
         nd.attrib['offset'] = str(self.offset)
         nd2 = ET.Element('actionList')
         for action in self.actionList:
-            nd2.append(ET.Element(action));
+            nd3 = ET.Element('action')
+            nd3.attrib['value'] = str(action)
+            nd2.append(nd3);
         nd.append(nd2)
         root.append(nd)
     def parse(self, nd):
         self.offset = int(nd.attrib['offset'])
         for nd2 in nd.find('actionList'):
-            self.actionList.append(nd2.tag);
+            self.actionList.append(nd2.attrib['value']);
+
 class ScheduleTable():
     def __init__(self, name):
         self.name = name;
@@ -283,7 +286,7 @@ class ScheduleTable():
         for tbl in self.table:
             str += '< offset = %s:\n'%(tbl.offset)
             for action in tbl.actionList:
-                str += '\t\t%s;\n'%(action)
+                str += '    %s;\n'%(action)
             str += '/>\n'
         return str;
 class gainos_tk_os_obj():

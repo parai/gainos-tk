@@ -138,16 +138,35 @@ class cd_schedtbl(QDialog, Ui_cd_schedtbl):
         item=QTreeWidgetItem(self.curtree,QStringList(name));
         self.curtree.addChild(item);        
         self.curtree.setExpanded(True);
-    
+    def addActivateTask(self):
+        index = self.trSchedTable.topLevelItem(0).indexOfChild(self.curtree) 
+        tbl = self.cfg.table[index]
+        tbl.actionList.insert(0, 'ActivateTask(NULL)')
+        name=QString('ActivateTask(NULL)')
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);        
+        self.curtree.setExpanded(True);
+    def addSetEvent(self):
+        index = self.trSchedTable.topLevelItem(0).indexOfChild(self.curtree) 
+        tbl = self.cfg.table[index]
+        tbl.actionList.append('SetEvent(NULL,NULL)')
+        name=QString('SetEvent(NULL,NULL)')
+        item=QTreeWidgetItem(self.curtree,QStringList(name));
+        self.curtree.addChild(item);        
+        self.curtree.setExpanded(True);
     @pyqtSignature("")
     def on_btnAdd1_clicked(self):
         text = self.btnAdd1.text();
         if(text == 'Add Expiry Point'):
             self.addEp();
+        elif(text == 'Add ActivateTask'):
+            self.addActivateTask();
     
     @pyqtSignature("")
     def on_btnAdd2_clicked(self):
-        return
+        text = self.btnAdd2.text();
+        if(text == 'Add SetEvent'):
+            self.addSetEvent();
     
     @pyqtSignature("")
     def on_btnAdd3_clicked(self):
