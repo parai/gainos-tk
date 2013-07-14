@@ -82,6 +82,8 @@
 #define DeclareAlarm(AlarmName)
 #define DeclareResource(ResourceName)
 #define DeclareEvent(EventName)    
+//------------------------ MACROs for AUTOSAR OS ------------------
+#define INVALID_SCHEDULE_TABLE ((ScheduleTableType)-1)
 
 //----------------------- OS Error Process -----------
 /*
@@ -175,6 +177,35 @@ typedef uint8 AppModeType;
 /* This data type represents the identification of system services. */
 typedef uint8 OSServiceIdType;
 
+//-------------------------------- TYPEs for AUTOSAR OS -------------------------
+/* This data type identifies a schedule table. */
+typedef ID ScheduleTableType;
+/*
+  This type describes the status of a schedule. The status can be one of the
+  following:
+  1. The schedule table is not started (SCHEDULETABLE_STOPPED)
+  2. The schedule table will be started after the end of currently running schedule
+  table (schedule table was used in NextScheduleTable() service)
+  (SCHEDULETABLE_NEXT)
+  3. The schedule table uses implicit synchronization, has been started and is
+  waiting for the global time. (SCHEDULETABLE_WAITING)
+  4. The schedule table is running, but is currently not synchronous to a global
+  time source (SCHEDULETABLE_RUNNING)
+  5. The schedule table is running and is synchronous to a global time source
+  (SCHEDULETABLE_RUNNING_AND_SYNCHRONOUS)
+*/
+typedef enum
+{
+    SCHEDULETABLE_STOPPED,
+    SCHEDULETABLE_NEXT,
+    SCHEDULETABLE_WAITING,
+    SCHEDULETABLE_RUNNING,
+    SCHEDULETABLE_RUNNING_AND_SYNCHRONOUS
+}ScheduleTableStatusType;
+/* This data type points to a variable of the data type ScheduleTableStatusType. */
+typedef ScheduleTableStatusType* ScheduleTableStatusRefType;
+
+//-------------------------------- TYPEs for ERROR   -------------------------
 //this is a copy and paste from nxtOSEK
 typedef union {
 		TaskType			tskid;
@@ -199,6 +230,9 @@ extern _ErrorHook_Par	_errorhook_par1, _errorhook_par2, _errorhook_par3;
 /* ============================ INCLUDEs ========================================== */
 #include "osek_cfg.h"
 #include "osek_check.h"
+
+#include "autosar_cfg.h"
+
 
 /* ============================ FUNCTIONs   ========================================== */
 StatusType GetCounterValue(CounterType CounterID,TickRefType Value);
@@ -249,4 +283,13 @@ void StartupHook(void);
 void ErrorHook(StatusType xError);
 void PreTaskHook(void);
 void PostTaskHook(void);
+//------------------- FUNCTIONs for AUTOSAR OS ----------------------
+StatusType StartScheduleTableRel(ScheduleTableType ScheduleTableID,TickType Offset);
+StatusType StartScheduleTableAbs(ScheduleTableType ScheduleTableID,TickType Start);
+StatusType StartScheduleTableSynchron(ScheduleTableType ScheduleTableID);
+StatusType StopScheduleTable(ScheduleTableType ScheduleTableID);
+StatusType SyncScheduleTable(ScheduleTableType ScheduleTableID,TickType Value);
+StatusType SetScheduleTableAsync(ScheduleTableType ScheduleTableID);
+StatusType NextScheduleTable(ScheduleTableType ScheduleTableID_From,
+                             ScheduleTableType ScheduleTableID_To);
 #endif

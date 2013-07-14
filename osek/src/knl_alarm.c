@@ -21,7 +21,12 @@
 #include "knl_alarm.h"
 #include "knl_queue.h"
 #include "knl_task.h"
-#if(cfgOSEK_ALARM_NUM >0)
+
+#if(cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0)
+#include "schedule_table.h"
+#endif
+
+#if((cfgOSEK_ALARM_NUM >0) || (cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0))
 EXPORT ALMCB knl_almcb_table[cfgOSEK_ALARM_NUM];
 
 //initialise the counter and alarm table
@@ -34,9 +39,13 @@ EXPORT void knl_cntalm_init(void)
     {
         ccb = &knl_ccb_table[i];
         QueInit(&ccb->almque); 
+        #if(cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0)
+        QueInit(&ccb->tblque);
+        #endif
         ccb->curvalue = 0;
     }
     
+#if(cfgOSEK_ALARM_NUM >0)
     for(i=0;i<cfgOSEK_ALARM_NUM;i++)
     {
         almcb = &knl_almcb_table[i];
@@ -47,6 +56,11 @@ EXPORT void knl_cntalm_init(void)
             (void)SetRelAlarm(i,knl_galm_table[i].time,knl_galm_table[i].cycle); 
         }
     }
+#endif
+
+#if(cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0)
+    knl_init_schedule_table();
+#endif
 }
 
 //add the alarm value by incr
@@ -81,6 +95,7 @@ EXPORT TickType knl_diff_tick(TickType curval, TickType almval, TickType maxval2
 //The alarm queue is sorted by the alarm next expiry value, from min to max
 //NOTE:the overflowed alarm next expiry value(whose time < ccb->curvalue) shoud treat
 //bigger than the non-overflowed one.
+#if(cfgOSEK_ALARM_NUM >0)
 EXPORT void knl_alm_insert(ALMCB *almcb,CCB* ccb)
 {
     QUEUE* q;
@@ -103,7 +118,7 @@ EXPORT void knl_alm_insert(ALMCB *almcb,CCB* ccb)
     }
     QueInsert(&almcb->almque,q);
 }
-
+#endif
 #endif /* (cfgOSEK_ALARM_NUM >0) */
 
 

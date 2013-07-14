@@ -19,7 +19,21 @@
  * Sourrce Open At: https://github.com/parai/gainos-tk/
  */
 #ifndef SCHEDULE_TABLE_H_H_H
+#define SCHEDULE_TABLE_H_H_H
+/* ============================ INCLUDEs ========================================== */
+#include "autosar_os.h"
 
+/* ============================ MACROs   ========================================== */
+
+/* ============================ DATAs    ========================================== */
+IMPORT const T_GSCHEDTBL knl_gschedtbl_table[cfgAUTOSAR_SCHEDULE_TABLE_NUM];
+IMPORT SCHEDTBLCB knl_schedtblcb_table[cfgAUTOSAR_SCHEDULE_TABLE_NUM];
+
+/* ============================ FUNCTIONs    ====================================== */
+IMPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb);
+IMPORT void knl_start_schedule_table(SCHEDTBLCB* schedtblcb,CCB *ccb);
+IMPORT void knl_init_schedule_table(void);
+IMPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb);
 
 #endif /* SCHEDULE_TABLE_H_H_H */
  

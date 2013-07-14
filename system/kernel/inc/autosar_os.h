@@ -19,6 +19,61 @@
  * Sourrce Open At: https://github.com/parai/gainos-tk/
  */
 #ifndef AUTOSAR_OS_H_H_H
+#define AUTOSAR_OS_H_H_H
+/* ============================ INCLUDEs ========================================== */
 #include "osek_os.h" 
+
+/* ============================ MACROs   ========================================== */
+
+/* ============================ TYPEs   ========================================== */
+//private types for schedule table
+typedef enum
+{
+    /* The schedule table is started during startup with the
+       StartScheduleTableAbs() service. */
+    ABSOLUTE,
+    /* The schedule table is started during startup with the
+       StartScheduleTableRel() service. */
+    RELATIVE,
+    /* The schedule table is started during startup with the
+       StartScheduleTableSynchron() service. */
+    SYNCHRON
+}ScheduleTableAutostartType;
+
+typedef enum
+{
+    /* The schedule table is driven by an OS counter but
+       processing needs to be synchronized with a different
+       counter which is not an OS counter object.*/
+    EXPLICIT,
+    /* The counter driving the schedule table is the counter
+       with which synchronisation is required.*/
+    IMPLICIT,
+    /* No support for synchronisation. (default) */
+    NONE
+}ScheduleTableSyncStrategyType;
+
+typedef struct
+{
+    TickType offset;            /* the relative offset to the previous expiry point */
+    FP action;
+}ScheduleTableExpiryPointType;
+
+typedef struct _schedule_table_generate_info
+{
+    CounterType owner;          /* schedule table owner -> counter */
+    ScheduleTableSyncStrategyType strategy;
+    ScheduleTableExpiryPointType* table; /* expiry point table */
+    uint8 length;                        /* the length of the table */
+    uint8/* BOOL */ repeatable;
+}T_GSCHEDTBL; 
+
+typedef struct _schedule_table_control_block
+{
+    QUEUE tblque;
+    TickType time;              /* the next expiry point time */
+    ScheduleTableStatusType status;
+    uint8 index;                /* index of the next expiry point on the T_GSCHEDTBL.table */
+}SCHEDTBLCB;
 
 #endif /* AUTOSAR_OS_H_H_H */

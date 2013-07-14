@@ -53,9 +53,9 @@ void StartOS ( AppModeType AppMode )
 {
     DISABLE_INTERRUPT;
     knl_app_mode =  AppMode;
-    #if(cfgOSEK_ALARM_NUM > 0)
+#if((cfgOSEK_ALARM_NUM > 0) || (cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0))
     knl_cntalm_init();
-    #endif
+#endif
     knl_resource_init();
 	knl_task_init();
 
