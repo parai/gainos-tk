@@ -81,12 +81,12 @@ StatusType StartScheduleTableRel(ScheduleTableType ScheduleTableID,
     TickType max;              /* max allowed value for counter */
     OS_CHECK_EXT((ScheduleTableID < cfgAUTOSAR_SCHEDULE_TABLE_NUM),E_OS_ID);
     gschedtbl = &knl_gschedtbl_table[ScheduleTableID];
-    OS_CHECK_EXT((IMPLICIT == gschedtbl->strategy), E_OS_ID);
+    OS_CHECK_EXT((IMPLICIT != gschedtbl->strategy), E_OS_ID);
     max = knl_almbase_table[gschedtbl->owner].maxallowedvalue;
     OS_CHECK_EXT(((Offset > 0u) && (Offset <= (max - gschedtbl->table[0].offset))),E_OS_VALUE);
     schedtblcb = &knl_schedtblcb_table[ScheduleTableID];
     OS_CHECK((SCHEDULETABLE_STOPPED == schedtblcb->status),E_OS_STATE);
-    ccb = &knl_ccb_table[ScheduleTableID];
+    ccb = &knl_ccb_table[gschedtbl->owner];
 
     BEGIN_DISABLE_INTERRUPT;
     schedtblcb->time = knl_add_ticks(ccb->curvalue,Offset,max*2);
@@ -150,7 +150,7 @@ StatusType StartScheduleTableAbs(ScheduleTableType ScheduleTableID,
     OS_CHECK_EXT((Start <= max),E_OS_VALUE);
     schedtblcb = &knl_schedtblcb_table[ScheduleTableID];
     OS_CHECK((SCHEDULETABLE_STOPPED == schedtblcb->status),E_OS_STATE);
-    ccb = &knl_ccb_table[ScheduleTableID];
+    ccb = &knl_ccb_table[gschedtbl->owner];
 
     BEGIN_DISABLE_INTERRUPT;
     schedtblcb->time = Start;

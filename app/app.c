@@ -12,31 +12,35 @@
 TASK(vTask0)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
+    (void)WaitEvent(0x01);
+    (void)ClearEvent(0x01);
     printf("vTask0 is running.\r\n");
-    //ActivateTask(vTask3);
     (void)TerminateTask();
 }
 
 TASK(vTask1)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
+    (void)WaitEvent(0x01);
+    (void)ClearEvent(0x01);
     printf("vTask1 is running.\r\n");
-    //ActivateTask(vTask4);
     (void)TerminateTask();
 }
 
 TASK(vTask2)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
+    (void)WaitEvent(0x01);
+    (void)ClearEvent(0x01);
     printf("vTask2 is running.\r\n");
-    //ActivateTask(vTask5);
-    ChainTask(vTask0);
     (void)TerminateTask();
 }
 
 TASK(vTask3)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
+    (void)WaitEvent(0x01);
+    (void)ClearEvent(0x01);
     printf("vTask3 is running.\r\n");
     (void)TerminateTask();
 }
@@ -44,6 +48,8 @@ TASK(vTask3)
 TASK(vTask4)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
+    (void)WaitEvent(0x01);
+    (void)ClearEvent(0x01);
     printf("vTask4 is running.\r\n");
     (void)TerminateTask();
 }
@@ -51,6 +57,8 @@ TASK(vTask4)
 TASK(vTask5)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
+    (void)WaitEvent(0x01);
+    (void)ClearEvent(0x01);
     printf("vTask5 is running.\r\n");
     (void)TerminateTask();
 }
@@ -59,7 +67,7 @@ TASK(vTaskStart)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskStart is running.\r\n");
-    (void)StartScheduleTableRel(vSchedTbl_0,100);
+    (void)StartScheduleTableRel(vSchedTbl_0,50);
     (void)StartScheduleTableRel(vSchedTbl_1,100);
     (void)TerminateTask();
 }
