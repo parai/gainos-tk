@@ -27,8 +27,10 @@
 #endif
 
 #if((cfgOSEK_ALARM_NUM >0) || (cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0))
-EXPORT ALMCB knl_almcb_table[cfgOSEK_ALARM_NUM];
 
+#if(cfgOSEK_ALARM_NUM >0)
+EXPORT ALMCB knl_almcb_table[cfgOSEK_ALARM_NUM];
+#endif
 //initialise the counter and alarm table
 EXPORT void knl_cntalm_init(void)
 {

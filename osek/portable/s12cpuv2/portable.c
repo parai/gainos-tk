@@ -224,13 +224,8 @@ interrupt 7 ISR(SystemTick)
     #if(cfgOS_TK_EXTEND == STD_ON)    
 	//really, the extended feature for OSEK is not advised to be used.
 	knl_timer_handler();
-    #endif
-    #if((cfgOSEK_COUNTER_NUM > 0) && (cfgOSEK_ALARM_NUM > 0))	
+    #endif	
 	(void)IncrementCounter(0);
-	#endif
-    #if(cfgOSEK_COUNTER_NUM > 1)    
-    (void)IncrementCounter(1);
-    #endif
 	ExitISR();	
 }
 #pragma CODE_SEG DEFAULT

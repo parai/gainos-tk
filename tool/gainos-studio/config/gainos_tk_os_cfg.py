@@ -461,6 +461,8 @@ class gainos_tk_os_cfg():
         self.genC(path);
         self.genH(path);
         self.genApp(path);
+        self.genAutosarH(path)
+        self.genAutosarC(path)
     
     def toString(self):
         return 'OSEK OS Supported!'
@@ -603,9 +605,6 @@ class gainos_tk_os_cfg():
         fp.write(gcGainOS_TkHead());
         fp.write("""
 #include "osek_os.h"
-#include "osek_cfg.h"
-#include "knl_task.h"
-#include "knl_alarm.h"
 #include "knl_event.h"
 #include <stdio.h>\n""");
         stack = '';
@@ -771,4 +770,50 @@ void ErrorHook(StatusType Error)
                 if(tskname == tsk.name):
                     return '%sPri'%(inres.name);
         return '%sPri'%(tsk.name)
-            
+    
+    def genAutosarH(self, path):
+        fp = open('%s/autosar_cfg.h'%(path), 'w');
+        fp.write(gcGainOS_TkHead());
+        fp.write('#ifndef _AUTOSAR_CFG_H_\n#define _AUTOSAR_CFG_H_\n\n')
+        fp.write('#define cfgAUTOSAR_SCHEDULE_TABLE_NUM %s\n\n'%(len(self.cfg.schedTblList)))
+        id = 0
+        for sched in self.cfg.schedTblList:
+            fp.write('#define %s %s\n'%(sched.name,id))
+            id += 1
+        fp.write('\n#endif /* _AUTOSAR_CFG_H_ */\n\n')
+        fp.close()
+        
+    def genAutosarC(self, path):
+        if(len(self.cfg.schedTblList) < 0):
+            return # AUTOSAR features not on
+        fp = open('%s/autosar_cfg.c'%(path), 'w');
+        fp.write(gcGainOS_TkHead());
+        fp.write('#include "autosar_os.h"\n\n')
+        fp.write('LOCAL void knl_schedule_table_dummy_action(void){ /* for final delay only */ }\n\n')
+        for sched in self.cfg.schedTblList:
+            id = 0
+            for tbl in sched.table:
+                str = 'LOCAL void %s_ExpiryPoint%s_Action(void)\n{\n'%(sched.name, id)
+                for action in tbl.actionList:
+                    str += '\t(void)%s;\n'%(action)
+                str += '}\n'
+                fp.write(str);
+                id += 1
+            str = 'LOCAL const ScheduleTableExpiryPointType %s_ExpiryPointList[] = \n{\n'%(sched.name)
+            id = 0
+            for tbl in sched.table:
+                str += '\t{ %s , %s_ExpiryPoint%s_Action },\n'%(tbl.offset, sched.name, id)
+                id += 1
+            str += '\t{ %s , knl_schedule_table_dummy_action }\n'%(tbl.offset + sched.finaldelay)
+            str +='};\n'
+            fp.write(str)
+        str = 'EXPORT const T_GSCHEDTBL knl_gschedtbl_table[] = \n{\n'
+        for sched in self.cfg.schedTblList:
+            str += '\tGenSchedTblInfo(%s,'%(sched.name)
+            str += ' %s,'%(sched.owner)
+            str += ' %s,'%(sched.strategy)
+            str += ' %s,'%(len(sched.table)+1)
+            str += ' %s),\n'%(TRUE(sched.repeatable))
+        str += '};\n\n'
+        fp.write(str)
+        fp.close()

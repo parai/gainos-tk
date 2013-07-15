@@ -85,7 +85,7 @@ StatusType StartScheduleTableRel(ScheduleTableType ScheduleTableID,
     max = knl_almbase_table[gschedtbl->owner].maxallowedvalue;
     OS_CHECK_EXT(((Offset > 0u) && (Offset <= (max - gschedtbl->table[0].offset))),E_OS_VALUE);
     schedtblcb = &knl_schedtblcb_table[ScheduleTableID];
-    OS_CHECK((schedtblcb->status != SCHEDULETABLE_STOPPED),E_OS_STATE);
+    OS_CHECK((SCHEDULETABLE_STOPPED == schedtblcb->status),E_OS_STATE);
     ccb = &knl_ccb_table[ScheduleTableID];
 
     BEGIN_DISABLE_INTERRUPT;
@@ -149,7 +149,7 @@ StatusType StartScheduleTableAbs(ScheduleTableType ScheduleTableID,
     max = knl_almbase_table[gschedtbl->owner].maxallowedvalue;
     OS_CHECK_EXT((Start <= max),E_OS_VALUE);
     schedtblcb = &knl_schedtblcb_table[ScheduleTableID];
-    OS_CHECK((schedtblcb->status != SCHEDULETABLE_STOPPED),E_OS_STATE);
+    OS_CHECK((SCHEDULETABLE_STOPPED == schedtblcb->status),E_OS_STATE);
     ccb = &knl_ccb_table[ScheduleTableID];
 
     BEGIN_DISABLE_INTERRUPT;
@@ -501,6 +501,7 @@ EXPORT void knl_init_schedule_table(void)
     {
         schedtblcb = &knl_schedtblcb_table[i];
         QueInit(&schedtblcb->tblque);
+        schedtblcb->status = SCHEDULETABLE_STOPPED;
         // TODO: process autostart
     }
 }

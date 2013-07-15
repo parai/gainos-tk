@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>894</width>
+    <width>956</width>
     <height>584</height>
    </rect>
   </property>
@@ -29,7 +29,7 @@
     <rect>
      <x>20</x>
      <y>0</y>
-     <width>871</width>
+     <width>931</width>
      <height>181</height>
     </rect>
    </property>
@@ -39,7 +39,7 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>388</x>
+      <x>430</x>
       <y>20</y>
       <width>471</width>
       <height>161</height>
@@ -326,7 +326,7 @@
     <rect>
      <x>20</x>
      <y>190</y>
-     <width>871</width>
+     <width>931</width>
      <height>391</height>
     </rect>
    </property>
@@ -358,18 +358,18 @@
      <rect>
       <x>390</x>
       <y>170</y>
-      <width>481</width>
+      <width>541</width>
       <height>80</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
       <string>Offset</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -406,7 +406,7 @@
      <attribute name="title">
       <string>ActivateTask</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -450,9 +450,9 @@
      <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>461</width>
+        <x>12</x>
+        <y>12</y>
+        <width>525</width>
         <height>27</height>
        </rect>
       </property>
@@ -468,7 +468,7 @@
         <widget class="QComboBox" name="cmbxSetTskId">
          <property name="minimumSize">
           <size>
-           <width>170</width>
+           <width>180</width>
            <height>0</height>
           </size>
          </property>
@@ -485,7 +485,7 @@
         <widget class="QComboBox" name="cmbxSetEnt">
          <property name="minimumSize">
           <size>
-           <width>170</width>
+           <width>220</width>
            <height>0</height>
           </size>
          </property>
@@ -502,7 +502,7 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>401</x>

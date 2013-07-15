@@ -22,7 +22,7 @@
 #include "knl_alarm.h"
 #include "knl_queue.h"
 #include "portable.h"
-#if(cfgOSEK_COUNTER_NUM >0)
+#if(cfgOSEK_ALARM_NUM >0)
 /* |------------------+------------------------------------------------------------------| */
 /* | Syntax:          | StatusType GetAlarmBase (AlarmType <AlarmID>,                    | */
 /* |                  | AlarmBaseRefType <Info> )                                        | */

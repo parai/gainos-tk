@@ -59,15 +59,8 @@ TASK(vTaskStart)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskStart is running.\r\n");
-    GetResource(RES_SCHEDULER);
-    ActivateTask(vTask2);
-    ActivateTask(vTask1);
-    ActivateTask(vTask2);
-    ActivateTask(vTask2);
-    ActivateTask(vTask1);
-    ActivateTask(vTask1);
-    ActivateTask(vTask0);
-    ReleaseResource(RES_SCHEDULER);
+    (void)StartScheduleTableRel(vSchedTbl_0,100);
+    (void)StartScheduleTableRel(vSchedTbl_1,100);
     (void)TerminateTask();
 }
 

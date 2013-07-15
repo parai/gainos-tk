@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-4.2.dtd">
 <!-- eric4 tasks file for project gainos-studio -->
-<!-- Saved: 2013-07-14, 22:53:32 -->
+<!-- Saved: 2013-07-15, 21:35:25 -->
 <Tasks version="4.2">
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
@@ -186,82 +186,55 @@
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2013-07-14, 22:47:18</Created>
+    <Created>2013-07-15, 20:40:05</Created>
     <Resource>
       <Filename>ui/classes/cd_schedtbl.py</Filename>
-      <Linenumber>110</Linenumber>
+      <Linenumber>282</Linenumber>
     </Resource>
   </Task>
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2013-07-14, 22:47:18</Created>
+    <Created>2013-07-15, 20:40:05</Created>
     <Resource>
       <Filename>ui/classes/cd_schedtbl.py</Filename>
-      <Linenumber>118</Linenumber>
+      <Linenumber>290</Linenumber>
     </Resource>
   </Task>
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2013-07-14, 22:47:18</Created>
+    <Created>2013-07-15, 20:40:05</Created>
     <Resource>
       <Filename>ui/classes/cd_schedtbl.py</Filename>
-      <Linenumber>126</Linenumber>
+      <Linenumber>298</Linenumber>
     </Resource>
   </Task>
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2013-07-14, 22:47:18</Created>
+    <Created>2013-07-15, 20:40:05</Created>
     <Resource>
       <Filename>ui/classes/cd_schedtbl.py</Filename>
-      <Linenumber>187</Linenumber>
+      <Linenumber>314</Linenumber>
     </Resource>
   </Task>
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2013-07-14, 22:47:18</Created>
+    <Created>2013-07-15, 20:40:05</Created>
     <Resource>
       <Filename>ui/classes/cd_schedtbl.py</Filename>
-      <Linenumber>195</Linenumber>
+      <Linenumber>322</Linenumber>
     </Resource>
   </Task>
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2013-07-14, 22:47:18</Created>
+    <Created>2013-07-15, 20:40:05</Created>
     <Resource>
       <Filename>ui/classes/cd_schedtbl.py</Filename>
-      <Linenumber>203</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-07-14, 22:47:18</Created>
-    <Resource>
-      <Filename>ui/classes/cd_schedtbl.py</Filename>
-      <Linenumber>219</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-07-14, 22:47:18</Created>
-    <Resource>
-      <Filename>ui/classes/cd_schedtbl.py</Filename>
-      <Linenumber>227</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: not implemented yet</Summary>
-    <Description></Description>
-    <Created>2013-07-14, 22:47:18</Created>
-    <Resource>
-      <Filename>ui/classes/cd_schedtbl.py</Filename>
-      <Linenumber>235</Linenumber>
+      <Linenumber>330</Linenumber>
     </Resource>
   </Task>
 </Tasks>

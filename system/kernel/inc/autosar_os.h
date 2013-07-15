@@ -24,7 +24,15 @@
 #include "osek_os.h" 
 
 /* ============================ MACROs   ========================================== */
-
+#define GenSchedTblInfo(name,owner,strategy,length,repeatable)  \
+{   \
+    /* owner = */ owner,    \
+    /* strategy = */ strategy,    \
+    /* table = */ name##_ExpiryPointList,   \
+    /* length = */ length,  \
+    /* repeatable = */ repeatable   \
+} 
+   
 /* ============================ TYPEs   ========================================== */
 //private types for schedule table
 typedef enum
@@ -63,7 +71,7 @@ typedef struct _schedule_table_generate_info
 {
     CounterType owner;          /* schedule table owner -> counter */
     ScheduleTableSyncStrategyType strategy;
-    ScheduleTableExpiryPointType* table; /* expiry point table */
+    const ScheduleTableExpiryPointType* table; /* expiry point table */
     uint8 length;                        /* the length of the table */
     uint8/* BOOL */ repeatable;
 }T_GSCHEDTBL; 
