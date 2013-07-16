@@ -239,7 +239,7 @@ typedef	struct ready_queue {
 typedef struct counter_control_block
 {
     QUEUE       almque;
-    #if(cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0)
+    #if(cfgAR_SCHEDTBL_NUM > 0)
     QUEUE       tblque;
     #endif
     TickType    curvalue; /* current value of the Counter */

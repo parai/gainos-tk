@@ -26,6 +26,7 @@
 
 /* ============================ MACROs   ========================================== */
 #define INVALID_TASK (-1)
+#define INVALID_SCHEDTBL (-1)
 
 #define OS_STATUS_STANDARD 0
 #define OS_STATUS_EXTENDED  1

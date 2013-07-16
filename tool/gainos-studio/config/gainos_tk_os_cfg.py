@@ -775,7 +775,8 @@ void ErrorHook(StatusType Error)
         fp = open('%s/autosar_cfg.h'%(path), 'w');
         fp.write(gcGainOS_TkHead());
         fp.write('#ifndef _AUTOSAR_CFG_H_\n#define _AUTOSAR_CFG_H_\n\n')
-        fp.write('#define cfgAUTOSAR_SCHEDULE_TABLE_NUM %s\n\n'%(len(self.cfg.schedTblList)))
+        fp.write('#define cfgAR_SCHEDTBL_QUEUE_METHOD SCHEDTBL_IN_LOOP\n\n')
+        fp.write('#define cfgAR_SCHEDTBL_NUM %s\n\n'%(len(self.cfg.schedTblList)))
         id = 0
         for sched in self.cfg.schedTblList:
             fp.write('#define %s %s\n'%(sched.name,id))
@@ -802,9 +803,13 @@ void ErrorHook(StatusType Error)
             str = 'LOCAL const ScheduleTableExpiryPointType %s_ExpiryPointList[] = \n{\n'%(sched.name)
             id = 0
             for tbl in sched.table:
-                str += '\t{ %s , %s_ExpiryPoint%s_Action },\n'%(tbl.offset, sched.name, id)
+                if(id == 0):
+                    offset = tbl.offset;
+                else:
+                    offset = tbl.offset - sched.table[id-1].offset
+                str += '\t{ %s , %s_ExpiryPoint%s_Action },\n'%(offset, sched.name, id)
                 id += 1
-            str += '\t{ %s , knl_schedule_table_dummy_action }\n'%(tbl.offset + sched.finaldelay)
+            str += '\t{ %s , knl_schedule_table_dummy_action }\n'%(sched.finaldelay)
             str +='};\n'
             fp.write(str)
         str = 'EXPORT const T_GSCHEDTBL knl_gschedtbl_table[] = \n{\n'

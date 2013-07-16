@@ -23,7 +23,7 @@
 #include "knl_alarm.h"
 #include "portable.h"
 
-EXPORT SCHEDTBLCB knl_schedtblcb_table[cfgAUTOSAR_SCHEDULE_TABLE_NUM];
+EXPORT SCHEDTBLCB knl_schedtblcb_table[cfgAR_SCHEDTBL_NUM];
 
 /* |-------------------+---------------------------------------------------------------| */
 /* | Service name:     | StartScheduleTableRel                                         | */
@@ -79,7 +79,7 @@ StatusType StartScheduleTableRel(ScheduleTableType ScheduleTableID,
     SCHEDTBLCB*  schedtblcb;
     CCB* ccb;
     TickType max;              /* max allowed value for counter */
-    OS_CHECK_EXT((ScheduleTableID < cfgAUTOSAR_SCHEDULE_TABLE_NUM),E_OS_ID);
+    OS_CHECK_EXT((ScheduleTableID < cfgAR_SCHEDTBL_NUM),E_OS_ID);
     gschedtbl = &knl_gschedtbl_table[ScheduleTableID];
     OS_CHECK_EXT((IMPLICIT != gschedtbl->strategy), E_OS_ID);
     max = knl_almbase_table[gschedtbl->owner].maxallowedvalue;
@@ -89,7 +89,7 @@ StatusType StartScheduleTableRel(ScheduleTableType ScheduleTableID,
     ccb = &knl_ccb_table[gschedtbl->owner];
 
     BEGIN_DISABLE_INTERRUPT;
-    schedtblcb->time = knl_add_ticks(ccb->curvalue,Offset,max*2);
+    schedtblcb->time = knl_add_ticks(ccb->curvalue,Offset+gschedtbl->table[0].offset,max*2);
     knl_start_schedule_table(schedtblcb,ccb);
     END_DISABLE_INTERRUPT;
     
@@ -144,7 +144,7 @@ StatusType StartScheduleTableAbs(ScheduleTableType ScheduleTableID,
     SCHEDTBLCB*  schedtblcb;
     CCB* ccb;
     TickType max;              /* max allowed value for counter */
-    OS_CHECK_EXT((ScheduleTableID < cfgAUTOSAR_SCHEDULE_TABLE_NUM),E_OS_ID);
+    OS_CHECK_EXT((ScheduleTableID < cfgAR_SCHEDTBL_NUM),E_OS_ID);
     gschedtbl = &knl_gschedtbl_table[ScheduleTableID];
     max = knl_almbase_table[gschedtbl->owner].maxallowedvalue;
     OS_CHECK_EXT((Start <= max),E_OS_VALUE);
@@ -153,7 +153,7 @@ StatusType StartScheduleTableAbs(ScheduleTableType ScheduleTableID,
     ccb = &knl_ccb_table[gschedtbl->owner];
 
     BEGIN_DISABLE_INTERRUPT;
-    schedtblcb->time = Start;
+    schedtblcb->time = Start + gschedtbl->table[0].offset;
     knl_start_schedule_table(schedtblcb,ccb);
     END_DISABLE_INTERRUPT;
     
@@ -193,12 +193,18 @@ StatusType StopScheduleTable(ScheduleTableType ScheduleTableID)
 {
     StatusType ercd = E_OK;
     SCHEDTBLCB*  schedtblcb;
-    OS_CHECK_EXT((ScheduleTableID < cfgAUTOSAR_SCHEDULE_TABLE_NUM),E_OS_ID);
-    OS_CHECK((SCHEDULETABLE_STOPPED == schedtblcb->status),E_OS_NOFUNC);
+    OS_CHECK_EXT((ScheduleTableID < cfgAR_SCHEDTBL_NUM),E_OS_ID);
+    schedtblcb = &knl_schedtblcb_table[ScheduleTableID];
+    OS_CHECK((SCHEDULETABLE_STOPPED != schedtblcb->status),E_OS_NOFUNC);
     
     BEGIN_DISABLE_INTERRUPT;
     schedtblcb->status = SCHEDULETABLE_STOPPED;
     QueRemove(&schedtblcb->tblque);
+    if(schedtblcb->next != INVALID_SCHEDTBL)
+    {   //@req OS453
+        SCHEDTBLCB* cb = &knl_schedtblcb_table[schedtblcb->next];
+        cb->status = SCHEDULETABLE_STOPPED;
+    }
     END_DISABLE_INTERRUPT;
   Error_Exit:
     return ercd;
@@ -250,15 +256,15 @@ StatusType StopScheduleTable(ScheduleTableType ScheduleTableID)
 /* |                   | + <ScheduleTable_To>.Initial Offset ticks after the Final       | */
 /* |                   | Expiry Point on <ScheduleTableID_From> is processed .           | */
 /* |                   | OS324: If the input parameters are valid AND the                | */
-/* |                   | <ScheduleTableID_From> already has a ¡°next¡± schedule          | */
+/* |                   | <ScheduleTableID_From> already has a ¡°next¡± schedule            | */
 /* |                   | table then the <ScheduleTableID_To> shall replace the           | */
-/* |                   | previous ¡°next¡± schedule table and the old ¡°next¡± schedule  | */
+/* |                   | previous ¡°next¡± schedule table and the old ¡°next¡± schedule      | */
 /* |                   | table state becomes SCHEDULETABLE_STOPPED.                      | */
 /* |                   | OS363: The synchronization strategy of the <ScheduleTableID_To> | */
 /* |                   | shall come into effect when the Operating System processes the  | */
 /* |                   | first expiry point of <ScheduleTableID_To>.                     | */
 /* |-------------------+-----------------------------------------------------------------| */
-/* | Caveats:          | OS453: If the <ScheduleTableID_From> is stopped, the ¡°next¡±   | */
+/* | Caveats:          | OS453: If the <ScheduleTableID_From> is stopped, the ¡°next¡±     | */
 /* |                   | schedule table does not start and its state changes to          | */
 /* |                   | SCHEDULETABLE_STOPPED.                                          | */
 /* |-------------------+-----------------------------------------------------------------| */
@@ -268,6 +274,28 @@ StatusType NextScheduleTable(ScheduleTableType ScheduleTableID_From,
                              ScheduleTableType ScheduleTableID_To)
 {
     StatusType ercd = E_OK;
+    const T_GSCHEDTBL *gschedtbl_from,*gschedtbl_to;
+    SCHEDTBLCB *schedtblcb_from,*schedtblcb_to;
+    OS_CHECK_EXT((ScheduleTableID_From < cfgAR_SCHEDTBL_NUM),E_OS_ID);
+    OS_CHECK_EXT((ScheduleTableID_To < cfgAR_SCHEDTBL_NUM),E_OS_ID);
+    gschedtbl_from = &knl_gschedtbl_table[ScheduleTableID_From];
+    gschedtbl_to = &knl_gschedtbl_table[ScheduleTableID_To];
+    OS_CHECK_EXT((gschedtbl_from->owner == gschedtbl_to->owner),E_OS_ID);
+    OS_CHECK_EXT((gschedtbl_from->strategy == gschedtbl_to->strategy),E_OS_ID);  //@req OS484
+    schedtblcb_from = &knl_schedtblcb_table[ScheduleTableID_From];
+    OS_CHECK((schedtblcb_from->status != SCHEDULETABLE_STOPPED)&&(schedtblcb_from->status != SCHEDULETABLE_NEXT),E_OS_NOFUNC); 
+    schedtblcb_to = &knl_schedtblcb_table[ScheduleTableID_To];
+    OS_CHECK((SCHEDULETABLE_STOPPED == schedtblcb_to->status ),E_OS_STATE); 
+    
+    BEGIN_DISABLE_INTERRUPT;
+    if(schedtblcb_from->next != INVALID_SCHEDTBL)
+    {   
+        SCHEDTBLCB* cb = &knl_schedtblcb_table[schedtblcb_from->next];
+        cb->status = SCHEDULETABLE_STOPPED;
+    }
+    schedtblcb_from->next = ScheduleTableID_To;
+    schedtblcb_to->status = SCHEDULETABLE_NEXT;
+    END_DISABLE_INTERRUPT;
   Error_Exit:
     return ercd;
 }
@@ -462,7 +490,8 @@ StatusType GetScheduleTableStatus(ScheduleTableType ScheduleTableID,
     return ercd;
 }
 
-//yes,this API is the same as knl_alm_insert()
+#if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_ORDER)
+// yes,this API is the same as knl_alm_insert()  
 EXPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb)
 {
     QUEUE* q;
@@ -485,19 +514,21 @@ EXPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb)
     }
     QueInsert(&schedtblcb->tblque,q);
 }
+#endif
 
 EXPORT void knl_start_schedule_table(SCHEDTBLCB* schedtblcb,CCB *ccb)
 {
-    knl_schedtbl_insert(schedtblcb,ccb);
+    INSERT_SCHEDTBL(schedtblcb,ccb);
     schedtblcb->index = 0u;
     schedtblcb->status = SCHEDULETABLE_RUNNING;
+    schedtblcb->next = INVALID_SCHEDTBL;
 }
 
 EXPORT void knl_init_schedule_table(void)
 {
     int i;
     SCHEDTBLCB* schedtblcb;
-    for(i = 0; i < cfgAUTOSAR_SCHEDULE_TABLE_NUM; i++)
+    for(i = 0; i < cfgAR_SCHEDTBL_NUM; i++)
     {
         schedtblcb = &knl_schedtblcb_table[i];
         QueInit(&schedtblcb->tblque);
@@ -527,9 +558,28 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
 
     if(0 == index)              /* the final delay has been processed */
     {
-        if(gschedtbl->repeatable != TRUE)
+        if(schedtblcb->next !=  INVALID_SCHEDTBL)
+        {
+            ScheduleTableType next =  schedtblcb->next;
+            // stop it firstly
+            schedtblcb->status = SCHEDULETABLE_STOPPED;
+            #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_LOOP)
+            QueRemove(&schedtblcb->tblque);
+            #endif
+            // and then replace it by the next
+            schedtblcb =  &knl_schedtblcb_table[next];
+            gschedtbl = &knl_gschedtbl_table[next];
+            max = knl_almbase_table[ccb - knl_ccb_table].maxallowedvalue;
+            schedtblcb->time = knl_add_ticks(ccb->curvalue,gschedtbl->table[0].offset,max*2);
+            knl_start_schedule_table(schedtblcb,ccb);
+            return;
+        }
+        else if(gschedtbl->repeatable != TRUE)
         {
             schedtblcb->status = SCHEDULETABLE_STOPPED;
+            #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_LOOP)
+            QueRemove(&schedtblcb->tblque);
+            #endif
             return;
         }
     }
@@ -538,5 +588,7 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
 
     max = knl_almbase_table[ccb - knl_ccb_table].maxallowedvalue;
     schedtblcb->time = knl_add_ticks(ccb->curvalue,gschedtbl->table[index].offset,max*2);
+    #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_ORDER)
     knl_schedtbl_insert(schedtblcb,ccb);
+    #endif
 }

@@ -8,13 +8,16 @@
 #include "Os.h"
 #include <stdio.h>
 
-
+int g_counter = 0;
 TASK(vTask0)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
+    g_counter ++;
+    (void)NextScheduleTable(vSchedTbl_0,vSchedTbl_1);
     (void)WaitEvent(0x01);
     (void)ClearEvent(0x01);
     printf("vTask0 is running.\r\n");
+    (void)NextScheduleTable(vSchedTbl_1,vSchedTbl_0);
     (void)TerminateTask();
 }
 
@@ -68,7 +71,9 @@ TASK(vTaskStart)
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskStart is running.\r\n");
     (void)StartScheduleTableRel(vSchedTbl_0,50);
-    (void)StartScheduleTableRel(vSchedTbl_1,100);
+    //(void)StartScheduleTableRel(vSchedTbl_1,100);
+    //while(g_counter < 2);
+    //(void)StopScheduleTable(vSchedTbl_1);
     (void)TerminateTask();
 }
 

@@ -82,6 +82,7 @@ typedef struct _schedule_table_control_block
     TickType time;              /* the next expiry point time */
     ScheduleTableStatusType status;
     uint8 index;                /* index of the next expiry point on the T_GSCHEDTBL.table */
+    ScheduleTableType next;     /* the next schedule table in state SCHEDULETABLE_NEXT or INVALID_SCHEDTBL */
 }SCHEDTBLCB;
 
 #endif /* AUTOSAR_OS_H_H_H */

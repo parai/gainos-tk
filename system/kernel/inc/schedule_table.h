@@ -24,16 +24,34 @@
 #include "autosar_os.h"
 
 /* ============================ MACROs   ========================================== */
+//as I see,There is 2 methods to process schedule table.
+//1: the method adopted by alarm in gainos-tk,the running shcedule tables 
+// in the order by time in queue.
+//2: the method to loop over all the schedule table connected to one counter, 
+// and only remove the schedule table when stop and insert it when start.  
+//both of the 2 methods I think are good, So I will implement both .
+//when there are only several schedule tables, I think menthod 2 should be prefered.
+//but when there are many schedule tables, I think menthod 1 should be prefered.
+#define SCHEDTBL_IN_ORDER 1
+#define SCHEDTBL_IN_LOOP  2
 
+#if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_ORDER)
+#define INSERT_SCHEDTBL(_schedtblcb,_ccb)  knl_schedtbl_insert(_schedtblcb,_ccb)
+#else
+#define INSERT_SCHEDTBL(_schedtblcb,_ccb)  QueInsert(&(_schedtblcb)->tblque,&(_ccb)->tblque)
+#endif
+ 
 /* ============================ DATAs    ========================================== */
-IMPORT const T_GSCHEDTBL knl_gschedtbl_table[cfgAUTOSAR_SCHEDULE_TABLE_NUM];
-IMPORT SCHEDTBLCB knl_schedtblcb_table[cfgAUTOSAR_SCHEDULE_TABLE_NUM];
+IMPORT const T_GSCHEDTBL knl_gschedtbl_table[cfgAR_SCHEDTBL_NUM];
+IMPORT SCHEDTBLCB knl_schedtblcb_table[cfgAR_SCHEDTBL_NUM];
 
 /* ============================ FUNCTIONs    ====================================== */
 IMPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb);
 IMPORT void knl_start_schedule_table(SCHEDTBLCB* schedtblcb,CCB *ccb);
 IMPORT void knl_init_schedule_table(void);
 IMPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb);
-
+#if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_ORDER)  
+IMPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb)
+#endif
 #endif /* SCHEDULE_TABLE_H_H_H */
  

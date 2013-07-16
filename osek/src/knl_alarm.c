@@ -22,11 +22,11 @@
 #include "knl_queue.h"
 #include "knl_task.h"
 
-#if(cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0)
+#if(cfgAR_SCHEDTBL_NUM > 0)
 #include "schedule_table.h"
 #endif
 
-#if((cfgOSEK_ALARM_NUM >0) || (cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0))
+#if((cfgOSEK_ALARM_NUM >0) || (cfgAR_SCHEDTBL_NUM > 0))
 
 #if(cfgOSEK_ALARM_NUM >0)
 EXPORT ALMCB knl_almcb_table[cfgOSEK_ALARM_NUM];
@@ -41,7 +41,7 @@ EXPORT void knl_cntalm_init(void)
     {
         ccb = &knl_ccb_table[i];
         QueInit(&ccb->almque); 
-        #if(cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0)
+        #if(cfgAR_SCHEDTBL_NUM > 0)
         QueInit(&ccb->tblque);
         #endif
         ccb->curvalue = 0;
@@ -60,7 +60,7 @@ EXPORT void knl_cntalm_init(void)
     }
 #endif
 
-#if(cfgAUTOSAR_SCHEDULE_TABLE_NUM > 0)
+#if(cfgAR_SCHEDTBL_NUM > 0)
     knl_init_schedule_table();
 #endif
 }
