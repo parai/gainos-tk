@@ -89,6 +89,7 @@ StatusType StartScheduleTableRel(ScheduleTableType ScheduleTableID,
     ccb = &knl_ccb_table[gschedtbl->owner];
 
     BEGIN_DISABLE_INTERRUPT;
+    schedtblcb->start =  ccb->curvalue;
     schedtblcb->time = knl_add_ticks(ccb->curvalue,Offset+gschedtbl->table[0].offset,max*2);
     knl_start_schedule_table(schedtblcb,ccb);
     END_DISABLE_INTERRUPT;
@@ -153,7 +154,8 @@ StatusType StartScheduleTableAbs(ScheduleTableType ScheduleTableID,
     ccb = &knl_ccb_table[gschedtbl->owner];
 
     BEGIN_DISABLE_INTERRUPT;
-    schedtblcb->time = Start + gschedtbl->table[0].offset;
+    schedtblcb->start =  Start;
+    schedtblcb->time = knl_add_ticks(Start,gschedtbl->table[0].offset,max*2);
     knl_start_schedule_table(schedtblcb,ccb);
     END_DISABLE_INTERRUPT;
     
@@ -440,12 +442,14 @@ StatusType SyncScheduleTable(ScheduleTableType ScheduleTableID,TickType Value)
     BEGIN_DISABLE_INTERRUPT;
     if(SCHEDULETABLE_WAITING == schedtblcb->status)
     {
-        TickType rel = gschedtbl->duration - Value + gschedtbl->table[0].offset;
-        schedtblcb->time = knl_add_ticks(ccb->curvalue,rel,max*2);
+        TickType start = gschedtbl->duration - Value;
+        schedtblcb->start = knl_add_ticks(ccb->curvalue,start,max*2);
+        schedtblcb->time = knl_add_ticks(ccb->curvalue,start + gschedtbl->table[0].offset,max*2);
         knl_start_schedule_table(schedtblcb,ccb);  
     }
     else //running state
     {
+        TickType cvalue = knl_diff_tick(ccb->curvalue,schedtblcb->start,max*2);         
     }
     END_DISABLE_INTERRUPT;
   Error_Exit:
@@ -623,6 +627,7 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
             schedtblcb =  &knl_schedtblcb_table[next];
             gschedtbl = &knl_gschedtbl_table[next];
             max = knl_almbase_table[ccb - knl_ccb_table].maxallowedvalue;
+            schedtblcb->start =  ccb->curvalue;
             schedtblcb->time = knl_add_ticks(ccb->curvalue,gschedtbl->table[0].offset,max*2);
             knl_start_schedule_table(schedtblcb,ccb);
             return;
@@ -636,8 +641,8 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
             return;
         }
         else
-        {
-            /* do nothing */
+        {   //restart it
+            schedtblcb->start =  ccb->curvalue;
         }
     }
     
