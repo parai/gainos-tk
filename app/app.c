@@ -70,10 +70,12 @@ TASK(vTaskStart)
 {
     /* Add your task special code here, but Don't delete this Task declaration.*/
     printf("vTaskStart is running.\r\n");
-    (void)StartScheduleTableRel(vSchedTbl_0,50);
+    //(void)StartScheduleTableRel(vSchedTbl_0,50);
     //(void)StartScheduleTableRel(vSchedTbl_1,100);
     //while(g_counter < 2);
     //(void)StopScheduleTable(vSchedTbl_1);
+    StartScheduleTableSynchron(vSchedTbl_0);
+    SyncScheduleTable(vSchedTbl_0,50);
     (void)TerminateTask();
 }
 

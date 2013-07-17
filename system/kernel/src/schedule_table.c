@@ -198,13 +198,30 @@ StatusType StopScheduleTable(ScheduleTableType ScheduleTableID)
     OS_CHECK((SCHEDULETABLE_STOPPED != schedtblcb->status),E_OS_NOFUNC);
     
     BEGIN_DISABLE_INTERRUPT;
-    schedtblcb->status = SCHEDULETABLE_STOPPED;
-    QueRemove(&schedtblcb->tblque);
-    if(schedtblcb->next != INVALID_SCHEDTBL)
-    {   //@req OS453
-        SCHEDTBLCB* cb = &knl_schedtblcb_table[schedtblcb->next];
-        cb->status = SCHEDULETABLE_STOPPED;
+    switch(schedtblcb->status)
+    {
+        case SCHEDULETABLE_RUNNING:
+        case SCHEDULETABLE_RUNNING_AND_SYNCHRONOUS:
+        {
+            QueRemove(&schedtblcb->tblque);
+            if(schedtblcb->next != INVALID_SCHEDTBL)
+            {   //@req OS453
+                SCHEDTBLCB* cb = &knl_schedtblcb_table[schedtblcb->next];
+                cb->status = SCHEDULETABLE_STOPPED;
+            }
+            break;
+        }
+        case SCHEDULETABLE_NEXT:
+        {   
+            SCHEDTBLCB* fromcb = &knl_schedtblcb_table[schedtblcb->next];
+            //Assert(fromcb->status == RUNNING)
+            fromcb->next =  INVALID_SCHEDTBL;
+            break;
+        }
+        default:
+            break;
     }
+    schedtblcb->status = SCHEDULETABLE_STOPPED;
     END_DISABLE_INTERRUPT;
   Error_Exit:
     return ercd;
@@ -295,6 +312,7 @@ StatusType NextScheduleTable(ScheduleTableType ScheduleTableID_From,
     }
     schedtblcb_from->next = ScheduleTableID_To;
     schedtblcb_to->status = SCHEDULETABLE_NEXT;
+    schedtblcb_to->next = ScheduleTableID_From;
     END_DISABLE_INTERRUPT;
   Error_Exit:
     return ercd;
@@ -345,6 +363,16 @@ StatusType NextScheduleTable(ScheduleTableType ScheduleTableID_From,
 StatusType StartScheduleTableSynchron(ScheduleTableType ScheduleTableID)
 {
     StatusType ercd = E_OK;
+    const T_GSCHEDTBL* gschedtbl;
+    SCHEDTBLCB*  schedtblcb;
+    OS_CHECK_EXT((ScheduleTableID < cfgAR_SCHEDTBL_NUM),E_OS_ID);
+    gschedtbl = &knl_gschedtbl_table[ScheduleTableID];
+    OS_CHECK_EXT((EXPLICIT ==  gschedtbl->strategy),E_OS_ID);
+    schedtblcb = &knl_schedtblcb_table[ScheduleTableID];
+    OS_CHECK((SCHEDULETABLE_STOPPED == schedtblcb->status),E_OS_STATE);
+    
+    schedtblcb->status = SCHEDULETABLE_WAITING;
+    
   Error_Exit:
     return ercd;
 }
@@ -378,7 +406,7 @@ StatusType StartScheduleTableSynchron(ScheduleTableType ScheduleTableID)
 /* |                   | (OsScheduleTblSyncStrategy is not equal to EXPLICIT)         | */
 /* |                   | the service shall return E_OS_ID.                            | */
 /* |                   | OS455: If the <Value> is greater than the                    | */
-/* |                   | OsScheduleTableDuration, SyncScheduleTableAbs() shall        | */
+/* |                   | OsScheduleTableDuration, SyncScheduleTable() shall           | */
 /* |                   | return E_OS_VALUE.                                           | */
 /* |                   | OS456: If the state of the schedule table <ScheduleTableID>  | */
 /* |                   | is equal to SCHEDULETABLE_STOPPED or SCHEDULETABLE_NEXT the  | */
@@ -395,6 +423,31 @@ StatusType StartScheduleTableSynchron(ScheduleTableType ScheduleTableID)
 StatusType SyncScheduleTable(ScheduleTableType ScheduleTableID,TickType Value)
 {
     StatusType ercd = E_OK;
+    const T_GSCHEDTBL* gschedtbl;
+    SCHEDTBLCB*  schedtblcb;
+    CCB* ccb;
+    TickType max;              /* max allowed value for counter */
+    OS_CHECK_EXT((ScheduleTableID < cfgAR_SCHEDTBL_NUM),E_OS_ID);
+    gschedtbl = &knl_gschedtbl_table[ScheduleTableID];
+    OS_CHECK_EXT((EXPLICIT ==  gschedtbl->strategy),E_OS_ID);
+    OS_CHECK_EXT((Value <= gschedtbl->duration),E_OS_VALUE);
+    schedtblcb = &knl_schedtblcb_table[ScheduleTableID];
+    OS_CHECK_EXT((schedtblcb->status != SCHEDULETABLE_STOPPED)&&(schedtblcb->status != SCHEDULETABLE_NEXT),E_OS_STATE); 
+    
+    max = knl_almbase_table[gschedtbl->owner].maxallowedvalue;
+    ccb = &knl_ccb_table[gschedtbl->owner];
+    
+    BEGIN_DISABLE_INTERRUPT;
+    if(SCHEDULETABLE_WAITING == schedtblcb->status)
+    {
+        TickType rel = gschedtbl->duration - Value + gschedtbl->table[0].offset;
+        schedtblcb->time = knl_add_ticks(ccb->curvalue,rel,max*2);
+        knl_start_schedule_table(schedtblcb,ccb);  
+    }
+    else //running state
+    {
+    }
+    END_DISABLE_INTERRUPT;
   Error_Exit:
     return ercd;
 }
@@ -581,6 +634,10 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
             QueRemove(&schedtblcb->tblque);
             #endif
             return;
+        }
+        else
+        {
+            /* do nothing */
         }
     }
     

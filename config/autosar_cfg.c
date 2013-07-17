@@ -79,7 +79,7 @@ LOCAL const ScheduleTableExpiryPointType vSchedTbl_1_ExpiryPointList[] =
 };
 EXPORT const T_GSCHEDTBL knl_gschedtbl_table[] = 
 {
-	GenSchedTblInfo(vSchedTbl_0, SystemTimer, NONE, 7, TRUE),
-	GenSchedTblInfo(vSchedTbl_1, SystemTimer, NONE, 7, FALSE),
+	GenSchedTblInfo(vSchedTbl_0, SystemTimer, EXPLICIT, 7, TRUE,70),
+	GenSchedTblInfo(vSchedTbl_1, SystemTimer, EXPLICIT, 7, FALSE,70),
 };
 

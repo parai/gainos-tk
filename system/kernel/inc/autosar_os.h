@@ -24,13 +24,14 @@
 #include "osek_os.h" 
 
 /* ============================ MACROs   ========================================== */
-#define GenSchedTblInfo(name,owner,strategy,length,repeatable)  \
+#define GenSchedTblInfo(name,owner,strategy,length,repeatable,duration)  \
 {   \
     /* owner = */ owner,    \
     /* strategy = */ strategy,    \
     /* table = */ name##_ExpiryPointList,   \
     /* length = */ length,  \
-    /* repeatable = */ repeatable   \
+    /* repeatable = */ repeatable,   \
+    /* duration = */ duration   \
 } 
    
 /* ============================ TYPEs   ========================================== */
@@ -74,6 +75,7 @@ typedef struct _schedule_table_generate_info
     const ScheduleTableExpiryPointType* table; /* expiry point table */
     uint8 length;                        /* the length of the table */
     uint8/* BOOL */ repeatable;
+    TickType duration;
 }T_GSCHEDTBL; 
 
 typedef struct _schedule_table_control_block
@@ -82,7 +84,8 @@ typedef struct _schedule_table_control_block
     TickType time;              /* the next expiry point time */
     ScheduleTableStatusType status;
     uint8 index;                /* index of the next expiry point on the T_GSCHEDTBL.table */
-    ScheduleTableType next;     /* the next schedule table in state SCHEDULETABLE_NEXT or INVALID_SCHEDTBL */
+    ScheduleTableType next;     /* the next schedule table in state SCHEDULETABLE_NEXT or INVALID_SCHEDTBL;
+                                 * or the previous schedule table in the state RUNNING and has a next schedule table*/
 }SCHEDTBLCB;
 
 #endif /* AUTOSAR_OS_H_H_H */
