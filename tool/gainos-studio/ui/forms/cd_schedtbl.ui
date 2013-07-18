@@ -115,7 +115,7 @@
        <item>
         <widget class="QSpinBox" name="spbxSchedTblMaxAdvance">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="minimumSize">
           <size>
@@ -145,7 +145,7 @@
        <item>
         <widget class="QSpinBox" name="spbxSchedTblMaxRetard">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="minimumSize">
           <size>
@@ -447,7 +447,7 @@
      <attribute name="title">
       <string>SetEvent</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>12</x>

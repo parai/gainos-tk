@@ -50,6 +50,8 @@ class cd_schedtbl(QDialog, Ui_cd_schedtbl):
         self.cbxSchedTblRepeatable.setChecked(self.cfg.repeatable)
         self.cmbxSchedTblSyncStrategy.setCurrentIndex(self.cmbxSchedTblSyncStrategy.findText(self.cfg.strategy));
         self.spbxSchedTblFinalDelay.setValue(self.cfg.finaldelay)
+        self.spbxSchedTblMaxAdvance.setValue(self.cfg.maxadvance)
+        self.spbxSchedTblMaxRetard.setValue(self.cfg.maxretard)
         for cnt in self.depinfo.counterList:
             self.cmbxSchedTblDrivingCounter.addItem(cnt.name)
         self.cmbxSchedTblDrivingCounter.setCurrentIndex(self.cmbxSchedTblDrivingCounter.findText(self.cfg.owner))
@@ -308,19 +310,11 @@ class cd_schedtbl(QDialog, Ui_cd_schedtbl):
     
     @pyqtSignature("int")
     def on_spbxSchedTblMaxAdvance_valueChanged(self, p0):
-        """
-        Slot documentation goes here.
-        """
-        # TODO: not implemented yet
-        raise NotImplementedError
+        self.cfg.maxadvance = p0
     
     @pyqtSignature("int")
     def on_spbxSchedTblMaxRetard_valueChanged(self, p0):
-        """
-        Slot documentation goes here.
-        """
-        # TODO: not implemented yet
-        raise NotImplementedError
+        self.cfg.maxretard = p0
     
     @pyqtSignature("int")
     def on_spbxSchedTblPrecision_valueChanged(self, p0):

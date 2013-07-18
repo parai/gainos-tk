@@ -24,14 +24,16 @@
 #include "osek_os.h" 
 
 /* ============================ MACROs   ========================================== */
-#define GenSchedTblInfo(name,owner,strategy,length,repeatable,duration)  \
-{   \
-    /* owner = */ owner,    \
-    /* strategy = */ strategy,    \
+#define GenSchedTblInfo(name,owner,strategy,length,repeatable,duration,maxadvance,maxretard)  \
+{                 \
+    owner,        \
+    strategy,     \
     /* table = */ name##_ExpiryPointList,   \
-    /* length = */ length,  \
-    /* repeatable = */ repeatable,   \
-    /* duration = */ duration   \
+    length,       \
+    repeatable,   \
+    duration,     \
+    maxadvance,   \
+    maxretard     \
 } 
    
 /* ============================ TYPEs   ========================================== */

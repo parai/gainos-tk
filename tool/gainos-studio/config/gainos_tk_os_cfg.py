@@ -256,6 +256,8 @@ class ScheduleTable():
         self.repeatable = True; 
         self.finaldelay = 10;
         self.table = []; #should be in the order by offset from small to large
+        self.maxadvance = 2;
+        self.maxretard = 2;
     def save(self, root):
         nd = ET.Element('ScheduleTable')
         nd.attrib['name'] = str(self.name)
@@ -267,6 +269,8 @@ class ScheduleTable():
         for tbl in self.table:
             tbl.save(nd2);
         nd.append(nd2)
+        nd.attrib['maxadvance'] = str(self.maxadvance)
+        nd.attrib['maxretard'] = str(self.maxretard)
         root.append(nd)
     def parse(self, nd):
         self.name = nd.attrib['name']
@@ -278,11 +282,15 @@ class ScheduleTable():
             tbl = ExpiryPoint()
             tbl.parse(nd2)
             self.table.append(tbl)
+        self.maxadvance = int(nd.attrib['maxadvance'])
+        self.maxretard = int(nd.attrib['maxretard'])
     def toString(self):
         str = 'Repeatable: <%s>\n'%(self.repeatable)
         str += 'Driving counter: <%s>\n'%(self.owner)
         str += 'Sync strategy: <%s>\n'%(self.strategy)
         str += 'Final delay: <%s>\n'%(self.finaldelay)
+        str += 'Max advance: <%s>\n'%(self.maxadvance)
+        str += 'Max retard: <%s>\n'%(self.maxretard)
         for tbl in self.table:
             str += '< offset = %s:\n'%(tbl.offset)
             for action in tbl.actionList:
@@ -819,7 +827,9 @@ void ErrorHook(StatusType Error)
             str += ' %s,'%(sched.strategy)
             str += ' %s,'%(len(sched.table)+1)
             str += ' %s,'%(TRUE(sched.repeatable))
-            str += ' %s),\n'%(sched.table[len(sched.table)-1].offset + sched.finaldelay)
+            str += ' %s,'%(sched.table[len(sched.table)-1].offset + sched.finaldelay)
+            str += ' %s,'%(sched.maxadvance)
+            str += ' %s),\n'%(sched.maxretard)
         str += '};\n\n'
         fp.write(str)
         fp.close()
