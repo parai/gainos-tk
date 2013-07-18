@@ -89,7 +89,6 @@ StatusType StartScheduleTableRel(ScheduleTableType ScheduleTableID,
     ccb = &knl_ccb_table[gschedtbl->owner];
 
     BEGIN_DISABLE_INTERRUPT;
-    schedtblcb->start =  ccb->curvalue;
     schedtblcb->time = knl_add_ticks(ccb->curvalue,Offset+gschedtbl->table[0].offset,max*2);
     knl_start_schedule_table(schedtblcb,ccb);
     END_DISABLE_INTERRUPT;
@@ -154,7 +153,6 @@ StatusType StartScheduleTableAbs(ScheduleTableType ScheduleTableID,
     ccb = &knl_ccb_table[gschedtbl->owner];
 
     BEGIN_DISABLE_INTERRUPT;
-    schedtblcb->start =  Start;
     schedtblcb->time = knl_add_ticks(Start,gschedtbl->table[0].offset,max*2);
     knl_start_schedule_table(schedtblcb,ccb);
     END_DISABLE_INTERRUPT;
@@ -442,14 +440,24 @@ StatusType SyncScheduleTable(ScheduleTableType ScheduleTableID,TickType Value)
     BEGIN_DISABLE_INTERRUPT;
     if(SCHEDULETABLE_WAITING == schedtblcb->status)
     {
-        TickType start = gschedtbl->duration - Value;
-        schedtblcb->start = knl_add_ticks(ccb->curvalue,start,max*2);
-        schedtblcb->time = knl_add_ticks(ccb->curvalue,start + gschedtbl->table[0].offset,max*2);
+        TickType start = gschedtbl->duration - Value + gschedtbl->table[0].offset;
+        schedtblcb->time = knl_add_ticks(ccb->curvalue,start,max*2);
         knl_start_schedule_table(schedtblcb,ccb);  
     }
-    else //running state
+    else /* running state */
     {
-        TickType cvalue = knl_diff_tick(ccb->curvalue,schedtblcb->start,max*2);         
+        TickType cvalue = 0;
+        int i;
+        for(i = 0; i < schedtblcb->index;i++)
+        {
+            cvalue += gschedtbl->table[i].offset; //calculate the next expiry point offset
+        } 
+        cvalue = cvalue - knl_diff_tick(schedtblcb->time,ccb->curvalue,max*2);   
+        schedtblcb->deviation = cvalue - Value;
+        if(schedtblcb->deviation != 0)
+        {
+            schedtblcb->status = SCHEDULETABLE_RUNNING;
+        }
     }
     END_DISABLE_INTERRUPT;
   Error_Exit:
@@ -548,7 +556,7 @@ StatusType GetScheduleTableStatus(ScheduleTableType ScheduleTableID,
 }
 
 #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_ORDER)
-// yes,this API is the same as knl_alm_insert()  
+/* yes,this API is the same as knl_alm_insert()   */
 EXPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb)
 {
     QUEUE* q;
@@ -597,7 +605,7 @@ EXPORT void knl_init_schedule_table(void)
 EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
 {
     const T_GSCHEDTBL* gschedtbl;
-    TickType max;
+    TickType max,delay;
     uint8 index;
     gschedtbl = &knl_gschedtbl_table[schedtblcb - knl_schedtblcb_table];
 
@@ -623,11 +631,14 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
             #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_LOOP)
             QueRemove(&schedtblcb->tblque);
             #endif
+            if(EXPLICIT == gschedtbl->strategy)
+            {
+                knl_schedtblcb_table[next].deviation = schedtblcb->deviation;
+            }
             // and then replace it by the next
             schedtblcb =  &knl_schedtblcb_table[next];
             gschedtbl = &knl_gschedtbl_table[next];
             max = knl_almbase_table[ccb - knl_ccb_table].maxallowedvalue;
-            schedtblcb->start =  ccb->curvalue;
             schedtblcb->time = knl_add_ticks(ccb->curvalue,gschedtbl->table[0].offset,max*2);
             knl_start_schedule_table(schedtblcb,ccb);
             return;
@@ -640,16 +651,33 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
             #endif
             return;
         }
-        else
-        {   //restart it
-            schedtblcb->start =  ccb->curvalue;
-        }
     }
     
     schedtblcb->index = index;
+    delay = gschedtbl->table[index].offset;
+
+    if(EXPLICIT == gschedtbl->strategy)
+    {
+        if(schedtblcb->deviation > 0)
+        {                       /* advanced it */
+            TickType adj = MIN(schedtblcb->deviation,gschedtbl->maxadvance);
+            delay += adj;
+            schedtblcb->deviation -= adj;
+        }
+        else if(schedtblcb->deviation < 0)
+        {                       /* retard it */
+            TickType adj = MIN(-schedtblcb->deviation,gschedtbl->maxretard);  
+            delay -= adj;
+            schedtblcb->deviation += adj;
+        }
+        else
+        {
+            schedtblcb->status = SCHEDULETABLE_RUNNING_AND_SYNCHRONOUS;
+        }
+    }
 
     max = knl_almbase_table[ccb - knl_ccb_table].maxallowedvalue;
-    schedtblcb->time = knl_add_ticks(ccb->curvalue,gschedtbl->table[index].offset,max*2);
+    schedtblcb->time = knl_add_ticks(ccb->curvalue,delay,max*2);
     #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_ORDER)
     knl_schedtbl_insert(schedtblcb,ccb);
     #endif

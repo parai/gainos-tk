@@ -76,6 +76,8 @@ typedef struct _schedule_table_generate_info
     uint8 length;                        /* the length of the table */
     uint8/* BOOL */ repeatable;
     TickType duration;
+    TickType maxadvance;
+    TickType maxretard;
 }T_GSCHEDTBL; 
 
 typedef struct _schedule_table_control_block
@@ -86,7 +88,7 @@ typedef struct _schedule_table_control_block
     uint8 index;                /* index of the next expiry point on the T_GSCHEDTBL.table */
     ScheduleTableType next;     /* the next schedule table in state SCHEDULETABLE_NEXT or INVALID_SCHEDTBL;
                                  * or the previous schedule table in the state RUNNING and has a next schedule table*/
-    TickType start;             /* used for sync */
+    INT      deviation;
 }SCHEDTBLCB;
 
 #endif /* AUTOSAR_OS_H_H_H */
