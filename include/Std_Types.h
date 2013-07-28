@@ -76,6 +76,9 @@
 #ifndef MAX
 #define MAX(_x,_y) (((_x) > (_y)) ? (_x) : (_y))
 #endif
+#ifndef ABS
+#define ABS(_x) (((_x) > 0) ? (_x) : (-_x))
+#endif
 
 /* Values for Std_ReturnType */
 #define E_OK            (Std_ReturnType)0

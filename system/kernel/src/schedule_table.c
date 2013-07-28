@@ -94,6 +94,7 @@ StatusType StartScheduleTableRel(ScheduleTableType ScheduleTableID,
     schedtblcb->index = 0u;
     schedtblcb->status = SCHEDULETABLE_RUNNING;
     schedtblcb->next = INVALID_SCHEDTBL;
+    schedtblcb->deviation = 0u;
     END_DISABLE_INTERRUPT;
     
   Error_Exit:
@@ -161,6 +162,7 @@ StatusType StartScheduleTableAbs(ScheduleTableType ScheduleTableID,
     schedtblcb->index = 0u;
     schedtblcb->status = SCHEDULETABLE_RUNNING;
     schedtblcb->next = INVALID_SCHEDTBL;
+    schedtblcb->deviation = 0u;
     END_DISABLE_INTERRUPT;
     
   Error_Exit:
@@ -464,7 +466,7 @@ StatusType SyncScheduleTable(ScheduleTableType ScheduleTableID,TickType Value)
         } 
         cvalue = cvalue - knl_diff_tick(schedtblcb->time,ccb->curvalue,max*2);   
         schedtblcb->deviation = cvalue - Value;
-        if(schedtblcb->deviation != 0)
+        if(ABS(schedtblcb->deviation) > gschedtbl->precision)
         {
             schedtblcb->status = SCHEDULETABLE_RUNNING;
         }
@@ -685,6 +687,11 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
 
     if(EXPLICIT == gschedtbl->strategy)
     {
+        if(ABS(schedtblcb->deviation) <= gschedtbl->precision)
+        {
+            schedtblcb->status = SCHEDULETABLE_RUNNING_AND_SYNCHRONOUS;
+        }
+        
         if(schedtblcb->deviation > 0)
         {                       /* advanced it */
             TickType adj = MIN(schedtblcb->deviation,gschedtbl->maxadvance);
@@ -696,10 +703,6 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
             TickType adj = MIN(-schedtblcb->deviation,gschedtbl->maxretard);  
             delay -= adj;
             schedtblcb->deviation += adj;
-        }
-        else
-        {
-            schedtblcb->status = SCHEDULETABLE_RUNNING_AND_SYNCHRONOUS;
         }
     }
 

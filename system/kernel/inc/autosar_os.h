@@ -24,17 +24,18 @@
 #include "osek_os.h" 
 
 /* ============================ MACROs   ========================================== */
-#define GenSchedTblInfo(name,owner,strategy,length,repeatable,duration,maxadvance,maxretard)  \
-{                 \
-    owner,        \
-    strategy,     \
-    /* table = */ name##_ExpiryPointList,   \
-    length,       \
-    repeatable,   \
-    duration,     \
-    maxadvance,   \
-    maxretard     \
-} 
+#define GenSchedTblInfo(name,owner,strategy,length,repeatable,duration,maxadvance,maxretard,precision) \
+    {                                                                   \
+        owner,                                                          \
+            strategy,                                                   \
+            /* table = */ name##_ExpiryPointList,                       \
+            length,                                                     \
+            repeatable,                                                 \
+            duration,                                                   \
+            maxadvance,                                                 \
+            maxretard,                                                  \
+            precision                                                   \
+            } 
    
 /* ============================ TYPEs   ========================================== */
 //private types for schedule table
@@ -80,6 +81,7 @@ typedef struct _schedule_table_generate_info
     TickType duration;
     TickType maxadvance;
     TickType maxretard;
+    TickType precision;
 }T_GSCHEDTBL; 
 
 typedef struct _schedule_table_control_block

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_schedtbl.ui'
 #
-# Created: Sun Jul 28 09:23:20 2013
+# Created: Sun Jul 28 15:14:55 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -89,7 +89,7 @@ class Ui_cd_schedtbl(object):
         self.label_11.setObjectName(_fromUtf8("label_11"))
         self.horizontalLayout_9.addWidget(self.label_11)
         self.spbxSchedTblPrecision = QtGui.QSpinBox(self.layoutWidget)
-        self.spbxSchedTblPrecision.setEnabled(False)
+        self.spbxSchedTblPrecision.setEnabled(True)
         self.spbxSchedTblPrecision.setMinimumSize(QtCore.QSize(181, 0))
         self.spbxSchedTblPrecision.setMinimum(0)
         self.spbxSchedTblPrecision.setMaximum(65535)
