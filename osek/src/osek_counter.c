@@ -196,7 +196,7 @@ StatusType IncrementCounter(CounterType CounterID)
     	    {  
     	        continue;
     	    }  
-    	    knl_signal_schedule_table(q,ccb);
+    	    knl_signal_schedule_table((SCHEDTBLCB *)q,ccb);
     	}
 	}
 	#endif

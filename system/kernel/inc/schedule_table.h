@@ -51,7 +51,7 @@ IMPORT void knl_start_schedule_table(SCHEDTBLCB* schedtblcb,CCB *ccb);
 IMPORT void knl_init_schedule_table(void);
 IMPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb);
 #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_ORDER)  
-IMPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb)
+IMPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb);
 #endif
 #endif /* SCHEDULE_TABLE_H_H_H */
  

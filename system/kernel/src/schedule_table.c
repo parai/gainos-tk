@@ -90,7 +90,10 @@ StatusType StartScheduleTableRel(ScheduleTableType ScheduleTableID,
 
     BEGIN_DISABLE_INTERRUPT;
     schedtblcb->time = knl_add_ticks(ccb->curvalue,Offset+gschedtbl->table[0].offset,max*2);
-    knl_start_schedule_table(schedtblcb,ccb);
+    INSERT_SCHEDTBL(schedtblcb,ccb);
+    schedtblcb->index = 0u;
+    schedtblcb->status = SCHEDULETABLE_RUNNING;
+    schedtblcb->next = INVALID_SCHEDTBL;
     END_DISABLE_INTERRUPT;
     
   Error_Exit:
@@ -154,7 +157,10 @@ StatusType StartScheduleTableAbs(ScheduleTableType ScheduleTableID,
 
     BEGIN_DISABLE_INTERRUPT;
     schedtblcb->time = knl_add_ticks(Start,gschedtbl->table[0].offset,max*2);
-    knl_start_schedule_table(schedtblcb,ccb);
+    INSERT_SCHEDTBL(schedtblcb,ccb);
+    schedtblcb->index = 0u;
+    schedtblcb->status = SCHEDULETABLE_RUNNING;
+    schedtblcb->next = INVALID_SCHEDTBL;
     END_DISABLE_INTERRUPT;
     
   Error_Exit:
@@ -442,7 +448,11 @@ StatusType SyncScheduleTable(ScheduleTableType ScheduleTableID,TickType Value)
     {
         TickType start = gschedtbl->duration - Value + gschedtbl->table[0].offset;
         schedtblcb->time = knl_add_ticks(ccb->curvalue,start,max*2);
-        knl_start_schedule_table(schedtblcb,ccb);  
+        INSERT_SCHEDTBL(schedtblcb,ccb);
+        schedtblcb->index = 0u;
+        schedtblcb->status = SCHEDULETABLE_RUNNING_AND_SYNCHRONOUS;
+        schedtblcb->next = INVALID_SCHEDTBL; 
+        schedtblcb->deviation = 0u;
     }
     else /* running state */
     {
@@ -497,6 +507,20 @@ StatusType SyncScheduleTable(ScheduleTableType ScheduleTableID,TickType Value)
 StatusType SetScheduleTableAsync(ScheduleTableType ScheduleTableID)
 {
     StatusType ercd = E_OK;
+    const T_GSCHEDTBL* gschedtbl;
+    SCHEDTBLCB*  schedtblcb;
+    OS_CHECK_EXT((ScheduleTableID < cfgAR_SCHEDTBL_NUM),E_OS_ID);
+    gschedtbl = &knl_gschedtbl_table[ScheduleTableID];
+    OS_CHECK_EXT((EXPLICIT ==  gschedtbl->strategy),E_OS_ID);
+    schedtblcb = &knl_schedtblcb_table[ScheduleTableID];
+    OS_CHECK_EXT((schedtblcb->status != SCHEDULETABLE_STOPPED)&&  \
+                 (schedtblcb->status != SCHEDULETABLE_NEXT)&&  \
+                 (schedtblcb->status != SCHEDULETABLE_WAITING),E_OS_STATE);
+    
+    BEGIN_DISABLE_INTERRUPT;
+    schedtblcb->deviation = 0;
+    schedtblcb->status = SCHEDULETABLE_RUNNING;
+    END_DISABLE_INTERRUPT;
   Error_Exit:
     return ercd;
 }
@@ -551,6 +575,14 @@ StatusType GetScheduleTableStatus(ScheduleTableType ScheduleTableID,
                                   ScheduleTableStatusRefType ScheduleStatus)
 {
     StatusType ercd = E_OK;
+    SCHEDTBLCB*  schedtblcb;
+    OS_CHECK_EXT((ScheduleTableID < cfgAR_SCHEDTBL_NUM),E_OS_ID);
+
+    BEGIN_DISABLE_INTERRUPT;
+    schedtblcb = &knl_schedtblcb_table[ScheduleTableID];
+    *ScheduleStatus = schedtblcb->status;
+    END_DISABLE_INTERRUPT;
+
   Error_Exit:
     return ercd;
 }
@@ -580,14 +612,6 @@ EXPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb)
     QueInsert(&schedtblcb->tblque,q);
 }
 #endif
-
-EXPORT void knl_start_schedule_table(SCHEDTBLCB* schedtblcb,CCB *ccb)
-{
-    INSERT_SCHEDTBL(schedtblcb,ccb);
-    schedtblcb->index = 0u;
-    schedtblcb->status = SCHEDULETABLE_RUNNING;
-    schedtblcb->next = INVALID_SCHEDTBL;
-}
 
 EXPORT void knl_init_schedule_table(void)
 {
@@ -640,7 +664,10 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
             gschedtbl = &knl_gschedtbl_table[next];
             max = knl_almbase_table[ccb - knl_ccb_table].maxallowedvalue;
             schedtblcb->time = knl_add_ticks(ccb->curvalue,gschedtbl->table[0].offset,max*2);
-            knl_start_schedule_table(schedtblcb,ccb);
+            INSERT_SCHEDTBL(schedtblcb,ccb);
+            schedtblcb->index = 0u;
+            schedtblcb->status = SCHEDULETABLE_RUNNING;
+            schedtblcb->next = INVALID_SCHEDTBL;
             return;
         }
         else if(gschedtbl->repeatable != TRUE)

@@ -783,7 +783,8 @@ void ErrorHook(StatusType Error)
         fp = open('%s/autosar_cfg.h'%(path), 'w');
         fp.write(gcGainOS_TkHead());
         fp.write('#ifndef _AUTOSAR_CFG_H_\n#define _AUTOSAR_CFG_H_\n\n')
-        fp.write('#define cfgAR_SCHEDTBL_QUEUE_METHOD SCHEDTBL_IN_LOOP\n\n')
+        fp.write('#define cfgAR_SCHEDTBL_QUEUE_METHOD SCHEDTBL_IN_LOOP\n')
+        fp.write('//#define cfgAR_SCHEDTBL_QUEUE_METHOD SCHEDTBL_IN_ORDER\n\n')
         fp.write('#define cfgAR_SCHEDTBL_NUM %s\n\n'%(len(self.cfg.schedTblList)))
         id = 0
         for sched in self.cfg.schedTblList:
