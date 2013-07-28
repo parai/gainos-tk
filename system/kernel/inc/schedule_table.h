@@ -46,8 +46,6 @@ IMPORT const T_GSCHEDTBL knl_gschedtbl_table[cfgAR_SCHEDTBL_NUM];
 IMPORT SCHEDTBLCB knl_schedtblcb_table[cfgAR_SCHEDTBL_NUM];
 
 /* ============================ FUNCTIONs    ====================================== */
-IMPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb);
-IMPORT void knl_start_schedule_table(SCHEDTBLCB* schedtblcb,CCB *ccb);
 IMPORT void knl_init_schedule_table(void);
 IMPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb);
 #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_ORDER)  

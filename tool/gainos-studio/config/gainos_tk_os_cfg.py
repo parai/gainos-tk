@@ -818,7 +818,8 @@ void ErrorHook(StatusType Error)
                     offset = tbl.offset - sched.table[id-1].offset
                 str += '\t{ %s , %s_ExpiryPoint%s_Action },\n'%(offset, sched.name, id)
                 id += 1
-            str += '\t{ %s , knl_schedule_table_dummy_action }\n'%(sched.finaldelay)
+            if(sched.finaldelay > 0): #only for final delay
+                str += '\t{ %s , knl_schedule_table_dummy_action }\n'%(sched.finaldelay)
             str +='};\n'
             fp.write(str)
         str = 'EXPORT const T_GSCHEDTBL knl_gschedtbl_table[] = \n{\n'
@@ -826,7 +827,10 @@ void ErrorHook(StatusType Error)
             str += '\tGenSchedTblInfo(%s,'%(sched.name)
             str += ' %s,'%(sched.owner)
             str += ' %s,'%(sched.strategy)
-            str += ' %s,'%(len(sched.table)+1)
+            if(sched.finaldelay > 0):
+                str += ' %s,'%(len(sched.table)+1)
+            else:
+                str += ' %s,'%(len(sched.table))
             str += ' %s,'%(TRUE(sched.repeatable))
             str += ' %s,'%(sched.table[len(sched.table)-1].offset + sched.finaldelay)
             str += ' %s,'%(sched.maxadvance)

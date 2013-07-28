@@ -645,7 +645,7 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
         index = 0;
     }
 
-    if(0 == index)              /* the final delay has been processed */
+    if(0 == index) /* the final delay or the last expiry point has been processed */
     {
         if(schedtblcb->next !=  INVALID_SCHEDTBL)
         {

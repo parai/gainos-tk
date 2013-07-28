@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\parai@foxmail.com\github\gainos-tk\tool\gainos-studio\ui\forms\cd_schedtbl.ui'
 #
-# Created: Thu Jul 18 20:00:51 2013
+# Created: Sun Jul 28 09:23:20 2013
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -143,7 +143,7 @@ class Ui_cd_schedtbl(object):
         self.horizontalLayout_4.addWidget(self.label_7)
         self.spbxSchedTblFinalDelay = QtGui.QSpinBox(self.layoutWidget1)
         self.spbxSchedTblFinalDelay.setMinimumSize(QtCore.QSize(0, 0))
-        self.spbxSchedTblFinalDelay.setMinimum(1)
+        self.spbxSchedTblFinalDelay.setMinimum(0)
         self.spbxSchedTblFinalDelay.setMaximum(65535)
         self.spbxSchedTblFinalDelay.setObjectName(_fromUtf8("spbxSchedTblFinalDelay"))
         self.horizontalLayout_4.addWidget(self.spbxSchedTblFinalDelay)
