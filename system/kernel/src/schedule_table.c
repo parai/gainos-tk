@@ -615,6 +615,8 @@ EXPORT void knl_schedtbl_insert(SCHEDTBLCB *schedtblcb,CCB* ccb)
 }
 #endif
 
+/* initialize schedule table */
+/* initialize each schedule table and if configured as auto-start, auto-start it. */
 EXPORT void knl_init_schedule_table(void)
 {
     int i;
@@ -628,6 +630,8 @@ EXPORT void knl_init_schedule_table(void)
     }
 }
 
+/* signal schedule table */
+/* as one of its expiry point has been expiried. */
 EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
 {
     const T_GSCHEDTBL* gschedtbl;
@@ -646,45 +650,47 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
     {
         index = 0;
     }
-
+  
     if(0 == index) /* the final delay or the last expiry point has been processed */
-    {
+    {              /* process the next schedule table, stop current running one and start the next one */
         if(schedtblcb->next !=  INVALID_SCHEDTBL)
         {
             ScheduleTableType next =  schedtblcb->next;
-            // stop it firstly
+            /* stop it firstly */
             schedtblcb->status = SCHEDULETABLE_STOPPED;
             #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_LOOP)
             QueRemove(&schedtblcb->tblque);
             #endif
             if(EXPLICIT == gschedtbl->strategy)
-            {
+            {                   /* @req OS505 */
                 knl_schedtblcb_table[next].deviation = schedtblcb->deviation;
             }
-            // and then replace it by the next
+            /* and then replace it by the next */
             schedtblcb =  &knl_schedtblcb_table[next];
             gschedtbl = &knl_gschedtbl_table[next];
-            max = knl_almbase_table[ccb - knl_ccb_table].maxallowedvalue;
-            schedtblcb->time = knl_add_ticks(ccb->curvalue,gschedtbl->table[0].offset,max*2);
-            INSERT_SCHEDTBL(schedtblcb,ccb);
-            schedtblcb->index = 0u;
+            
+            #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_LOOP)
+            INSERT_SCHEDTBL(schedtblcb,ccb);   /* insert it if needed */
+            #endif
+            
             schedtblcb->status = SCHEDULETABLE_RUNNING;
             schedtblcb->next = INVALID_SCHEDTBL;
-            return;
+            /* Contiune to synchronous adjustment */
         }
         else if(gschedtbl->repeatable != TRUE)
-        {
+        {                       /* it is not repeatable */
             schedtblcb->status = SCHEDULETABLE_STOPPED;
             #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_LOOP)
             QueRemove(&schedtblcb->tblque);
             #endif
-            return;
+            return;             /* just return  */
         }
     }
     
     schedtblcb->index = index;
     delay = gschedtbl->table[index].offset;
 
+    /* do adjust for EXPLICIT synchronous schedule table */
     if(EXPLICIT == gschedtbl->strategy)
     {
         if(ABS(schedtblcb->deviation) <= gschedtbl->precision)
@@ -705,7 +711,7 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
             schedtblcb->deviation += adj;
         }
     }
-
+    /* prepare for the next expiry point */
     max = knl_almbase_table[ccb - knl_ccb_table].maxallowedvalue;
     schedtblcb->time = knl_add_ticks(ccb->curvalue,delay,max*2);
     #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_ORDER)
