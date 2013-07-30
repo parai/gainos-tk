@@ -314,7 +314,7 @@ StatusType NextScheduleTable(ScheduleTableType ScheduleTableID_From,
     
     BEGIN_DISABLE_INTERRUPT;
     if(schedtblcb_from->next != INVALID_SCHEDTBL)
-    {   
+    {                           /* @req OS324 */
         SCHEDTBLCB* cb = &knl_schedtblcb_table[schedtblcb_from->next];
         cb->status = SCHEDULETABLE_STOPPED;
     }
@@ -670,7 +670,7 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
             gschedtbl = &knl_gschedtbl_table[next];
             
             #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_LOOP)
-            INSERT_SCHEDTBL(schedtblcb,ccb);   /* insert it if needed */
+            QueInsert(&schedtblcb->tblque,ccb->tblque);   /* insert it if needed */
             #endif
             
             schedtblcb->status = SCHEDULETABLE_RUNNING;
