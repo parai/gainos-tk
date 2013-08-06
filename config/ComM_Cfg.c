@@ -13,7 +13,7 @@ const ComM_ChannelType ComM_Channels[] =
 {
 	{//vComM_Channel_0
 		/* BusType = */  COMM_BUS_TYPE_CAN,
-		/* BusSMNetworkHandle = */  ,
+		/* BusSMNetworkHandle = */  0,
 		/* NmChannelHandle = */  vNm_Channel_0,
 		/* NmVariant = */  COMM_NM_VARIANT_FULL,
 		/* MainFunctionPeriod = */  4,

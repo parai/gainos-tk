@@ -42,8 +42,10 @@
 #endif
  
 /* ============================ DATAs    ========================================== */
+#if(cfgAR_SCHEDTBL_NUM > 0)
 IMPORT const T_GSCHEDTBL knl_gschedtbl_table[cfgAR_SCHEDTBL_NUM];
 IMPORT SCHEDTBLCB knl_schedtblcb_table[cfgAR_SCHEDTBL_NUM];
+#endif
 
 /* ============================ FUNCTIONs    ====================================== */
 IMPORT void knl_init_schedule_table(void);

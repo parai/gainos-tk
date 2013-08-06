@@ -36,25 +36,25 @@ TASK(vTaskMainFunction)
 ALARM(vAlarmSender)
 {
     /* Alarm Type: Task, you still can add your special code here.*/
-    (void)ActivateTask(ID_vTaskSender);
+    (void)ActivateTask(vTaskSender);
 }
 ALARM(vAlarmReceiver)
 {
     /* Alarm Type: Task, you still can add your special code here.*/
-    (void)ActivateTask(ID_vTaskReceiver);
+    (void)ActivateTask(vTaskReceiver);
 }
 ALARM(vAlarmMainFunction)
 {
     /* Alarm Type: Task, you still can add your special code here.*/
-    (void)ActivateTask(ID_vTaskMainFunction);
+    (void)ActivateTask(vTaskMainFunction);
 }
 
 void StartupHook(void)
 {
     /* Add Code Here */
-    (void)SetRelAlarm(ID_vAlarmReceiver,50,10);
-	(void)SetRelAlarm(ID_vAlarmSender,100,200);
-	(void)SetRelAlarm(ID_vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
+    (void)SetRelAlarm(vAlarmReceiver,50,10);
+	(void)SetRelAlarm(vAlarmSender,100,200);
+	(void)SetRelAlarm(vAlarmMainFunction,200,1); //so cyclic 1 Ticks = 4ms
 	Can_Init(&Can_ConfigData); 
     CanIf_Init(&CanIf_Config);
     CanNm_Init(&CanNm_Config);

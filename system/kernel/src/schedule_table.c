@@ -23,6 +23,7 @@
 #include "knl_alarm.h"
 #include "portable.h"
 
+#if(cfgAR_SCHEDTBL_NUM > 0)
 EXPORT SCHEDTBLCB knl_schedtblcb_table[cfgAR_SCHEDTBL_NUM];
 
 /* |-------------------+---------------------------------------------------------------| */
@@ -670,7 +671,7 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
             gschedtbl = &knl_gschedtbl_table[next];
             
             #if(cfgAR_SCHEDTBL_QUEUE_METHOD == SCHEDTBL_IN_LOOP)
-            QueInsert(&schedtblcb->tblque,ccb->tblque);   /* insert it if needed */
+            QueInsert(&schedtblcb->tblque,&ccb->tblque);   /* insert it if needed */
             #endif
             
             schedtblcb->status = SCHEDULETABLE_RUNNING;
@@ -718,3 +719,6 @@ EXPORT void knl_signal_schedule_table(SCHEDTBLCB* schedtblcb,CCB* ccb)
     knl_schedtbl_insert(schedtblcb,ccb);
     #endif
 }
+
+#endif /* (cfgAR_SCHEDTBL_NUM > 0) */
+

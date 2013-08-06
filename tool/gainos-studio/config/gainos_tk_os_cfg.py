@@ -803,6 +803,7 @@ void ErrorHook(StatusType Error)
         fp = open('%s/autosar_cfg.c'%(path), 'w');
         fp.write(gcGainOS_TkHead());
         fp.write('#include "autosar_os.h"\n\n')
+        fp.write('#if(cfgAR_SCHEDTBL_NUM > 0)\n\n')
         fp.write('LOCAL void knl_schedule_table_dummy_action(void){ /* for final delay only */ }\n\n')
         for sched in self.cfg.schedTblList:
             id = 0
@@ -842,4 +843,5 @@ void ErrorHook(StatusType Error)
             str += ' %s),\n'%(sched.precision)
         str += '};\n\n'
         fp.write(str)
+        fp.write('#endif /* (cfgAR_SCHEDTBL_NUM > 0) */\n\n')
         fp.close()
